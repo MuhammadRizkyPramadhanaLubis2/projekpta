@@ -6,6 +6,11 @@ $tahun = year_value();
 $canViewAll = user_can('view_all_targets');
 $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? $_POST['user_id'] ?? 0) : (int) $user['id'];
 $profile = role_profile((string) $user['role']);
+$satuanOptions = ['Persen', 'Nilai', 'Perkara', 'Dokumen', 'Laporan', 'Kegiatan', 'Orang', 'Hari', 'Bulan', 'Unit'];
+$sourceOptions = array_values(array_unique(array_merge(
+    $profile['sources'],
+    ['SAKTI', 'OMSPAN Kemenkeu', 'E-BIMA MARI', 'E-SADEWA MARI', 'SIPP', 'SIKEP', 'MY ASN', 'Direktori Putusan', 'Database aplikasi IKPA']
+)));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? 'save';
@@ -34,26 +39,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sumberData = $_POST['sumber_data'] ?? [];
     $bobot = $_POST['bobot'] ?? [];
     $targets = $_POST['target'] ?? [];
-    $targetTw1 = $_POST['target_tw1'] ?? [];
-    $targetTw2 = $_POST['target_tw2'] ?? [];
-    $targetTw3 = $_POST['target_tw3'] ?? [];
-    $targetTw4 = $_POST['target_tw4'] ?? [];
     $dipa01 = $_POST['dipa01'] ?? [];
     $dipa04 = $_POST['dipa04'] ?? [];
     $realTw1 = $_POST['real_tw1'] ?? [];
     $realTw2 = $_POST['real_tw2'] ?? [];
     $realTw3 = $_POST['real_tw3'] ?? [];
     $realTw4 = $_POST['real_tw4'] ?? [];
+    $analisisKegiatan = $_POST['analisis_kegiatan'] ?? [];
+    $analisisUpaya = $_POST['analisis_upaya'] ?? [];
+    $analisisStrategi = $_POST['analisis_strategi'] ?? [];
+    $analisisKendala = $_POST['analisis_kendala'] ?? [];
+    $analisisSolusi = $_POST['analisis_solusi'] ?? [];
 
     $insert = db()->prepare(
         'INSERT INTO target_kinerja
          (tahun, unit, sasaran, indikator, satuan, tipe_indikator, sumber_data, bobot,
           target, target_tw1, target_tw2, target_tw3, target_tw4,
-          dipa01, dipa04, real_tw1, real_tw2, real_tw3, real_tw4, user_id)
+          dipa01, dipa04, real_tw1, real_tw2, real_tw3, real_tw4,
+          analisis_kegiatan, analisis_upaya, analisis_strategi, analisis_kendala, analisis_solusi,
+          user_id)
          VALUES
          (:tahun, :unit, :sasaran, :indikator, :satuan, :tipe_indikator, :sumber_data, :bobot,
           :target, :target_tw1, :target_tw2, :target_tw3, :target_tw4,
-          :dipa01, :dipa04, :real_tw1, :real_tw2, :real_tw3, :real_tw4, :user_id)'
+          :dipa01, :dipa04, :real_tw1, :real_tw2, :real_tw3, :real_tw4,
+          :analisis_kegiatan, :analisis_upaya, :analisis_strategi, :analisis_kendala, :analisis_solusi,
+          :user_id)'
     );
     $update = db()->prepare(
         'UPDATE target_kinerja
@@ -63,6 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
              target_tw3 = :target_tw3, target_tw4 = :target_tw4,
              dipa01 = :dipa01, dipa04 = :dipa04,
              real_tw1 = :real_tw1, real_tw2 = :real_tw2, real_tw3 = :real_tw3, real_tw4 = :real_tw4,
+             analisis_kegiatan = :analisis_kegiatan,
+             analisis_upaya = :analisis_upaya,
+             analisis_strategi = :analisis_strategi,
+             analisis_kendala = :analisis_kendala,
+             analisis_solusi = :analisis_solusi,
              updated_at = CURRENT_TIMESTAMP
          WHERE id = :id'
     );
@@ -91,16 +106,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'sumber_data' => trim((string) ($sumberData[$i] ?? '')),
             'bobot' => max(0, num($bobot[$i] ?? 1)),
             'target' => num($targets[$i] ?? 0),
-            'target_tw1' => num($targetTw1[$i] ?? 0),
-            'target_tw2' => num($targetTw2[$i] ?? 0),
-            'target_tw3' => num($targetTw3[$i] ?? 0),
-            'target_tw4' => num($targetTw4[$i] ?? 0),
+            'target_tw1' => 0,
+            'target_tw2' => 0,
+            'target_tw3' => 0,
+            'target_tw4' => 0,
             'dipa01' => num($dipa01[$i] ?? 0),
             'dipa04' => num($dipa04[$i] ?? 0),
             'real_tw1' => num($realTw1[$i] ?? 0),
             'real_tw2' => num($realTw2[$i] ?? 0),
             'real_tw3' => num($realTw3[$i] ?? 0),
             'real_tw4' => num($realTw4[$i] ?? 0),
+            'analisis_kegiatan' => trim((string) ($analisisKegiatan[$i] ?? '')),
+            'analisis_upaya' => trim((string) ($analisisUpaya[$i] ?? '')),
+            'analisis_strategi' => trim((string) ($analisisStrategi[$i] ?? '')),
+            'analisis_kendala' => trim((string) ($analisisKendala[$i] ?? '')),
+            'analisis_solusi' => trim((string) ($analisisSolusi[$i] ?? '')),
         ];
 
         $id = (int) ($ids[$i] ?? 0);
@@ -165,6 +185,11 @@ $rows[] = [
     'real_tw2' => 0,
     'real_tw3' => 0,
     'real_tw4' => 0,
+    'analisis_kegiatan' => '',
+    'analisis_upaya' => '',
+    'analisis_strategi' => '',
+    'analisis_kendala' => '',
+    'analisis_solusi' => '',
 ];
 
 render_header('Input Target Kinerja');
@@ -213,21 +238,33 @@ render_header('Input Target Kinerja');
                 <th>Bobot</th>
                 <th>Sumber Data</th>
                 <th>Target</th>
-                <th>Target TW1</th>
-                <th>Target TW2</th>
-                <th>Target TW3</th>
-                <th>Target TW4</th>
                 <th>DIPA 01</th>
                 <th>DIPA 04</th>
                 <th>Realisasi TW1</th>
                 <th>Realisasi TW2</th>
                 <th>Realisasi TW3</th>
                 <th>Realisasi TW4</th>
-                <th>Aksi</th>
+                <th>Analisis Capaian Kinerja</th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($rows as $row): ?>
+            <?php foreach ($rows as $rowIndex => $row): ?>
+                <?php
+                $targetValue = num($row['target'] ?? 0);
+                $realizationTotal = num($row['real_tw1'] ?? 0) + num($row['real_tw2'] ?? 0) + num($row['real_tw3'] ?? 0) + num($row['real_tw4'] ?? 0);
+                $achievementRaw = achievement_value($targetValue, $realizationTotal, (string) ($row['tipe_indikator'] ?? 'max'));
+                $achievementPercent = max(0, min(100, $achievementRaw));
+                $currentSatuan = (string) ($row['satuan'] ?? '');
+                $currentSource = (string) ($row['sumber_data'] ?? '');
+                $modalId = 'target-analysis-modal-' . $rowIndex;
+                $analysisFilled = trim(
+                    (string) ($row['analisis_kegiatan'] ?? '') .
+                    (string) ($row['analisis_upaya'] ?? '') .
+                    (string) ($row['analisis_strategi'] ?? '') .
+                    (string) ($row['analisis_kendala'] ?? '') .
+                    (string) ($row['analisis_solusi'] ?? '')
+                ) !== '';
+                ?>
                 <tr>
                     <?php if ($canViewAll): ?>
                         <td>
@@ -242,7 +279,19 @@ render_header('Input Target Kinerja');
                         <input name="sasaran[]" value="<?= h((string) $row['sasaran']) ?>">
                     </td>
                     <td><input name="indikator[]" value="<?= h((string) $row['indikator']) ?>"></td>
-                    <td><input name="satuan[]" value="<?= h((string) ($row['satuan'] ?? '')) ?>" placeholder="% / perkara / nilai"></td>
+                    <td>
+                        <select name="satuan[]">
+                            <option value="">Pilih satuan</option>
+                            <?php if ($currentSatuan !== '' && !in_array($currentSatuan, $satuanOptions, true)): ?>
+                                <option value="<?= h($currentSatuan) ?>" selected><?= h($currentSatuan) ?></option>
+                            <?php endif; ?>
+                            <?php foreach ($satuanOptions as $option): ?>
+                                <option value="<?= h($option) ?>" <?= $currentSatuan === $option ? 'selected' : '' ?>>
+                                    <?= h($option) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
                     <td>
                         <select name="tipe_indikator[]">
                             <?php foreach (indicator_type_options() as $type => $label): ?>
@@ -253,21 +302,97 @@ render_header('Input Target Kinerja');
                         </select>
                     </td>
                     <td><input type="number" step="0.01" name="bobot[]" value="<?= h((string) ($row['bobot'] ?? 1)) ?>"></td>
-                    <td><input name="sumber_data[]" value="<?= h((string) ($row['sumber_data'] ?? '')) ?>" placeholder="<?= h(implode(', ', $profile['sources'])) ?>"></td>
+                    <td>
+                        <select name="sumber_data[]">
+                            <option value="">Pilih sumber</option>
+                            <?php if ($currentSource !== '' && !in_array($currentSource, $sourceOptions, true)): ?>
+                                <option value="<?= h($currentSource) ?>" selected><?= h($currentSource) ?></option>
+                            <?php endif; ?>
+                            <?php foreach ($sourceOptions as $option): ?>
+                                <option value="<?= h($option) ?>" <?= $currentSource === $option ? 'selected' : '' ?>>
+                                    <?= h($option) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
                     <td><input type="number" step="0.01" name="target[]" value="<?= h((string) $row['target']) ?>"></td>
-                    <td><input type="number" step="0.01" name="target_tw1[]" value="<?= h((string) ($row['target_tw1'] ?? 0)) ?>"></td>
-                    <td><input type="number" step="0.01" name="target_tw2[]" value="<?= h((string) ($row['target_tw2'] ?? 0)) ?>"></td>
-                    <td><input type="number" step="0.01" name="target_tw3[]" value="<?= h((string) ($row['target_tw3'] ?? 0)) ?>"></td>
-                    <td><input type="number" step="0.01" name="target_tw4[]" value="<?= h((string) ($row['target_tw4'] ?? 0)) ?>"></td>
                     <td><input type="number" step="0.01" name="dipa01[]" value="<?= h((string) $row['dipa01']) ?>"></td>
                     <td><input type="number" step="0.01" name="dipa04[]" value="<?= h((string) $row['dipa04']) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw1[]" value="<?= h((string) $row['real_tw1']) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw2[]" value="<?= h((string) $row['real_tw2']) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw3[]" value="<?= h((string) $row['real_tw3']) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw4[]" value="<?= h((string) $row['real_tw4']) ?>"></td>
-                    <td>
+                    <td class="target-analysis-cell">
+                        <div class="analysis-compact">
+                            <span class="analysis-score"><?= h((string) round($achievementPercent, 1)) ?>%</span>
+                            <span class="analysis-status <?= $analysisFilled ? 'filled' : '' ?>">
+                                <?= $analysisFilled ? 'Sudah diisi' : 'Belum diisi' ?>
+                            </span>
+                            <button type="button" class="secondary analysis-open" data-modal-target="<?= h($modalId) ?>">
+                                Analisis
+                            </button>
+                        </div>
+                        <div class="analysis-modal" id="<?= h($modalId) ?>" aria-hidden="true">
+                            <div class="analysis-modal-backdrop" data-modal-close></div>
+                            <section class="analysis-dialog" role="dialog" aria-modal="true" aria-labelledby="<?= h($modalId) ?>-title">
+                                <header class="analysis-dialog-header">
+                                    <div>
+                                        <span>Analisis Capaian Kinerja</span>
+                                        <h2 id="<?= h($modalId) ?>-title"><?= h((string) ($row['indikator'] ?: 'Baris Target Baru')) ?></h2>
+                                    </div>
+                                    <button type="button" class="analysis-close" aria-label="Tutup analisis" data-modal-close>&times;</button>
+                                </header>
+                                <div class="analysis-dialog-body">
+                                    <aside class="analysis-summary">
+                                        <div class="target-chart large" style="--percent: <?= h((string) $achievementPercent) ?>;">
+                                            <span><?= h((string) round($achievementPercent, 1)) ?>%</span>
+                                        </div>
+                                        <div class="analysis-metrics">
+                                            <div>
+                                                <span>Target</span>
+                                                <strong><?= h((string) $targetValue) ?></strong>
+                                            </div>
+                                            <div>
+                                                <span>Total Realisasi</span>
+                                                <strong><?= h((string) $realizationTotal) ?></strong>
+                                            </div>
+                                            <div>
+                                                <span>Status Analisis</span>
+                                                <strong><?= $analysisFilled ? 'Sudah diisi' : 'Belum diisi' ?></strong>
+                                            </div>
+                                        </div>
+                                    </aside>
+                                    <div class="analysis-fields">
+                                        <label>
+                                            Kegiatan
+                                            <textarea name="analisis_kegiatan[]" rows="3"><?= h((string) ($row['analisis_kegiatan'] ?? '')) ?></textarea>
+                                        </label>
+                                        <label>
+                                            Upaya
+                                            <textarea name="analisis_upaya[]" rows="3"><?= h((string) ($row['analisis_upaya'] ?? '')) ?></textarea>
+                                        </label>
+                                        <label>
+                                            Strategi
+                                            <textarea name="analisis_strategi[]" rows="3"><?= h((string) ($row['analisis_strategi'] ?? '')) ?></textarea>
+                                        </label>
+                                        <label>
+                                            Kendala
+                                            <textarea name="analisis_kendala[]" rows="3"><?= h((string) ($row['analisis_kendala'] ?? '')) ?></textarea>
+                                        </label>
+                                        <label>
+                                            Solusi
+                                            <textarea name="analisis_solusi[]" rows="3"><?= h((string) ($row['analisis_solusi'] ?? '')) ?></textarea>
+                                        </label>
+                                    </div>
+                                </div>
+                                <footer class="analysis-dialog-footer">
+                                    <span>Perubahan tersimpan saat tombol Simpan di halaman utama ditekan.</span>
+                                    <button type="button" data-modal-close>Tutup</button>
+                                </footer>
+                            </section>
+                        </div>
                         <?php if ($row['id'] !== ''): ?>
-                            <button class="danger" name="action" value="delete" onclick="this.form.delete_id.value='<?= h((string) $row['id']) ?>'">Hapus</button>
+                            <button class="danger target-delete" name="action" value="delete" onclick="this.form.delete_id.value='<?= h((string) $row['id']) ?>'">Hapus Baris</button>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -281,4 +406,39 @@ render_header('Input Target Kinerja');
         <a class="button secondary" href="index.php?page=target&tahun=<?= h((string) $tahun) ?>">Tambah Baris Kosong</a>
     </div>
 </form>
+<script>
+document.addEventListener('click', function (event) {
+    const openButton = event.target.closest('[data-modal-target]');
+    if (openButton) {
+        const modal = document.getElementById(openButton.dataset.modalTarget);
+        if (modal) {
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('modal-open');
+        }
+        return;
+    }
+
+    if (event.target.closest('[data-modal-close]')) {
+        const modal = event.target.closest('.analysis-modal');
+        if (modal) {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('modal-open');
+        }
+    }
+});
+
+document.addEventListener('keydown', function (event) {
+    if (event.key !== 'Escape') {
+        return;
+    }
+
+    document.querySelectorAll('.analysis-modal.is-open').forEach(function (modal) {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+    });
+    document.body.classList.remove('modal-open');
+});
+</script>
 <?php render_footer(); ?>

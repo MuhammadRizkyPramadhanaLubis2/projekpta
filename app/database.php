@@ -73,6 +73,11 @@ function init_database(): void
             real_tw2 REAL NOT NULL DEFAULT 0,
             real_tw3 REAL NOT NULL DEFAULT 0,
             real_tw4 REAL NOT NULL DEFAULT 0,
+            analisis_kegiatan TEXT NOT NULL DEFAULT "",
+            analisis_upaya TEXT NOT NULL DEFAULT "",
+            analisis_strategi TEXT NOT NULL DEFAULT "",
+            analisis_kendala TEXT NOT NULL DEFAULT "",
+            analisis_solusi TEXT NOT NULL DEFAULT "",
             user_id INTEGER,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TEXT,
@@ -143,6 +148,11 @@ function init_database(): void
         'target_tw2' => 'REAL NOT NULL DEFAULT 0',
         'target_tw3' => 'REAL NOT NULL DEFAULT 0',
         'target_tw4' => 'REAL NOT NULL DEFAULT 0',
+        'analisis_kegiatan' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_upaya' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_strategi' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_kendala' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_solusi' => 'TEXT NOT NULL DEFAULT ""',
     ];
 
     foreach ($targetColumns as $column => $definition) {
