@@ -11,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim((string) ($_POST['password'] ?? ''));
 
     $stmt = db()->prepare(
-        'SELECT id, username, nama, role, unit
+        'SELECT id, username, nama, role, unit, status
          FROM users
-         WHERE username = :username AND password = :password'
+         WHERE username = :username AND password = :password AND status = "active"'
     );
     $stmt->execute([
         'username' => $username,

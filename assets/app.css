@@ -791,11 +791,269 @@ button.danger:hover {
     color: var(--primary);
 }
 
+.nav-heading {
+    display: block;
+    margin: 22px 20px 8px;
+    color: #a7f3d0;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
 .summary-panel {
     display: grid;
     grid-template-columns: minmax(250px, .8fr) minmax(300px, 1.2fr);
     gap: 24px;
     margin-bottom: 24px;
+}
+
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.job-card h2,
+.role-actions h2,
+.menu-intro h2 {
+    margin: 0 0 16px;
+    color: var(--accent);
+}
+
+.analysis-rule {
+    margin-bottom: 24px;
+    border-left: 6px solid var(--primary);
+}
+
+.analysis-rule strong {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.analysis-rule p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.role-actions {
+    margin-bottom: 24px;
+}
+
+.role-action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.role-action-card {
+    display: grid;
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: #fff;
+    text-decoration: none;
+    box-shadow: 0 8px 30px rgba(16, 185, 129, 0.04);
+}
+
+.role-action-card strong {
+    color: var(--accent);
+}
+
+.role-action-card span {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.role-action-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.monitoring-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    display: grid;
+    gap: 8px;
+}
+
+.stat-card span {
+    color: var(--muted);
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.stat-card strong {
+    color: var(--accent);
+    font-size: 2rem;
+}
+
+.table-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.table-actions .button {
+    min-height: 36px;
+    padding: 8px 14px;
+    font-size: .85rem;
+}
+
+.menu-intro {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+}
+
+.module-hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.module-hero h2 {
+    margin: 8px 0 12px;
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+.module-hero p {
+    margin: 0;
+    max-width: 760px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.module-kicker {
+    display: inline-flex;
+    width: fit-content;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: var(--primary-dark);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.module-status {
+    min-width: 190px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.module-status span {
+    display: block;
+    color: var(--muted);
+    font-size: .85rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.module-status strong {
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+.module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.module-card h3,
+.module-actions h3 {
+    margin: 0 0 16px;
+    color: var(--accent);
+}
+
+.clean-list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.clean-list li {
+    position: relative;
+    padding-left: 24px;
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.clean-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .7em;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--primary);
+}
+
+.module-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.integration-note {
+    margin-bottom: 24px;
+    border-left: 6px solid var(--gold);
+}
+
+.integration-note h3 {
+    margin: 0 0 10px;
+    color: var(--accent);
+}
+
+.integration-note p {
+    line-height: 1.7;
+}
+
+.user-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.small-badge {
+    display: inline-flex;
+    margin-top: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: var(--primary-dark);
+    font-size: .75rem;
+    font-weight: 800;
+}
+
+.auto-eval-note {
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: #f8fafc;
+    color: var(--muted);
+    font-weight: 600;
 }
 
 /* Tables */
@@ -873,6 +1131,65 @@ td input {
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
+.document-context {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.document-context div {
+    display: grid;
+    gap: 4px;
+}
+
+.document-context strong {
+    color: var(--accent);
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.document-context span {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.print-meta-form {
+    margin-bottom: 24px;
+}
+
+.print-meta-form h2 {
+    margin: 0 0 16px;
+    color: var(--accent);
+}
+
+.document-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    align-items: end;
+}
+
+.document-form-grid label:last-of-type {
+    grid-column: 1 / -1;
+}
+
+.document-number {
+    text-align: center;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.document-place-date {
+    margin-top: 40px;
+    text-align: right;
+    color: var(--text);
+}
+
 .signature-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -893,6 +1210,7 @@ td input {
     .toolbar,
     .footer,
     .alert,
+    .print-meta-form,
     .public-header {
         display: none !important;
     }
@@ -985,6 +1303,15 @@ td input {
     .shell {
         margin-left: 0;
         padding: 24px;
+    }
+
+    .module-hero,
+    .module-actions {
+        flex-direction: column;
+    }
+
+    .module-status {
+        width: 100%;
     }
 
     .public-shell-mode {
