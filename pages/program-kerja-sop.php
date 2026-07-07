@@ -586,13 +586,13 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
                         <div class="pk-year pk-serif">2024</div>
                         <h3>Program Kerja 2024</h3>
                         <p>Dokumen rencana kerja untuk tahun anggaran 2024.</p>
-                        <a class="pk-link" href="#" aria-label="Buka Program Kerja 2024">Buka dokumen <span>&rarr;</span></a>
+                        <a class="pk-link" href="https://drive.google.com/file/d/16b0MUks8M6-YWflf-zA496Re0mRRpVaS/view" target="_blank" aria-label="Buka Program Kerja 2024">Buka dokumen <span>&rarr;</span></a>
                     </article>
                     <article class="pk-feature">
                         <div class="pk-year pk-serif">2025</div>
                         <h3>Program Kerja 2025</h3>
                         <p>Pembaruan program kerja untuk tahun anggaran berjalan.</p>
-                        <a class="pk-link" href="#" aria-label="Buka Program Kerja 2025">Buka dokumen <span>&rarr;</span></a>
+                        <a class="pk-link" href="https://drive.google.com/file/d/114LJuVY3MazNevODS8hy_aCZLsh7g6X2/view" target="_blank" aria-label="Buka Program Kerja 2025">Buka dokumen <span>&rarr;</span></a>
                     </article>
                 </div>
             </section>
@@ -613,28 +613,28 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
                             <span class="pk-group-title">Perencanaan Anggaran</span>
                             <span class="pk-tag anggaran">Anggaran</span>
                         </div>
-                        <a class="pk-sop-row" href="#" data-search="penyusunan rencana anggaran">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1zQ1z5z1d7g5o5NWOF8t38gGtJ9pLa2lE/view" target="_blank" data-search="penyusunan rencana anggaran">
                             <span class="pk-sop-number">01</span><span class="pk-sop-title">Penyusunan Rencana Anggaran</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="rencana anggaran baseline se-sumut">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1ihH65N2ukPHIh1itTvrqa_Wj2RAJeuem/view" target="_blank" data-search="rencana anggaran baseline se-sumut">
                             <span class="pk-sop-number">02</span><span class="pk-sop-title">Rencana Anggaran (Baseline)<span class="pk-sumut">se-Sumut</span></span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="penyusunan pagu indikatif">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1VNmuYNn7iaLVgnVDQYkm8LGHjY2dz9Zm/view" target="_blank" data-search="penyusunan pagu indikatif">
                             <span class="pk-sop-number">03</span><span class="pk-sop-title">Penyusunan Pagu Indikatif</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="pagu indikatif se-sumut">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/14ur9Rm1oqzKNcrJrXvFcXELSSJ7sJ1ol/view" target="_blank" data-search="pagu indikatif se-sumut">
                             <span class="pk-sop-number">04</span><span class="pk-sop-title">Pagu Indikatif<span class="pk-sumut">se-Sumut</span></span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="penyusunan pagu definitif">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1fsPVaflPA_DPzxeHNEIKW_AsUtpyGvfh/view" target="_blank" data-search="penyusunan pagu definitif">
                             <span class="pk-sop-number">05</span><span class="pk-sop-title">Penyusunan Pagu Definitif</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="pagu definitif se-sumut">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/17-OFxxG6-Ms5UKrUPUoxgQilJyKghbxe/view" target="_blank" data-search="pagu definitif se-sumut">
                             <span class="pk-sop-number">06</span><span class="pk-sop-title">Pagu Definitif<span class="pk-sumut">se-Sumut</span></span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="anggaran biaya tambahan abt">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1APdr7V1ddVx56MQLY7rC1EqHst5JXzu_/view" target="_blank" data-search="anggaran biaya tambahan abt">
                             <span class="pk-sop-number">07</span><span class="pk-sop-title">Anggaran Biaya Tambahan (ABT)</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="anggaran biaya tambahan abt se-sumut">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1Z7HwZZyvj2qmJuapfRAfGDSdinkD26_H/view" target="_blank" data-search="anggaran biaya tambahan abt se-sumut">
                             <span class="pk-sop-number">08</span><span class="pk-sop-title">Anggaran Biaya Tambahan (ABT)<span class="pk-sumut">se-Sumut</span></span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
                     </div>
@@ -644,13 +644,13 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
                             <span class="pk-group-title">Dokumen SAKIP</span>
                             <span class="pk-tag sakip">SAKIP</span>
                         </div>
-                        <a class="pk-sop-row" href="#" data-search="permintaan dokumen sakip">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/14cWeCVc3-pW9BaB5fO8oOY-fOGU_tp26/view" target="_blank" data-search="permintaan dokumen sakip">
                             <span class="pk-sop-number">09</span><span class="pk-sop-title">Permintaan Dokumen SAKIP</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="penyusunan dokumen sakip">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1QBaD7tU3swBiRunZhB2eW9n3ffaBpsri/view" target="_blank" data-search="penyusunan dokumen sakip">
                             <span class="pk-sop-number">10</span><span class="pk-sop-title">Penyusunan Dokumen SAKIP</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="penilaian evaluasi dokumen sakip se-sumut">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1LUdRtP0szvLNAXXoUkJt8Wcrc4GJmo39/view" target="_blank" data-search="penilaian evaluasi dokumen sakip se-sumut">
                             <span class="pk-sop-number">11</span><span class="pk-sop-title">Penilaian &amp; Evaluasi Dokumen SAKIP<span class="pk-sumut">se-Sumut</span></span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
                     </div>
@@ -660,13 +660,13 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
                             <span class="pk-group-title">Kinerja &amp; Monev</span>
                             <span class="pk-tag kinerja">Kinerja</span>
                         </div>
-                        <a class="pk-sop-row" href="#" data-search="laporan e-monev bappenas">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/17BGBOWr8oXCGSTMTtcaCqvreoiGD4j6Q/view" target="_blank" data-search="laporan e-monev bappenas">
                             <span class="pk-sop-number">12</span><span class="pk-sop-title">Laporan E-Monev Bappenas</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="penyusunan program kerja">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1czSFlC_EYB5yfNihe52JeciE7l8K6D6O/view" target="_blank" data-search="penyusunan program kerja">
                             <span class="pk-sop-number">13</span><span class="pk-sop-title">Penyusunan Program Kerja</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
-                        <a class="pk-sop-row" href="#" data-search="pengukuran pengumpulan data kinerja">
+                        <a class="pk-sop-row" href="https://drive.google.com/file/d/1cAyY-e8EAqVlavnZjIqBruMnWWFWf0th/view" target="_blank" data-search="pengukuran pengumpulan data kinerja">
                             <span class="pk-sop-number">14</span><span class="pk-sop-title">Pengukuran &amp; Pengumpulan Data Kinerja</span><span class="pk-leader"></span><span class="pk-file-type">PDF</span>
                         </a>
                     </div>
@@ -685,13 +685,13 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
                         <div class="pk-year pk-serif">2025</div>
                         <h3>Jadwal Kegiatan Tahun 2025</h3>
                         <p>Linimasa pelaksanaan kegiatan perencanaan program dan anggaran sepanjang tahun.</p>
-                        <a class="pk-link" href="#" aria-label="Buka jadwal kegiatan 2025">Buka jadwal <span>&rarr;</span></a>
+                        <a class="pk-link" href="https://drive.google.com/file/d/1XqEnFap8f_A6SRfXgf--izndjxQoZkiL/view" target="_blank" aria-label="Buka jadwal kegiatan 2025">Buka jadwal <span>&rarr;</span></a>
                     </article>
                     <article class="pk-drive-card">
                         <i class="ph-duotone ph-folder-open" aria-hidden="true"></i>
                         <h3>Folder Google Drive</h3>
                         <p>Seluruh berkas SOP dan program kerja tersimpan lengkap dan siap diunduh.</p>
-                        <a class="pk-link" href="#" aria-label="Buka folder Google Drive">Buka folder <span>&rarr;</span></a>
+                        <a class="pk-link" href="https://drive.google.com/drive/folders/1QJbItRhXkd6bIzPwyoqBnzYB9Yjael3K" target="_blank" aria-label="Buka folder Google Drive">Buka folder <span>&rarr;</span></a>
                     </article>
                 </div>
             </section>
