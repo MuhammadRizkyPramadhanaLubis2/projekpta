@@ -15,6 +15,30 @@ if (!$pageData) {
 
 render_header((string) $pageData['title']);
 ?>
+<?php if ($slug === 'program-kerja-sop'): ?>
+    <?php
+    define('PROGRAM_KERJA_SOP_EMBEDDED', true);
+    require __DIR__ . '/program-kerja-sop.php';
+    render_footer();
+    return;
+    ?>
+<?php endif; ?>
+<?php if ($slug === 'penyusunan-anggaran'): ?>
+    <?php
+    define('PENYUSUNAN_ANGGARAN_EMBEDDED', true);
+    require __DIR__ . '/penyusunan-anggaran.php';
+    render_footer();
+    return;
+    ?>
+<?php endif; ?>
+<?php if ($slug === 'notifikasi'): ?>
+    <?php
+    define('IFKIN_EMBEDDED', true);
+    require __DIR__ . '/ifkin.php';
+    render_footer();
+    return;
+    ?>
+<?php endif; ?>
 <?php
 $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca'];
 ?>
@@ -24,19 +48,41 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 .tf-hero {
     position: relative;
-    background-image: linear-gradient(rgba(2, 44, 34, 0.88), rgba(2, 44, 34, 0.88)), url('assets/gedung1.webp');
+    overflow: hidden;
+    background-image:
+        linear-gradient(90deg, rgba(2, 21, 14, 0.96), rgba(15, 51, 36, 0.72), rgba(2, 21, 14, 0.90)),
+        url('assets/gedung1.webp');
     background-size: cover;
     background-position: center;
     padding: 120px 20px 160px;
     text-align: center;
     color: #fff;
 }
+.tf-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 42%, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.08) 28%, transparent 58%),
+        radial-gradient(ellipse at center, transparent 0%, transparent 42%, rgba(1, 18, 12, 0.54) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
 .tf-hero::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+    background:
+        linear-gradient(180deg, transparent 68%, #eef3ef 100%),
+        url('assets/batik_sumut.png') center/320px;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
     pointer-events: none;
+    z-index: 2;
+}
+.tf-hero > * {
+    position: relative;
+    z-index: 3;
 }
 .tf-hero-subtitle {
     font-size: 0.85rem;

@@ -6,7 +6,7 @@ function site_nav(): array
     return [
         ['label' => 'Beranda', 'slug' => 'beranda'],
         ['label' => 'Revisi', 'slug' => 'revisi'],
-        ['label' => 'Notifikasi', 'slug' => 'notifikasi'],
+        ['label' => 'IFKIN', 'slug' => 'notifikasi'],
         ['label' => 'Program Kerja & SOP', 'slug' => 'program-kerja-sop'],
         [
             'label' => 'Penyusunan Anggaran',
@@ -91,9 +91,9 @@ function site_pages(): array
             ],
         ],
         'notifikasi' => [
-            'title' => 'Notifikasi',
-            'subtitle' => 'Informasi dan pengumuman bidang program dan anggaran',
-            'body' => ['Halaman ini disiapkan sebagai papan notifikasi kegiatan, batas waktu pengumpulan data, dan pengumuman terbaru.'],
+            'title' => 'Informasi Kinerja',
+            'subtitle' => 'Direktori website pemerintah dan peradilan',
+            'body' => ['Rujukan cepat menuju sumber informasi kinerja, kebijakan, pembinaan, dan pengawasan lembaga peradilan.'],
         ],
         'program-kerja-sop' => [
             'title' => 'Program Kerja & SOP',
