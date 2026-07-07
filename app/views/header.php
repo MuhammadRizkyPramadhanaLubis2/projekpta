@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= h($title) ?> - Aplikasi IKPA</title>
+    <title><?= h($title) ?> - APKIN RPA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lexend:wght@700;800&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
     <a href="index.php?page=beranda" class="brand">
         <img src="assets/logo_pta.png" alt="Logo PTA Medan">
         <div>
-            <strong style="display: block; font-size: 1.1rem; color: #fff;">Aplikasi IKPA</strong>
+            <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">APKIN RPA</strong>
             <small style="color: #a7f3d0;">PTA Medan</small>
         </div>
     </a>
@@ -33,7 +33,7 @@
             <div class="header-profile" tabindex="0">
                 <div class="header-profile-text">
                     <strong><?= h($user['nama']) ?></strong>
-                    <small><?= h($user['role']) ?></small>
+                    <small><?= h(role_label((string) $user['role'])) ?></small>
                 </div>
                 <div class="header-profile-avatar">
                     <?= strtoupper(substr($user['nama'], 0, 1)) ?>
@@ -95,14 +95,30 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php else: ?>
+            <?php $profile = role_profile((string) $user['role']); ?>
             <a href="index.php?page=beranda">Portal Publik</a>
             <a href="index.php?page=dashboard" class="<?= ($_GET['page'] ?? '') === 'dashboard' ? 'active' : '' ?>">Menu Utama</a>
-            <a href="index.php?page=target" class="<?= ($_GET['page'] ?? '') === 'target' ? 'active' : '' ?>">Input Target Kinerja</a>
+            <?php if (user_can('manage_users', $user)): ?>
+                <a href="index.php?page=users" class="<?= ($_GET['page'] ?? '') === 'users' ? 'active' : '' ?>">Manajemen Pengguna</a>
+            <?php endif; ?>
+            <?php if (user_can('view_all_targets', $user)): ?>
+                <a href="index.php?page=monitoring" class="<?= ($_GET['page'] ?? '') === 'monitoring' ? 'active' : '' ?>">Dashboard Monitoring</a>
+            <?php endif; ?>
+            <span class="nav-heading">Kertas Kerja Role</span>
+            <?php foreach ($profile['workflows'] as [$label, $targetPage, $slug]): ?>
+                <?php
+                $url = 'index.php?page=' . urlencode((string) $targetPage);
+                if ($slug !== null) {
+                    $url .= '&slug=' . urlencode((string) $slug);
+                }
+                $isActive = ($_GET['page'] ?? '') === $targetPage && ($slug === null || ($_GET['slug'] ?? '') === $slug);
+                ?>
+                <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
+            <?php endforeach; ?>
+            <span class="nav-heading">Cetak Dokumen</span>
             <a href="index.php?page=pk" class="<?= ($_GET['page'] ?? '') === 'pk' ? 'active' : '' ?>">Perjanjian Kinerja</a>
             <a href="index.php?page=renaksi" class="<?= ($_GET['page'] ?? '') === 'renaksi' ? 'active' : '' ?>">Rencana Aksi</a>
             <a href="index.php?page=rkt_rka" class="<?= ($_GET['page'] ?? '') === 'rkt_rka' ? 'active' : '' ?>">RKT & RKA</a>
-            <a href="index.php?page=capaian" class="<?= ($_GET['page'] ?? '') === 'capaian' ? 'active' : '' ?>">Hitung Capaian</a>
-            <a href="index.php?page=evaluasi" class="<?= ($_GET['page'] ?? '') === 'evaluasi' ? 'active' : '' ?>">Evaluasi Kinerja</a>
         <?php endif; ?>
     </nav>
 
@@ -115,7 +131,7 @@
         <header class="topbar">
             <div>
                 <h1><?= h($title) ?></h1>
-                <p><?= h($user['unit']) ?> | <?= h($user['username']) ?></p>
+                <p><?= h($user['unit']) ?> | <?= h(role_label((string) $user['role'])) ?> | <?= h($user['username']) ?></p>
             </div>
         </header>
     <?php endif; ?>

@@ -3,34 +3,63 @@ declare(strict_types=1);
 
 $user = current_user();
 $tahun = year_value();
+$canViewAll = user_can('view_all_targets');
+$selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? 0) : (int) $user['id'];
 $tw = (int) ($_GET['tw'] ?? 1);
 $tw = max(1, min(4, $tw));
 $twColumn = 'real_tw' . $tw;
 
-$stmt = db()->prepare(
-    "SELECT indikator, target, {$twColumn} AS realisasi
-     FROM target_kinerja
-     WHERE tahun = :tahun AND unit = :unit
-     ORDER BY id"
-);
-$stmt->execute(['tahun' => $tahun, 'unit' => $user['unit']]);
+$owners = [];
+if ($canViewAll) {
+    $owners = db()->query('SELECT id, nama, role, unit FROM users WHERE status = "active" ORDER BY unit, role, nama')->fetchAll();
+}
+
+$query = "SELECT tk.*, tk.{$twColumn} AS realisasi, u.nama AS owner_nama, u.role AS owner_role
+          FROM target_kinerja tk
+          LEFT JOIN users u ON u.id = tk.user_id
+          WHERE tk.tahun = :tahun";
+$params = ['tahun' => $tahun];
+
+if ($canViewAll && $selectedUserId > 0) {
+    $query .= ' AND tk.user_id = :user_id';
+    $params['user_id'] = $selectedUserId;
+} elseif (!$canViewAll) {
+    $query .= ' AND tk.user_id = :user_id';
+    $params['user_id'] = (int) $user['id'];
+}
+
+$query .= ' ORDER BY u.unit, u.role, u.nama, tk.id';
+$stmt = db()->prepare($query);
+$stmt->execute($params);
 $rows = $stmt->fetchAll();
 
-$total = 0.0;
-$count = 0;
+$weightedTotal = 0.0;
+$weightSum = 0.0;
 foreach ($rows as &$row) {
-    $target = num($row['target']);
+    $target = target_for_quarter($row, $tw);
     $realisasi = num($row['realisasi']);
-    $row['capaian'] = $target !== 0.0 ? round($realisasi / $target * 100, 2) : 0;
-    $total += $row['capaian'];
-    $count++;
+    $weight = max(0, num($row['bobot'] ?? 1));
+    $row['target_triwulan'] = $target;
+    $row['capaian'] = achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
+    $row['nilai_tertimbang'] = round($row['capaian'] * $weight, 2);
+    $weightedTotal += $row['nilai_tertimbang'];
+    $weightSum += $weight;
 }
 unset($row);
 
-$average = $count > 0 ? round($total / $count, 2) : null;
+$average = $weightSum > 0 ? round($weightedTotal / $weightSum, 2) : null;
 
 render_header('Hitung Capaian Kinerja');
 ?>
+<section class="panel analysis-rule">
+    <strong>Rumus Capaian Kinerja</strong>
+    <p>
+        Tipe "semakin tinggi semakin baik" dihitung realisasi dibagi target triwulan.
+        Tipe "semakin rendah semakin baik" dihitung target triwulan dibagi realisasi.
+        Totalitas capaian menggunakan rata-rata berbobot dari seluruh indikator.
+    </p>
+</section>
+
 <form method="get" class="toolbar">
     <input type="hidden" name="page" value="capaian">
     <label>
@@ -45,6 +74,19 @@ render_header('Hitung Capaian Kinerja');
             <?php endfor; ?>
         </select>
     </label>
+    <?php if ($canViewAll): ?>
+        <label>
+            Pemilik Data
+            <select name="user_id">
+                <option value="0">Semua Pengguna</option>
+                <?php foreach ($owners as $owner): ?>
+                    <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
+                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+    <?php endif; ?>
     <button type="submit">Hitung</button>
 </form>
 
@@ -53,29 +95,52 @@ render_header('Hitung Capaian Kinerja');
         <table>
             <thead>
             <tr>
+                <?php if ($canViewAll): ?>
+                    <th>Pemilik</th>
+                <?php endif; ?>
                 <th>Indikator Kinerja</th>
-                <th>Target</th>
+                <th>Sumber Data</th>
+                <th>Tipe</th>
+                <th>Bobot</th>
+                <th>Target TW<?= $tw ?></th>
                 <th>Realisasi</th>
                 <th>Capaian (%)</th>
+                <th>Nilai Tertimbang</th>
             </tr>
             </thead>
             <tbody>
             <?php if (!$rows): ?>
-                <tr><td colspan="4">Belum ada data Target Kinerja untuk tahun ini.</td></tr>
+                <tr><td colspan="<?= $canViewAll ? '9' : '8' ?>">Belum ada data Target Kinerja untuk tahun ini.</td></tr>
             <?php endif; ?>
             <?php foreach ($rows as $row): ?>
                 <tr>
-                    <td><?= h((string) $row['indikator']) ?></td>
-                    <td><?= h((string) $row['target']) ?></td>
+                    <?php if ($canViewAll): ?>
+                        <td>
+                            <?= h((string) ($row['owner_nama'] ?? '-')) ?>
+                            <br><small><?= h(role_label((string) ($row['owner_role'] ?? ''))) ?></small>
+                        </td>
+                    <?php endif; ?>
+                    <td>
+                        <?= h((string) $row['indikator']) ?>
+                        <?php if (!empty($row['satuan'])): ?>
+                            <br><small>Satuan: <?= h((string) $row['satuan']) ?></small>
+                        <?php endif; ?>
+                    </td>
+                    <td><?= h((string) ($row['sumber_data'] ?: '-')) ?></td>
+                    <td><?= h(indicator_type_label((string) ($row['tipe_indikator'] ?? 'max'))) ?></td>
+                    <td><?= h((string) ($row['bobot'] ?? 1)) ?></td>
+                    <td><?= h((string) $row['target_triwulan']) ?></td>
                     <td><?= h((string) $row['realisasi']) ?></td>
                     <td><?= h((string) $row['capaian']) ?></td>
+                    <td><?= h((string) $row['nilai_tertimbang']) ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <?php if ($average !== null): ?>
-        <div class="stat">Totalitas Capaian Kinerja TW<?= $tw ?>: <?= h((string) $average) ?>%</div>
-    <?php endif; ?>
+    <div class="stat">
+        Totalitas Capaian Kinerja Berbobot TW<?= $tw ?>:
+        <?= $average !== null ? h((string) $average) . '%' : 'Belum tersedia' ?>
+    </div>
 </section>
 <?php render_footer(); ?>

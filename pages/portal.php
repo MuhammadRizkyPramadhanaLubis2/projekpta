@@ -15,8 +15,32 @@ if (!$pageData) {
 
 render_header((string) $pageData['title']);
 ?>
+<?php if ($slug === 'program-kerja-sop'): ?>
+    <?php
+    define('PROGRAM_KERJA_SOP_EMBEDDED', true);
+    require __DIR__ . '/program-kerja-sop.php';
+    render_footer();
+    return;
+    ?>
+<?php endif; ?>
+<?php if ($slug === 'penyusunan-anggaran'): ?>
+    <?php
+    define('PENYUSUNAN_ANGGARAN_EMBEDDED', true);
+    require __DIR__ . '/penyusunan-anggaran.php';
+    render_footer();
+    return;
+    ?>
+<?php endif; ?>
+<?php if ($slug === 'notifikasi'): ?>
+    <?php
+    define('IFKIN_EMBEDDED', true);
+    require __DIR__ . '/ifkin.php';
+    render_footer();
+    return;
+    ?>
+<?php endif; ?>
 <?php
-$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca'];
+$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'];
 ?>
 <?php if (in_array($slug, $heroPages, true)): ?>
 <style>
@@ -24,19 +48,41 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 .tf-hero {
     position: relative;
-    background-image: linear-gradient(rgba(2, 44, 34, 0.88), rgba(2, 44, 34, 0.88)), url('assets/gedung1.webp');
+    overflow: hidden;
+    background-image:
+        linear-gradient(90deg, rgba(2, 21, 14, 0.96), rgba(15, 51, 36, 0.72), rgba(2, 21, 14, 0.90)),
+        url('assets/gedung1.webp');
     background-size: cover;
     background-position: center;
     padding: 120px 20px 160px;
     text-align: center;
     color: #fff;
 }
+.tf-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 42%, rgba(16, 185, 129, 0.22) 0%, rgba(16, 185, 129, 0.08) 28%, transparent 58%),
+        radial-gradient(ellipse at center, transparent 0%, transparent 42%, rgba(1, 18, 12, 0.54) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
 .tf-hero::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+    background:
+        linear-gradient(180deg, transparent 68%, #eef3ef 100%),
+        url('assets/batik_sumut.png') center/320px;
+    opacity: 0.16;
+    mix-blend-mode: soft-light;
     pointer-events: none;
+    z-index: 2;
+}
+.tf-hero > * {
+    position: relative;
+    z-index: 3;
 }
 .tf-hero-subtitle {
     font-size: 0.85rem;
@@ -219,7 +265,7 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 <div class="tf-hero">
     <div class="tf-hero-subtitle">
-        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
+        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
     </div>
     <h1><?= h((string) $pageData['title']) ?></h1>
     <?php if (!empty($pageData['body'])): ?>
@@ -252,18 +298,62 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
                 Buka di Tab Baru
             </a>
         </div>
+        <?php elseif ($slug === 'baseline'): ?>
+        <!-- Google Form Embed for Baseline -->
+        <div style="background: #fff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScqU1NGkTpqJBHEQnBC1dMI1CcGOA23C4hv6LBqqBEwwaskRw/viewform?embedded=true" width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+        </div>
+        <div style="text-align: right; margin-bottom: 48px;">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScqU1NGkTpqJBHEQnBC1dMI1CcGOA23C4hv6LBqqBEwwaskRw/viewform" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #064e3b; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Buka di Tab Baru
+            </a>
+        </div>
+        <?php elseif ($slug === 'pagu-indikatif'): ?>
+        <!-- Google Form Embed for Pagu Indikatif -->
+        <div style="background: #fff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfbdAbfdhx6HxLmIYpTa5SSgNe72Wbz-VExK2RcTsjjEbBL1A/viewform?embedded=true" width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+        </div>
+        <div style="text-align: right; margin-bottom: 48px;">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfbdAbfdhx6HxLmIYpTa5SSgNe72Wbz-VExK2RcTsjjEbBL1A/viewform" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #064e3b; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Buka di Tab Baru
+            </a>
+        </div>
+        <?php elseif ($slug === 'pagu-definitif'): ?>
+        <!-- Google Form Embed for Pagu Definitif -->
+        <div style="background: #fff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdBxLJ45DAJoJ_NYf-gKmaIJ1RYcrh1H0mK1zj5t5bZTFtM0Q/viewform?embedded=true" width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+        </div>
+        <div style="text-align: right; margin-bottom: 48px;">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdBxLJ45DAJoJ_NYf-gKmaIJ1RYcrh1H0mK1zj5t5bZTFtM0Q/viewform" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #064e3b; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Buka di Tab Baru
+            </a>
+        </div>
+        <?php elseif ($slug === 'abt'): ?>
+        <!-- Google Form Embed for ABT -->
+        <div style="background: #fff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSek6TE9QyCYqQy_SEoGig04dcSr8MKTvu7w0LcSk-4OdHImyg/viewform?embedded=true" width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+        </div>
+        <div style="text-align: right; margin-bottom: 48px;">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSek6TE9QyCYqQy_SEoGig04dcSr8MKTvu7w0LcSk-4OdHImyg/viewform" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: #064e3b; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: background 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Buka di Tab Baru
+            </a>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($pageData['list'])): ?>
             <div class="tf-header">
                 <?php 
                     $headerTitle = 'Daftar Tugas dan Fungsi';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'])) {
                         $headerTitle = h((string) $pageData['subtitle']);
                     }
                     
                     $badgeText = 'TUGAS';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'])) {
                         $badgeText = 'REGULASI';
                     }
                 ?>

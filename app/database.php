@@ -17,8 +17,21 @@ function db(): PDO
     $pdo = new PDO('sqlite:' . $dataDir . DIRECTORY_SEPARATOR . 'ikpa.sqlite');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    $pdo->exec('PRAGMA foreign_keys = ON');
 
     return $pdo;
+}
+
+function table_has_column(PDO $pdo, string $table, string $column): bool
+{
+    $stmt = $pdo->query('PRAGMA table_info(' . $table . ')');
+    foreach ($stmt->fetchAll() as $row) {
+        if (($row['name'] ?? '') === $column) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 function init_database(): void
@@ -32,7 +45,9 @@ function init_database(): void
             password TEXT NOT NULL,
             nama TEXT NOT NULL,
             role TEXT NOT NULL,
-            unit TEXT NOT NULL
+            unit TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT "active",
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         )'
     );
 
@@ -43,13 +58,30 @@ function init_database(): void
             unit TEXT NOT NULL,
             sasaran TEXT NOT NULL,
             indikator TEXT NOT NULL,
+            satuan TEXT NOT NULL DEFAULT "",
+            tipe_indikator TEXT NOT NULL DEFAULT "max",
+            sumber_data TEXT NOT NULL DEFAULT "",
+            bobot REAL NOT NULL DEFAULT 1,
             target REAL NOT NULL DEFAULT 0,
+            target_tw1 REAL NOT NULL DEFAULT 0,
+            target_tw2 REAL NOT NULL DEFAULT 0,
+            target_tw3 REAL NOT NULL DEFAULT 0,
+            target_tw4 REAL NOT NULL DEFAULT 0,
             dipa01 REAL NOT NULL DEFAULT 0,
             dipa04 REAL NOT NULL DEFAULT 0,
             real_tw1 REAL NOT NULL DEFAULT 0,
             real_tw2 REAL NOT NULL DEFAULT 0,
             real_tw3 REAL NOT NULL DEFAULT 0,
-            real_tw4 REAL NOT NULL DEFAULT 0
+            real_tw4 REAL NOT NULL DEFAULT 0,
+            analisis_kegiatan TEXT NOT NULL DEFAULT "",
+            analisis_upaya TEXT NOT NULL DEFAULT "",
+            analisis_strategi TEXT NOT NULL DEFAULT "",
+            analisis_kendala TEXT NOT NULL DEFAULT "",
+            analisis_solusi TEXT NOT NULL DEFAULT "",
+            user_id INTEGER,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
         )'
     );
 
@@ -65,6 +97,79 @@ function init_database(): void
         )'
     );
 
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS document_meta (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tahun INTEGER NOT NULL,
+            user_id INTEGER NOT NULL,
+            jenis TEXT NOT NULL,
+            no_surat TEXT NOT NULL DEFAULT "",
+            tanggal_surat TEXT NOT NULL DEFAULT "",
+            lokasi TEXT NOT NULL DEFAULT "",
+            pihak1_nama TEXT NOT NULL DEFAULT "",
+            pihak1_jabatan TEXT NOT NULL DEFAULT "",
+            pihak2_nama TEXT NOT NULL DEFAULT "",
+            pihak2_jabatan TEXT NOT NULL DEFAULT "",
+            catatan TEXT NOT NULL DEFAULT "",
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(tahun, user_id, jenis),
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        )'
+    );
+
+    if (!table_has_column($pdo, 'users', 'status')) {
+        $pdo->exec('ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT "active"');
+    }
+
+    if (!table_has_column($pdo, 'users', 'created_at')) {
+        $pdo->exec('ALTER TABLE users ADD COLUMN created_at TEXT');
+        $pdo->exec('UPDATE users SET created_at = CURRENT_TIMESTAMP WHERE created_at IS NULL');
+    }
+
+    if (!table_has_column($pdo, 'target_kinerja', 'user_id')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN user_id INTEGER');
+    }
+
+    if (!table_has_column($pdo, 'target_kinerja', 'created_at')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN created_at TEXT');
+        $pdo->exec('UPDATE target_kinerja SET created_at = CURRENT_TIMESTAMP WHERE created_at IS NULL');
+    }
+
+    if (!table_has_column($pdo, 'target_kinerja', 'updated_at')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN updated_at TEXT');
+    }
+
+    $targetColumns = [
+        'satuan' => 'TEXT NOT NULL DEFAULT ""',
+        'tipe_indikator' => 'TEXT NOT NULL DEFAULT "max"',
+        'sumber_data' => 'TEXT NOT NULL DEFAULT ""',
+        'bobot' => 'REAL NOT NULL DEFAULT 1',
+        'target_tw1' => 'REAL NOT NULL DEFAULT 0',
+        'target_tw2' => 'REAL NOT NULL DEFAULT 0',
+        'target_tw3' => 'REAL NOT NULL DEFAULT 0',
+        'target_tw4' => 'REAL NOT NULL DEFAULT 0',
+        'analisis_kegiatan' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_upaya' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_strategi' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_kendala' => 'TEXT NOT NULL DEFAULT ""',
+        'analisis_solusi' => 'TEXT NOT NULL DEFAULT ""',
+    ];
+
+    foreach ($targetColumns as $column => $definition) {
+        if (!table_has_column($pdo, 'target_kinerja', $column)) {
+            $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN ' . $column . ' ' . $definition);
+        }
+    }
+
+    $pdo->exec(
+        'UPDATE target_kinerja
+         SET target_tw1 = CASE WHEN target_tw1 = 0 THEN target / 4 ELSE target_tw1 END,
+             target_tw2 = CASE WHEN target_tw2 = 0 THEN target / 4 ELSE target_tw2 END,
+             target_tw3 = CASE WHEN target_tw3 = 0 THEN target / 4 ELSE target_tw3 END,
+             target_tw4 = CASE WHEN target_tw4 = 0 THEN target / 4 ELSE target_tw4 END,
+             bobot = CASE WHEN bobot = 0 THEN 1 ELSE bobot END'
+    );
+
     $users = [
         ['admin', 'admin123', 'Administrator', 'Admin', 'PTA Medan'],
         ['panmudbanding', '123456', 'Panmud Banding', 'PanmudBanding', 'PTA Medan'],
@@ -78,8 +183,8 @@ function init_database(): void
     ];
 
     $stmt = $pdo->prepare(
-        'INSERT OR IGNORE INTO users (username, password, nama, role, unit)
-         VALUES (:username, :password, :nama, :role, :unit)'
+        'INSERT OR IGNORE INTO users (username, password, nama, role, unit, status)
+         VALUES (:username, :password, :nama, :role, :unit, "active")'
     );
 
     foreach ($users as $user) {
@@ -90,5 +195,11 @@ function init_database(): void
             'role' => $user[3],
             'unit' => $user[4],
         ]);
+    }
+
+    $adminId = $pdo->query('SELECT id FROM users WHERE username = "admin"')->fetchColumn();
+    if ($adminId) {
+        $legacyStmt = $pdo->prepare('UPDATE target_kinerja SET user_id = :admin_id WHERE user_id IS NULL');
+        $legacyStmt->execute(['admin_id' => (int) $adminId]);
     }
 }
