@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= h($title) ?> - Aplikasi IKPA</title>
+    <title><?= h($title) ?> - APKIN RPA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lexend:wght@700;800&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
     <a href="index.php?page=beranda" class="brand">
         <img src="assets/logo_pta.png" alt="Logo PTA Medan">
         <div>
-            <strong style="display: block; font-size: 1.1rem; color: #fff;">Aplikasi IKPA</strong>
+            <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">APKIN RPA</strong>
             <small style="color: #a7f3d0;">PTA Medan</small>
         </div>
     </a>

@@ -39,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sumberData = $_POST['sumber_data'] ?? [];
     $bobot = $_POST['bobot'] ?? [];
     $targets = $_POST['target'] ?? [];
-    $dipa01 = $_POST['dipa01'] ?? [];
-    $dipa04 = $_POST['dipa04'] ?? [];
+    $pilihanDipa = $_POST['pilihan_dipa'] ?? [];
+    $nilaiDipa = $_POST['nilai_dipa'] ?? [];
     $realTw1 = $_POST['real_tw1'] ?? [];
     $realTw2 = $_POST['real_tw2'] ?? [];
     $realTw3 = $_POST['real_tw3'] ?? [];
@@ -110,8 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'target_tw2' => 0,
             'target_tw3' => 0,
             'target_tw4' => 0,
-            'dipa01' => num($dipa01[$i] ?? 0),
-            'dipa04' => num($dipa04[$i] ?? 0),
+            'dipa01' => ($pilihanDipa[$i] ?? '01') === '01' ? num($nilaiDipa[$i] ?? 0) : 0,
+            'dipa04' => ($pilihanDipa[$i] ?? '01') === '04' ? num($nilaiDipa[$i] ?? 0) : 0,
             'real_tw1' => num($realTw1[$i] ?? 0),
             'real_tw2' => num($realTw2[$i] ?? 0),
             'real_tw3' => num($realTw3[$i] ?? 0),
@@ -129,7 +129,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $checkStmt->execute(['id' => $id]);
             $existing = $checkStmt->fetch();
             if ($existing && can_manage_target_row($existing)) {
-                $update->execute($payload + ['id' => $id]);
+                $updatePayload = $payload;
+                unset($updatePayload['unit']);
+                $update->execute($updatePayload + ['id' => $id]);
             }
         } else {
             $insert->execute($payload + ['tahun' => $tahun, 'user_id' => $ownerId]);
@@ -238,8 +240,8 @@ render_header('Input Target Kinerja');
                 <th>Bobot</th>
                 <th>Sumber Data</th>
                 <th>Target</th>
-                <th>DIPA 01</th>
-                <th>DIPA 04</th>
+                <th>Pilihan DIPA</th>
+                <th>Nilai DIPA</th>
                 <th>Realisasi TW1</th>
                 <th>Realisasi TW2</th>
                 <th>Realisasi TW3</th>
@@ -316,8 +318,19 @@ render_header('Input Target Kinerja');
                         </select>
                     </td>
                     <td><input type="number" step="0.01" name="target[]" value="<?= h((string) $row['target']) ?>"></td>
-                    <td><input type="number" step="0.01" name="dipa01[]" value="<?= h((string) $row['dipa01']) ?>"></td>
-                    <td><input type="number" step="0.01" name="dipa04[]" value="<?= h((string) $row['dipa04']) ?>"></td>
+                    <?php
+                        $d01 = num($row['dipa01'] ?? 0);
+                        $d04 = num($row['dipa04'] ?? 0);
+                        $pilDipa = $d04 > 0 && $d01 == 0 ? '04' : '01';
+                        $nilDipa = $pilDipa === '04' ? $d04 : $d01;
+                    ?>
+                    <td>
+                        <select name="pilihan_dipa[]">
+                            <option value="01" <?= $pilDipa === '01' ? 'selected' : '' ?>>DIPA 01</option>
+                            <option value="04" <?= $pilDipa === '04' ? 'selected' : '' ?>>DIPA 04</option>
+                        </select>
+                    </td>
+                    <td><input type="number" step="0.01" name="nilai_dipa[]" value="<?= h((string) $nilDipa) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw1[]" value="<?= h((string) $row['real_tw1']) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw2[]" value="<?= h((string) $row['real_tw2']) ?>"></td>
                     <td><input type="number" step="0.01" name="real_tw3[]" value="<?= h((string) $row['real_tw3']) ?>"></td>

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-render_header('Menu Aplikasi IKPA');
+render_header('Menu APKIN RPA');
 
 $sections = [
     'PRIMER / POKOK' => [

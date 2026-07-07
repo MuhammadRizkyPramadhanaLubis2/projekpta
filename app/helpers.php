@@ -384,7 +384,7 @@ function role_profile(string $role): array
             ],
             'analysis_rule' => 'Kasubag Keuangan wajib menjelaskan kesesuaian atau ketidaksesuaian capaian IKPA dan IPA berdasarkan aplikasi pendukung.',
             'workflows' => [
-                ['Input Target IKPA/IPA', 'target', null, 'Isi target dan realisasi nilai IKPA serta IPA.'],
+                ['Input Target Kinerja', 'target', null, 'Isi target dan realisasi nilai IKPA serta IPA.'],
                 ['Hitung Capaian Keuangan', 'capaian', null, 'Lihat capaian indikator keuangan dan aset.'],
                 ['Analisis EvKin Keuangan', 'evaluasi', null, 'Tulis narasi evaluasi IKPA dan IPA.'],
                 ['Sumber SAKTI', 'modul', 'sakti', 'Catatan sumber data SAKTI.'],
