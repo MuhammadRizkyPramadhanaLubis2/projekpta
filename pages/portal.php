@@ -40,7 +40,7 @@ render_header((string) $pageData['title']);
     ?>
 <?php endif; ?>
 <?php
-$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'];
+$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja'];
 ?>
 <?php if (in_array($slug, $heroPages, true)): ?>
 <style>
@@ -265,7 +265,7 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 <div class="tf-hero">
     <div class="tf-hero-subtitle">
-        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
+        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
     </div>
     <h1><?= h((string) $pageData['title']) ?></h1>
     <?php if (!empty($pageData['body'])): ?>
@@ -342,18 +342,173 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
                 Buka di Tab Baru
             </a>
         </div>
+        <?php elseif ($slug === 'monev-capaian-kinerja'): ?>
+        <?php
+        $tahun = year_value();
+        $targets = db()->query("SELECT * FROM target_kinerja WHERE tahun = $tahun")->fetchAll();
+        $indicators = [];
+        $twData = [
+            1 => ['target' => [], 'realisasi' => [], 'capaian' => []],
+            2 => ['target' => [], 'realisasi' => [], 'capaian' => []],
+            3 => ['target' => [], 'realisasi' => [], 'capaian' => []],
+            4 => ['target' => [], 'realisasi' => [], 'capaian' => []]
+        ];
+
+        foreach ($targets as $target) {
+            $indText = (string) $target['indikator'];
+            if (mb_strlen($indText) > 25) {
+                $indText = mb_substr($indText, 0, 22) . '...';
+            }
+            $indicators[] = $indText;
+            
+            for ($i = 1; $i <= 4; $i++) {
+                $targetVal = target_for_quarter($target, $i);
+                $realVal = num($target['real_tw' . $i] ?? 0);
+                $achvVal = achievement_for_quarter($target, $i);
+                
+                $twData[$i]['target'][] = $targetVal;
+                $twData[$i]['realisasi'][] = $realVal;
+                $twData[$i]['capaian'][] = $achvVal;
+            }
+        }
+        ?>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+        
+        <style>
+        .chart-container {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        </style>
+        
+        <div class="tf-header" style="margin-bottom: 24px;">
+            <h2>Grafik Capaian Kinerja Tahun <?= h((string) $tahun) ?></h2>
+        </div>
+        
+        <?php for ($tw = 1; $tw <= 4; $tw++): ?>
+            <div class="chart-container">
+                <h3 style="text-align: center; margin-bottom: 20px; color: #1e293b;">Capaian Kinerja Triwulan <?= array('', 'I', 'II', 'III', 'IV')[$tw] ?> <?= h((string)$tahun) ?></h3>
+                <canvas id="chartTw<?= $tw ?>" height="120"></canvas>
+            </div>
+        <?php endfor; ?>
+        
+        <script>
+            Chart.register(ChartDataLabels);
+        
+            const labels = <?= json_encode($indicators) ?>;
+            const twData = <?= json_encode($twData) ?>;
+        
+            const commonOptions = {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8
+                        }
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        formatter: function(value) {
+                            return Math.round(value * 100) / 100;
+                        },
+                        font: {
+                            weight: 'bold',
+                            size: 11
+                        },
+                        padding: {
+                            bottom: -2
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 125,
+                        grid: {
+                            borderDash: [2, 4]
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    }
+                },
+                layout: {
+                    padding: {
+                        top: 20
+                    }
+                }
+            };
+        
+            for(let tw = 1; tw <= 4; tw++) {
+                const ctx = document.getElementById('chartTw' + tw).getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Target',
+                                data: twData[tw].target,
+                                backgroundColor: '#0f766e',
+                                datalabels: { color: '#0f766e' },
+                                borderRadius: 2
+                            },
+                            {
+                                label: 'Realisasi',
+                                data: twData[tw].realisasi,
+                                backgroundColor: '#eab308',
+                                datalabels: { color: '#ca8a04' },
+                                borderRadius: 2
+                            },
+                            {
+                                label: 'Capaian',
+                                data: twData[tw].capaian,
+                                backgroundColor: '#c2410c',
+                                datalabels: { color: '#c2410c' },
+                                borderRadius: 2
+                            }
+                        ]
+                    },
+                    options: commonOptions
+                });
+            }
+        </script>
+        
+        <div style="text-align: right; margin-bottom: 48px;">
+            <a href="index.php?page=monitoring" style="display: inline-flex; align-items: center; gap: 8px; background: #064e3b; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.2s; box-shadow: 0 4px 12px rgba(6, 78, 59, 0.2);" onmouseover="this.style.background='#047857'; this.style.transform='translateY(-1px)';" onmouseout="this.style.background='#064e3b'; this.style.transform='none';">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                Detail Monitoring Kinerja
+            </a>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($pageData['list'])): ?>
             <div class="tf-header">
                 <?php 
                     $headerTitle = 'Daftar Tugas dan Fungsi';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja'])) {
                         $headerTitle = h((string) $pageData['subtitle']);
                     }
                     
                     $badgeText = 'TUGAS';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja'])) {
                         $badgeText = 'REGULASI';
                     }
                 ?>
