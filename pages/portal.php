@@ -40,7 +40,7 @@ render_header((string) $pageData['title']);
     ?>
 <?php endif; ?>
 <?php
-$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'];
+$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'evaluasi-akip'];
 ?>
 <?php if (in_array($slug, $heroPages, true)): ?>
 <style>
@@ -265,7 +265,7 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 <div class="tf-hero">
     <div class="tf-hero-subtitle">
-        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
+        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'evaluasi-akip']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
     </div>
     <h1><?= h((string) $pageData['title']) ?></h1>
     <?php if (!empty($pageData['body'])): ?>
@@ -275,6 +275,16 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 <div class="tf-container">
     <div class="tf-card">
+        <?php if (!empty($pageData['body']) && count($pageData['body']) > 1): ?>
+            <div style="margin-bottom: 48px; color: #334155; line-height: 1.8; font-size: 1.1rem; text-align: justify; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 20px;">
+                <?php 
+                    for ($i = 1; $i < count($pageData['body']); $i++) {
+                        echo '<p style="margin-top: 0; margin-bottom: 24px;">' . h((string) $pageData['body'][$i]) . '</p>';
+                    }
+                ?>
+            </div>
+            <hr style="border: 0; height: 1px; background: #e2e8f0; margin-bottom: 48px;">
+        <?php endif; ?>
         
         <?php if ($slug === 'revisi'): ?>
         <!-- Google Form Embed for Revisi -->
@@ -348,12 +358,12 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
             <div class="tf-header">
                 <?php 
                     $headerTitle = 'Daftar Tugas dan Fungsi';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'evaluasi-akip'])) {
                         $headerTitle = h((string) $pageData['subtitle']);
                     }
                     
                     $badgeText = 'TUGAS';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'evaluasi-akip'])) {
                         $badgeText = 'REGULASI';
                     }
                 ?>
@@ -376,7 +386,11 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
                 <!-- Render CTA Box and skip tf-header -->
                 <div class="tf-cta">
                     <div class="tf-cta-content">
-                        <?php if (!empty($section['icon']) && $slug === 'e-monev-bappenas'): ?>
+                        <?php if (!empty($section['custom_icon'])): ?>
+                            <div class="tf-cta-icon" style="background: #fff; width: 80px; height: 80px; border-radius: 20px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                <?= $section['custom_icon'] ?>
+                            </div>
+                        <?php elseif (!empty($section['icon']) && $slug === 'e-monev-bappenas'): ?>
                             <div class="tf-cta-icon" style="background: #fff; width: 80px; height: 80px; border-radius: 20px; padding: 5px; box-sizing: border-box;">
                                 <img src="assets/logo_emonev.png" alt="e-Monev Bappenas" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                             </div>
