@@ -103,6 +103,17 @@ $evaluations = $evalStmt->fetchAll();
 
 render_header('Evaluasi Kinerja');
 ?>
+<style>
+#form-evkin:target {
+    animation: highlightForm 2s ease-out;
+    box-shadow: 0 0 15px rgba(22, 163, 74, 0.4);
+    border: 1px solid var(--primary);
+}
+@keyframes highlightForm {
+    0% { background-color: rgba(22, 163, 74, 0.15); }
+    100% { background-color: var(--surface); }
+}
+</style>
 <section class="panel analysis-rule">
     <strong>Evaluasi Otomatis Sesuai Konsep</strong>
     <p>
@@ -192,7 +203,7 @@ render_header('Evaluasi Kinerja');
                     <td><span class="small-badge"><?= h((string) $trend['label']) ?></span></td>
                     <td><?= $hasEvaluation ? 'Sudah ada narasi' : 'Wajib narasi' ?></td>
                     <td>
-                        <a class="button secondary" href="index.php?page=evaluasi&tahun=<?= h((string) $tahun) ?>&triwulan=<?= $selectedTw ?>&target_id=<?= h((string) $target['id']) ?><?= $selectedUserId > 0 ? '&user_id=' . h((string) $selectedUserId) : '' ?>">
+                        <a class="button secondary" href="index.php?page=evaluasi&tahun=<?= h((string) $tahun) ?>&triwulan=<?= $selectedTw ?>&target_id=<?= h((string) $target['id']) ?><?= $selectedUserId > 0 ? '&user_id=' . h((string) $selectedUserId) : '' ?>#form-evkin">
                             Isi EvKin
                         </a>
                     </td>
@@ -203,7 +214,7 @@ render_header('Evaluasi Kinerja');
     </div>
 </section>
 
-<section class="panel">
+<section class="panel" id="form-evkin">
     <form method="post" class="form-grid">
         <input type="hidden" name="tahun" value="<?= h((string) $tahun) ?>">
         <input type="hidden" name="user_id" value="<?= h((string) $selectedUserId) ?>">
