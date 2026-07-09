@@ -6,6 +6,48 @@ function h(?string $value): string
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
+function get_signature_img_tag(string $base64Data, int $maxWidth = 150, int $maxHeight = 80): string
+{
+    if (empty($base64Data)) {
+        return '';
+    }
+    
+    // Fallback default style
+    $style = "display: block; margin: 10px auto;";
+    
+    // Try to get intrinsic size from base64 string
+    $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
+    if ($imgData !== false) {
+        $size = @getimagesizefromstring($imgData);
+        if ($size !== false) {
+            $width = $size[0];
+            $height = $size[1];
+            
+            // Calculate proportional dimensions
+            if ($width > $maxWidth || $height > $maxHeight) {
+                $ratio = min($maxWidth / $width, $maxHeight / $height);
+                $newWidth = (int) round($width * $ratio);
+                $newHeight = (int) round($height * $ratio);
+            } else {
+                $newWidth = $width;
+                $newHeight = $height;
+            }
+            
+            // Return tag with explicit width and height
+            return sprintf(
+                '<img src="%s" width="%d" height="%d" style="%s">',
+                h($base64Data),
+                $newWidth,
+                $newHeight,
+                $style
+            );
+        }
+    }
+    
+    // If parsing fails, just output it without width/height
+    return sprintf('<img src="%s" style="%s">', h($base64Data), $style);
+}
+
 function redirect(string $page): never
 {
     header('Location: index.php?page=' . urlencode($page));
@@ -253,9 +295,9 @@ function can_manage_target_row(array $row, ?array $user = null): bool
     return (int) ($row['user_id'] ?? 0) === (int) ($user['id'] ?? 0);
 }
 
-function role_profile(string $role): array
+function get_all_role_profiles(): array
 {
-    $profiles = [
+    return [
         'Admin' => [
             'title' => 'Administrator Aplikasi',
             'scope' => 'Pengelolaan teknis aplikasi dan seluruh data pengguna.',
@@ -463,7 +505,11 @@ function role_profile(string $role): array
             ],
         ],
     ];
+}
 
+function role_profile(string $role): array
+{
+    $profiles = get_all_role_profiles();
     return $profiles[$role] ?? $profiles['Admin'];
 }
 
@@ -1147,6 +1193,8 @@ function default_document_meta(array $owner, int $tahun, string $jenis): array
         'pihak1_jabatan' => role_label((string) ($owner['role'] ?? '')),
         'pihak2_nama' => 'Ketua PTA Medan',
         'pihak2_jabatan' => 'Pimpinan',
+        'pihak1_ttd' => '',
+        'pihak2_ttd' => '',
         'catatan' => '',
     ];
 }
@@ -1183,26 +1231,30 @@ function save_document_meta(array $owner, int $tahun, string $jenis, array $post
         'pihak1_jabatan' => trim((string) ($post['pihak1_jabatan'] ?? $defaults['pihak1_jabatan'])),
         'pihak2_nama' => trim((string) ($post['pihak2_nama'] ?? $defaults['pihak2_nama'])),
         'pihak2_jabatan' => trim((string) ($post['pihak2_jabatan'] ?? $defaults['pihak2_jabatan'])),
+        'pihak1_ttd' => trim((string) ($post['pihak1_ttd'] ?? $defaults['pihak1_ttd'])),
+        'pihak2_ttd' => trim((string) ($post['pihak2_ttd'] ?? $defaults['pihak2_ttd'])),
         'catatan' => trim((string) ($post['catatan'] ?? '')),
     ];
 
     $stmt = db()->prepare(
         'INSERT INTO document_meta
          (tahun, user_id, jenis, no_surat, tanggal_surat, lokasi, pihak1_nama, pihak1_jabatan,
-          pihak2_nama, pihak2_jabatan, catatan, updated_at)
+          pihak2_nama, pihak2_jabatan, pihak1_ttd, pihak2_ttd, catatan, updated_at)
          VALUES
          (:tahun, :user_id, :jenis, :no_surat, :tanggal_surat, :lokasi, :pihak1_nama, :pihak1_jabatan,
-          :pihak2_nama, :pihak2_jabatan, :catatan, CURRENT_TIMESTAMP)
+          :pihak2_nama, :pihak2_jabatan, :pihak1_ttd, :pihak2_ttd, :catatan, CURRENT_TIMESTAMP)
          ON CONFLICT(tahun, user_id, jenis) DO UPDATE SET
-            no_surat = excluded.no_surat,
-            tanggal_surat = excluded.tanggal_surat,
-            lokasi = excluded.lokasi,
-            pihak1_nama = excluded.pihak1_nama,
-            pihak1_jabatan = excluded.pihak1_jabatan,
-            pihak2_nama = excluded.pihak2_nama,
-            pihak2_jabatan = excluded.pihak2_jabatan,
-            catatan = excluded.catatan,
-            updated_at = CURRENT_TIMESTAMP'
+          no_surat = excluded.no_surat,
+          tanggal_surat = excluded.tanggal_surat,
+          lokasi = excluded.lokasi,
+          pihak1_nama = excluded.pihak1_nama,
+          pihak1_jabatan = excluded.pihak1_jabatan,
+          pihak2_nama = excluded.pihak2_nama,
+          pihak2_jabatan = excluded.pihak2_jabatan,
+          pihak1_ttd = excluded.pihak1_ttd,
+          pihak2_ttd = excluded.pihak2_ttd,
+          catatan = excluded.catatan,
+          updated_at = CURRENT_TIMESTAMP'
     );
     $stmt->execute($payload);
 }
