@@ -12,7 +12,11 @@
 </head>
 <body>
 
-<?php $isLogin = ($_GET['page'] ?? '') === 'login'; ?>
+<?php 
+$isLogin = ($_GET['page'] ?? '') === 'login'; 
+$currentPage = $_GET['page'] ?? 'beranda';
+$isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
+?>
 
 <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle" hidden>
 
@@ -21,13 +25,41 @@
     <label for="sidebar-toggle" class="sidebar-open-btn-top">
         <i class="ph ph-list"></i>
     </label>
-    <a href="index.php?page=beranda" class="brand">
-        <img src="assets/logo_pta.png" alt="Logo PTA Medan">
-        <div>
-            <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">APKIN RPA</strong>
-            <small style="color: #a7f3d0;">PTA Medan</small>
-        </div>
-    </a>
+    <?php if ($user && $isPublicPage): ?>
+        <a href="index.php?page=dashboard" class="header-back-btn">
+            <i class="ph-bold ph-arrow-left"></i> Kembali ke Menu Utama
+        </a>
+        <style>
+            .header-back-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                color: #fff;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 0.95rem;
+                padding: 10px 20px;
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 50px;
+                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                backdrop-filter: blur(10px);
+            }
+            .header-back-btn:hover {
+                background: rgba(255, 255, 255, 0.25);
+                transform: translateX(-4px);
+                color: #fff;
+            }
+        </style>
+    <?php else: ?>
+        <a href="index.php?page=beranda" class="brand">
+            <img src="assets/logo_pta.png" alt="Logo PTA Medan">
+            <div>
+                <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">APKIN RPA</strong>
+                <small style="color: #a7f3d0;">PTA Medan</small>
+            </div>
+        </a>
+    <?php endif; ?>
     <div class="header-right">
         <?php if ($user): ?>
             <div class="header-profile" tabindex="0">
@@ -53,7 +85,7 @@
 
 <aside class="sidebar">
     <nav class="nav">
-        <?php if (!$user): ?>
+        <?php if ($isPublicPage): ?>
             <?php foreach (site_nav() as $item): ?>
                 <?php if (!empty($item['children'])): ?>
                     <?php 
@@ -94,16 +126,9 @@
                     <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h($item['label']) ?></a>
                 <?php endif; ?>
             <?php endforeach; ?>
-        <?php else: ?>
+        <?php elseif ($user): ?>
             <?php $profile = role_profile((string) $user['role']); ?>
-            <a href="index.php?page=beranda">Portal Publik</a>
             <a href="index.php?page=dashboard" class="<?= ($_GET['page'] ?? '') === 'dashboard' ? 'active' : '' ?>">Menu Utama</a>
-            <?php if (user_can('manage_users', $user)): ?>
-                <a href="index.php?page=users" class="<?= ($_GET['page'] ?? '') === 'users' ? 'active' : '' ?>">Manajemen Pengguna</a>
-            <?php endif; ?>
-            <?php if (user_can('view_all_targets', $user)): ?>
-                <a href="index.php?page=monitoring" class="<?= ($_GET['page'] ?? '') === 'monitoring' ? 'active' : '' ?>">Dashboard Monitoring</a>
-            <?php endif; ?>
             <span class="nav-heading">Kertas Kerja Role</span>
             <?php foreach ($profile['workflows'] as [$label, $targetPage, $slug]): ?>
                 <?php
@@ -125,9 +150,9 @@
 </aside>
 <?php endif; ?>
 
-<main class="shell <?= $isLogin ? 'login-shell-mode' : (!$user ? 'public-shell-mode' : '') ?>">
+<main class="shell <?= $isLogin ? 'login-shell-mode' : ($isPublicPage ? 'public-shell-mode' : '') ?>">
 
-    <?php if ($user): ?>
+    <?php if ($user && !$isPublicPage): ?>
         <header class="topbar">
             <div>
                 <h1><?= h($title) ?></h1>

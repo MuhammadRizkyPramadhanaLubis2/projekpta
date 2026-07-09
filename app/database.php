@@ -117,6 +117,14 @@ function init_database(): void
         )'
     );
 
+    if (!table_has_column($pdo, 'document_meta', 'pihak1_ttd')) {
+        $pdo->exec('ALTER TABLE document_meta ADD COLUMN pihak1_ttd TEXT NOT NULL DEFAULT ""');
+    }
+
+    if (!table_has_column($pdo, 'document_meta', 'pihak2_ttd')) {
+        $pdo->exec('ALTER TABLE document_meta ADD COLUMN pihak2_ttd TEXT NOT NULL DEFAULT ""');
+    }
+
     if (!table_has_column($pdo, 'users', 'status')) {
         $pdo->exec('ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT "active"');
     }
