@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>document.documentElement.classList.add("js");</script>
+    <title>Preview Beranda FASE 3</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="assets/app.css?v=1783589128">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+        }
+
+        .lp-body {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body class="lp-body" style="overflow: hidden; height: 100vh;">
+    <!-- HERO SECTION (FASE 1) -->
+    <nav class="lp-topbar">
+        <div class="lp-container lp-topbar-inner">
+            <div class="lp-logo-area">
+                <img src="assets/logo_pta.png" alt="Logo PTA Medan" class="lp-logo">
+                <span class="lp-brand">APKIN RPA - PTA Medan</span>
+            </div>
+            <div class="lp-nav-menu">
+                <a href="#hero">Beranda</a>
+                <a href="#about">Tentang</a>
+                <a href="#fitur-utama">Fitur</a>
+                <a href="#sisa-fitur">Layanan</a>
+                <a href="#notifikasi">Informasi</a>
+                <a href="#peta">Lokasi</a>
+                <a href="#" class="lp-btn lp-btn-primary">Login</a>
+            </div>
+        </div>
+    </nav>
+    <main class="lp-main-scroller">
+        <header id="hero" class="lp-hero">
+            <video class="lp-hero-video lp-parallax" data-speed="0.25" autoplay muted loop playsinline preload="auto"
+                poster="assets/pta_bg.png">
+                <source src="assets/video palu.mp4" type="video/mp4">
+            </video>
+            <div class="lp-hero-overlay"></div>
+            <canvas id="hero-particles" class="lp-particles"></canvas>
+            <div class="lp-container lp-hero-content">
+                <div class="lp-hero-text">
+                    <h1 class="lp-hero-title lp-scroll" data-arah="up" style="--i:1">IKPA</h1>
+                    <p class="lp-hero-subtitle lp-scroll" data-arah="up" style="--i:2">Informasi Kinerja Program dan
+                        Anggaran</p>
+                    <p class="lp-hero-lead lp-scroll" data-arah="up" style="--i:3">Pengadilan Tinggi Agama Medan - Sub
+                        Bagian Perencanaan Program dan Anggaran.</p>
+                    <div class="lp-hero-action lp-scroll" data-arah="up" style="margin-top: 32px;; --i:4;">
+                        <a href="#" class="lp-btn lp-btn-primary" style="padding: 16px 32px; font-size: 1.1rem;">Login
+                            ke Sistem <i class="ph-bold ph-sign-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECTION 3: FITUR UTAMA (FASE 2) -->
+        <section id="fitur-utama" class="lp-section lp-bg-light" style="padding: 80px 0; background: #f8fafc;">
+            <div class="lp-container">
+                <h2 class="lp-section-title lp-scroll" data-arah="up"
+                    style="text-align: center; margin-bottom: 40px; font-size: 2.2rem; color: #064e3b; font-weight: 800;">
+                    Fitur Utama</h2>
+                <div class="lp-featured-grid">
+                    <!-- Kartu 1 -->
+                    <div class="lp-featured-card lp-scroll" data-arah="up" style="--i:1">
+                        <div class="lp-fc-icon float-icon"><i class="ph-duotone ph-chart-line-up"></i></div>
+                        <a href="#" style="text-decoration: none;">
+                            <h3 class="lp-fc-title">Penyusunan Anggaran</h3>
+                        </a>
+                        <div class="lp-fc-chips">
+                            <a href="#" class="lp-chip">Baseline</a>
+                            <a href="#" class="lp-chip">Pagu Indikatif</a>
+                            <a href="#" class="lp-chip">Pagu Definitif</a>
+                            <a href="#" class="lp-chip">ABT</a>
+                        </div>
+                    </div>
+                    <!-- Kartu 2 -->
+                    <div class="lp-featured-card lp-scroll" data-arah="up" style="--i:2">
+                        <div class="lp-fc-icon float-icon"><i class="ph-duotone ph-shield-check"></i></div>
+                        <a href="#" style="text-decoration: none;">
+                            <h3 class="lp-fc-title">SAKIP</h3>
+                        </a>
+                        <div class="lp-fc-chips">
+                            <a href="#" class="lp-chip">SAKIP PTA Medan</a>
+                            <a href="#" class="lp-chip">SAKIP PA</a>
+                        </div>
+                    </div>
+                    <!-- Kartu 3 -->
+                    <div class="lp-featured-card lp-scroll" data-arah="up" style="--i:3">
+                        <div class="lp-fc-icon float-icon"><i class="ph-duotone ph-users-three"></i></div>
+                        <a href="#" style="text-decoration: none;">
+                            <h3 class="lp-fc-title">Tugas dan Fungsi</h3>
+                        </a>
+                        <div class="lp-fc-chips">
+                            <a href="#" class="lp-chip">Squad</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: SISA FITUR (FASE 2) -->
+        <section id="sisa-fitur" class="lp-section" style="padding: 80px 0;">
+            <div class="lp-container">
+                <h2 class="lp-section-title lp-scroll" data-arah="up"
+                    style="text-align: center; margin-bottom: 40px; font-size: 2.2rem; color: #064e3b; font-weight: 800;">
+                    Layanan Lainnya</h2>
+                <div class="lp-rows-container">
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:1">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-arrows-clockwise"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Revisi</div>
+                            <div class="lp-row-desc">Modul pengelolaan revisi anggaran secara terpadu.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:2">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-clipboard-text"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Program Kerja & SOP</div>
+                            <div class="lp-row-desc">Dokumen Standar Operasional Prosedur dan rencana kerja.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:3">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-handshake"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Hibah</div>
+                            <div class="lp-row-desc">Informasi dan pelaporan terkait pengelolaan hibah.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:4">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-warning-octagon"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Manajemen Risiko</div>
+                            <div class="lp-row-desc">Pemetaan dan mitigasi risiko operasional lembaga.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:5">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-chart-bar"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Evaluasi AKIP</div>
+                            <div class="lp-row-desc">Penilaian dan evaluasi Akuntabilitas Kinerja Instansi.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:6">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-monitor-play"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">e-Monev Bappenas</div>
+                            <div class="lp-row-desc">Sistem monitoring dan evaluasi terintegrasi Bappenas.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:7">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-trend-up"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Monev Capaian Kinerja</div>
+                            <div class="lp-row-desc">Pemantauan target dan realisasi kinerja secara berkala.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                    <a href="#" class="lp-row-item lp-scroll" data-arah="up" style="--i:8">
+                        <div class="lp-row-icon float-icon"><i class="ph-duotone ph-books"></i></div>
+                        <div class="lp-row-content">
+                            <div class="lp-row-title">Pojok Baca</div>
+                            <div class="lp-row-desc">Kumpulan literatur dan regulasi terkait peradilan.</div>
+                        </div>
+                        <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: NOTIFIKASI / INFORMASI KINERJA -->
+        <section id="notifikasi" class="lp-section">
+            <div class="lp-container">
+                <div class="lp-section-header lp-scroll" data-arah="up"
+                    style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
+                    <div>
+                        <h2 class="lp-section-title" style="margin-bottom: 8px;">Informasi Kinerja</h2>
+                        <p class="lp-text-muted">Direktori website pemerintah dan peradilan.</p>
+                    </div>
+                    <a href="#" class="lp-btn lp-btn-outline">Lihat Semua <i class="ph-bold ph-arrow-right"></i></a>
+                </div>
+
+                <div class="lp-news-layout">
+                    <div class="lp-news-featured lp-scroll" data-arah="up" style="--i:1">
+                        <div class="lp-news-img-placeholder float-icon">
+                            <i class="ph-duotone ph-image"></i>
+                            <!-- TODO: Gambar unggulan informasi kinerja -->
+                        </div>
+                        <div class="lp-news-content">
+                            <div class="lp-news-date">Pusat Informasi</div>
+                            <h3 class="lp-news-title">Portal Informasi Kinerja (IFKIN)</h3>
+                            <p class="lp-news-desc">Rujukan cepat menuju sumber informasi kinerja, kebijakan, pembinaan,
+                                dan pengawasan lembaga peradilan.</p>
+                        </div>
+                    </div>
+                    <div class="lp-news-list">
+                        <a href="#" class="lp-news-item lp-scroll" data-arah="up" style="--i:2">
+                            <div class="lp-news-date">Situs Eksternal</div>
+                            <h4 class="lp-news-title">Mahkamah Agung RI</h4>
+                        </a>
+                        <a href="#" class="lp-news-item lp-scroll" data-arah="up" style="--i:3">
+                            <div class="lp-news-date">Situs Eksternal</div>
+                            <h4 class="lp-news-title">Ditjen Badilag MA RI</h4>
+                        </a>
+                        <a href="#" class="lp-news-item lp-scroll" data-arah="up" style="--i:4">
+                            <div class="lp-news-date">Situs Eksternal</div>
+                            <h4 class="lp-news-title">Badan Pengawasan MA RI</h4>
+                        </a>
+                        <a href="#" class="lp-news-item lp-scroll" data-arah="up" style="--i:5">
+                            <div class="lp-news-date">Situs Eksternal</div>
+                            <h4 class="lp-news-title">Kementerian PANRB</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    
+    
+    
+    
+    <!-- SECTION 6: PETA LOKASI -->
+    <section id="peta" class="lp-section" style="background: #022c22; padding: 80px 0;">
+        <div class="lp-container">
+            <h2 class="lp-section-title" style="text-align: center; margin-bottom: 40px; color: #fff;">Jaringan Peradilan</h2>
+            
+            <div class="lp-map-discover">
+                <div class="lp-discover-visual" id="map-container">
+                    <img src="assets/peta_sumut.svg?v=7" alt="Peta Sumatera" class="lp-discover-bg">
+                    
+                    <div class="lp-discover-marker is-pta" 
+                         style="left: 33.10095791949179%; top: 22.417382309759155%;"
+                         data-idx="0"
+                         onmouseenter="selectLocation(0)"
+                         onclick="selectLocation(0)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 33.66817043214564%; top: 23.254096774872306%;"
+                         data-idx="1"
+                         onmouseenter="selectLocation(1)"
+                         onclick="selectLocation(1)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 34.739311416785235%; top: 23.00582454651721%;"
+                         data-idx="2"
+                         onmouseenter="selectLocation(2)"
+                         onclick="selectLocation(2)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 31.805588296929937%; top: 22.666395649243672%;"
+                         data-idx="3"
+                         onmouseenter="selectLocation(3)"
+                         onclick="selectLocation(3)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 31.568077823311825%; top: 21.662931180011427%;"
+                         data-idx="4"
+                         onmouseenter="selectLocation(4)"
+                         onclick="selectLocation(4)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 42.115417934642345%; top: 27.34428909813137%;"
+                         data-idx="5"
+                         onmouseenter="selectLocation(5)"
+                         onclick="selectLocation(5)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 40.67629197278521%; top: 27.21237131709493%;"
+                         data-idx="6"
+                         onmouseenter="selectLocation(6)"
+                         onclick="selectLocation(6)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 36.97222238257651%; top: 24.68888792142595%;"
+                         data-idx="7"
+                         onmouseenter="selectLocation(7)"
+                         onclick="selectLocation(7)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 36.25734710836414%; top: 27.440633544955737%;"
+                         data-idx="8"
+                         onmouseenter="selectLocation(8)"
+                         onclick="selectLocation(8)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 36.4120414299969%; top: 27.542165769686033%;"
+                         data-idx="9"
+                         onmouseenter="selectLocation(9)"
+                         onclick="selectLocation(9)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 30.51334381217873%; top: 29.039210251110802%;"
+                         data-idx="10"
+                         onmouseenter="selectLocation(10)"
+                         onclick="selectLocation(10)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 31.880591604388226%; top: 26.356387962616907%;"
+                         data-idx="11"
+                         onmouseenter="selectLocation(11)"
+                         onclick="selectLocation(11)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 37.0198807341907%; top: 23.70691567494683%;"
+                         data-idx="12"
+                         onmouseenter="selectLocation(12)"
+                         onclick="selectLocation(12)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 36.355788949403156%; top: 32.0155125468543%;"
+                         data-idx="13"
+                         onmouseenter="selectLocation(13)"
+                         onclick="selectLocation(13)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 35.68075918227802%; top: 34.53454927574677%;"
+                         data-idx="14"
+                         onmouseenter="selectLocation(14)"
+                         onclick="selectLocation(14)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 34.513520209957434%; top: 36.85793266647284%;"
+                         data-idx="15"
+                         onmouseenter="selectLocation(15)"
+                         onclick="selectLocation(15)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 34.11350257017961%; top: 36.428088211410284%;"
+                         data-idx="16"
+                         onmouseenter="selectLocation(16)"
+                         onclick="selectLocation(16)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 37.99179859333845%; top: 39.11387494442186%;"
+                         data-idx="17"
+                         onmouseenter="selectLocation(17)"
+                         onclick="selectLocation(17)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 37.99179859333845%; top: 39.11387494442186%;"
+                         data-idx="18"
+                         onmouseenter="selectLocation(18)"
+                         onclick="selectLocation(18)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 40.2012710255491%; top: 43.10549948746829%;"
+                         data-idx="19"
+                         onmouseenter="selectLocation(19)"
+                         onclick="selectLocation(19)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 42.03025792929907%; top: 40.189227193207664%;"
+                         data-idx="20"
+                         onmouseenter="selectLocation(20)"
+                         onclick="selectLocation(20)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 42.30839519445714%; top: 33.75045370082231%;"
+                         data-idx="21"
+                         onmouseenter="selectLocation(21)"
+                         onclick="selectLocation(21)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    <div class="lp-discover-marker " 
+                         style="left: 25.059197047941815%; top: 39.79940273913369%;"
+                         data-idx="22"
+                         onmouseenter="selectLocation(22)"
+                         onclick="selectLocation(22)">
+                        <div class="lp-marker-dot"></div>
+                    </div>
+                    
+                    <div id="map-info-card" class="lp-map-info-card">
+                        <div class="info-card-header">
+                            <span id="info-jenis" class="info-badge">PA</span>
+                            <h4 id="info-nama">Nama PA</h4>
+                        </div>
+                        <p id="info-alamat">Alamat</p>
+                    </div>
+                </div>
+                
+                <div class="lp-discover-sidebar">
+                    <div class="lp-sidebar-header">
+                        <h3>Daftar Lokasi</h3>
+                        <p>Wilayah Hukum Sumatera Utara</p>
+                    </div>
+                    <div class="lp-sidebar-list" id="sidebar-list-container">
+
+                        <div class="lp-loc-item item-pta" id="loc-item-0" onclick="selectLocation(0)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-fill ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PTA Medan</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-1" onclick="selectLocation(1)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Medan (IA)</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-2" onclick="selectLocation(2)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Lubuk Pakam (IA)</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-3" onclick="selectLocation(3)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Binjai</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-4" onclick="selectLocation(4)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Stabat (IB)</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-5" onclick="selectLocation(5)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Tanjung Balai</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-6" onclick="selectLocation(6)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Kisaran (IA)</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-7" onclick="selectLocation(7)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Tebing Tinggi</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-8" onclick="selectLocation(8)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Pematang Siantar</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-9" onclick="selectLocation(9)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Simalungun</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-10" onclick="selectLocation(10)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Sidikalang</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-11" onclick="selectLocation(11)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Kabanjahe</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-12" onclick="selectLocation(12)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Sei Rampah</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-13" onclick="selectLocation(13)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Balige</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-14" onclick="selectLocation(14)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Tarutung</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-15" onclick="selectLocation(15)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Pandan</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-16" onclick="selectLocation(16)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Sibolga</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-17" onclick="selectLocation(17)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Padangsidimpuan</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-18" onclick="selectLocation(18)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Kota Padangsidimpuan</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-19" onclick="selectLocation(19)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Panyabungan</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-20" onclick="selectLocation(20)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Sibuhuan</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-21" onclick="selectLocation(21)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Rantauprapat (IB)</strong>
+                            </div>
+                        </div>
+                        <div class="lp-loc-item " id="loc-item-22" onclick="selectLocation(22)">
+                            <div class="lp-loc-icon">
+                                <i class="ph-duotone ph-map-pin"></i>
+                            </div>
+                            <div class="lp-loc-text">
+                                <strong>PA Gunungsitoli</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const lokasiData = [{"nama": "PTA Medan", "jenis": "PTA", "alamat": "Jl. Kapten Sumarsono No. 12, Helvetia Timur, Medan Helvetia, Kota Medan 20124", "lat": 3.6315, "lng": 98.6462}, {"nama": "PA Medan (IA)", "jenis": "PA", "alamat": "Jl. Sisingamangaraja Km 8,8 No. 198, Medan Amplas", "lat": 3.5186, "lng": 98.7188}, {"nama": "PA Lubuk Pakam (IA)", "jenis": "PA", "alamat": "Jl. Mahoni No. 3, Kompleks Pemkab Deli Serdang", "lat": 3.5521, "lng": 98.8559}, {"nama": "PA Binjai", "jenis": "PA", "alamat": "Jl. Sultan Hasanuddin No. 24, Binjai Kota", "lat": 3.5979, "lng": 98.4804}, {"nama": "PA Stabat (IB)", "jenis": "PA", "alamat": "Jl. Proklamasi No. 46, Kwala Bingai, Stabat, Langkat", "lat": 3.7333, "lng": 98.45}, {"nama": "PA Tanjung Balai", "jenis": "PA", "alamat": "Jl. Jend. Sudirman KM. 5.5, Tanjungbalai", "lat": 2.9667, "lng": 99.8}, {"nama": "PA Kisaran (IA)", "jenis": "PA", "alamat": "Jl. Jend. Ahmad Yani No. 73, Kisaran, Asahan", "lat": 2.9845, "lng": 99.6158}, {"nama": "PA Tebing Tinggi", "jenis": "PA", "alamat": "Jl. Rumah Sakit Umum No. 7, Tebing Tinggi", "lat": 3.325, "lng": 99.1417}, {"nama": "PA Pematang Siantar", "jenis": "PA", "alamat": "Jl. Sisingamangaraja\u2013Pasar Baru No. 47, Nagahuta", "lat": 2.9537, "lng": 99.0502}, {"nama": "PA Simalungun", "jenis": "PA", "alamat": "Jl. Asahan Km 3,5, Nagori Pamatang Simalungun", "lat": 2.94, "lng": 99.07}, {"nama": "PA Sidikalang", "jenis": "PA", "alamat": "Jl. RSU No. 16, Batangberuh, Sidikalang, Dairi", "lat": 2.738, "lng": 98.315}, {"nama": "PA Kabanjahe", "jenis": "PA", "alamat": "Jl. Letjen Jamin Ginting, Kabanjahe, Karo", "lat": 3.1, "lng": 98.49}, {"nama": "PA Sei Rampah", "jenis": "PA", "alamat": "Jl. Negara, Desa Firdaus, Sei Rampah, Serdang Bedagai", "lat": 3.4575, "lng": 99.1478}, {"nama": "PA Balige", "jenis": "PA", "alamat": "Jl. Siborong-borong \u2013 Parapat, Balige, Toba", "lat": 2.3364, "lng": 99.0628}, {"nama": "PA Tarutung", "jenis": "PA", "alamat": "Jl. Raja Johannes Hutabarat No. 51, Tapanuli Utara", "lat": 1.9965, "lng": 98.9764}, {"nama": "PA Pandan", "jenis": "PA", "alamat": "Jl. D.I. Pandjaitan No. 4, Sibuluan Indah, Pandan", "lat": 1.683, "lng": 98.827}, {"nama": "PA Sibolga", "jenis": "PA", "alamat": "Jl. Perintis Kemerdekaan No. 1, Sibolga Kota", "lat": 1.741, "lng": 98.7758}, {"nama": "PA Padangsidimpuan", "jenis": "PA", "alamat": "Kota Padangsidimpuan", "lat": 1.3786, "lng": 99.2722}, {"nama": "PA Kota Padangsidimpuan", "jenis": "PA", "alamat": "Jl. H.T. Rizal Nurdin Km 7, Salambue", "lat": 1.3786, "lng": 99.2722}, {"nama": "PA Panyabungan", "jenis": "PA", "alamat": "Panyabungan, Kab. Mandailing Natal", "lat": 0.84, "lng": 99.555}, {"nama": "PA Sibuhuan", "jenis": "PA", "alamat": "Jl. Ki Hajar Dewantara, Pasar Sibuhuan, Padang Lawas", "lat": 1.2335, "lng": 99.7891}, {"nama": "PA Rantauprapat (IB)", "jenis": "PA", "alamat": "Jl. SM. Raja, Komplek Asrama Haji No. 4, Rantauprapat", "lat": 2.1023, "lng": 99.8247}, {"nama": "PA Gunungsitoli", "jenis": "PA", "alamat": "Jl. Pancasila No. 29, Gunungsitoli, Nias", "lat": 1.2861, "lng": 97.6169}];
+        
+        function selectLocation(idx) {
+            document.querySelectorAll('.lp-discover-marker').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.lp-loc-item').forEach(el => el.classList.remove('active'));
+            
+            const marker = document.querySelector(`.lp-discover-marker[data-idx="${idx}"]`);
+            const item = document.getElementById(`loc-item-${idx}`);
+            
+            if(marker) marker.classList.add('active');
+            if(item) {
+                item.classList.add('active');
+                const container = document.getElementById('sidebar-list-container');
+                const itemTop = item.offsetTop;
+                const itemBottom = itemTop + item.offsetHeight;
+                const containerTop = container.scrollTop;
+                const containerBottom = containerTop + container.offsetHeight;
+                
+                if (itemTop < containerTop || itemBottom > containerBottom) {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+            
+            const card = document.getElementById('map-info-card');
+            const data = lokasiData[idx];
+            document.getElementById('info-nama').textContent = data.nama;
+            document.getElementById('info-alamat').textContent = data.alamat;
+            document.getElementById('info-jenis').textContent = data.jenis;
+            
+            if(marker) {
+                card.style.display = 'block';
+                card.style.left = marker.style.left;
+                card.style.top = marker.style.top;
+            }
+        }
+    </script>
+</body>
+</html>
