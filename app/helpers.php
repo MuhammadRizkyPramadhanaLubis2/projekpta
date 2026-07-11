@@ -1259,6 +1259,74 @@ function save_document_meta(array $owner, int $tahun, string $jenis, array $post
     $stmt->execute($payload);
 }
 
+function generate_mandatory_targets(int $userId, string $role, int $tahun): void
+{
+    $mandatoryMap = [
+        'PanmudBanding' => [
+            ['sasaran' => 'Meningkatnya penyelesaian perkara tingkat banding', 'indikator' => 'Persentase perkara banding yang diselesaikan tepat waktu', 'satuan' => '%', 'tipe_indikator' => 'max', 'sumber_data' => 'SIPP', 'target' => 0],
+        ],
+        'PanmudHukum' => [
+            ['sasaran' => 'Meningkatnya pemanfaatan teknologi informasi dalam penyelesaian perkara', 'indikator' => 'Persentase perkara banding yang menggunakan E-Court', 'satuan' => '%', 'tipe_indikator' => 'max', 'sumber_data' => 'SIPP', 'target' => 0],
+        ],
+        'KasubagTURT' => [
+            ['sasaran' => 'Meningkatnya kualitas layanan sarana dan prasarana', 'indikator' => 'Indeks Kepuasan Masyarakat', 'satuan' => 'Skala', 'tipe_indikator' => 'max', 'sumber_data' => 'Aplikasi Survei Badilag', 'target' => 0],
+        ],
+        'Kepegawaian' => [
+            ['sasaran' => 'Meningkatnya profesionalitas aparatur sipil negara', 'indikator' => 'Indeks Profesionalitas ASN (IP ASN)', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'My ASN / SIKEP', 'target' => 0],
+        ],
+        'Keuangan' => [
+            ['sasaran' => 'Meningkatnya kualitas pelaksanaan anggaran dan pengelolaan aset', 'indikator' => 'Nilai Indikator Kinerja Pelaksana Anggaran (IKPA)', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'OMSPAN / SAKTI', 'target' => 0],
+            ['sasaran' => 'Meningkatnya kualitas pelaksanaan anggaran dan pengelolaan aset', 'indikator' => 'Nilai Indikator Pengelolaan Aset (IPA)', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'E-SADEWA / SAKTI', 'target' => 0],
+        ],
+        'Perencanaan' => [
+            ['sasaran' => 'Meningkatnya kualitas perencanaan program dan anggaran', 'indikator' => 'Nilai Kinerja Perencanaan Anggaran', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'SAKTI / SMART / E-BIMA', 'target' => 0],
+        ],
+    ];
+
+    if (!isset($mandatoryMap[$role])) {
+        return;
+    }
+
+    $existingStmt = db()->prepare(
+        'SELECT indikator FROM target_kinerja WHERE tahun = :tahun AND user_id = :user_id AND is_mandatory = 1'
+    );
+    $existingStmt->execute(['tahun' => $tahun, 'user_id' => $userId]);
+    $existing = $existingStmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $uStmt = db()->prepare('SELECT unit FROM users WHERE id = :id');
+    $uStmt->execute(['id' => $userId]);
+    $unit = (string) $uStmt->fetchColumn();
+
+    $insertStmt = db()->prepare(
+        'INSERT INTO target_kinerja 
+         (tahun, user_id, unit, sasaran, indikator, satuan, tipe_indikator, sumber_data, target, target_tw1, target_tw2, target_tw3, target_tw4, is_mandatory)
+         VALUES 
+         (:tahun, :user_id, :unit, :sasaran, :indikator, :satuan, :tipe_indikator, :sumber_data, :target, :target_tw1, :target_tw2, :target_tw3, :target_tw4, 1)'
+    );
+
+    foreach ($mandatoryMap[$role] as $item) {
+        if (!in_array($item['indikator'], $existing, true)) {
+            $t = $item['target'];
+            $t_tw = $t / 4;
+            $insertStmt->execute([
+                'tahun' => $tahun,
+                'user_id' => $userId,
+                'unit' => $unit,
+                'sasaran' => $item['sasaran'],
+                'indikator' => $item['indikator'],
+                'satuan' => $item['satuan'],
+                'tipe_indikator' => $item['tipe_indikator'],
+                'sumber_data' => $item['sumber_data'],
+                'target' => $t,
+                'target_tw1' => $t_tw,
+                'target_tw2' => $t_tw,
+                'target_tw3' => $t_tw,
+                'target_tw4' => $t_tw,
+            ]);
+        }
+    }
+}
+
 function render_header(string $title): void
 {
     $user = current_user();

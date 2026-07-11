@@ -130,7 +130,22 @@ render_header('Hitung Capaian Kinerja');
                     <td><?= h(indicator_type_label((string) ($row['tipe_indikator'] ?? 'max'))) ?></td>
                     <td><?= h((string) ($row['bobot'] ?? 1)) ?></td>
                     <td><?= h((string) $row['target_triwulan']) ?></td>
-                    <td><?= h((string) $row['realisasi']) ?></td>
+                    <td>
+                        <?= h((string) $row['realisasi']) ?>
+                        <?php
+                        if (($row['is_mandatory'] ?? 0) == 1) {
+                            $meta = json_decode((string)($row['metadata'] ?? '{}'), true);
+                            if (is_array($meta) && isset($meta['tw' . $tw])) {
+                                $m = $meta['tw' . $tw];
+                                if (($row['owner_role'] ?? '') === 'PanmudBanding') {
+                                    echo '<br><small style="color:#64748b;">(Masuk: ' . h((string)($m['a'] ?? 0)) . ', Selesai: ' . h((string)($m['b'] ?? 0)) . ')</small>';
+                                } elseif (($row['owner_role'] ?? '') === 'PanmudHukum') {
+                                    echo '<br><small style="color:#64748b;">(E-Court: ' . h((string)($m['a'] ?? 0)) . ', Non: ' . h((string)($m['b'] ?? 0)) . ')</small>';
+                                }
+                            }
+                        }
+                        ?>
+                    </td>
                     <td><?= h((string) $row['capaian']) ?></td>
                     <td><?= h((string) $row['nilai_tertimbang']) ?></td>
                 </tr>

@@ -1,0 +1,81 @@
+Periode,Indikator_IKPA,Target_Angka,Realisasi_Angka,Rumus_Perhitungan_Baku,Hasil_Kalkulasi_Manual_Atasan,Status_Capaian
+"Triwulan I","IKU-01 - Persentase Perkara yang Diselesaikan Tepat Waktu",100,80,"(Realisasi/Target) x 100%",80%,Cukup
+"Triwulan II","IKU-01 - Persentase Perkara yang Diselesaikan Tepat Waktu",100,103,"(Realisasi/Target) x 100%",103%,"Sangat Baik"
+"Triwulan III","IKU-01 - Persentase Perkara yang Diselesaikan Tepat Waktu",100,97,"(Realisasi/Target) x 100%",97%,Baik
+"Triwulan IV","IKU-01 - Persentase Perkara yang Diselesaikan Tepat Waktu",100,104,"(Realisasi/Target) x 100%",104%,"Sangat Baik"
+"Triwulan I","IKU-02 - Persentase Putusan yang Tidak Ada Kesalahan Administrasi",100,98,"(Realisasi/Target) x 100%",98%,Baik
+"Triwulan II","IKU-02 - Persentase Putusan yang Tidak Ada Kesalahan Administrasi",100,82,"(Realisasi/Target) x 100%",82%,Cukup
+"Triwulan III","IKU-02 - Persentase Putusan yang Tidak Ada Kesalahan Administrasi",100,92,"(Realisasi/Target) x 100%",92%,Baik
+"Triwulan IV","IKU-02 - Persentase Putusan yang Tidak Ada Kesalahan Administrasi",100,98,"(Realisasi/Target) x 100%",98%,Baik
+"Triwulan I","IKU-03 - Persentase Perkara e-Court",50,37.5,"(Realisasi/Target) x 100%",75%,Cukup
+"Triwulan II","IKU-03 - Persentase Perkara e-Court",50,47,"(Realisasi/Target) x 100%",94%,Baik
+"Triwulan III","IKU-03 - Persentase Perkara e-Court",50,57.5,"(Realisasi/Target) x 100%",115%,"Sangat Baik"
+"Triwulan IV","IKU-03 - Persentase Perkara e-Court",50,58,"(Realisasi/Target) x 100%",116%,"Sangat Baik"
+"Triwulan I","IKU-04 - Persentase Keberhasilan Mediasi",30,24.3,"(Realisasi/Target) x 100%",81%,Cukup
+"Triwulan II","IKU-04 - Persentase Keberhasilan Mediasi",30,24.6,"(Realisasi/Target) x 100%",82%,Cukup
+"Triwulan III","IKU-04 - Persentase Keberhasilan Mediasi",30,25.8,"(Realisasi/Target) x 100%",86%,Cukup
+"Triwulan IV","IKU-04 - Persentase Keberhasilan Mediasi",30,29.7,"(Realisasi/Target) x 100%",99%,Baik
+"Triwulan I","IKU-05 - Indeks Kepuasan Masyarakat (IKM)",85,78.2,"(Realisasi/Target) x 100%",92%,Baik
+"Triwulan II","IKU-05 - Indeks Kepuasan Masyarakat (IKM)",85,80.75,"(Realisasi/Target) x 100%",95%,Baik
+"Triwulan III","IKU-05 - Indeks Kepuasan Masyarakat (IKM)",85,80.75,"(Realisasi/Target) x 100%",95%,Baik
+"Triwulan IV","IKU-05 - Indeks Kepuasan Masyarakat (IKM)",85,86.7,"(Realisasi/Target) x 100%",102%,"Sangat Baik"
+"Triwulan I","IKU-06 - Indeks Persepsi Anti Korupsi (IPAK)",85,68.85,"(Realisasi/Target) x 100%",81%,Cukup
+"Triwulan II","IKU-06 - Indeks Persepsi Anti Korupsi (IPAK)",85,77.35,"(Realisasi/Target) x 100%",91%,Baik
+"Triwulan III","IKU-06 - Indeks Persepsi Anti Korupsi (IPAK)",85,79.05,"(Realisasi/Target) x 100%",93%,Baik
+"Triwulan IV","IKU-06 - Indeks Persepsi Anti Korupsi (IPAK)",85,90.1,"(Realisasi/Target) x 100%",106%,"Sangat Baik"
+"Triwulan I","IKU-07 - Nilai AKIP",80,66.4,"(Realisasi/Target) x 100%",83%,Cukup
+"Triwulan II","IKU-07 - Nilai AKIP",80,68,"(Realisasi/Target) x 100%",85%,Cukup
+"Triwulan III","IKU-07 - Nilai AKIP",80,81.6,"(Realisasi/Target) x 100%",102%,"Sangat Baik"
+"Triwulan IV","IKU-07 - Nilai AKIP",80,83.2,"(Realisasi/Target) x 100%",104%,"Sangat Baik"
+"Triwulan I","IKU-08 - Persentase Serapan Anggaran DIPA 01",100,101,"(Realisasi/Target) x 100%",101%,"Sangat Baik"
+"Triwulan II","IKU-08 - Persentase Serapan Anggaran DIPA 01",100,88,"(Realisasi/Target) x 100%",88%,Cukup
+"Triwulan III","IKU-08 - Persentase Serapan Anggaran DIPA 01",100,100,"(Realisasi/Target) x 100%",100%,"Sangat Baik"
+"Triwulan IV","IKU-08 - Persentase Serapan Anggaran DIPA 01",100,110,"(Realisasi/Target) x 100%",110%,"Sangat Baik"
+"Triwulan I","IKU-09 - Persentase Serapan Anggaran DIPA 04",100,86,"(Realisasi/Target) x 100%",86%,Cukup
+"Triwulan II","IKU-09 - Persentase Serapan Anggaran DIPA 04",100,83,"(Realisasi/Target) x 100%",83%,Cukup
+"Triwulan III","IKU-09 - Persentase Serapan Anggaran DIPA 04",100,91,"(Realisasi/Target) x 100%",91%,Baik
+"Triwulan IV","IKU-09 - Persentase Serapan Anggaran DIPA 04",100,111,"(Realisasi/Target) x 100%",111%,"Sangat Baik"
+"Triwulan I","IKU-10 - Persentase Kehadiran Tepat Waktu",95,79.8,"(Realisasi/Target) x 100%",84%,Cukup
+"Triwulan II","IKU-10 - Persentase Kehadiran Tepat Waktu",95,79.8,"(Realisasi/Target) x 100%",84%,Cukup
+"Triwulan III","IKU-10 - Persentase Kehadiran Tepat Waktu",95,80.75,"(Realisasi/Target) x 100%",85%,Cukup
+"Triwulan IV","IKU-10 - Persentase Kehadiran Tepat Waktu",95,110.2,"(Realisasi/Target) x 100%",116%,"Sangat Baik"
+"Triwulan I","IKU-11 - Persentase Berkas Kasasi Diajukan Tepat Waktu",100,80,"(Realisasi/Target) x 100%",80%,Cukup
+"Triwulan II","IKU-11 - Persentase Berkas Kasasi Diajukan Tepat Waktu",100,98,"(Realisasi/Target) x 100%",98%,Baik
+"Triwulan III","IKU-11 - Persentase Berkas Kasasi Diajukan Tepat Waktu",100,91,"(Realisasi/Target) x 100%",91%,Baik
+"Triwulan IV","IKU-11 - Persentase Berkas Kasasi Diajukan Tepat Waktu",100,101,"(Realisasi/Target) x 100%",101%,"Sangat Baik"
+"Triwulan I","IKU-12 - Persentase Pengaduan yang Ditindaklanjuti",100,87,"(Realisasi/Target) x 100%",87%,Cukup
+"Triwulan II","IKU-12 - Persentase Pengaduan yang Ditindaklanjuti",100,101,"(Realisasi/Target) x 100%",101%,"Sangat Baik"
+"Triwulan III","IKU-12 - Persentase Pengaduan yang Ditindaklanjuti",100,97,"(Realisasi/Target) x 100%",97%,Baik
+"Triwulan IV","IKU-12 - Persentase Pengaduan yang Ditindaklanjuti",100,94,"(Realisasi/Target) x 100%",94%,Baik
+"Triwulan I","IKU-13 - Jumlah Pegawai Mengikuti Diklat",20,16.4,"(Realisasi/Target) x 100%",82%,Cukup
+"Triwulan II","IKU-13 - Jumlah Pegawai Mengikuti Diklat",20,19.4,"(Realisasi/Target) x 100%",97%,Baik
+"Triwulan III","IKU-13 - Jumlah Pegawai Mengikuti Diklat",20,23,"(Realisasi/Target) x 100%",115%,"Sangat Baik"
+"Triwulan IV","IKU-13 - Jumlah Pegawai Mengikuti Diklat",20,19.8,"(Realisasi/Target) x 100%",99%,Baik
+"Triwulan I","IKU-14 - Persentase Pemeliharaan Gedung Kantor",100,103,"(Realisasi/Target) x 100%",103%,"Sangat Baik"
+"Triwulan II","IKU-14 - Persentase Pemeliharaan Gedung Kantor",100,98,"(Realisasi/Target) x 100%",98%,Baik
+"Triwulan III","IKU-14 - Persentase Pemeliharaan Gedung Kantor",100,94,"(Realisasi/Target) x 100%",94%,Baik
+"Triwulan IV","IKU-14 - Persentase Pemeliharaan Gedung Kantor",100,116,"(Realisasi/Target) x 100%",116%,"Sangat Baik"
+"Triwulan I","IKU-15 - Persentase Kepatuhan Pelaporan LHKPN",100,77,"(Realisasi/Target) x 100%",77%,Cukup
+"Triwulan II","IKU-15 - Persentase Kepatuhan Pelaporan LHKPN",100,91,"(Realisasi/Target) x 100%",91%,Baik
+"Triwulan III","IKU-15 - Persentase Kepatuhan Pelaporan LHKPN",100,113,"(Realisasi/Target) x 100%",113%,"Sangat Baik"
+"Triwulan IV","IKU-15 - Persentase Kepatuhan Pelaporan LHKPN",100,90,"(Realisasi/Target) x 100%",90%,Baik
+"Triwulan I","IKU-16 - Rata-rata Waktu Tunggu Sidang (Minimalisir)",30,23.1,"(Target/Realisasi) x 100%",120%,"Sangat Baik"
+"Triwulan II","IKU-16 - Rata-rata Waktu Tunggu Sidang (Minimalisir)",30,28.5,"(Target/Realisasi) x 100%",105.26%,"Sangat Baik"
+"Triwulan III","IKU-16 - Rata-rata Waktu Tunggu Sidang (Minimalisir)",30,33.6,"(Target/Realisasi) x 100%",89.29%,Cukup
+"Triwulan IV","IKU-16 - Rata-rata Waktu Tunggu Sidang (Minimalisir)",30,29.4,"(Target/Realisasi) x 100%",102.04%,"Sangat Baik"
+"Triwulan I","IKU-17 - Persentase Penyetoran PNBP Tepat Waktu",100,86,"(Realisasi/Target) x 100%",86%,Cukup
+"Triwulan II","IKU-17 - Persentase Penyetoran PNBP Tepat Waktu",100,83,"(Realisasi/Target) x 100%",83%,Cukup
+"Triwulan III","IKU-17 - Persentase Penyetoran PNBP Tepat Waktu",100,114,"(Realisasi/Target) x 100%",114%,"Sangat Baik"
+"Triwulan IV","IKU-17 - Persentase Penyetoran PNBP Tepat Waktu",100,108,"(Realisasi/Target) x 100%",108%,"Sangat Baik"
+"Triwulan I","IKU-18 - Jumlah Inovasi Layanan Publik Diimplementasikan",2,1.92,"(Realisasi/Target) x 100%",96%,Baik
+"Triwulan II","IKU-18 - Jumlah Inovasi Layanan Publik Diimplementasikan",2,2.1,"(Realisasi/Target) x 100%",105%,"Sangat Baik"
+"Triwulan III","IKU-18 - Jumlah Inovasi Layanan Publik Diimplementasikan",2,2.16,"(Realisasi/Target) x 100%",108%,"Sangat Baik"
+"Triwulan IV","IKU-18 - Jumlah Inovasi Layanan Publik Diimplementasikan",2,2.4,"(Realisasi/Target) x 100%",120%,"Sangat Baik"
+"Triwulan I","IKU-19 - Persentase Sisa Perkara Diselesaikan",100,86,"(Realisasi/Target) x 100%",86%,Cukup
+"Triwulan II","IKU-19 - Persentase Sisa Perkara Diselesaikan",100,80,"(Realisasi/Target) x 100%",80%,Cukup
+"Triwulan III","IKU-19 - Persentase Sisa Perkara Diselesaikan",100,101,"(Realisasi/Target) x 100%",101%,"Sangat Baik"
+"Triwulan IV","IKU-19 - Persentase Sisa Perkara Diselesaikan",100,94,"(Realisasi/Target) x 100%",94%,Baik
+"Triwulan I","IKU-20 - Persentase Kelengkapan Data SIPP",100,88,"(Realisasi/Target) x 100%",88%,Cukup
+"Triwulan II","IKU-20 - Persentase Kelengkapan Data SIPP",100,96,"(Realisasi/Target) x 100%",96%,Baik
+"Triwulan III","IKU-20 - Persentase Kelengkapan Data SIPP",100,96,"(Realisasi/Target) x 100%",96%,Baik
+"Triwulan IV","IKU-20 - Persentase Kelengkapan Data SIPP",100,103,"(Realisasi/Target) x 100%",103%,"Sangat Baik"
