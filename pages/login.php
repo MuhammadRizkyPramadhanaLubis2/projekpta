@@ -23,13 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user) {
         $_SESSION['user'] = $user;
+        flash('Berhasil masuk sebagai ' . $user['nama']);
         redirect('dashboard');
     }
 
     $error = 'Username atau password salah.';
 }
 
-render_header('Login');
+render_header('Masuk');
 ?>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
@@ -262,7 +263,7 @@ render_header('Login');
 
 <div class="login-card-nature">
     <div class="nature-left">
-        <h1>Login</h1>
+        <h1>Masuk</h1>
         
         <?php if ($error): ?>
             <div class="login-error"><?= h($error) ?></div>
@@ -286,7 +287,7 @@ render_header('Login');
                 <a href="#">Forgot Password?</a>
             </div>
             
-            <button type="submit" class="nature-btn">Login</button>
+            <button type="submit" class="nature-btn">Masuk</button>
         </form>
         
         <div class="nature-footer">

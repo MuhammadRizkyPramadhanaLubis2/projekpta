@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lexend:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="assets/app.css?v=<?= time() ?>">
 </head>
 <body>
@@ -71,12 +72,12 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                     <?= strtoupper(substr($user['nama'], 0, 1)) ?>
                 </div>
                 <div class="header-dropdown">
-                    <a href="index.php?page=logout" class="text-danger"><i class="ph ph-sign-out"></i> Logout</a>
+                    <a href="index.php?page=logout" class="text-danger"><i class="ph ph-sign-out"></i> Keluar</a>
                 </div>
             </div>
         <?php else: ?>
             <?php if (($_GET['page'] ?? '') !== 'login'): ?>
-                <a href="index.php?page=login" class="button" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; box-shadow: none;">Login</a>
+                <a href="index.php?page=login" class="button" style="background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; box-shadow: none;">Masuk</a>
             <?php endif; ?>
         <?php endif; ?>
     </div>
@@ -162,5 +163,24 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
     <?php endif; ?>
 
     <?php if ($flash): ?>
-        <div class="alert <?= h($flash['type']) ?>"><?= h($flash['message']) ?></div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                Toast.fire({
+                    icon: '<?= h($flash['type']) === 'error' ? 'error' : 'success' ?>',
+                    title: <?= json_encode($flash['message']) ?>
+                });
+            });
+        </script>
     <?php endif; ?>

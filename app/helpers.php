@@ -306,7 +306,7 @@ function get_all_role_profiles(): array
                 'Memastikan struktur role dan hak akses aplikasi berjalan sesuai konsep.',
                 'Membantu pengelolaan data apabila diperlukan oleh Perencanaan.',
             ],
-            'sources' => ['Database aplikasi IKPA', 'Daftar pengguna internal'],
+            'sources' => ['Database aplikasi APKIN RPA', 'Daftar pengguna internal'],
             'outputs' => [
                 'Akun pengguna siap digunakan.',
                 'Hak akses pengguna sesuai jabatan.',
@@ -444,7 +444,7 @@ function get_all_role_profiles(): array
                 'Melakukan editing data dan analisis capaian seluruh pengguna jika diperlukan.',
                 'Mencetak data capaian seluruh user dan mengirimkan print out ke Badan Pengawasan MA RI setiap triwulan.',
             ],
-            'sources' => ['SAKTI', 'OMSPAN Kemenkeu', 'E-BIMA MARI', 'Data seluruh user aplikasi IKPA'],
+            'sources' => ['SAKTI', 'OMSPAN Kemenkeu', 'E-BIMA MARI', 'Data seluruh user aplikasi APKIN RPA'],
             'outputs' => [
                 'Target dan realisasi nilai kinerja perencanaan anggaran.',
                 'Rekap capaian seluruh user per triwulan.',
@@ -726,7 +726,7 @@ function module_catalog(): array
             'title' => 'Artikel',
             'group' => 'Tertier',
             'status' => 'Link Portal',
-            'description' => 'Modul artikel dan bahan bacaan pendukung pelaksanaan IKPA.',
+            'description' => 'Modul artikel dan bahan bacaan pendukung pelaksanaan APKIN RPA.',
             'features' => [
                 'Referensi artikel pada Pojok Baca.',
                 'Ruang daftar artikel.',
@@ -927,7 +927,7 @@ function integration_catalog(): array
     return [
         'sipp' => [
             'status' => 'Rencana Integrasi - Perlu Koordinasi',
-            'description' => 'SIPP belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk menentukan data perkara apa saja yang dapat ditarik atau diimpor ke IKPA.',
+            'description' => 'SIPP belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk menentukan data perkara apa saja yang dapat ditarik atau diimpor ke APKIN RPA.',
             'connectable_data' => [
                 'Jumlah perkara banding masuk.',
                 'Jumlah perkara banding yang diselesaikan tepat waktu.',
@@ -949,7 +949,7 @@ function integration_catalog(): array
         ],
         'e-semar' => [
             'status' => 'Rencana Integrasi - Perlu Koordinasi',
-            'description' => 'E-SEMAR belum dihubungkan langsung. Halaman ini dipakai untuk memetakan data evaluasi elektronik, LHE, dan tindak lanjut yang bisa masuk ke IKPA.',
+            'description' => 'E-SEMAR belum dihubungkan langsung. Halaman ini dipakai untuk memetakan data evaluasi elektronik, LHE, dan tindak lanjut yang bisa masuk ke APKIN RPA.',
             'connectable_data' => [
                 'Status evaluasi AKIP.',
                 'Laporan Hasil Evaluasi.',
@@ -959,7 +959,7 @@ function integration_catalog(): array
             'coordination_materials' => [
                 'Konfirmasi akses data E-SEMAR yang boleh digunakan.',
                 'Format dokumen LHE dan TLHE.',
-                'Kebutuhan upload dokumen pendukung ke aplikasi IKPA.',
+                'Kebutuhan upload dokumen pendukung ke aplikasi APKIN RPA.',
             ],
             'development_notes' => [
                 'Tahap awal berupa upload dokumen LHE/TLHE.',
@@ -1062,7 +1062,7 @@ function integration_catalog(): array
         ],
         'e-bima' => [
             'status' => 'Rencana Integrasi - Perlu Koordinasi',
-            'description' => 'E-BIMA belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk melihat data pelaporan dan monitoring yang dapat masuk ke IKPA.',
+            'description' => 'E-BIMA belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk melihat data pelaporan dan monitoring yang dapat masuk ke APKIN RPA.',
             'connectable_data' => [
                 'Nilai kinerja perencanaan anggaran.',
                 'Data monitoring yang mendukung capaian Keuangan dan Perencanaan.',

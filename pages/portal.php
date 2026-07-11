@@ -40,7 +40,7 @@ render_header((string) $pageData['title']);
     ?>
 <?php endif; ?>
 <?php
-$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip'];
+$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'];
 ?>
 <?php if (in_array($slug, $heroPages, true)): ?>
 <style>
@@ -279,7 +279,19 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
             <div style="margin-bottom: 48px; color: #334155; line-height: 1.8; font-size: 1.1rem; text-align: justify; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 20px;">
                 <?php 
                     for ($i = 1; $i < count($pageData['body']); $i++) {
-                        echo '<p style="margin-top: 0; margin-bottom: 24px;">' . h((string) $pageData['body'][$i]) . '</p>';
+                        $text = (string) $pageData['body'][$i];
+                        if (stripos(trim($text), 'Dasar:') === 0 || stripos(trim($text), 'Dasar Hukum:') === 0) {
+                            $cleanText = preg_replace('/^(Dasar:|Dasar Hukum:)\s*/i', '', trim($text));
+                            echo '<div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); border-left: 4px solid #10b981; border-radius: 0 16px 16px 0; padding: 24px; margin-bottom: 32px; display: flex; align-items: flex-start; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">';
+                            echo '<div style="background: #ecfdf5; color: #059669; padding: 12px; border-radius: 14px; flex-shrink: 0; border: 1px solid #d1fae5;"><i class="ph-duotone ph-scales" style="font-size: 28px;"></i></div>';
+                            echo '<div style="flex-grow: 1;">';
+                            echo '<h4 style="margin: 0 0 8px 0; color: #064e3b; font-size: 1.15rem; font-weight: 700; font-family: \'Merriweather\', serif;">Dasar Hukum</h4>';
+                            echo '<p style="margin: 0; color: #475569; font-size: 1.05rem; line-height: 1.6;">' . h($cleanText) . '</p>';
+                            echo '</div>';
+                            echo '</div>';
+                        } else {
+                            echo '<p style="margin-top: 0; margin-bottom: 24px;">' . h($text) . '</p>';
+                        }
                     }
                 ?>
             </div>
@@ -807,16 +819,29 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
         </div>
         <?php endif; ?>
 
+        <?php if (!empty($pageData['cards'])): ?>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
+                <?php foreach ($pageData['cards'] as [$label, $cardSlug]): ?>
+                    <a href="index.php?page=portal&slug=<?= h($cardSlug) ?>" style="display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #f8fafc, #f1f5f9); border: 1px solid #e2e8f0; border-radius: 24px; padding: 40px 24px; text-decoration: none; color: #0f172a; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04)'; this.style.borderColor='#10b981';" onmouseout="this.style.transform='none'; this.style.boxShadow='0 4px 6px -1px rgba(0,0,0,0.05)'; this.style.borderColor='#e2e8f0';">
+                        <div style="width: 72px; height: 72px; background: #dcfce7; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; color: #059669;">
+                            <i class="ph-duotone ph-folder" style="font-size: 36px;"></i>
+                        </div>
+                        <span style="font-size: 1.15rem; font-weight: 700; text-align: center; line-height: 1.4;"><?= h($label) ?></span>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
         <?php if (!empty($pageData['list'])): ?>
             <div class="tf-header">
                 <?php 
                     $headerTitle = 'Daftar Tugas dan Fungsi';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
                         $headerTitle = h((string) $pageData['subtitle']);
                     }
                     
                     $badgeText = 'TUGAS';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip'])) {
+                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
                         $badgeText = 'REGULASI';
                     }
                 ?>
@@ -893,6 +918,25 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
                         </li>
                     <?php endforeach; ?>
                 </ul>
+            <?php elseif (!empty($section['grid_cards'])): ?>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; margin-bottom: 24px;">
+                    <?php foreach ($section['grid_cards'] as $card): ?>
+                        <a href="<?= h($card['url']) ?>" target="_blank" style="display: flex; flex-direction: column; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; text-decoration: none; color: #0f172a; transition: all 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#10b981'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='none'; this.style.borderColor='#e2e8f0'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)';">
+                            <?php if (!empty($card['thumbnail'])): ?>
+                                <div style="width: 100%; height: 160px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="<?= h($card['thumbnail']) ?>" alt="Thumbnail" referrerpolicy="no-referrer" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            <?php else: ?>
+                                <div style="width: 100%; height: 140px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center; color: #10b981;">
+                                    <i class="ph-duotone ph-file-pdf" style="font-size: 48px;"></i>
+                                </div>
+                            <?php endif; ?>
+                            <div style="padding: 16px;">
+                                <span style="font-size: 0.9rem; font-weight: 600; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"><?= h($card['title']) ?></span>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
             <?php endif; ?>
         <?php endforeach; ?>
     </div>

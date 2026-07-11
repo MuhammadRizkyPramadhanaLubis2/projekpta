@@ -4,7 +4,6 @@ declare(strict_types=1);
 function site_nav(): array
 {
     return [
-        ['label' => 'Beranda', 'slug' => 'beranda'],
         ['label' => 'Revisi', 'slug' => 'revisi'],
         ['label' => 'IFKIN', 'slug' => 'notifikasi'],
         ['label' => 'Program Kerja & SOP', 'slug' => 'program-kerja-sop'],
@@ -60,11 +59,11 @@ function site_pages(): array
 
     return [
         'beranda' => [
-            'title' => 'IKPA',
-            'subtitle' => 'Informasi Kinerja Program dan Anggaran',
+            'title' => 'APKIN RPA',
+            'subtitle' => 'Aplikasi Kinerja Rencana Program Anggaran',
             'lead' => 'Pengadilan Tinggi Agama Medan - Sub Bagian Perencanaan Program dan Anggaran.',
             'body' => [
-                'IKPA adalah sistem aplikasi yang membantu Sub Bagian Perencanaan Program dan Anggaran dan satuan kerja Pengadilan Agama dalam melayani tugas pokok dan fungsi penyusunan anggaran, penyusunan SAKIP, monitoring capaian kinerja, dan referensi proses pelaksanaan bidang program, akuntabilitas kinerja, serta evaluasi kinerja PTA Medan dan PA se-Sumatera Utara.',
+                'APKIN RPA adalah sistem aplikasi yang membantu Sub Bagian Perencanaan Program dan Anggaran dan satuan kerja Pengadilan Agama dalam melayani tugas pokok dan fungsi penyusunan anggaran, penyusunan SAKIP, monitoring capaian kinerja, dan referensi proses pelaksanaan bidang program, akuntabilitas kinerja, serta evaluasi kinerja PTA Medan dan PA se-Sumatera Utara.',
             ],
             'cards' => [
                 ['Program Kerja', 'program-kerja-sop'],
@@ -169,19 +168,46 @@ function site_pages(): array
                 ['SAKIP PTA Medan', 'sakip-pta-medan'],
                 ['SAKIP PA Sewilayah PTA Medan', 'sakip-pa'],
             ],
-            'list' => $sakipLaw,
+            'sections' => [
+                ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
+                ['title' => 'Permen PANRB Nomor 88 Tahun 2021', 'iframe' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/preview', 'url' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 2049 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/preview', 'url' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 878 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/preview', 'url' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/view', 'iframeHeight' => '600px'],
+            ],
         ],
         'sakip-pta-medan' => [
             'title' => 'SAKIP PTA Medan',
             'subtitle' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan',
             'sections' => [
-                ['title' => 'Tahun 2021-2025', 'items' => ['Rancangan Renstra 2025-2029.', 'Reviu Indikator Kinerja Utama.', 'Rencana Kinerja Tahun 2024.', 'Revisi Rencana Kinerja Tahun 2025.', 'Rencana Kinerja Tahun 2026.', 'Perjanjian Kinerja Tahun 2025.', 'Rencana Aksi Kinerja Tahun 2025.', 'Laporan Kinerja 2024.']],
+                [
+                    'title' => 'TAHUN 2025',
+                    'grid_cards' => [
+                        ['title' => '1. Reviu Indikator Kinerja Utama (IKU)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1etmxbOaDAu1eQSaP9Tion1nwABZVcDyz&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1etmxbOaDAu1eQSaP9Tion1nwABZVcDyz/view'],
+                        ['title' => '2. Rancangan Rencana Strategis (RENSTRA)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1GkTs1P5s4UZIQjg3YxrveWIIzoF0UjzK&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1GkTs1P5s4UZIQjg3YxrveWIIzoF0UjzK/view'],
+                        ['title' => '3. Rencana Kinerja (RKT) Tahun 2024', 'thumbnail' => 'https://drive.google.com/thumbnail?id=10_5S2-eAkQgknumGdftN8UFIeBgY7R3d&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/10_5S2-eAkQgknumGdftN8UFIeBgY7R3d/view'],
+                        ['title' => '4. Revisi Rencana Kinerja (RKT) Tahun 2025', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1fu63txsb8OImPA8Ssb_EXCmAbGcfApos&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1fu63txsb8OImPA8Ssb_EXCmAbGcfApos/view'],
+                        ['title' => '5. Rencana Kinerja (RKT) Tahun 2026', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1hIOynB3OogC82WwMxWJvgeBHmo9ZPouc&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1hIOynB3OogC82WwMxWJvgeBHmo9ZPouc/view'],
+                        ['title' => '6. Perjanjian Kinerja Tahun 2025', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1mnl8fvM6jBhBiiuwjwn3ZEVooPSR8RRQ&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1mnl8fvM6jBhBiiuwjwn3ZEVooPSR8RRQ/view'],
+                        ['title' => '7. Rencana Aksi Kinerja', 'thumbnail' => 'https://drive.google.com/thumbnail?id=131PVc1m51m5hvcBnM4oTnN4WH5Y94yOb&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/131PVc1m51m5hvcBnM4oTnN4WH5Y94yOb/view'],
+                        ['title' => '8. Laporan Kinerja Instansi Pemerintah (LKJiP)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1FxUJwODbPM1PiYjbXYkL1YUnqsBLf4xC&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1FxUJwODbPM1PiYjbXYkL1YUnqsBLf4xC/view'],
+                    ]
+                ],
+                ['title' => 'TAHUN 2024', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1_Lfv5Nvrlbu0k4IHr6fYqdbMHqK26sIL#grid', 'url' => 'https://drive.google.com/drive/folders/1_Lfv5Nvrlbu0k4IHr6fYqdbMHqK26sIL', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2023', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1x23LGbkN0iXkjly4eBYkUuR_-IaNKy6w#grid', 'url' => 'https://drive.google.com/drive/folders/1x23LGbkN0iXkjly4eBYkUuR_-IaNKy6w', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2022', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=15j2_-T4wd2KXu4BeJfrVBUwgj2qcBP7j#grid', 'url' => 'https://drive.google.com/drive/folders/15j2_-T4wd2KXu4BeJfrVBUwgj2qcBP7j', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2021', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1xz4MAzs89UzM92J961A0-sm_oBYnorHv#grid', 'url' => 'https://drive.google.com/drive/folders/1xz4MAzs89UzM92J961A0-sm_oBYnorHv', 'iframeHeight' => '400px'],
             ],
         ],
         'sakip-pa' => [
             'title' => 'SAKIP PA',
-            'subtitle' => 'Dasar hukum penyusunan dokumen SAKIP satuan kerja',
-            'list' => $sakipLaw,
+            'subtitle' => 'Dokumen SAKIP Pengadilan Agama Sewilayah PTA Medan',
+            'sections' => [
+                ['title' => 'Upload Dokumen SAKIP PA', 'iframe' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform?embedded=true', 'url' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform', 'iframeHeight' => '800px'],
+                ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
+                ['title' => 'Permen PANRB Nomor 88 Tahun 2021', 'iframe' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/preview', 'url' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 2049 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/preview', 'url' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 878 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/preview', 'url' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/view', 'iframeHeight' => '600px'],
+            ],
         ],
         'evaluasi-akip' => [
             'title' => 'Evaluasi AKIP',

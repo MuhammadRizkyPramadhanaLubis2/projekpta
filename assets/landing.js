@@ -45,9 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!prefersReducedMotion && !isMobile && parallaxElements.length > 0) {
         let ticking = false;
+        const scroller = document.querySelector('.lp-main-scroller') || window;
 
         function updateParallax() {
-            const scrolled = window.pageYOffset;
+            const scrolled = scroller === window ? window.pageYOffset : scroller.scrollTop;
             parallaxElements.forEach(el => {
                 // Determine speed (default 0.3)
                 const speed = el.dataset.speed || 0.3;
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ticking = false;
         }
 
-        window.addEventListener('scroll', () => {
+        scroller.addEventListener('scroll', () => {
             if (!ticking) {
                 window.requestAnimationFrame(updateParallax);
                 ticking = true;
@@ -73,12 +74,21 @@ document.addEventListener('DOMContentLoaded', function () {
             if (targetId === '#') return;
 
             const targetElement = document.querySelector(targetId);
+            const scroller = document.querySelector('.lp-main-scroller') || window;
+            
             if (targetElement) {
                 const navHeight = document.querySelector('.lp-topbar').offsetHeight || 70;
                 const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+                
+                let offsetPosition;
+                if (scroller === window) {
+                    offsetPosition = elementPosition + window.pageYOffset - navHeight;
+                } else {
+                    const scrollerTop = scroller.getBoundingClientRect().top;
+                    offsetPosition = scroller.scrollTop + elementPosition - scrollerTop - navHeight;
+                }
 
-                window.scrollTo({
+                scroller.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'
                 });

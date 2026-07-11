@@ -39,9 +39,9 @@ $user = $_SESSION['user'] ?? null;
                 <?php if ($isLoggedIn): ?>
                     <a href="index.php?page=dashboard" class="lp-btn lp-btn-primary">Dashboard <i
                             class="ph-bold ph-arrow-right"></i></a>
-                    <a href="index.php?page=logout" class="lp-btn lp-btn-outline" style="margin-left:10px;">Logout</a>
+                    <a href="index.php?page=logout" class="lp-btn lp-btn-outline" style="margin-left:10px;">Keluar</a>
                 <?php else: ?>
-                    <a href="index.php?page=login" class="lp-btn lp-btn-primary">Login</a>
+                    <a href="index.php?page=login" class="lp-btn lp-btn-primary">Masuk</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -50,7 +50,7 @@ $user = $_SESSION['user'] ?? null;
     <main class="lp-main-scroller">
     <!-- HERO -->
     <header id="hero" class="lp-hero">
-        <video class="lp-hero-video lp-parallax" data-speed="0.25" autoplay muted loop playsinline preload="auto" poster="assets/pta_bg.png">
+        <video class="lp-hero-video lp-parallax" data-speed="0.25" autoplay muted loop playsinline preload="auto" poster="assets/paluhakim.png">
             <source src="assets/video palu.mp4" type="video/mp4">
         </video>
         <div class="lp-hero-overlay"></div>
@@ -69,7 +69,7 @@ $user = $_SESSION['user'] ?? null;
                                 class="ph-bold ph-arrow-right"></i></a>
                     <?php else: ?>
                         <a href="index.php?page=login" class="lp-btn lp-btn-primary"
-                            style="padding: 16px 32px; font-size: 1.1rem;">Login ke Sistem <i
+                            style="padding: 16px 32px; font-size: 1.1rem;">Masuk ke Sistem <i
                                 class="ph-bold ph-sign-in"></i></a>
                     <?php endif; ?>
                 </div>
@@ -227,10 +227,8 @@ $user = $_SESSION['user'] ?? null;
             </div>
 
             <div class="lp-news-layout">
-                <div class="lp-news-featured lp-reveal reveal-scale-up"  style="--i:1">
-                    <div class="lp-news-img-placeholder float-icon">
-                        <i class="ph-duotone ph-image"></i>
-                        <!-- TODO: Gambar unggulan informasi kinerja -->
+                <a href="index.php?page=portal&slug=notifikasi" class="lp-news-featured lp-reveal reveal-scale-up" style="--i:1; text-decoration: none; color: inherit; display: flex; flex-direction: column;">
+                    <div class="lp-news-img-placeholder float-icon" style="background-image: url('assets/gedung2.webp'); background-size: cover; background-position: center; border-radius: 20px 20px 0 0;">
                     </div>
                     <div class="lp-news-content">
                         <div class="lp-news-date">Pusat Informasi</div>
@@ -238,7 +236,7 @@ $user = $_SESSION['user'] ?? null;
                         <p class="lp-news-desc">Rujukan cepat menuju sumber informasi kinerja, kebijakan, pembinaan, dan
                             pengawasan lembaga peradilan.</p>
                     </div>
-                </div>
+                </a>
                 <div class="lp-news-list">
                     <!-- TODO: Ganti dengan tautan/berita dinamis jika data sudah tersedia -->
                     <a href="https://mahkamahagung.go.id" target="_blank" class="lp-news-item lp-reveal reveal-scale-up"  style="--i:2">

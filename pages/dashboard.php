@@ -269,7 +269,7 @@ $profile = role_profile((string) $user['role']);
     <h2 class="dashboard-hero-title">Selamat Datang, <?= h($user['nama']) ?></h2>
     <p class="dashboard-hero-desc">
         <?= h((string) $profile['scope']) ?>
-        Gunakan dashboard ini untuk mengakses modul kerja yang menjadi tanggung jawab Anda, mengevaluasi kinerja, dan berkontribusi pada pencapaian IKPA.
+        Gunakan dashboard ini untuk mengakses modul kerja yang menjadi tanggung jawab Anda, mengevaluasi kinerja, dan berkontribusi pada pencapaian Indikator Kinerja.
     </p>
     <div class="hero-actions">
         <a href="index.php?page=beranda" class="btn-portal-publik">
@@ -330,7 +330,7 @@ $profile = role_profile((string) $user['role']);
     </div>
 
     <div class="info-card" style="background: #fff8f1; border-color: #ffd8a8; margin-bottom: 48px;">
-        <h3 style="color: var(--gold);"><i class="ph-fill ph-warning-circle"></i> Aturan Analisis EvKin Sesuai Konsep IKPA</h3>
+        <h3 style="color: var(--gold);"><i class="ph-fill ph-warning-circle"></i> Aturan Analisis EvKin Sesuai Konsep APKIN RPA</h3>
         <p style="font-size: 1.15rem; line-height: 1.7; margin: 0; color: #b45309;">
             <?= h((string) $profile['analysis_rule']) ?>
         </p>
@@ -339,8 +339,8 @@ $profile = role_profile((string) $user['role']);
     <!-- Tampilan Admin Khusus Menjelaskan Seluruh Stakeholder -->
     <section class="admin-stakeholder-section">
         <div style="margin-bottom: 32px;">
-            <h2 class="section-title">Pemahaman Konsep IKPA (Semua Role)</h2>
-            <p class="site-lead">Sebagai Administrator, Anda dapat melihat rincian tugas dan tanggung jawab dari seluruh pemangku kepentingan (stakeholder) di PTA Medan maupun Satuan Kerja PA, sesuai dengan Konsep Aplikasi IKPA.</p>
+            <h2 class="section-title">Pemahaman Konsep APKIN RPA (Semua Role)</h2>
+            <p class="site-lead">Sebagai Administrator, Anda dapat melihat rincian tugas dan tanggung jawab dari seluruh pemangku kepentingan (stakeholder) di PTA Medan maupun Satuan Kerja PA, sesuai dengan Konsep Aplikasi APKIN RPA.</p>
         </div>
 
         <?php 
