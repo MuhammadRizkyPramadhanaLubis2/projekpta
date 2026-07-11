@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview Beranda FASE 2</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="assets/app.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .lp-body { margin: 0; }
+    </style>
+</head>
+<body class="lp-body">
+    <!-- HERO SECTION (FASE 1) -->
+    <nav class="lp-topbar">
+        <div class="lp-container lp-topbar-inner">
+            <div class="lp-logo-area">
+                <img src="assets/logo_pta.png" alt="Logo PTA Medan" class="lp-logo">
+                <span class="lp-brand">APKIN RPA - PTA Medan</span>
+            </div>
+            <div class="lp-nav-menu">
+                <a href="#hero">Beranda</a>
+                <a href="#about">Tentang</a>
+                <a href="#" class="lp-btn lp-btn-primary">Login</a>
+            </div>
+        </div>
+    </nav>
+    <header id="hero" class="lp-hero">
+        <video class="lp-hero-video" autoplay muted loop playsinline preload="auto" poster="assets/pta_bg.png">
+            <source src="assets/video palu.mp4" type="video/mp4">
+        </video>
+        <div class="lp-hero-overlay"></div>
+        <canvas id="hero-particles" class="lp-particles"></canvas>
+        <div class="lp-container lp-hero-content">
+            <div class="lp-hero-text">
+                <h1 class="lp-hero-title">IKPA</h1>
+                <p class="lp-hero-subtitle">Informasi Kinerja Program dan Anggaran</p>
+                <p class="lp-hero-lead">Pengadilan Tinggi Agama Medan - Sub Bagian Perencanaan Program dan Anggaran.</p>
+                <div class="lp-hero-action" style="margin-top: 32px;">
+                    <a href="#" class="lp-btn lp-btn-primary" style="padding: 16px 32px; font-size: 1.1rem;">Login ke Sistem <i class="ph-bold ph-sign-in"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 3: FITUR UTAMA (FASE 2) -->
+    <section id="fitur-utama" class="lp-section lp-bg-light" style="padding: 80px 0; background: #f8fafc;">
+        <div class="lp-container">
+            <h2 class="lp-section-title" style="text-align: center; margin-bottom: 40px; font-size: 2.2rem; color: #064e3b; font-weight: 800;">Fitur Utama</h2>
+            <div class="lp-featured-grid">
+                <!-- Kartu 1 -->
+                <div class="lp-featured-card">
+                    <div class="lp-fc-icon"><i class="ph-duotone ph-chart-line-up"></i></div>
+                    <a href="#" style="text-decoration: none;"><h3 class="lp-fc-title">Penyusunan Anggaran</h3></a>
+                    <div class="lp-fc-chips">
+                        <a href="#" class="lp-chip">Baseline</a>
+                        <a href="#" class="lp-chip">Pagu Indikatif</a>
+                        <a href="#" class="lp-chip">Pagu Definitif</a>
+                        <a href="#" class="lp-chip">ABT</a>
+                    </div>
+                </div>
+                <!-- Kartu 2 -->
+                <div class="lp-featured-card">
+                    <div class="lp-fc-icon"><i class="ph-duotone ph-shield-check"></i></div>
+                    <a href="#" style="text-decoration: none;"><h3 class="lp-fc-title">SAKIP</h3></a>
+                    <div class="lp-fc-chips">
+                        <a href="#" class="lp-chip">SAKIP PTA Medan</a>
+                        <a href="#" class="lp-chip">SAKIP PA</a>
+                    </div>
+                </div>
+                <!-- Kartu 3 -->
+                <div class="lp-featured-card">
+                    <div class="lp-fc-icon"><i class="ph-duotone ph-users-three"></i></div>
+                    <a href="#" style="text-decoration: none;"><h3 class="lp-fc-title">Tugas dan Fungsi</h3></a>
+                    <div class="lp-fc-chips">
+                        <a href="#" class="lp-chip">Squad</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: SISA FITUR (FASE 2) -->
+    <section id="sisa-fitur" class="lp-section" style="padding: 80px 0;">
+        <div class="lp-container">
+            <h2 class="lp-section-title" style="text-align: center; margin-bottom: 40px; font-size: 2.2rem; color: #064e3b; font-weight: 800;">Layanan Lainnya</h2>
+            <div class="lp-rows-container">
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-arrows-clockwise"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Revisi</div>
+                        <div class="lp-row-desc">Modul pengelolaan revisi anggaran secara terpadu.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-clipboard-text"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Program Kerja & SOP</div>
+                        <div class="lp-row-desc">Dokumen Standar Operasional Prosedur dan rencana kerja.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-handshake"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Hibah</div>
+                        <div class="lp-row-desc">Informasi dan pelaporan terkait pengelolaan hibah.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-warning-octagon"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Manajemen Risiko</div>
+                        <div class="lp-row-desc">Pemetaan dan mitigasi risiko operasional lembaga.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-chart-bar"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Evaluasi AKIP</div>
+                        <div class="lp-row-desc">Penilaian dan evaluasi Akuntabilitas Kinerja Instansi.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-monitor-play"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">e-Monev Bappenas</div>
+                        <div class="lp-row-desc">Sistem monitoring dan evaluasi terintegrasi Bappenas.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-trend-up"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Monev Capaian Kinerja</div>
+                        <div class="lp-row-desc">Pemantauan target dan realisasi kinerja secara berkala.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+                <a href="#" class="lp-row-item">
+                    <div class="lp-row-icon"><i class="ph-duotone ph-books"></i></div>
+                    <div class="lp-row-content">
+                        <div class="lp-row-title">Pojok Baca</div>
+                        <div class="lp-row-desc">Kumpulan literatur dan regulasi terkait peradilan.</div>
+                    </div>
+                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
