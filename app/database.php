@@ -79,6 +79,8 @@ function init_database(): void
             analisis_kendala TEXT NOT NULL DEFAULT "",
             analisis_solusi TEXT NOT NULL DEFAULT "",
             user_id INTEGER,
+            metadata TEXT NOT NULL DEFAULT "{}",
+            is_mandatory INTEGER NOT NULL DEFAULT 0,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TEXT,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
@@ -145,6 +147,14 @@ function init_database(): void
 
     if (!table_has_column($pdo, 'target_kinerja', 'updated_at')) {
         $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN updated_at TEXT');
+    }
+
+    if (!table_has_column($pdo, 'target_kinerja', 'metadata')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN metadata TEXT NOT NULL DEFAULT "{}"');
+    }
+
+    if (!table_has_column($pdo, 'target_kinerja', 'is_mandatory')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN is_mandatory INTEGER NOT NULL DEFAULT 0');
     }
 
     $targetColumns = [

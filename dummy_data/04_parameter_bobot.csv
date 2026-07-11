@@ -1,0 +1,5 @@
+Nama_Komponen_Penilaian,Persentase_Bobot_Total,Batas_Ambang_Bawah,Batas_Ambang_Atas,Status_Penilaian
+"Sangat Baik","Bobot menyesuaikan (misal 5% per IKU)",100%,120%,"Lulus Target Memuaskan"
+Baik,"Bobot menyesuaikan",90%,99.99%,"Lulus Target Normal"
+Cukup,"Bobot menyesuaikan",75%,89.99%,"Perlu Perbaikan / Peringatan"
+Kurang,"Bobot menyesuaikan",0%,74.99%,"Evaluasi Ketat / Gagal"
