@@ -11,7 +11,7 @@ $profile = role_profile((string) $documentUser['role']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     save_document_meta($documentUser, $tahun, 'pk', $_POST);
-    flash('Metadata Perjanjian Kinerja tersimpan.');
+    flash('Metadata dan Tanda Tangan Perjanjian Kinerja berhasil disimpan.');
     header('Location: index.php?page=pk&tahun=' . $tahun . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : ''));
     exit;
 }
@@ -139,7 +139,10 @@ if (!$isDocx) {
                 <button type="button" class="clear-canvas-btn" onclick="clearCanvas('p1-canvas')">Hapus Coretan</button>
             </div>
             <div id="p1-upload-panel" class="signature-panel">
-                <input type="file" accept="image/*" onchange="handleImageUpload(event, 'pihak1_ttd', 'p1-preview')">
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                    <input type="file" id="p1-file-input" accept="image/*" onchange="handleImageUpload(event, 'pihak1_ttd', 'p1-preview')" style="margin-bottom: 0; width: 100%;">
+                    <button type="button" class="clear-canvas-btn" style="background: #ef4444; border: 1px solid #dc2626;" onclick="clearUpload('pihak1_ttd', 'p1-preview', 'p1-file-input')">Hapus File</button>
+                </div>
                 <img id="p1-preview" class="signature-preview" src="<?= !empty($meta['pihak1_ttd']) ? h((string) $meta['pihak1_ttd']) : '' ?>" style="<?= empty($meta['pihak1_ttd']) ? 'display:none;' : '' ?>">
             </div>
         </div>
@@ -157,7 +160,10 @@ if (!$isDocx) {
                 <button type="button" class="clear-canvas-btn" onclick="clearCanvas('p2-canvas')">Hapus Coretan</button>
             </div>
             <div id="p2-upload-panel" class="signature-panel">
-                <input type="file" accept="image/*" onchange="handleImageUpload(event, 'pihak2_ttd', 'p2-preview')">
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                    <input type="file" id="p2-file-input" accept="image/*" onchange="handleImageUpload(event, 'pihak2_ttd', 'p2-preview')" style="margin-bottom: 0; width: 100%;">
+                    <button type="button" class="clear-canvas-btn" style="background: #ef4444; border: 1px solid #dc2626;" onclick="clearUpload('pihak2_ttd', 'p2-preview', 'p2-file-input')">Hapus File</button>
+                </div>
                 <img id="p2-preview" class="signature-preview" src="<?= !empty($meta['pihak2_ttd']) ? h((string) $meta['pihak2_ttd']) : '' ?>" style="<?= empty($meta['pihak2_ttd']) ? 'display:none;' : '' ?>">
             </div>
         </div>
@@ -225,6 +231,17 @@ function clearCanvas(id) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvases[id].empty = true;
     document.getElementById(id === 'p1-canvas' ? 'pihak1_ttd' : 'pihak2_ttd').value = '';
+}
+
+function clearUpload(inputId, previewId, fileInputId) {
+    document.getElementById(inputId).value = '';
+    const fileInput = document.getElementById(fileInputId);
+    if (fileInput) fileInput.value = '';
+    const preview = document.getElementById(previewId);
+    if (preview) {
+        preview.src = '';
+        preview.style.display = 'none';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
