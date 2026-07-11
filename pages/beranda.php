@@ -11,7 +11,9 @@ render_header('IKPA');
         <p style="margin-bottom: 2rem; font-size: 1.15rem; max-width: 600px; opacity: 0.9; line-height: 1.6;">
             <?= h((string) $pageData['lead']) ?>
         </p>
-        <a href="index.php?page=portal&slug=program-kerja-sop" class="button" style="padding: 14px 32px; font-size: 1.1rem; border-radius: 50px;">Mulai Eksplorasi <i class="ph-bold ph-arrow-right" style="margin-left: 8px;"></i></a>
+        <a href="index.php?page=portal&slug=program-kerja-sop" class="button" style="padding: 14px 32px; font-size: 1.1rem; border-radius: 50px; margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px;">
+            Mulai Eksplorasi <i class="ph-bold ph-arrow-right"></i>
+        </a>
     </div>
     <div style="z-index: 2; position: relative; display: flex; justify-content: center;">
         <img src="assets/gedung1.webp" alt="Gedung PTA Medan" style="width: 100%; max-width: 450px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border: 4px solid rgba(255,255,255,0.15);">

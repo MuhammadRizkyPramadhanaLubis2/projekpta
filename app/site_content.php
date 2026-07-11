@@ -246,9 +246,18 @@ function site_pages(): array
             'title' => 'Monev Capaian Kinerja',
             'subtitle' => 'Monitoring capaian kinerja per bulan dan per triwulan',
             'sections' => [
-                ['title' => 'PTA Medan', 'items' => ['Monev Capaian Kinerja PTA Medan Tahun 2024.', 'View Data Monev Capaian Kinerja.']],
-                ['title' => 'PA se-Sumatera Utara', 'items' => ['Monitoring capaian kinerja per bulan.']],
-                ['title' => 'Capaian Kinerja per Triwulan', 'items' => ['Grafik dan dokumen capaian kinerja per triwulan PTA Medan.']],
+                [
+                    'title' => 'Data Monev Capaian Kinerja PTA Medan', 
+                    'iframe' => 'https://docs.google.com/spreadsheets/d/1hyK7zGeuAsCLbxI5-ysrT251zEmLcA6KLsD3l0Carlc/htmlembed?widget=true&headers=false', 
+                    'url' => 'https://docs.google.com/spreadsheets/d/1hyK7zGeuAsCLbxI5-ysrT251zEmLcA6KLsD3l0Carlc/edit?usp=sharing',
+                    'iframeHeight' => '650px'
+                ],
+                [
+                    'title' => 'Monitoring Capaian Kinerja per Bulan PA se-Sumatera Utara',
+                    'iframe' => 'https://docs.google.com/forms/d/e/1FAIpQLScTfNp_6XorSKN3FOQAZeayYMwh7WmRI6PXPUgN_EO1bbKWbA/viewform?embedded=true',
+                    'url' => 'https://docs.google.com/forms/d/e/1FAIpQLScTfNp_6XorSKN3FOQAZeayYMwh7WmRI6PXPUgN_EO1bbKWbA/viewform',
+                    'iframeHeight' => '650px'
+                ]
             ],
         ],
         'tugas-dan-fungsi' => [
