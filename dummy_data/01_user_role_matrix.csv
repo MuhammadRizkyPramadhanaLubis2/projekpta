@@ -1,0 +1,6 @@
+Nama_Role,Ruang_Lingkup,Daftar_Menu_Yang_Diizinkan,Tugas_Utama_Checklist,Output_Wajib_Sistem
+Admin,"PTA Medan","Semua Menu","Manajemen User, Pengaturan Sistem","Laporan Sistem"
+Ketua,"PTA Medan","Dashboard, Rekap Capaian, Monitoring","Memonitoring Kinerja, Validasi Dokumen","Lembar Pengesahan"
+Panitera,Kepaniteraan,"Dashboard, Target Kinerja, Capaian","Evaluasi Kinerja Kepaniteraan, Laporan Perkara","Laporan Kinerja Kepaniteraan"
+Sekretaris,Kesekretariatan,"Dashboard, Target Kinerja, Capaian","Evaluasi Anggaran, Laporan DIPA","Laporan Penyerapan Anggaran"
+"Hakim Tinggi Pengawas","PA se-Sumut","Monitoring Target, Rekap Capaian","Pengawasan PA, Review IKU","Laporan Hatiwasda"

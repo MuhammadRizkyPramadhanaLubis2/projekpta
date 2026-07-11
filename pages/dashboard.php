@@ -22,7 +22,7 @@ $sections = [
         ['Laporan Kinerja', 'modul', 'laporan-kinerja'],
         ['Manajemen Resiko', 'modul', 'manajemen-risiko'],
         ['Hibah & MoU', 'modul', 'hibah-mou'],
-        ['Diagram Hasil Capaian Kinerja', 'modul', 'diagram-capaian'],
+        ['Diagram Hasil Capaian Kinerja', 'diagram-capaian', null],
     ],
     'TERTIER' => [
         ['SOP', 'modul', 'sop'],
