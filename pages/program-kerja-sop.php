@@ -698,7 +698,7 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
         </div>
     </div>
 
-    <div class="pk-footer-note">&copy; 2025 <b>Pengadilan Tinggi Agama Medan</b> - APKIN RPA - Diperbarui 20 Juni 2024</div>
+    <div class="pk-footer-note">&copy; 2025 <b>Pengadilan Tinggi Agama Medan</b> - IKPA - Diperbarui 20 Juni 2024</div>
 </div>
 
 <script>

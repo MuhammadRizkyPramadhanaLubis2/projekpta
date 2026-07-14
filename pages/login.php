@@ -283,21 +283,15 @@ render_header('Masuk');
                 </button>
             </div>
             
-            <div class="nature-links">
-                <a href="#">Forgot Password?</a>
-            </div>
             
             <button type="submit" class="nature-btn">Masuk</button>
         </form>
-        
-        <div class="nature-footer">
-            Contoh akun: <strong>admin / admin123</strong>
-        </div>
+    
     </div>
     
     <div class="nature-right">
         <h2>Welcome</h2>
-        <div class="back-text">Back</div>
+        <div class="back-text"></div>
     </div>
 </div>
 

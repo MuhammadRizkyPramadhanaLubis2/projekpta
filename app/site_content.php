@@ -58,12 +58,57 @@ function site_pages(): array
     ];
 
     return [
+        'renstra' => [
+            'title' => 'Rencana Strategis',
+            'subtitle' => 'Renstra Mahkamah Agung Tahun 2025–2029',
+            'body' => [
+                'Referensi resmi Rencana Strategis Mahkamah Agung Tahun 2025–2029 sebagai arah penyusunan sasaran, program, dan indikator kinerja.',
+            ],
+            'sections' => [
+                [
+                    'title' => 'Tampilan Referensi Renstra',
+                    'iframe' => 'https://pa-jakartapusat.go.id/rencana-strategis-mahkamah-agung-tahun-2025-2029/',
+                    'url' => 'https://pa-jakartapusat.go.id/rencana-strategis-mahkamah-agung-tahun-2025-2029/',
+                    'iframeHeight' => '780px',
+                ],
+            ],
+        ],
+        'iku' => [
+            'title' => 'Indikator Kinerja Utama',
+            'subtitle' => 'Reviu Indikator Kinerja Utama PTA Medan',
+            'body' => [
+                'Referensi resmi reviu Indikator Kinerja Utama sebagai dasar pengukuran target dan capaian kinerja.',
+            ],
+            'sections' => [
+                [
+                    'title' => 'Tampilan Referensi IKU',
+                    'iframe' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/reviu-indikator-kerja-utama',
+                    'url' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/reviu-indikator-kerja-utama',
+                    'iframeHeight' => '780px',
+                ],
+            ],
+        ],
+        'renaksi' => [
+            'title' => 'Rencana Aksi Kinerja',
+            'subtitle' => 'Rencana Aksi Kinerja PTA Medan',
+            'body' => [
+                'Referensi resmi rencana aksi kinerja untuk mendukung pelaksanaan program dan pemantauan target tiap periode.',
+            ],
+            'sections' => [
+                [
+                    'title' => 'Tampilan Referensi Renaksi',
+                    'iframe' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/rencana-aksi-kinerja',
+                    'url' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/rencana-aksi-kinerja',
+                    'iframeHeight' => '780px',
+                ],
+            ],
+        ],
         'beranda' => [
-            'title' => 'APKIN RPA',
-            'subtitle' => 'Aplikasi Kinerja Rencana Program Anggaran',
+            'title' => 'IKPA',
+            'subtitle' => 'Indikator Kinerja Perencanaan Anggaran',
             'lead' => 'Pengadilan Tinggi Agama Medan - Sub Bagian Perencanaan Program dan Anggaran.',
             'body' => [
-                'APKIN RPA adalah sistem aplikasi yang membantu Sub Bagian Perencanaan Program dan Anggaran dan satuan kerja Pengadilan Agama dalam melayani tugas pokok dan fungsi penyusunan anggaran, penyusunan SAKIP, monitoring capaian kinerja, dan referensi proses pelaksanaan bidang program, akuntabilitas kinerja, serta evaluasi kinerja PTA Medan dan PA se-Sumatera Utara.',
+                'IKPA adalah sistem aplikasi yang membantu Sub Bagian Perencanaan Program dan Anggaran dan satuan kerja Pengadilan Agama dalam melayani tugas pokok dan fungsi penyusunan anggaran, penyusunan SAKIP, monitoring capaian kinerja, dan referensi proses pelaksanaan bidang program, akuntabilitas kinerja, serta evaluasi kinerja PTA Medan dan PA se-Sumatera Utara.',
             ],
             'cards' => [
                 ['Program Kerja', 'program-kerja-sop'],

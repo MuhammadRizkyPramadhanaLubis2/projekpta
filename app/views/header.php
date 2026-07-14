@@ -1,9 +1,20 @@
+<?php
+// Variabel ini biasanya disiapkan oleh render_header(). Nilai awal membuat
+// partial tetap aman jika dibuka atau dianalisis secara terpisah oleh editor.
+$title = isset($title) ? (string) $title : 'IKPA';
+
+/** @var array{nama: string, role: string, unit: string, username: string}|null $user */
+$user = $user ?? null;
+
+/** @var array{type: string, message: string}|null $flash */
+$flash = $flash ?? null;
+?>
 <!doctype html>
 <html lang="id">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= h($title) ?> - APKIN RPA</title>
+    <title><?= h($title) ?> - IKPA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lexend:wght@700;800&display=swap" rel="stylesheet">
@@ -56,7 +67,7 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
         <a href="index.php?page=beranda" class="brand">
             <img src="assets/logo_pta.png" alt="Logo PTA Medan">
             <div>
-                <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">APKIN RPA</strong>
+                <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">IKPA</strong>
                 <small style="color: #a7f3d0;">PTA Medan</small>
             </div>
         </a>
@@ -128,32 +139,99 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php elseif ($user): ?>
-            <?php $profile = role_profile((string) $user['role']); ?>
             <a href="index.php?page=dashboard" class="<?= ($_GET['page'] ?? '') === 'dashboard' ? 'active' : '' ?>">Menu Utama</a>
-            <span class="nav-heading">Kertas Kerja Role</span>
-            <?php foreach ($profile['workflows'] as [$label, $targetPage, $slug]): ?>
+            <span class="nav-heading">Kertas Kerja</span>
+            <?php foreach (shared_workflow_groups() as $groupLabel => $items): ?>
                 <?php
-                $url = 'index.php?page=' . urlencode((string) $targetPage);
-                if ($slug !== null) {
-                    $url .= '&slug=' . urlencode((string) $slug);
+                $isGroupActive = false;
+                foreach ($items as $item) {
+                    [, $targetPage, $slug] = $item;
+                    if (($_GET['page'] ?? '') === $targetPage && ($slug === null || ($_GET['slug'] ?? '') === $slug)) {
+                        $isGroupActive = true;
+                        break;
+                    }
+
+                    foreach (($item[3] ?? []) as [, $childTargetPage, $childSlug]) {
+                        if (($_GET['page'] ?? '') === $childTargetPage && ($childSlug === null || ($_GET['slug'] ?? '') === $childSlug)) {
+                            $isGroupActive = true;
+                            break 2;
+                        }
+                    }
                 }
-                $isActive = ($_GET['page'] ?? '') === $targetPage && ($slug === null || ($_GET['slug'] ?? '') === $slug);
                 ?>
-                <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
+                <div class="nav-group <?= $isGroupActive ? 'open' : '' ?>">
+                    <div class="nav-parent <?= $isGroupActive ? 'active' : '' ?>">
+                        <button class="nav-group-label" type="button" onclick="this.closest('.nav-group').classList.toggle('open');"><?= h($groupLabel) ?></button>
+                        <button class="nav-caret-toggle" type="button" aria-label="Buka menu <?= h($groupLabel) ?>" onclick="this.closest('.nav-group').classList.toggle('open');">
+                            <i class="ph-bold ph-caret-down nav-caret"></i>
+                        </button>
+                    </div>
+                    <div class="nav-children-wrapper">
+                        <div class="nav-children">
+                            <?php foreach ($items as $item): ?>
+                                <?php
+                                [$label, $targetPage, $slug] = $item;
+                                $children = $item[3] ?? [];
+                                $url = 'index.php?page=' . urlencode((string) $targetPage);
+                                if ($slug !== null) {
+                                    $url .= '&slug=' . urlencode((string) $slug);
+                                }
+                                $isActive = ($_GET['page'] ?? '') === $targetPage && ($slug === null || ($_GET['slug'] ?? '') === $slug);
+                                ?>
+                                <?php if ($children): ?>
+                                    <?php
+                                    $isChildActive = false;
+                                    foreach ($children as [, $childTargetPage, $childSlug]) {
+                                        if (($_GET['page'] ?? '') === $childTargetPage && ($childSlug === null || ($_GET['slug'] ?? '') === $childSlug)) {
+                                            $isChildActive = true;
+                                            break;
+                                        }
+                                    }
+                                    $isSubgroupOpen = $isActive || $isChildActive;
+                                    ?>
+                                    <div class="nav-subgroup <?= $isSubgroupOpen ? 'open' : '' ?>">
+                                        <div class="nav-subgroup-parent <?= ($isActive || $isChildActive) ? 'active' : '' ?>">
+                                            <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
+                                            <button class="nav-subgroup-toggle" type="button" aria-label="Buka submenu <?= h((string) $label) ?>" onclick="this.closest('.nav-subgroup').classList.toggle('open');">
+                                                <i class="ph-bold ph-caret-down nav-sub-caret"></i>
+                                            </button>
+                                        </div>
+                                        <div class="nav-subchildren-wrapper">
+                                            <div class="nav-subchildren">
+                                                <?php foreach ($children as [$childLabel, $childTargetPage, $childSlug]): ?>
+                                                    <?php
+                                                    $childUrl = 'index.php?page=' . urlencode((string) $childTargetPage);
+                                                    if ($childSlug !== null) {
+                                                        $childUrl .= '&slug=' . urlencode((string) $childSlug);
+                                                    }
+                                                    $isChildItemActive = ($_GET['page'] ?? '') === $childTargetPage && ($childSlug === null || ($_GET['slug'] ?? '') === $childSlug);
+                                                    ?>
+                                                    <a href="<?= h($childUrl) ?>" class="<?= $isChildItemActive ? 'active' : '' ?>"><?= h((string) $childLabel) ?></a>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php else: ?>
+                                    <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
             <?php endforeach; ?>
-            <span class="nav-heading">Cetak Dokumen</span>
-            <a href="index.php?page=pk" class="<?= ($_GET['page'] ?? '') === 'pk' ? 'active' : '' ?>">Perjanjian Kinerja</a>
-            <a href="index.php?page=renaksi" class="<?= ($_GET['page'] ?? '') === 'renaksi' ? 'active' : '' ?>">Rencana Aksi</a>
-            <a href="index.php?page=rkt_rka" class="<?= ($_GET['page'] ?? '') === 'rkt_rka' ? 'active' : '' ?>">RKT & RKA</a>
+            <?php if (user_can('manage_users')): ?>
+                <span class="nav-heading">Administrasi</span>
+                <a href="index.php?page=users" class="<?= ($_GET['page'] ?? '') === 'users' ? 'active' : '' ?>">Manajemen Pengguna</a>
+            <?php endif; ?>
         <?php endif; ?>
     </nav>
 
 </aside>
 <?php endif; ?>
 
-<main class="shell <?= $isLogin ? 'login-shell-mode' : ($isPublicPage ? 'public-shell-mode' : '') ?>">
+<main class="shell <?= $isLogin ? 'login-shell-mode' : ($isPublicPage ? 'public-shell-mode' : '') ?> <?= defined('PORTAL_MODULE_PAGE') ? 'portal-module-shell' : '' ?>">
 
-    <?php if ($user && !$isPublicPage): ?>
+    <?php if ($user && !$isPublicPage && !defined('HIDE_PAGE_TOPBAR')): ?>
         <header class="topbar">
             <div>
                 <h1><?= h($title) ?></h1>

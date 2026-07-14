@@ -306,7 +306,7 @@ function get_all_role_profiles(): array
                 'Memastikan struktur role dan hak akses aplikasi berjalan sesuai konsep.',
                 'Membantu pengelolaan data apabila diperlukan oleh Perencanaan.',
             ],
-            'sources' => ['Database aplikasi APKIN RPA', 'Daftar pengguna internal'],
+            'sources' => ['Database aplikasi IKPA', 'Daftar pengguna internal'],
             'outputs' => [
                 'Akun pengguna siap digunakan.',
                 'Hak akses pengguna sesuai jabatan.',
@@ -444,7 +444,7 @@ function get_all_role_profiles(): array
                 'Melakukan editing data dan analisis capaian seluruh pengguna jika diperlukan.',
                 'Mencetak data capaian seluruh user dan mengirimkan print out ke Badan Pengawasan MA RI setiap triwulan.',
             ],
-            'sources' => ['SAKTI', 'OMSPAN Kemenkeu', 'E-BIMA MARI', 'Data seluruh user aplikasi APKIN RPA'],
+            'sources' => ['SAKTI', 'OMSPAN Kemenkeu', 'E-BIMA MARI', 'Data seluruh user aplikasi IKPA'],
             'outputs' => [
                 'Target dan realisasi nilai kinerja perencanaan anggaran.',
                 'Rekap capaian seluruh user per triwulan.',
@@ -518,11 +518,57 @@ function role_tasks(string $role): array
     return role_profile($role)['checks'];
 }
 
+/**
+ * Kertas kerja yang tersedia untuk setiap pengguna yang sudah masuk.
+ * Role tetap dipakai sebagai identitas jabatan dan kepemilikan data, bukan
+ * untuk membedakan menu kerja Primer, Sekunder, atau Tersier.
+ */
+function shared_workflow_groups(): array
+{
+    return [
+        'Primer / Pokok' => [
+            ['Input Target Kinerja (TK)', 'target', null],
+            ['Cetak Perjanjian Kinerja (PK)', 'pk', null],
+            ['Cetak Rencana Aksi', 'renaksi', null],
+            ['Cetak RKT & RKA', 'rkt_rka', null],
+            ['Hitung Capaian Kinerja (HCK)', 'capaian', null],
+            ['Evaluasi Kinerja (EvKin)', 'evaluasi', null],
+        ],
+        'Sekunder' => [
+            ['Program Kerja & SOP', 'modul', 'program-kerja'],
+            ['Renstra', 'modul', 'renstra'],
+            ['IKU', 'modul', 'iku'],
+            ['Renaksi', 'modul', 'renaksi'],
+            ['RKA-KL & Revisi', 'modul', 'rka-kl-revisi'],
+            ['E-Monev Bappenas', 'modul', 'e-monev-bappenas'],
+            [
+                'Laporan Kinerja',
+                'modul',
+                'laporan-kinerja',
+                [
+                    ['SAKIP PTA Medan', 'modul', 'sakip-pta-medan'],
+                    ['SAKIP PA Sewilayah', 'modul', 'sakip-pa'],
+                ],
+            ],
+            ['Manajemen Risiko', 'modul', 'manajemen-risiko'],
+            ['Hibah & MoU', 'modul', 'hibah-mou'],
+            ['Monev Capaian Kinerja', 'modul', 'diagram-capaian'],
+        ],
+        'Tersier' => [
+            ['Regulasi & Artikel', 'modul', 'regulasi'],
+            ['Info & Pengumuman', 'modul', 'info-pengumuman'],
+            ['LHE PA', 'modul', 'lhe-pa'],
+            ['Upload TOR/KAK ABT/Baseline', 'modul', 'upload-tor-kak'],
+            ['Tupoksi & Tim', 'modul', 'tupoksi-tim'],
+        ],
+    ];
+}
+
 function module_catalog(): array
 {
     return [
         'program-kerja' => [
-            'title' => 'Program Kerja',
+            'title' => 'Program Kerja & SOP',
             'group' => 'Skunder',
             'status' => 'Dasar',
             'description' => 'Ruang kerja untuk menampilkan program kerja tahunan, jadwal kegiatan, dan dokumen pendukung bidang program dan anggaran.',
@@ -541,8 +587,8 @@ function module_catalog(): array
         'renstra' => [
             'title' => 'Renstra',
             'group' => 'Skunder',
-            'status' => 'Perlu Data',
-            'description' => 'Modul untuk mengelola Rencana Strategis sebagai dasar sasaran dan indikator kinerja.',
+            'status' => 'Referensi Resmi',
+            'description' => 'Ruang referensi Rencana Strategis sebagai dasar sasaran dan indikator kinerja.',
             'features' => [
                 'Ringkasan periode Renstra.',
                 'Daftar sasaran strategis.',
@@ -553,12 +599,13 @@ function module_catalog(): array
                 'Hubungkan Renstra ke indikator kinerja.',
                 'Tambahkan upload dokumen Renstra resmi.',
             ],
+            'portal_slug' => 'renstra',
         ],
         'iku' => [
             'title' => 'IKU',
             'group' => 'Skunder',
-            'status' => 'Perlu Data',
-            'description' => 'Modul Indikator Kinerja Utama sebagai referensi input Target Kinerja.',
+            'status' => 'Referensi Resmi',
+            'description' => 'Ruang referensi Indikator Kinerja Utama untuk mendukung input Target Kinerja.',
             'features' => [
                 'Daftar indikator kinerja utama.',
                 'Satuan dan tipe perhitungan indikator.',
@@ -569,12 +616,13 @@ function module_catalog(): array
                 'Tambahkan satuan, tipe indikator, dan bobot.',
                 'Gunakan IKU sebagai pilihan saat input Target Kinerja.',
             ],
+            'portal_slug' => 'iku',
         ],
         'renaksi' => [
             'title' => 'Renaksi',
             'group' => 'Skunder',
-            'status' => 'Tersedia Dasar',
-            'description' => 'Rencana aksi kinerja per triwulan, termasuk aksi, jadwal, keluaran, program, kegiatan, dan dana.',
+            'status' => 'Referensi Resmi',
+            'description' => 'Ruang referensi Rencana Aksi Kinerja per triwulan, mencakup aksi, jadwal, keluaran, program, kegiatan, dan dana.',
             'features' => [
                 'Cetak rencana aksi dari Target Kinerja.',
                 'Target triwulan sementara dibagi rata.',
@@ -585,7 +633,7 @@ function module_catalog(): array
                 'Tambahkan input aksi, jadwal, keluaran, program, dan kegiatan.',
                 'Tambahkan format cetak resmi.',
             ],
-            'internal_page' => 'renaksi',
+            'portal_slug' => 'renaksi',
         ],
         'rka-kl-revisi' => [
             'title' => 'RKA-KL & Revisi',
@@ -624,8 +672,8 @@ function module_catalog(): array
         'laporan-kinerja' => [
             'title' => 'Laporan Kinerja',
             'group' => 'Skunder',
-            'status' => 'Perlu Data',
-            'description' => 'Modul arsip dan penyusunan laporan kinerja berdasarkan capaian dan evaluasi.',
+            'status' => 'Portal SAKIP',
+            'description' => 'Akses dokumen Sistem Akuntabilitas Kinerja Instansi Pemerintah (SAKIP).',
             'features' => [
                 'Ruang rekap capaian tahunan.',
                 'Ruang narasi evaluasi kinerja.',
@@ -636,6 +684,25 @@ function module_catalog(): array
                 'Ambil data otomatis dari capaian dan evaluasi.',
                 'Tambahkan ekspor PDF dan Excel.',
             ],
+            'portal_slug' => 'sakip',
+        ],
+        'sakip-pta-medan' => [
+            'title' => 'SAKIP PTA Medan',
+            'group' => 'Skunder',
+            'status' => 'Portal SAKIP',
+            'description' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan.',
+            'features' => ['Arsip dokumen SAKIP PTA Medan.'],
+            'next_steps' => ['Perbarui arsip dokumen SAKIP secara berkala.'],
+            'portal_slug' => 'sakip-pta-medan',
+        ],
+        'sakip-pa' => [
+            'title' => 'SAKIP PA Sewilayah',
+            'group' => 'Skunder',
+            'status' => 'Portal SAKIP',
+            'description' => 'Dokumen SAKIP Pengadilan Agama sewilayah PTA Medan.',
+            'features' => ['Akses dokumen dan pelaporan SAKIP PA.'],
+            'next_steps' => ['Perbarui dokumen SAKIP PA sesuai periode pelaporan.'],
+            'portal_slug' => 'sakip-pa',
         ],
         'manajemen-risiko' => [
             'title' => 'Manajemen Risiko',
@@ -672,10 +739,10 @@ function module_catalog(): array
             'portal_slug' => 'hibah',
         ],
         'diagram-capaian' => [
-            'title' => 'Diagram Hasil Capaian Kinerja',
+            'title' => 'Monev Capaian Kinerja',
             'group' => 'Skunder',
             'status' => 'Tersedia Dasar',
-            'description' => 'Modul visualisasi capaian kinerja per triwulan dan per unit.',
+            'description' => 'Halaman pemantauan dan visualisasi capaian kinerja per triwulan.',
             'features' => [
                 'Data capaian sudah tersedia dari Target Kinerja.',
                 'Ruang pengembangan grafik capaian.',
@@ -686,11 +753,11 @@ function module_catalog(): array
                 'Tambahkan filter unit dan tahun.',
                 'Tambahkan rekap rata-rata capaian seluruh indikator.',
             ],
-            'internal_page' => 'capaian',
+            'portal_slug' => 'monev-capaian-kinerja',
         ],
         'sop' => [
             'title' => 'SOP',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Dasar',
             'description' => 'Modul arsip Standard Operating Procedure yang wajib tampil pada aplikasi.',
             'features' => [
@@ -706,8 +773,8 @@ function module_catalog(): array
             'portal_slug' => 'program-kerja-sop',
         ],
         'regulasi' => [
-            'title' => 'Regulasi',
-            'group' => 'Tertier',
+            'title' => 'Regulasi & Artikel',
+            'group' => 'Tersier',
             'status' => 'Link Portal',
             'description' => 'Modul kumpulan regulasi terkait perencanaan, anggaran, SAKIP, dan evaluasi.',
             'features' => [
@@ -724,9 +791,9 @@ function module_catalog(): array
         ],
         'artikel' => [
             'title' => 'Artikel',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Link Portal',
-            'description' => 'Modul artikel dan bahan bacaan pendukung pelaksanaan APKIN RPA.',
+            'description' => 'Modul artikel dan bahan bacaan pendukung pelaksanaan IKPA.',
             'features' => [
                 'Referensi artikel pada Pojok Baca.',
                 'Ruang daftar artikel.',
@@ -741,7 +808,7 @@ function module_catalog(): array
         ],
         'info-pengumuman' => [
             'title' => 'Info & Pengumuman',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Dasar',
             'description' => 'Modul papan informasi, jadwal, batas waktu, dan pengumuman bidang program dan anggaran.',
             'features' => [
@@ -758,7 +825,7 @@ function module_catalog(): array
         ],
         'lhe-pa' => [
             'title' => 'LHE PA',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Perlu Data',
             'description' => 'Modul arsip Laporan Hasil Evaluasi Pengadilan Agama.',
             'features' => [
@@ -775,7 +842,7 @@ function module_catalog(): array
         ],
         'upload-tor-kak' => [
             'title' => 'Upload TOR/KAK ABT/Baseline',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Perlu Form',
             'description' => 'Modul upload dokumen TOR/KAK untuk ABT dan Baseline.',
             'features' => [
@@ -792,7 +859,7 @@ function module_catalog(): array
         ],
         'tupoksi-tim' => [
             'title' => 'Tupoksi & Tim',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Link Portal',
             'description' => 'Modul informasi tugas pokok, fungsi, dan tim pelaksana.',
             'features' => [
@@ -927,7 +994,7 @@ function integration_catalog(): array
     return [
         'sipp' => [
             'status' => 'Rencana Integrasi - Perlu Koordinasi',
-            'description' => 'SIPP belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk menentukan data perkara apa saja yang dapat ditarik atau diimpor ke APKIN RPA.',
+            'description' => 'SIPP belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk menentukan data perkara apa saja yang dapat ditarik atau diimpor ke IKPA.',
             'connectable_data' => [
                 'Jumlah perkara banding masuk.',
                 'Jumlah perkara banding yang diselesaikan tepat waktu.',
@@ -949,7 +1016,7 @@ function integration_catalog(): array
         ],
         'e-semar' => [
             'status' => 'Rencana Integrasi - Perlu Koordinasi',
-            'description' => 'E-SEMAR belum dihubungkan langsung. Halaman ini dipakai untuk memetakan data evaluasi elektronik, LHE, dan tindak lanjut yang bisa masuk ke APKIN RPA.',
+            'description' => 'E-SEMAR belum dihubungkan langsung. Halaman ini dipakai untuk memetakan data evaluasi elektronik, LHE, dan tindak lanjut yang bisa masuk ke IKPA.',
             'connectable_data' => [
                 'Status evaluasi AKIP.',
                 'Laporan Hasil Evaluasi.',
@@ -959,7 +1026,7 @@ function integration_catalog(): array
             'coordination_materials' => [
                 'Konfirmasi akses data E-SEMAR yang boleh digunakan.',
                 'Format dokumen LHE dan TLHE.',
-                'Kebutuhan upload dokumen pendukung ke aplikasi APKIN RPA.',
+                'Kebutuhan upload dokumen pendukung ke aplikasi IKPA.',
             ],
             'development_notes' => [
                 'Tahap awal berupa upload dokumen LHE/TLHE.',
@@ -1062,7 +1129,7 @@ function integration_catalog(): array
         ],
         'e-bima' => [
             'status' => 'Rencana Integrasi - Perlu Koordinasi',
-            'description' => 'E-BIMA belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk melihat data pelaporan dan monitoring yang dapat masuk ke APKIN RPA.',
+            'description' => 'E-BIMA belum dihubungkan langsung. Halaman ini menjadi bahan koordinasi untuk melihat data pelaporan dan monitoring yang dapat masuk ke IKPA.',
             'connectable_data' => [
                 'Nilai kinerja perencanaan anggaran.',
                 'Data monitoring yang mendukung capaian Keuangan dan Perencanaan.',

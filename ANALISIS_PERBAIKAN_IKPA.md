@@ -10,7 +10,7 @@ Namun, berdasarkan konsep pada dokumen `KONSEP IKPA KU.pdf`, aplikasi ini belum 
 
 - Sudah tersedia halaman publik IKPA.
 - Sudah tersedia login untuk beberapa role pengguna.
-- Sudah tersedia menu primer, sekunder, tertier, dan korelasi.
+- Sudah tersedia menu primer, sekunder, tersier, dan korelasi.
 - Sudah tersedia input Target Kinerja.
 - Sudah tersedia perhitungan capaian kinerja sederhana.
 - Sudah tersedia form evaluasi kinerja sederhana.

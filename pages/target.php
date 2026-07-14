@@ -5,6 +5,7 @@ $user = current_user();
 $tahun = year_value();
 $canViewAll = user_can('view_all_targets');
 $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? $_POST['user_id'] ?? 0) : (int) $user['id'];
+$selectedSasaran = trim((string) ($_GET['sasaran_filter'] ?? $_POST['sasaran_filter'] ?? ''));
 $profile = role_profile((string) $user['role']);
 $satuanOptions = ['Persen', 'Nilai', 'Perkara', 'Dokumen', 'Laporan', 'Kegiatan', 'Orang', 'Hari', 'Bulan', 'Unit'];
 $sourceOptions = array_values(array_unique(array_merge(
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = db()->prepare('DELETE FROM target_kinerja WHERE ' . $where);
         $stmt->execute($params);
         flash('Baris target kinerja dihapus.');
-        header('Location: index.php?page=target&tahun=' . year_value() . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : ''));
+        header('Location: index.php?page=target&tahun=' . year_value() . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : '') . ($selectedSasaran !== '' ? '&sasaran_filter=' . urlencode($selectedSasaran) : ''));
         exit;
     }
 
@@ -207,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     flash('Data target kinerja tersimpan.');
-    header('Location: index.php?page=target&tahun=' . $tahun . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : ''));
+    header('Location: index.php?page=target&tahun=' . $tahun . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : '') . ($selectedSasaran !== '' ? '&sasaran_filter=' . urlencode($selectedSasaran) : ''));
     exit;
 }
 
@@ -231,6 +232,11 @@ if ($canViewAll && $selectedUserId > 0) {
     $params['user_id'] = (int) $user['id'];
 }
 
+if ($selectedSasaran !== '') {
+    $query .= ' AND tk.sasaran = :sasaran_filter';
+    $params['sasaran_filter'] = $selectedSasaran;
+}
+
 $query .= ' ORDER BY u.unit, u.role, u.nama, tk.id';
 
 if ($selectedUserId > 0) {
@@ -246,6 +252,20 @@ if ($selectedUserId > 0) {
         generate_mandatory_targets((int)$owner['id'], $owner['role'], $tahun);
     }
 }
+
+$sasaranQuery = 'SELECT DISTINCT sasaran FROM target_kinerja WHERE tahun = :tahun AND TRIM(sasaran) <> ""';
+$sasaranParams = ['tahun' => $tahun];
+if ($canViewAll && $selectedUserId > 0) {
+    $sasaranQuery .= ' AND user_id = :user_id';
+    $sasaranParams['user_id'] = $selectedUserId;
+} elseif (!$canViewAll) {
+    $sasaranQuery .= ' AND user_id = :user_id';
+    $sasaranParams['user_id'] = (int) $user['id'];
+}
+$sasaranQuery .= ' ORDER BY sasaran';
+$sasaranStmt = db()->prepare($sasaranQuery);
+$sasaranStmt->execute($sasaranParams);
+$sasaranOptions = $sasaranStmt->fetchAll(PDO::FETCH_COLUMN);
 
 $stmt = db()->prepare($query);
 $stmt->execute($params);
@@ -295,22 +315,34 @@ render_header('Input Target Kinerja');
     <?php if ($canViewAll): ?>
         <label>
             Pemilik Data
-            <select name="user_id">
-                <option value="0">Semua Pengguna</option>
+            <select name="user_id" onchange="this.form.querySelector('[name=sasaran_filter]').value = '';">
+                    <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
                         <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
                     </option>
                 <?php endforeach; ?>
-            </select>
-        </label>
+                </select>
+            </label>
     <?php endif; ?>
+    <label>
+        Sasaran Kinerja
+        <select name="sasaran_filter">
+            <option value="">Semua Sasaran Kinerja</option>
+            <?php foreach ($sasaranOptions as $sasaranOption): ?>
+                <option value="<?= h((string) $sasaranOption) ?>" <?= (string) $sasaranOption === $selectedSasaran ? 'selected' : '' ?>>
+                    <?= h((string) $sasaranOption) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </label>
     <button type="submit" class="secondary">Tampilkan</button>
 </form>
 
 <form method="post" class="panel">
     <input type="hidden" name="tahun" value="<?= h((string) $tahun) ?>">
     <input type="hidden" name="user_id" value="<?= h((string) $selectedUserId) ?>">
+    <input type="hidden" name="sasaran_filter" value="<?= h($selectedSasaran) ?>">
     <div class="table-wrap">
         <table>
             <thead>

@@ -27,7 +27,7 @@ $user = $_SESSION['user'] ?? null;
         <div class="lp-container lp-topbar-inner">
             <div class="lp-logo-area">
                 <img src="assets/logo_pta.png" alt="Logo PTA Medan" class="lp-logo">
-                <span class="lp-brand">APKIN RPA — PTA Medan</span>
+                <span class="lp-brand">IKPA</span>
             </div>
             <div class="lp-nav-menu">
                 <a href="#hero">Beranda</a>
@@ -78,9 +78,9 @@ $user = $_SESSION['user'] ?? null;
     </header>
 
     <!-- TENTANG -->
-    <section id="about" class="lp-section">
+    <section id="about" class="lp-section lp-site-green lp-about-section">
         <div class="lp-container">
-            <div class="lp-about-grid">
+            <div class="lp-about-grid lp-about-card">
                 <div class="lp-about-image lp-reveal reveal-slide-left"  style="--i:1">
                     <img src="assets/gedung1.webp" alt="Gedung PTA Medan" class="lp-parallax" data-speed="0.1">
                 </div>
@@ -98,7 +98,7 @@ $user = $_SESSION['user'] ?? null;
 
     <!-- FITUR UTAMA -->
     <!-- SECTION 3: FITUR UTAMA -->
-    <section id="fitur-utama" class="lp-section lp-bg-light">
+    <section id="fitur-utama" class="lp-section lp-bg-light lp-site-green">
         <div class="lp-container">
             <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center;">Fitur Utama</h2>
             <div class="lp-featured-grid">
@@ -141,7 +141,7 @@ $user = $_SESSION['user'] ?? null;
     </section>
 
     <!-- SECTION 4: SISA FITUR -->
-    <section id="sisa-fitur" class="lp-section">
+    <section id="sisa-fitur" class="lp-section lp-site-green">
         <div class="lp-container">
             <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center;">Layanan Lainnya</h2>
             <div class="lp-rows-container">
@@ -214,7 +214,7 @@ $user = $_SESSION['user'] ?? null;
     </section>
 
     <!-- SECTION 5: NOTIFIKASI / INFORMASI KINERJA -->
-    <section id="notifikasi" class="lp-section">
+    <section id="notifikasi" class="lp-section lp-site-green">
         <div class="lp-container">
             <div class="lp-section-header lp-reveal reveal-fade-up" 
                 style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
@@ -296,15 +296,15 @@ $user = $_SESSION['user'] ?? null;
     ?>
 
     <!-- SECTION 6: PETA LOKASI -->
-    <section id="peta" class="lp-section" style="background: #022c22; padding: 80px 0;">
+    <section id="peta" class="lp-section lp-map-section" style="padding: 80px 0;">
         <div class="lp-container">
-            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center; margin-bottom: 40px; color: #fff;">Jaringan
+            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center; margin-bottom: 40px;">Jaringan
                 Peradilan</h2>
 
             <div class="lp-map-discover lp-reveal reveal-scale-up" >
                 <!-- Kiri: Area Visual Peta -->
                 <div class="lp-discover-visual" id="map-container">
-                    <img src="assets/peta_sumut.svg?v=7" alt="Peta Sumatera" class="lp-discover-bg">
+                    <img src="assets/peta_sumut.svg?v=9" alt="Peta Sumatera" class="lp-discover-bg">
 
                     <?php foreach ($lokasi_peradilan as $idx => $lokasi):
                         $left_pct = (($lokasi['lng'] - $LNG_LEFT) / ($LNG_RIGHT - $LNG_LEFT)) * 100;

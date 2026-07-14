@@ -407,6 +407,19 @@ a:hover {
     align-items: center;
 }
 
+.nav-group-label {
+    padding: 12px 16px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+}
+
 .nav-caret-toggle {
     padding: 0 16px;
     display: flex;
@@ -414,6 +427,11 @@ a:hover {
     justify-content: center;
     border-radius: 0 12px 12px 0;
     transition: all 0.2s;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
 }
 
 .nav-caret-toggle:hover {
@@ -471,6 +489,103 @@ a:hover {
     box-shadow: none;
 }
 
+/* Dropdown tingkat kedua untuk modul yang memiliki bagian turunan, seperti SAKIP. */
+.nav-subgroup {
+    margin-left: 0;
+    border-left: 0;
+}
+
+.nav-subgroup-parent {
+    display: flex;
+    align-items: stretch;
+    border-radius: 8px;
+}
+
+.nav-subgroup-parent > a {
+    flex: 1;
+    min-width: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.nav-subgroup-parent.active,
+.nav-subgroup-parent:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-subgroup-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    min-width: 36px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+}
+
+.nav-subgroup-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    box-shadow: none;
+    transform: none;
+}
+
+.nav-sub-caret {
+    transition: transform 0.2s;
+}
+
+.nav-subgroup.open .nav-sub-caret {
+    transform: rotate(180deg);
+}
+
+.nav-subchildren-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, transform 0.3s ease;
+}
+
+.nav-subgroup.open .nav-subchildren-wrapper {
+    max-height: 120px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-subchildren {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    padding-left: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.nav-subchildren a {
+    padding: 8px 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0 7px 7px 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.88rem;
+}
+
+.nav-subchildren a:hover,
+.nav-subchildren a.active {
+    color: #fff;
+    border-left-color: var(--primary);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+}
+
 .user-card {
     margin-top: auto;
     padding: 20px;
@@ -516,6 +631,12 @@ a:hover {
 }
 
 .public-shell-mode {
+    padding: 0;
+}
+
+/* Halaman portal yang dibuka dari menu kerja memakai lebar penuh area konten. */
+.portal-module-shell {
+    max-width: none;
     padding: 0;
 }
 
@@ -2178,13 +2299,7 @@ body.modal-open {
 }
 
 .lp-featured-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    content: none;
 }
 
 .lp-fc-icon {
@@ -2784,6 +2899,7 @@ html {
 .lp-main-scroller {
     height: 100vh;
     overflow-y: scroll;
+    background: #064e3b;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     /* Hide scrollbar for a cleaner look */
@@ -3093,4 +3209,191 @@ html.js .lp-reveal[style*="--i"] {
 
 .lp-about-content p:last-child {
     margin-bottom: 0;
+}
+
+/* Palet utama halaman publik: hijau sebagai bidang, emas sebagai aksen. */
+.lp-site-green {
+    background:
+        radial-gradient(circle at 10% 15%, rgba(52, 211, 153, 0.12), transparent 32%),
+        radial-gradient(circle at 90% 85%, rgba(16, 185, 129, 0.16), transparent 36%),
+        #064e3b;
+}
+
+.lp-site-green > .lp-container > .lp-section-title,
+.lp-site-green .lp-section-header .lp-section-title {
+    color: #fff;
+}
+
+.lp-site-green > .lp-container > .lp-section-title::after,
+.lp-site-green .lp-section-header .lp-section-title::after {
+    background: var(--gold);
+}
+
+.lp-site-green .lp-text-muted {
+    color: #bbf7d0;
+}
+
+/* Card emas khusus untuk narasi Tentang Aplikasi. */
+.lp-about-card {
+    padding: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+    border-radius: 32px;
+    background: linear-gradient(135deg, #f7d774 0%, #dcae32 54%, #c58b18 100%);
+    box-shadow: 0 28px 60px rgba(0, 31, 22, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.lp-about-card .lp-about-image {
+    border-color: rgba(6, 78, 59, 0.42);
+    box-shadow: 0 18px 36px rgba(6, 78, 59, 0.24);
+}
+
+.lp-about-card .lp-section-title {
+    color: #064e3b;
+}
+
+.lp-about-card .lp-section-title::after {
+    background: #047857;
+}
+
+.lp-about-card .lp-about-content {
+    color: #064e3b;
+    font-weight: 500;
+}
+
+/* Peta menjadi bidang emas; data lokasi dan marker tetap hijau untuk kontras. */
+.lp-map-section {
+    background:
+        radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.24), transparent 30%),
+        linear-gradient(135deg, #f7d774 0%, #dcae32 55%, #c58b18 100%);
+}
+
+.lp-map-section .lp-section-title {
+    color: #000;
+}
+
+.lp-map-section .lp-section-title::after {
+    background: #000;
+}
+
+.lp-map-section .lp-map-discover,
+.lp-map-section .lp-discover-visual,
+.lp-map-section .lp-discover-sidebar {
+    background: #e8bd49;
+    border-color: rgba(6, 78, 59, 0.28);
+}
+
+.lp-map-section .lp-discover-bg {
+    opacity: 1;
+    mix-blend-mode: normal;
+}
+
+.lp-map-section .lp-sidebar-header {
+    border-bottom-color: rgba(6, 78, 59, 0.2);
+}
+
+.lp-map-section .lp-sidebar-header h3,
+.lp-map-section .lp-sidebar-header p,
+.lp-map-section .lp-loc-item,
+.lp-map-section .lp-loc-item:hover,
+.lp-map-section .lp-loc-item.active {
+    color: #000;
+}
+
+.lp-map-section .lp-loc-item:hover,
+.lp-map-section .lp-loc-item.active {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.lp-map-section .lp-loc-item.item-pta,
+.lp-map-section .lp-loc-item.item-pta:hover,
+.lp-map-section .lp-loc-item.item-pta.active {
+    background: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.25);
+}
+
+.lp-map-section .lp-loc-icon,
+.lp-map-section .lp-loc-item.active .lp-loc-icon,
+.lp-map-section .lp-loc-item.item-pta .lp-loc-icon,
+.lp-map-section .lp-discover-marker .lp-marker-dot,
+.lp-map-section .lp-discover-marker.is-pta .lp-marker-dot,
+.lp-map-section .lp-discover-marker:hover .lp-marker-dot,
+.lp-map-section .lp-discover-marker.active .lp-marker-dot,
+.lp-map-section .lp-discover-marker.is-pta:hover .lp-marker-dot,
+.lp-map-section .lp-discover-marker.is-pta.active .lp-marker-dot {
+    background: #000;
+    color: #000;
+}
+
+.lp-map-section .lp-discover-marker .lp-marker-dot {
+    border-color: #f7d774;
+}
+
+.lp-map-section .lp-map-info-card,
+.lp-map-section .lp-map-info-card #info-nama,
+.lp-map-section .lp-map-info-card #info-alamat,
+.lp-map-section .lp-map-info-card .info-badge {
+    color: #000;
+}
+
+.lp-map-section .lp-map-info-card {
+    border-left-color: #000;
+}
+
+@media (max-width: 768px) {
+    .lp-about-card {
+        padding: 20px;
+        border-radius: 24px;
+    }
+}
+
+/* Interaksi kartu Fitur Utama tanpa garis dekoratif yang terpotong di bagian atas. */
+.lp-featured-card {
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.38s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.38s ease;
+}
+
+.lp-featured-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: radial-gradient(circle at 82% 12%, rgba(245, 185, 39, 0.2), transparent 42%);
+    transition: opacity 0.38s ease;
+    pointer-events: none;
+}
+
+.lp-featured-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+html.js .lp-featured-card.lp-reveal.is-visible:hover,
+.lp-featured-card:hover {
+    transform: translateY(-12px) scale(1.018) !important;
+    border-color: rgba(245, 185, 39, 0.72);
+    box-shadow: 0 24px 44px rgba(0, 0, 0, 0.28), 0 0 0 4px rgba(245, 185, 39, 0.12);
+}
+
+.lp-featured-card:hover::after {
+    opacity: 1;
+}
+
+.lp-featured-card .lp-fc-icon,
+.lp-featured-card .lp-chip {
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), background 0.28s ease, color 0.28s ease, box-shadow 0.28s ease;
+}
+
+.lp-featured-card:hover .lp-fc-icon {
+    transform: translateY(-5px) rotate(-5deg) scale(1.08);
+    background: #f7d774;
+    color: #000;
+    box-shadow: 0 12px 20px rgba(197, 139, 24, 0.3);
+}
+
+.lp-featured-card:hover .lp-chip {
+    background: #064e3b;
+    color: #fff;
+    transform: translateY(-2px);
 }
