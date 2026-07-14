@@ -117,42 +117,47 @@ function achievement_value(float $target, float $realisasi, string $type): float
     return round(($realisasi / $target) * 100, 2);
 }
 
-function target_for_quarter(array $row, int $tw): float
+function target_for_month(array $row, int $month): float
 {
-    $quarterTarget = num($row['target_tw' . $tw] ?? 0);
-    if ($quarterTarget > 0) {
-        return $quarterTarget;
+    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+    $m = $months[$month - 1] ?? 'jan';
+    $monthTarget = num($row['target_' . $m] ?? 0);
+    if ($monthTarget > 0) {
+        return $monthTarget;
     }
 
-    return round(num($row['target'] ?? 0) / 4, 2);
+    return round(num($row['target'] ?? 0) / 12, 2);
 }
 
-function achievement_for_quarter(array $row, int $tw): float
+function achievement_for_month(array $row, int $month): float
 {
-    $tw = max(1, min(4, $tw));
-    $target = target_for_quarter($row, $tw);
-    $realisasi = num($row['real_tw' . $tw] ?? 0);
+    $month = max(1, min(12, $month));
+    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+    $m = $months[$month - 1] ?? 'jan';
+    
+    $target = target_for_month($row, $month);
+    $realisasi = num($row['real_' . $m] ?? 0);
 
     return achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
 }
 
-function achievement_trend(array $row, int $tw): array
+function achievement_trend(array $row, int $month): array
 {
-    $tw = max(1, min(4, $tw));
-    $current = achievement_for_quarter($row, $tw);
+    $month = max(1, min(12, $month));
+    $current = achievement_for_month($row, $month);
 
-    if ($tw === 1) {
+    if ($month === 1) {
         return [
             'previous' => null,
             'current' => $current,
             'status' => 'baseline',
-            'label' => 'Baseline TW1',
+            'label' => 'Baseline Bulan 1',
             'jenis' => 'Baseline capaian awal',
             'required' => true,
         ];
     }
 
-    $previous = achievement_for_quarter($row, $tw - 1);
+    $previous = achievement_for_month($row, $month - 1);
     if ($current > $previous) {
         $status = 'naik';
         $label = 'Capaian naik';

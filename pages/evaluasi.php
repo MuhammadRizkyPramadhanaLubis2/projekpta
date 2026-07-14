@@ -8,7 +8,7 @@ $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? $_POST['user_id'] ?? 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $targetId = (int) ($_POST['target_id'] ?? 0);
-    $tw = max(1, min(4, (int) ($_POST['triwulan'] ?? 1)));
+    $tw = max(1, min(12, (int) ($_POST['triwulan'] ?? 1)));
     $narasi = trim((string) ($_POST['narasi'] ?? ''));
 
     $check = db()->prepare(
@@ -50,7 +50,7 @@ if ($canViewAll) {
     $owners = db()->query('SELECT id, nama, role, unit FROM users WHERE status = "active" ORDER BY unit, role, nama')->fetchAll();
 }
 
-$selectedTw = max(1, min(4, (int) ($_GET['triwulan'] ?? 1)));
+$selectedTw = max(1, min(12, (int) ($_GET['triwulan'] ?? 1)));
 
 $targetQuery = 'SELECT tk.*, u.nama AS owner_nama, u.role AS owner_role
                 FROM target_kinerja tk
@@ -145,7 +145,7 @@ render_header('Evaluasi Kinerja');
     <label>
         Triwulan
         <select name="triwulan">
-            <?php for ($i = 1; $i <= 4; $i++): ?>
+            <?php for ($i = 1; $i <= 12; $i++): ?>
                 <option value="<?= $i ?>" <?= $i === $selectedTw ? 'selected' : '' ?>>TW<?= $i ?></option>
             <?php endfor; ?>
         </select>
@@ -156,7 +156,8 @@ render_header('Evaluasi Kinerja');
 <section class="panel" style="margin-bottom:16px">
     <h2>Kewajiban Evaluasi TW<?= $selectedTw ?></h2>
     <div class="table-wrap">
-        <table>
+        <div class="table-responsive">
+<table>
             <thead>
             <tr>
                 <?php if ($canViewAll): ?>
@@ -194,7 +195,7 @@ render_header('Evaluasi Kinerja');
                         <?= h((string) $target['indikator']) ?>
                         <br><small><?= h((string) ($target['sumber_data'] ?: 'Sumber data belum diisi')) ?></small>
                     </td>
-                    <td><?= h((string) target_for_quarter($target, $selectedTw)) ?></td>
+                    <td><?= h((string) target_for_month($target, $selectedTw)) ?></td>
                     <td><?= h((string) num($target['real_tw' . $selectedTw] ?? 0)) ?></td>
                     <?php if ($selectedTw > 1): ?>
                         <td><?= h((string) $trend['previous']) ?>%</td>
@@ -211,6 +212,7 @@ render_header('Evaluasi Kinerja');
             <?php endforeach; ?>
             </tbody>
         </table>
+</div>
     </div>
 </section>
 
@@ -234,7 +236,7 @@ render_header('Evaluasi Kinerja');
         <label>
             Triwulan
             <select name="triwulan">
-                <?php for ($i = 1; $i <= 4; $i++): ?>
+                <?php for ($i = 1; $i <= 12; $i++): ?>
                     <option value="<?= $i ?>" <?= $i === $selectedTw ? 'selected' : '' ?>>TW<?= $i ?></option>
                 <?php endfor; ?>
             </select>
@@ -253,7 +255,8 @@ render_header('Evaluasi Kinerja');
 <section class="panel" style="margin-top:16px">
     <h2>Riwayat Evaluasi</h2>
     <div class="table-wrap">
-        <table>
+        <div class="table-responsive">
+<table>
             <thead>
             <tr>
                 <th>Waktu</th>
@@ -287,6 +290,7 @@ render_header('Evaluasi Kinerja');
             <?php endforeach; ?>
             </tbody>
         </table>
+</div>
     </div>
 </section>
 <?php render_footer(); ?>

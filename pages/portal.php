@@ -267,12 +267,19 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
     box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }
 @media (max-width: 768px) {
+    .tf-container {
+        padding: 0 12px;
+        margin-top: -60px;
+    }
+    .tf-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
     .tf-container.reference-embed-container {
         margin: -80px 12px 48px;
     }
     .reference-embed-container .tf-card {
         padding: 16px;
-        border-radius: 20px;
     }
     .tf-cta {
         flex-direction: column;
@@ -432,7 +439,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
             $indicators[] = $indText;
             
             for ($i = 1; $i <= 4; $i++) {
-                $targetVal = target_for_quarter($row, $i);
+                $targetVal = target_for_month($row, $i);
                 $realVal = num($row['real_tw' . $i] ?? 0);
                 
                 // Avoid using full achievement logic that requires 'tipe_indikator' for simple portal display

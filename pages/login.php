@@ -243,6 +243,9 @@ render_header('Masuk');
     .login-card-nature {
         flex-direction: column;
         border-radius: 20px;
+        margin: 20px;
+        width: auto;
+        min-height: auto;
     }
     .nature-right {
         display: none; /* Hide the text/leaves on mobile for better fit */

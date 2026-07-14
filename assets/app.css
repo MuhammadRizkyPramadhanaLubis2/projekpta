@@ -3486,3 +3486,46 @@ html.js .lp-featured-card.lp-reveal.is-visible:hover,
     color: #fff;
     box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.4);
 }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+    /* Topbar */
+    .lp-topbar .lp-nav-menu {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .lp-topbar .lp-nav-menu::-webkit-scrollbar {
+        height: 0px;
+    }
+    
+
+    
+    /* Tables */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 20px;
+    }
+    
+    /* Form Panels */
+    .panel {
+        padding: 15px;
+    }
+
+    /* Hero Section */
+    .lp-hero {
+        min-height: 70vh; /* Reduce height on mobile so video isn't cropped as much horizontally */
+        padding-top: 100px;
+    }
+    .lp-hero-title {
+        font-size: 2.2rem;
+    }
+    .lp-hero-subtitle {
+        font-size: 1.1rem;
+    }
+
+}

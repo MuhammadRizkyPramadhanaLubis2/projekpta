@@ -217,6 +217,21 @@ $profile = role_profile((string) $user['role']);
         box-shadow: 0 8px 16px rgba(16, 185, 129, 0.1);
         transform: translateY(-2px);
     }
+
+    @media (max-width: 768px) {
+        .dashboard-hero {
+            padding: 24px;
+        }
+        .dashboard-hero-title {
+            font-size: 1.8rem;
+        }
+        .dashboard-hero-desc {
+            font-size: 1rem;
+        }
+        .hero-actions {
+            flex-direction: column;
+        }
+    }
 </style>
 
 <div class="dashboard-hero">
