@@ -283,8 +283,9 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 32px;
-    padding: 32px 24px;
-    background: linear-gradient(180deg, var(--accent) 0%, #022c22 100%);
+    padding: 32px 16px;
+    background: #022c22;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
     color: #fff;
     overflow-y: auto;
     scrollbar-gutter: stable;
@@ -301,7 +302,7 @@ a:hover {
 }
 
 .sidebar::-webkit-scrollbar-thumb {
-    background: var(--primary-dark);
+    background: rgba(16, 185, 129, 0.3);
     border-radius: 4px;
 }
 
@@ -316,8 +317,8 @@ a:hover {
     background-image: url('batik_sumut.png');
     background-size: 300px;
     background-repeat: repeat;
-    opacity: 0.08;
-    mix-blend-mode: color-dodge;
+    opacity: 0.04;
+    mix-blend-mode: screen;
     pointer-events: none;
     z-index: -1;
 }
@@ -330,6 +331,7 @@ a:hover {
     gap: 16px;
     position: relative;
     z-index: 1;
+    padding: 0 8px;
 }
 
 .sidebar .brand-mark {
@@ -350,25 +352,32 @@ a:hover {
 
 .nav {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     position: relative;
     z-index: 1;
 }
 
-.nav a {
+.nav > a {
     text-decoration: none;
     border-radius: 12px;
     padding: 12px 16px;
-    color: #d1fae5;
+    color: #a7f3d0;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border: 1px solid transparent;
 }
 
-.nav a.active,
-.nav a:hover {
-    background: rgba(255, 255, 255, 0.15);
+.nav > a.active {
+    background: rgba(16, 185, 129, 0.15);
     color: #fff;
-    box-shadow: inset 2px 0 0 var(--primary);
+    border-color: rgba(16, 185, 129, 0.25);
+    box-shadow: inset 3px 0 0 var(--primary);
+}
+
+.nav > a:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    transform: translateX(4px);
 }
 
 .nav-group {
@@ -382,20 +391,24 @@ a:hover {
     align-items: stretch;
     border-radius: 12px;
     padding: 0;
-    color: #d1fae5;
+    color: #a7f3d0;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     cursor: pointer;
+    border: 1px solid transparent;
 }
 
-.nav-parent:hover,
-.nav-parent.active {
-    background: rgba(255, 255, 255, 0.15);
+.nav-parent:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.05);
     color: #fff;
+    transform: translateX(4px);
 }
 
 .nav-parent.active {
-    box-shadow: inset 2px 0 0 var(--primary);
+    background: rgba(16, 185, 129, 0.15);
+    color: #fff;
+    border-color: rgba(16, 185, 129, 0.25);
+    box-shadow: inset 3px 0 0 var(--primary);
 }
 
 .nav-parent a {
@@ -405,6 +418,21 @@ a:hover {
     flex-grow: 1;
     display: flex;
     align-items: center;
+    border: none !important;
+    transform: none !important;
+}
+
+.nav-group-label {
+    padding: 12px 16px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
 }
 
 .nav-caret-toggle {
@@ -414,6 +442,11 @@ a:hover {
     justify-content: center;
     border-radius: 0 12px 12px 0;
     transition: all 0.2s;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
 }
 
 .nav-caret-toggle:hover {
@@ -456,6 +489,7 @@ a:hover {
     opacity: 0;
     transform: translateX(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s, color 0.2s, border-color 0.2s;
+    text-decoration: none;
 }
 
 .nav-group.open .nav-children a {
@@ -468,6 +502,104 @@ a:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.08);
     border-left-color: var(--primary);
+    box-shadow: none;
+}
+
+/* Dropdown tingkat kedua untuk modul yang memiliki bagian turunan, seperti SAKIP. */
+.nav-subgroup {
+    margin-left: 0;
+    border-left: 0;
+}
+
+.nav-subgroup-parent {
+    display: flex;
+    align-items: stretch;
+    border-radius: 8px;
+}
+
+.nav-subgroup-parent > a {
+    flex: 1;
+    min-width: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.nav-subgroup-parent.active,
+.nav-subgroup-parent:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-subgroup-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    min-width: 36px;
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+}
+
+.nav-subgroup-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    box-shadow: none;
+    transform: none;
+}
+
+.nav-sub-caret {
+    transition: transform 0.2s;
+}
+
+.nav-subgroup.open .nav-sub-caret {
+    transform: rotate(180deg);
+}
+
+.nav-subchildren-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, transform 0.3s ease;
+}
+
+.nav-subgroup.open .nav-subchildren-wrapper {
+    max-height: 120px;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.nav-subchildren {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+    padding-left: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.nav-subchildren a {
+    padding: 8px 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0 7px 7px 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.88rem;
+    text-decoration: none;
+}
+
+.nav-subchildren a:hover,
+.nav-subchildren a.active {
+    color: #fff;
+    border-left-color: var(--primary);
+    background: rgba(255, 255, 255, 0.1);
     box-shadow: none;
 }
 
@@ -516,6 +648,12 @@ a:hover {
 }
 
 .public-shell-mode {
+    padding: 0;
+}
+
+/* Halaman portal yang dibuka dari menu kerja memakai lebar penuh area konten. */
+.portal-module-shell {
+    max-width: none;
     padding: 0;
 }
 
@@ -2178,13 +2316,7 @@ body.modal-open {
 }
 
 .lp-featured-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
+    content: none;
 }
 
 .lp-fc-icon {
@@ -2784,6 +2916,7 @@ html {
 .lp-main-scroller {
     height: 100vh;
     overflow-y: scroll;
+    background: #064e3b;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     /* Hide scrollbar for a cleaner look */
@@ -3015,51 +3148,6 @@ html.js .lp-reveal[style*="--i"] {
 }
 
 /* --- ABOUT SECTION STYLES --- */
-.lp-about-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    align-items: center;
-}
-
-@media (min-width: 992px) {
-    .lp-about-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 64px;
-    }
-}
-
-.lp-about-image {
-    position: relative;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
-    border: 4px solid rgba(255, 255, 255, 0.5);
-    transform: perspective(1000px) rotateY(-5deg);
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-    aspect-ratio: 4/3;
-    background: #f1f5f9;
-}
-
-.lp-about-image:hover {
-    transform: perspective(1000px) rotateY(0deg) translateY(-10px);
-    box-shadow: 0 32px 64px rgba(16, 185, 129, 0.2);
-}
-
-.lp-about-image img {
-    position: absolute;
-    top: -15%;
-    left: 0;
-    width: 100%;
-    height: 130%;
-    display: block;
-    object-fit: cover;
-    /* transform will be handled by landing.js parallax */
-}
-
-.lp-about-text {
-    padding: 24px 0;
-}
 
 .lp-section-title {
     font-size: 2.5rem;
@@ -3093,4 +3181,308 @@ html.js .lp-reveal[style*="--i"] {
 
 .lp-about-content p:last-child {
     margin-bottom: 0;
+}
+
+/* Palet utama halaman publik: hijau sebagai bidang, emas sebagai aksen. */
+body.public-page {
+    background-color: #022c22;
+}
+
+.lp-site-green {
+    background: transparent;
+}
+
+.lp-site-green > .lp-container > .lp-section-title,
+.lp-site-green .lp-section-header .lp-section-title {
+    color: #fff;
+    position: relative;
+    z-index: 2;
+}
+
+.lp-site-green > .lp-container > .lp-section-title::after,
+.lp-site-green .lp-section-header .lp-section-title::after {
+    background: var(--gold);
+}
+
+.lp-site-green .lp-text-muted {
+    color: #bbf7d0;
+    position: relative;
+    z-index: 2;
+}
+
+.lp-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Modern About Card (No Photo) */
+.lp-about-card-modern {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 32px;
+    padding: 64px 48px;
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.lp-about-card-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.lp-about-icon-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 24px;
+}
+
+.lp-about-icon-header i {
+    font-size: 4rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 8px 16px rgba(16, 185, 129, 0.3));
+}
+
+.lp-about-card-modern .lp-section-title {
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.lp-about-card-modern .lp-section-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+}
+
+.lp-about-card-modern .lp-about-content {
+    position: relative;
+    z-index: 1;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.lp-about-card-modern .lp-about-content p {
+    margin-bottom: 1.5rem;
+}
+
+.lp-about-card-modern .lp-about-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Peta menjadi bidang hijau gelap; data lokasi dan marker tetap cerah untuk kontras. */
+.lp-map-section {
+    background: transparent;
+}
+
+.lp-map-section .lp-section-title {
+    color: #fff;
+}
+
+.lp-map-section .lp-section-title::after {
+    background: var(--gold);
+}
+
+.lp-map-section .lp-map-discover,
+.lp-map-section .lp-discover-visual,
+.lp-map-section .lp-discover-sidebar {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.lp-map-section .lp-discover-bg {
+    opacity: 0.15;
+    mix-blend-mode: screen;
+}
+
+.lp-map-section .lp-sidebar-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.lp-map-section .lp-sidebar-header h3,
+.lp-map-section .lp-sidebar-header p,
+.lp-map-section .lp-loc-item,
+.lp-map-section .lp-map-info-card,
+.lp-map-section .lp-map-info-card #info-nama,
+.lp-map-section .lp-map-info-card #info-alamat,
+.lp-map-section .lp-map-info-card .info-badge {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.lp-map-section .lp-sidebar-header h3,
+.lp-map-section .lp-map-info-card #info-nama {
+    color: #fff;
+}
+
+.lp-map-section .lp-loc-item:hover,
+.lp-map-section .lp-loc-item.active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.lp-map-section .lp-loc-item.item-pta,
+.lp-map-section .lp-loc-item.item-pta:hover,
+.lp-map-section .lp-loc-item.item-pta.active {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
+}
+
+.lp-map-section .lp-loc-icon,
+.lp-map-section .lp-loc-item.active .lp-loc-icon,
+.lp-map-section .lp-loc-item.item-pta .lp-loc-icon,
+.lp-map-section .lp-discover-marker .lp-marker-dot,
+.lp-map-section .lp-discover-marker.is-pta .lp-marker-dot,
+.lp-map-section .lp-discover-marker:hover .lp-marker-dot,
+.lp-map-section .lp-discover-marker.active .lp-marker-dot,
+.lp-map-section .lp-discover-marker.is-pta:hover .lp-marker-dot,
+.lp-map-section .lp-discover-marker.is-pta.active .lp-marker-dot {
+    background: var(--gold);
+    color: #fff;
+}
+
+.lp-map-section .lp-discover-marker .lp-marker-dot {
+    border-color: #022c22;
+}
+
+.lp-map-section .lp-map-info-card {
+    border-left-color: var(--gold);
+    background: rgba(2, 44, 34, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .lp-about-card {
+        padding: 20px;
+        border-radius: 24px;
+    }
+}
+
+/* Interaksi kartu Fitur Utama tanpa garis dekoratif yang terpotong di bagian atas. */
+.lp-featured-card {
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                border-color 0.25s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 260px;
+    padding: 32px;
+}
+
+/* Make entire card clickable via the main link */
+.lp-featured-card > .lp-fc-content > a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.lp-featured-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    /* Soft gradient glow on hover */
+    background: radial-gradient(circle at 100% 0%, rgba(16, 185, 129, 0.08), transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.04), transparent 50%);
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.lp-featured-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.lp-fc-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.lp-fc-desc {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.6;
+    transition: color 0.25s ease;
+    margin-bottom: 0;
+}
+
+.lp-fc-arrow {
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    font-size: 1.2rem;
+    margin-top: 24px;
+}
+
+html.js .lp-featured-card.lp-reveal.is-visible:hover,
+.lp-featured-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.12),
+                0 0 20px rgba(16, 185, 129, 0.05);
+}
+
+.lp-featured-card:hover::after {
+    opacity: 1;
+}
+
+.lp-featured-card .lp-fc-icon,
+.lp-fc-arrow {
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                background 0.2s ease, 
+                color 0.2s ease, 
+                box-shadow 0.2s ease;
+}
+
+.lp-featured-card:hover .lp-fc-icon {
+    animation: none !important;
+    transform: translateY(-6px) scale(1.1);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    box-shadow: 0 12px 24px -6px rgba(16, 185, 129, 0.4);
+}
+
+.lp-featured-card:hover .lp-fc-desc {
+    color: var(--text);
+}
+
+.lp-featured-card:hover .lp-fc-arrow {
+    transform: translateX(4px);
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.4);
 }

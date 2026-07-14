@@ -101,7 +101,7 @@ render_header('Manajemen Pengguna');
 <section class="panel summary-panel">
     <div>
         <h2>Manajemen Pengguna</h2>
-        <p class="muted">Kelola user berdasarkan pembagian pengguna pada konsep APKIN RPA: PTA Medan dan Satker PA.</p>
+        <p class="muted">Kelola user berdasarkan pembagian pengguna pada konsep IKPA: PTA Medan dan Satker PA.</p>
     </div>
     <ul class="task-list">
         <li>Admin dan Perencanaan dapat menambah serta memperbarui akun.</li>

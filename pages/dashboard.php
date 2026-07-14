@@ -1,55 +1,9 @@
 <?php
 declare(strict_types=1);
 
-render_header('Menu Utama APKIN RPA');
+render_header('Menu Utama IKPA');
 
-$sections = [
-    'PRIMER / POKOK' => [
-        ['Input Target Kinerja (TK)', 'target', null],
-        ['Cetak Perjanjian Kinerja (PK)', 'pk', null],
-        ['Cetak Rencana Aksi', 'renaksi', null],
-        ['Cetak RKT & RKA', 'rkt_rka', null],
-        ['Hitung Capaian Kinerja (HCK)', 'capaian', null],
-        ['Evaluasi Kinerja (EvKin)', 'evaluasi', null],
-    ],
-    'SKUNDER' => [
-        ['Program Kerja', 'modul', 'program-kerja'],
-        ['Renstra', 'modul', 'renstra'],
-        ['IKU', 'modul', 'iku'],
-        ['Renaksi', 'modul', 'renaksi'],
-        ['RKA-KL & Revisi', 'modul', 'rka-kl-revisi'],
-        ['E-Monev Bappenas', 'modul', 'e-monev-bappenas'],
-        ['Laporan Kinerja', 'modul', 'laporan-kinerja'],
-        ['Manajemen Resiko', 'modul', 'manajemen-risiko'],
-        ['Hibah & MoU', 'modul', 'hibah-mou'],
-        ['Diagram Hasil Capaian Kinerja', 'diagram-capaian', null],
-    ],
-    'TERTIER' => [
-        ['SOP', 'modul', 'sop'],
-        ['Regulasi', 'modul', 'regulasi'],
-        ['Artikel', 'modul', 'artikel'],
-        ['Info & Pengumuman', 'modul', 'info-pengumuman'],
-        ['LHE PA', 'modul', 'lhe-pa'],
-        ['Upload TOR/KAK ABT/Baseline', 'modul', 'upload-tor-kak'],
-        ['Tupoksi & Tim', 'modul', 'tupoksi-tim'],
-    ],
-    'KORELASI & KOORDINASI' => [
-        ['Mahkamah Agung - Biro Humas', 'modul', 'biro-humas'],
-        ['Mahkamah Agung - Bawas', 'modul', 'bawas'],
-        ['Mahkamah Agung - Biro Perencanaan', 'modul', 'biro-perencanaan'],
-        ['Badan Kepegawaian Negara', 'modul', 'bkn'],
-        ['Kementerian Keuangan', 'modul', 'kemenkeu'],
-        ['SIPP', 'modul', 'sipp'],
-        ['E-SEMAR', 'modul', 'e-semar'],
-        ['KOMDANAS', 'modul', 'komdanas'],
-        ['MY ASN', 'modul', 'my-asn'],
-        ['SAKTI', 'modul', 'sakti'],
-        ['OMSPAN', 'modul', 'omspan'],
-        ['SATUDJA', 'modul', 'satudja'],
-        ['E-BIMA', 'modul', 'e-bima'],
-        ['E-SADEWA', 'modul', 'e-sadewa'],
-    ],
-];
+$sections = shared_workflow_groups();
 
 $user = current_user();
 $isAdmin = $user['role'] === 'Admin';
@@ -280,7 +234,7 @@ $profile = role_profile((string) $user['role']);
 </div>
 
 <section>
-    <h2 class="section-title">Fitur & Kertas Kerja Role Ini</h2>
+    <h2 class="section-title">Ringkasan Alur Kerja Jabatan</h2>
     <div class="workflow-grid">
         <?php foreach ($profile['workflows'] as [$label, $targetPage, $slug, $description]): ?>
             <?php
@@ -330,7 +284,7 @@ $profile = role_profile((string) $user['role']);
     </div>
 
     <div class="info-card" style="background: #fff8f1; border-color: #ffd8a8; margin-bottom: 48px;">
-        <h3 style="color: var(--gold);"><i class="ph-fill ph-warning-circle"></i> Aturan Analisis EvKin Sesuai Konsep APKIN RPA</h3>
+        <h3 style="color: var(--gold);"><i class="ph-fill ph-warning-circle"></i> Aturan Analisis EvKin Sesuai Konsep IKPA</h3>
         <p style="font-size: 1.15rem; line-height: 1.7; margin: 0; color: #b45309;">
             <?= h((string) $profile['analysis_rule']) ?>
         </p>
@@ -339,8 +293,8 @@ $profile = role_profile((string) $user['role']);
     <!-- Tampilan Admin Khusus Menjelaskan Seluruh Stakeholder -->
     <section class="admin-stakeholder-section">
         <div style="margin-bottom: 32px;">
-            <h2 class="section-title">Pemahaman Konsep APKIN RPA (Semua Role)</h2>
-            <p class="site-lead">Sebagai Administrator, Anda dapat melihat rincian tugas dan tanggung jawab dari seluruh pemangku kepentingan (stakeholder) di PTA Medan maupun Satuan Kerja PA, sesuai dengan Konsep Aplikasi APKIN RPA.</p>
+            <h2 class="section-title">Pemahaman Konsep IKPA (Semua Role)</h2>
+            <p class="site-lead">Sebagai Administrator, Anda dapat melihat rincian tugas dan tanggung jawab dari seluruh pemangku kepentingan (stakeholder) di PTA Medan maupun Satuan Kerja PA, sesuai dengan Konsep Aplikasi IKPA.</p>
         </div>
 
         <?php 

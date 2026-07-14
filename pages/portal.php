@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $slug = trim((string) ($_GET['slug'] ?? 'beranda'));
 $pageData = site_page($slug);
+$portalEmbedded = defined('PORTAL_EMBEDDED');
 
 if (!$pageData) {
     http_response_code(404);
@@ -13,13 +14,17 @@ if (!$pageData) {
     ];
 }
 
-render_header((string) $pageData['title']);
+if (!$portalEmbedded) {
+    render_header((string) $pageData['title']);
+}
 ?>
 <?php if ($slug === 'program-kerja-sop'): ?>
     <?php
     define('PROGRAM_KERJA_SOP_EMBEDDED', true);
     require __DIR__ . '/program-kerja-sop.php';
-    render_footer();
+    if (!$portalEmbedded) {
+        render_footer();
+    }
     return;
     ?>
 <?php endif; ?>
@@ -27,7 +32,9 @@ render_header((string) $pageData['title']);
     <?php
     define('PENYUSUNAN_ANGGARAN_EMBEDDED', true);
     require __DIR__ . '/penyusunan-anggaran.php';
-    render_footer();
+    if (!$portalEmbedded) {
+        render_footer();
+    }
     return;
     ?>
 <?php endif; ?>
@@ -35,12 +42,15 @@ render_header((string) $pageData['title']);
     <?php
     define('IFKIN_EMBEDDED', true);
     require __DIR__ . '/ifkin.php';
-    render_footer();
+    if (!$portalEmbedded) {
+        render_footer();
+    }
     return;
     ?>
 <?php endif; ?>
 <?php
-$heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'];
+$heroPages = ['tugas-dan-fungsi', 'revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'];
+$isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
 ?>
 <?php if (in_array($slug, $heroPages, true)): ?>
 <style>
@@ -119,6 +129,17 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
     position: relative;
     z-index: 10;
     padding: 0 24px;
+}
+.tf-container.reference-embed-container {
+    max-width: none;
+    margin: -140px 24px 80px;
+    padding: 0;
+}
+.reference-embed-container .tf-card {
+    padding: 28px;
+}
+.reference-embed-container .tf-card > div[style*="height"] {
+    margin-bottom: 0 !important;
 }
 .tf-card {
     background: #fff;
@@ -246,6 +267,13 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
     box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }
 @media (max-width: 768px) {
+    .tf-container.reference-embed-container {
+        margin: -80px 12px 48px;
+    }
+    .reference-embed-container .tf-card {
+        padding: 16px;
+        border-radius: 20px;
+    }
     .tf-cta {
         flex-direction: column;
         align-items: stretch;
@@ -265,7 +293,7 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
 
 <div class="tf-hero">
     <div class="tf-hero-subtitle">
-        <?= in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
+        <?= in_array($slug, ['revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip']) ? 'Informasi Kinerja Program Dan Anggaran' : 'Sub Bagian Rencana Program & Anggaran' ?>
     </div>
     <h1><?= h((string) $pageData['title']) ?></h1>
     <?php if (!empty($pageData['body'])): ?>
@@ -273,7 +301,7 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
     <?php endif; ?>
 </div>
 
-<div class="tf-container">
+<div class="tf-container <?= $isReferenceEmbed ? 'reference-embed-container' : '' ?>">
     <div class="tf-card">
         <?php if (!empty($pageData['body']) && count($pageData['body']) > 1): ?>
             <div style="margin-bottom: 48px; color: #334155; line-height: 1.8; font-size: 1.1rem; text-align: justify; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 20px;">
@@ -836,12 +864,12 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
             <div class="tf-header">
                 <?php 
                     $headerTitle = 'Daftar Tugas dan Fungsi';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
+                    if (in_array($slug, ['revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
                         $headerTitle = h((string) $pageData['subtitle']);
                     }
                     
                     $badgeText = 'TUGAS';
-                    if (in_array($slug, ['revisi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
+                    if (in_array($slug, ['revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
                         $badgeText = 'REGULASI';
                     }
                 ?>
@@ -891,9 +919,11 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
                 <?php continue; ?>
             <?php endif; ?>
 
-            <div class="tf-header" style="margin-top: 48px;">
-                <h2><?= h((string) $section['title']) ?></h2>
-            </div>
+            <?php if (!$isReferenceEmbed || empty($section['iframe'])): ?>
+                <div class="tf-header" style="margin-top: 48px;">
+                    <h2><?= h((string) $section['title']) ?></h2>
+                </div>
+            <?php endif; ?>
             <?php if (!empty($section['iframe'])): ?>
                 <?php $iHeight = !empty($section['iframeHeight']) ? h($section['iframeHeight']) : '450px'; ?>
                 <div style="width: 100%; height: <?= $iHeight ?>; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 8px 16px rgba(0,0,0,0.05); margin-bottom: 20px;">
@@ -1049,4 +1079,4 @@ $heroPages = ['tugas-dan-fungsi', 'revisi', 'hibah', 'e-monev-bappenas', 'manaje
     </div>
 </section>
 <?php endif; ?>
-<?php render_footer(); ?>
+<?php if (!$portalEmbedded) { render_footer(); } ?>

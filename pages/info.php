@@ -7,7 +7,7 @@ render_header($title);
 <section class="panel">
     <h2><?= h($title) ?></h2>
     <p>
-        Modul ini adalah bagian dari konsep APKIN RPA. Fungsinya bisa dikembangkan
+        Modul ini adalah bagian dari konsep IKPA. Fungsinya bisa dikembangkan
         untuk upload dokumen, cetak PDF, integrasi data, atau tampilan laporan sesuai kebutuhan.
     </p>
     <a class="button secondary" href="index.php?page=dashboard">Kembali ke Menu</a>
