@@ -37,41 +37,13 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
     <label for="sidebar-toggle" class="sidebar-open-btn-top">
         <i class="ph ph-list"></i>
     </label>
-    <?php if ($user && $isPublicPage): ?>
-        <a href="index.php?page=dashboard" class="header-back-btn">
-            <i class="ph-bold ph-arrow-left"></i> Kembali ke Menu Utama
-        </a>
-        <style>
-            .header-back-btn {
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                color: #fff;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 0.95rem;
-                padding: 10px 20px;
-                background: rgba(255, 255, 255, 0.15);
-                border: 1px solid rgba(255, 255, 255, 0.25);
-                border-radius: 50px;
-                transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-                backdrop-filter: blur(10px);
-            }
-            .header-back-btn:hover {
-                background: rgba(255, 255, 255, 0.25);
-                transform: translateX(-4px);
-                color: #fff;
-            }
-        </style>
-    <?php else: ?>
-        <a href="index.php?page=beranda" class="brand">
-            <img src="assets/logo_pta.png" alt="Logo PTA Medan">
-            <div>
-                <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">IKPA</strong>
-                <small style="color: #a7f3d0;">PTA Medan</small>
-            </div>
-        </a>
-    <?php endif; ?>
+    <a href="index.php?page=beranda" class="brand">
+        <img src="assets/logo_pta.png" alt="Logo PTA Medan">
+        <div>
+            <strong style="display: block; font-size: 1.1rem; color: #fff;" title="Aplikasi Kinerja Rencana Program Anggaran">IKPA</strong>
+            <small style="color: #a7f3d0;">PTA Medan</small>
+        </div>
+    </a>
     <div class="header-right">
         <?php if ($user): ?>
             <div class="header-profile" tabindex="0">
