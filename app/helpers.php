@@ -13,7 +13,7 @@ function get_signature_img_tag(string $base64Data, int $maxWidth = 150, int $max
     }
     
     // Fallback default style
-    $style = "display: block; margin: 10px auto;";
+    $style = "display: block; margin: 10px auto; max-width: 100%; height: auto;";
     
     // Try to get intrinsic size from base64 string
     $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
@@ -84,6 +84,22 @@ function num(mixed $value): float
         return (float) $value;
     }
     return 0.0;
+}
+
+function target_for_quarter(array $target, int $quarter): float
+{
+    $total = 0.0;
+    $months = [];
+    if ($quarter === 1) $months = ['jan', 'feb', 'mar'];
+    elseif ($quarter === 2) $months = ['apr', 'mei', 'jun'];
+    elseif ($quarter === 3) $months = ['jul', 'agu', 'sep'];
+    elseif ($quarter === 4) $months = ['okt', 'nov', 'des'];
+
+    foreach ($months as $m) {
+        $total += num($target['target_' . $m] ?? 0);
+    }
+    
+    return $total;
 }
 
 function indicator_type_options(): array
@@ -194,7 +210,7 @@ function role_catalog(): array
         'Admin' => [
             'label' => 'Administrator',
             'unit_type' => 'PTA Medan',
-            'permissions' => ['manage_users', 'view_all_targets', 'edit_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
+            'permissions' => ['manage_users', 'view_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
         ],
         'PanmudBanding' => [
             'label' => 'Panmud Banding',
@@ -224,7 +240,7 @@ function role_catalog(): array
         'Perencanaan' => [
             'label' => 'Kasubag Perencanaan Program dan Anggaran',
             'unit_type' => 'PTA Medan',
-            'permissions' => ['manage_users', 'view_all_targets', 'edit_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
+            'permissions' => ['manage_users', 'view_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
         ],
         'SatkerPanmudHukum' => [
             'label' => 'Panmud Hukum Satker PA',
@@ -237,6 +253,25 @@ function role_catalog(): array
             'permissions' => ['input_target', 'evaluate', 'print_documents'],
         ],
     ];
+}
+
+
+function format_user_label(?string $nama, ?string $role, bool $multiline = false): string {
+    $namaStr = trim((string)$nama);
+    $roleStr = trim(role_label((string)$role));
+    
+    if ($namaStr === '' && $roleStr === '') return '-';
+    if ($namaStr === '') return h($roleStr);
+    if ($roleStr === '') return h($namaStr);
+    
+    if (strcasecmp($namaStr, $roleStr) === 0) {
+        return h($namaStr);
+    }
+    
+    if ($multiline) {
+        return h($namaStr) . '<br><small>' . h($roleStr) . '</small>';
+    }
+    return h($namaStr) . ' - ' . h($roleStr);
 }
 
 function role_label(string $role): string
@@ -560,6 +595,7 @@ function shared_workflow_groups(): array
             ['Monev Capaian Kinerja', 'modul', 'diagram-capaian'],
         ],
         'Tersier' => [
+            ['Portal Informasi Kinerja (IFKIN)', 'portal', 'notifikasi'],
             ['Regulasi & Artikel', 'modul', 'regulasi'],
             ['Info & Pengumuman', 'modul', 'info-pengumuman'],
             ['LHE PA', 'modul', 'lhe-pa'],

@@ -136,7 +136,7 @@ render_header('Evaluasi Kinerja');
                 <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -187,8 +187,7 @@ render_header('Evaluasi Kinerja');
                 <tr>
                     <?php if ($canViewAll): ?>
                         <td>
-                            <?= h((string) ($target['owner_nama'] ?? '-')) ?>
-                            <br><small><?= h(role_label((string) ($target['owner_role'] ?? ''))) ?></small>
+                            <?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
                     <td>
@@ -278,8 +277,7 @@ render_header('Evaluasi Kinerja');
                     <td><?= h((string) $evaluation['created_at']) ?></td>
                     <?php if ($canViewAll): ?>
                         <td>
-                            <?= h((string) ($evaluation['owner_nama'] ?? '-')) ?>
-                            <br><small><?= h(role_label((string) ($evaluation['owner_role'] ?? ''))) ?></small>
+                            <?= format_user_label($evaluation['owner_nama'] ?? '', $evaluation['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
                     <td><?= h((string) $evaluation['indikator']) ?></td>

@@ -317,6 +317,7 @@ $stmt->execute($params);
 $rows = $stmt->fetchAll();
 $rows[] = [
     'id' => '',
+    'user_id' => $selectedUserId > 0 ? $selectedUserId : $user['id'],
     'owner_nama' => $selectedUserId > 0 ? '' : $user['nama'],
     'owner_role' => $user['role'],
     'sasaran' => '',
@@ -364,7 +365,7 @@ render_header('Input Target Kinerja');
                     <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
                 </select>
@@ -444,7 +445,7 @@ render_header('Input Target Kinerja');
                     $lblA = $isPanmudBanding ? 'Perkara Masuk' : 'Jml E-Court';
                     $lblB = $isPanmudBanding ? 'Selesai Tepat Waktu' : 'Jml Non E-Court';
                 ?>
-                <tr>
+                <tr data-user-id="<?= h((string)($row['user_id'])) ?>">
                     <?php if ($canViewAll): ?>
                         <td>
                             <?= h((string) ($row['owner_nama'] ?: 'Baris Baru')) ?>
@@ -586,7 +587,7 @@ render_header('Input Target Kinerja');
                         </div>
                     </td>
                     <td style="text-align:center;">
-                        <?php if ($row['id'] && !$isMandatory): ?>
+                        <?php if ($row['id'] && !$isMandatory && $selectedUserId === (int)$user['id']): ?>
                             <button class="danger target-delete" name="action" value="delete" onclick="this.form.delete_id.value='<?= h((string) $row['id']) ?>'" style="margin-bottom: 5px;">Hapus</button>
                         <?php elseif ($isMandatory): ?>
                             <span class="small-badge" style="background:#10b981; color:#fff; border:none; display:inline-block; margin-bottom: 5px;">Mandatory</span>
@@ -611,12 +612,38 @@ render_header('Input Target Kinerja');
 </div>
     </div>
     <input type="hidden" name="delete_id" value="">
+    <?php if ($selectedUserId === (int)$user['id'] || $selectedUserId === 0): ?>
     <div class="toolbar">
         <button type="submit" name="action" value="save">Simpan</button>
+        <?php if ($selectedUserId === (int)$user['id']): ?>
         <a class="button secondary" href="index.php?page=target&tahun=<?= h((string) $tahun) ?>">Tambah Baris Kosong</a>
+        <?php endif; ?>
     </div>
+    <?php else: ?>
+    <div class="toolbar">
+        <p class="muted" style="margin: 0; font-style: italic;">Anda sedang dalam mode melihat. Anda hanya dapat mengisi atau mengubah target pada akun Anda sendiri.</p>
+    </div>
+    <?php endif; ?>
 </form>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUserId = <?= (int)$user['id'] ?>;
+    document.querySelectorAll('.table-responsive tbody tr').forEach(tr => {
+        const rowUserId = parseInt(tr.dataset.userId || 0, 10);
+        if (rowUserId !== currentUserId) {
+            const inputs = tr.querySelectorAll('input, select, textarea');
+            inputs.forEach(el => {
+                if (el.type !== 'hidden') {
+                    el.disabled = true;
+                    el.style.backgroundColor = '#f8fafc';
+                    el.style.color = '#64748b';
+                    el.style.cursor = 'not-allowed';
+                }
+            });
+        }
+    });
+});
+
 document.addEventListener('click', function (event) {
     const openButton = event.target.closest('[data-modal-target]');
     if (openButton) {

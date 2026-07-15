@@ -33,7 +33,6 @@ $user = $_SESSION['user'] ?? null;
                 <a href="#hero">Beranda</a>
                 <a href="#about">Tentang</a>
                 <a href="#fitur-utama">Fitur</a>
-                <a href="#sisa-fitur">Layanan</a>
                 <a href="#notifikasi">Informasi</a>
                 <a href="#peta">Lokasi</a>
                 <?php if ($isLoggedIn): ?>
@@ -58,11 +57,11 @@ $user = $_SESSION['user'] ?? null;
 
         <div class="lp-container lp-hero-content">
             <div class="lp-hero-text">
-                <h1 class="lp-hero-title lp-reveal reveal-blur"  style="--i:1"><?= h((string) $pageData['title']) ?></h1>
-                <p class="lp-hero-subtitle lp-reveal reveal-blur"  style="--i:2"><?= h((string) $pageData['subtitle']) ?></p>
-                <p class="lp-hero-lead lp-reveal reveal-blur"  style="--i:3"><?= h((string) $pageData['lead']) ?></p>
+                <div class="lp-hero-logo-wrapper lp-reveal reveal-blur" style="--i:1;">
+                    <img src="assets/logoikpaberanda.png" alt="Logo IKPA" class="lp-hero-logo">
+                </div>
 
-                <div class="lp-hero-action lp-reveal reveal-blur"  style="margin-top: 32px; --i:4;">
+                <div class="lp-hero-action lp-reveal reveal-blur"  style="margin-top: 16px; --i:4;">
                     <?php if ($isLoggedIn): ?>
                         <a href="index.php?page=dashboard" class="lp-btn lp-btn-primary"
                             style="padding: 16px 32px; font-size: 1.1rem;">Ke Dashboard <i
@@ -142,81 +141,10 @@ $user = $_SESSION['user'] ?? null;
         </div>
     </section>
 
-    <!-- SECTION 4: SISA FITUR -->
-    <section id="sisa-fitur" class="lp-section lp-site-green">
-        <div class="lp-container">
-            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center;">Layanan Lainnya</h2>
-            <div class="lp-rows-container">
-                <a href="index.php?page=portal&slug=revisi" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:1">
-                    <div class="lp-row-icon float-icon"><i class="ph-duotone ph-arrows-clockwise"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Revisi</div>
-                        <div class="lp-row-desc">Modul pengelolaan revisi anggaran secara terpadu.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=program-kerja-sop" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:2">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-clipboard-text"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Program Kerja & SOP</div>
-                        <div class="lp-row-desc">Dokumen Standar Operasional Prosedur dan rencana kerja.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=hibah" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:3">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-handshake"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Hibah</div>
-                        <div class="lp-row-desc">Informasi dan pelaporan terkait pengelolaan hibah.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=manajemen-risiko" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:4">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-warning-octagon"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Manajemen Risiko</div>
-                        <div class="lp-row-desc">Pemetaan dan mitigasi risiko operasional lembaga.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=monev-kinerja" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:5">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.2s;"><i class="ph-duotone ph-chart-bar"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Evaluasi AKIP</div>
-                        <div class="lp-row-desc">Penilaian dan evaluasi Akuntabilitas Kinerja Instansi.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=e-monev-bappenas" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:6">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-monitor-play"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">e-Monev Bappenas</div>
-                        <div class="lp-row-desc">Sistem monitoring dan evaluasi terintegrasi Bappenas.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=capaian-kinerja" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:7">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.4s;"><i class="ph-duotone ph-check-circle"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Monev Capaian Kinerja</div>
-                        <div class="lp-row-desc">Pemantauan target dan realisasi kinerja secara berkala.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=penyelesaian-perkara" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:8">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.6s;"><i class="ph-duotone ph-scales"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Pojok Baca</div>
-                        <div class="lp-row-desc">Kumpulan literatur dan regulasi terkait peradilan.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+
 
     <!-- SECTION 5: NOTIFIKASI / INFORMASI KINERJA -->
-    <section id="notifikasi" class="lp-section lp-site-green">
+    <section id="notifikasi" class="lp-section lp-site-green" style="padding-top: 100px;">
         <div class="lp-container">
             <div class="lp-section-header lp-reveal reveal-fade-up" 
                 style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">

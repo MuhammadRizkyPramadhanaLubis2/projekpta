@@ -82,7 +82,7 @@ render_header('Hitung Capaian Kinerja');
                 <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -118,8 +118,7 @@ render_header('Hitung Capaian Kinerja');
                 <tr>
                     <?php if ($canViewAll): ?>
                         <td>
-                            <?= h((string) ($row['owner_nama'] ?? '-')) ?>
-                            <br><small><?= h(role_label((string) ($row['owner_role'] ?? ''))) ?></small>
+                            <?= format_user_label($row['owner_nama'] ?? '', $row['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
                     <td>

@@ -97,50 +97,12 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
 
 <aside class="sidebar">
     <nav class="nav">
-        <?php if ($isPublicPage): ?>
-            <?php foreach (site_nav() as $item): ?>
-                <?php if (!empty($item['children'])): ?>
-                    <?php 
-                    $isParentActive = (($_GET['page'] ?? '') === 'portal' && ($_GET['slug'] ?? '') === $item['slug']);
-                    $isAnyChildActive = false;
-                    foreach ($item['children'] as $child) {
-                        if (($_GET['page'] ?? '') === 'portal' && ($_GET['slug'] ?? '') === $child['slug']) {
-                            $isAnyChildActive = true;
-                        }
-                    }
-                    $isOpen = $isParentActive || $isAnyChildActive;
-                    $parentUrl = 'index.php?page=portal&slug=' . urlencode($item['slug']);
-                    ?>
-                    <div class="nav-group <?= $isOpen ? 'open' : '' ?>">
-                        <div class="nav-parent <?= $isParentActive ? 'active' : '' ?>">
-                            <a href="<?= h($parentUrl) ?>"><?= h($item['label']) ?></a>
-                            <span class="nav-caret-toggle" onclick="this.closest('.nav-group').classList.toggle('open');">
-                                <i class="ph-bold ph-caret-down nav-caret"></i>
-                            </span>
-                        </div>
-                        <div class="nav-children-wrapper">
-                            <div class="nav-children">
-                                <?php foreach ($item['children'] as $child): ?>
-                                    <?php 
-                                    $childUrl = 'index.php?page=portal&slug=' . urlencode($child['slug']); 
-                                    $isChildActive = ($_GET['page'] ?? '') === 'portal' && ($_GET['slug'] ?? '') === $child['slug'];
-                                    ?>
-                                    <a href="<?= h($childUrl) ?>" class="<?= $isChildActive ? 'active' : '' ?>"><?= h($child['label']) ?></a>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <?php 
-                    $url = $item['slug'] === 'beranda' ? 'index.php?page=beranda' : 'index.php?page=portal&slug=' . urlencode($item['slug']); 
-                    $isActive = (($_GET['page'] ?? '') === 'portal' && ($_GET['slug'] ?? '') === $item['slug']) || (($_GET['page'] ?? 'beranda') === 'beranda' && $item['slug'] === 'beranda');
-                    ?>
-                    <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h($item['label']) ?></a>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php elseif ($user): ?>
+        <?php if ($user): ?>
             <a href="index.php?page=dashboard" class="<?= ($_GET['page'] ?? '') === 'dashboard' ? 'active' : '' ?>">Menu Utama</a>
-            <span class="nav-heading">Kertas Kerja</span>
+        <?php else: ?>
+            <a href="index.php?page=beranda" class="<?= ($_GET['page'] ?? '') === 'beranda' ? 'active' : '' ?>">Beranda</a>
+        <?php endif; ?>
+        <span class="nav-heading">Kertas Kerja</span>
             <?php foreach (shared_workflow_groups() as $groupLabel => $items): ?>
                 <?php
                 $isGroupActive = false;
@@ -160,11 +122,11 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                 }
                 ?>
                 <div class="nav-group <?= $isGroupActive ? 'open' : '' ?>">
-                    <div class="nav-parent <?= $isGroupActive ? 'active' : '' ?>">
-                        <button class="nav-group-label" type="button" onclick="this.closest('.nav-group').classList.toggle('open');"><?= h($groupLabel) ?></button>
-                        <button class="nav-caret-toggle" type="button" aria-label="Buka menu <?= h($groupLabel) ?>" onclick="this.closest('.nav-group').classList.toggle('open');">
+                    <div class="nav-parent <?= $isGroupActive ? 'active' : '' ?>" onclick="this.closest('.nav-group').classList.toggle('open');">
+                        <span class="nav-group-label"><?= h($groupLabel) ?></span>
+                        <span class="nav-caret-toggle" aria-label="Buka menu <?= h($groupLabel) ?>">
                             <i class="ph-bold ph-caret-down nav-caret"></i>
-                        </button>
+                        </span>
                     </div>
                     <div class="nav-children-wrapper">
                         <div class="nav-children">
@@ -192,9 +154,9 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                                     <div class="nav-subgroup <?= $isSubgroupOpen ? 'open' : '' ?>">
                                         <div class="nav-subgroup-parent <?= ($isActive || $isChildActive) ? 'active' : '' ?>">
                                             <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
-                                            <button class="nav-subgroup-toggle" type="button" aria-label="Buka submenu <?= h((string) $label) ?>" onclick="this.closest('.nav-subgroup').classList.toggle('open');">
+                                            <span class="nav-subgroup-toggle" aria-label="Buka submenu <?= h((string) $label) ?>" onclick="this.closest('.nav-subgroup').classList.toggle('open');">
                                                 <i class="ph-bold ph-caret-down nav-sub-caret"></i>
-                                            </button>
+                                            </span>
                                         </div>
                                         <div class="nav-subchildren-wrapper">
                                             <div class="nav-subchildren">
@@ -223,7 +185,6 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                 <span class="nav-heading">Administrasi</span>
                 <a href="index.php?page=users" class="<?= ($_GET['page'] ?? '') === 'users' ? 'active' : '' ?>">Manajemen Pengguna</a>
             <?php endif; ?>
-        <?php endif; ?>
     </nav>
 
 </aside>

@@ -1842,7 +1842,7 @@ body.modal-open {
 
     .shell {
         margin-left: 0;
-        padding: 24px;
+        padding: 12px 8px;
     }
 
     .module-hero,
@@ -2067,9 +2067,9 @@ body.modal-open {
 /* Landing Page Additions */
 .lp-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 40px;
 }
 
 .lp-hero {
@@ -2131,6 +2131,46 @@ body.modal-open {
     color: #fff;
     max-width: 500px;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.lp-hero-logo-wrapper {
+    margin-bottom: 0;
+    margin-left: -90px;
+    margin-top: -20px;
+}
+
+.lp-hero-logo {
+    max-width: 100%;
+    width: 700px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .lp-hero {
+        padding-bottom: 12vh;
+    }
+    .lp-container {
+        padding: 0 20px;
+    }
+    .lp-hero-text {
+        text-align: center;
+        width: 100%;
+    }
+    .lp-hero-logo-wrapper {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0;
+        margin-bottom: 32px;
+        text-align: center;
+    }
+    .lp-hero-logo {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+    .lp-hero-video, .lp-hero-overlay {
+        display: none !important;
+    }
 }
 
 .lp-topbar {
@@ -2285,9 +2325,7 @@ body.modal-open {
 }
 
 @media (max-width: 768px) {
-    .lp-nav-menu a:not(.lp-btn) {
-        display: none;
-    }
+    /* removed hide of nav-menu links to allow horizontal scrolling */
 }
 
 /* Section 3: Fitur Utama (Featured Cards) */
@@ -3490,12 +3528,25 @@ html.js .lp-featured-card.lp-reveal.is-visible:hover,
 /* MOBILE RESPONSIVENESS */
 @media (max-width: 768px) {
     /* Topbar */
+    .lp-topbar {
+        height: auto;
+        padding: 12px 0;
+    }
+    .lp-topbar-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
     .lp-topbar .lp-nav-menu {
+        max-width: calc(100% - 110px);
         display: flex;
         overflow-x: auto;
         white-space: nowrap;
-        padding-bottom: 10px;
+        padding-bottom: 4px;
         -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        align-items: center;
     }
     .lp-topbar .lp-nav-menu::-webkit-scrollbar {
         height: 0px;
@@ -3511,8 +3562,8 @@ html.js .lp-featured-card.lp-reveal.is-visible:hover,
         margin-bottom: 20px;
     }
     
-    /* Form Panels */
-    .panel {
+    /* Form Panels & Print Sheets */
+    .panel, .print-sheet {
         padding: 15px;
     }
 
@@ -3526,6 +3577,13 @@ html.js .lp-featured-card.lp-reveal.is-visible:hover,
     }
     .lp-hero-subtitle {
         font-size: 1.1rem;
+    }
+
+
+    /* OPTIMIZATION: Disable expensive backdrop-filter rendering on mobile */
+    * {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
     }
 
 }
