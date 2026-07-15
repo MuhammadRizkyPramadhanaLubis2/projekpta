@@ -143,10 +143,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ownerUnit = (string) ($ownerStmt->fetchColumn() ?: $user['unit']);
         }
 
-        $r1 = num($realTw1[$i] ?? 0);
-        $r2 = num($realTw2[$i] ?? 0);
-        $r3 = num($realTw3[$i] ?? 0);
-        $r4 = num($realTw4[$i] ?? 0);
+        $r_jan = num($real_jan[$i] ?? 0);
+        $r_feb = num($real_feb[$i] ?? 0);
+        $r_mar = num($real_mar[$i] ?? 0);
+        $r_apr = num($real_apr[$i] ?? 0);
+        $r_mei = num($real_mei[$i] ?? 0);
+        $r_jun = num($real_jun[$i] ?? 0);
+        $r_jul = num($real_jul[$i] ?? 0);
+        $r_agu = num($real_agu[$i] ?? 0);
+        $r_sep = num($real_sep[$i] ?? 0);
+        $r_okt = num($real_okt[$i] ?? 0);
+        $r_nov = num($real_nov[$i] ?? 0);
+        $r_des = num($real_des[$i] ?? 0);
 
         $m1a = num($metaTw1a[$i] ?? 0);
         $m1b = num($metaTw1b[$i] ?? 0);
