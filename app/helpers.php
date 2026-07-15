@@ -573,6 +573,7 @@ function shared_workflow_groups(): array
             ['Cetak RKT & RKA', 'rkt_rka', null],
             ['Hitung Capaian Kinerja (HCK)', 'capaian', null],
             ['Evaluasi Kinerja (EvKin)', 'evaluasi', null],
+            ['Evaluasi', 'evaluasi-akip', null],
         ],
         'Sekunder' => [
             ['Program Kerja & SOP', 'modul', 'program-kerja'],

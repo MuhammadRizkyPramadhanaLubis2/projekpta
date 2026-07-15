@@ -115,6 +115,25 @@ function init_database(): void
         )'
     );
 
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS evaluasi_sakip (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tahun INTEGER NOT NULL,
+            satker_id INTEGER NOT NULL,
+            evaluator_id INTEGER,
+            nilai_akhir REAL,
+            grade_akhir TEXT,
+            data_nilai TEXT,
+            status TEXT NOT NULL DEFAULT "Evaluasi",
+            lhe_file TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT,
+            UNIQUE(tahun, satker_id),
+            FOREIGN KEY (satker_id) REFERENCES users(id) ON DELETE CASCADE
+        )'
+    );
+
+
     if (!table_has_column($pdo, 'document_meta', 'pihak1_ttd')) {
         $pdo->exec('ALTER TABLE document_meta ADD COLUMN pihak1_ttd TEXT NOT NULL DEFAULT ""');
     }

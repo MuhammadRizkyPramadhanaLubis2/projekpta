@@ -2,6 +2,9 @@
 declare(strict_types=1);
 
 $user = current_user();
+
+
+
 $tahun = year_value();
 $canViewAll = user_can('view_all_targets');
 $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? $_POST['user_id'] ?? 0) : (int) $user['id'];
