@@ -401,9 +401,11 @@ if ($satkerId) {
     }
 }
 
+define('HIDE_PAGE_TOPBAR', true);
 render_header('Evaluasi SAKIP');
 ?>
 <link rel="stylesheet" href="assets/evaluasi-akip.css" />
+<div class="evaluasi-wrapper">
 
 <?php if (!$satkerId): ?>
 <header class="primer-hero" style="padding-bottom: 80px;">
@@ -598,6 +600,7 @@ render_header('Evaluasi SAKIP');
     
   </section>
 </main>
+</div>
 <?php endif; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

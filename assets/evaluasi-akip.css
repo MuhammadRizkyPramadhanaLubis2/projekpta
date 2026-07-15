@@ -1,4 +1,4 @@
-:root {
+.evaluasi-wrapper {
     --bg: #eef3ef;
     --panel: #ffffff;
     --panel-soft: #f8faf8;
@@ -18,13 +18,15 @@
     --radius-lg: 22px;
     --radius-md: 16px;
     --container: 1240px;
-}
-* { box-sizing: border-box; }
-body {
-    margin: 0;
+
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
     background: linear-gradient(180deg, #eaf3ee 0%, #f6f9f7 220px, #eef3ef 100%);
+    margin: -40px;
+    min-height: calc(100vh - 80px);
+}
+.evaluasi-wrapper * { 
+    box-sizing: border-box; 
 }
 .primer-hero {
     background: linear-gradient(135deg, #064e3b, #047857 55%, #10b981 100%);
