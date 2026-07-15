@@ -39,7 +39,7 @@ foreach ($targets as $row) {
     $indicators[] = $indText;
     
     for ($i = 1; $i <= 4; $i++) {
-        $targetVal = target_for_quarter($row, $i);
+        $targetVal = target_for_month($row, $i);
         $realVal = num($row['real_tw' . $i] ?? 0);
         
         // Avoid using full achievement logic that requires 'tipe_indikator' for simple portal display

@@ -82,9 +82,9 @@ if (!$isDocx) {
 .signature-tab.active { background: #064e3b; color: #fff; }
 .signature-panel { display: none; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px; background: #f8fafc; }
 .signature-panel.active { display: block; }
-.signature-canvas { border: 1px dashed #94a3b8; background: #fff; cursor: crosshair; display: block; margin-bottom: 8px; }
+.signature-canvas { border: 1px dashed #94a3b8; background: #fff; cursor: crosshair; display: block; margin-bottom: 8px; max-width: 100%; touch-action: none; }
 .signature-preview { max-width: 150px; max-height: 80px; display: block; margin-top: 8px; }
-.clear-canvas-btn { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+.clear-canvas-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; font-weight: 600; }
 </style>
 
 <form method="get" class="toolbar">
@@ -100,16 +100,18 @@ if (!$isDocx) {
                 <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
         </label>
     <?php endif; ?>
-    <button type="submit" class="secondary">Tampilkan</button>
-    <button type="button" onclick="window.print()">Cetak PDF</button>
-    <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=doc" class="button" style="background:#1d4ed8; color:white; padding:8px 16px; border-radius:4px; text-decoration:none;">Ekspor Word</a>
-    <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=csv" class="button" style="background:#047857; color:white; padding:8px 16px; border-radius:4px; text-decoration:none;">Ekspor CSV</a>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; width: 100%; align-items: stretch; margin-top: 8px;">
+        <button type="submit" class="secondary">Tampilkan</button>
+        <button type="button" onclick="window.print()">Cetak PDF</button>
+        <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=doc" class="button" style="background:#1d4ed8; color:white; padding:8px 16px; border-radius:4px; text-decoration:none; text-align: center; display: flex; justify-content: center; align-items: center; font-weight: 600;">Ekspor Word</a>
+        <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=csv" class="button" style="background:#047857; color:white; padding:8px 16px; border-radius:4px; text-decoration:none; text-align: center; display: flex; justify-content: center; align-items: center; font-weight: 600;">Ekspor CSV</a>
+    </div>
 </form>
 
 <section class="panel print-meta-form">
@@ -209,8 +211,10 @@ function initCanvas(id) {
     const draw = (e) => {
         if (!canvases[id].drawing) return;
         const rect = canvas.getBoundingClientRect();
-        const x = (e.clientX || e.touches?.[0].clientX) - rect.left;
-        const y = (e.clientY || e.touches?.[0].clientY) - rect.top;
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        const x = ((e.clientX || e.touches?.[0].clientX) - rect.left) * scaleX;
+        const y = ((e.clientY || e.touches?.[0].clientY) - rect.top) * scaleY;
         ctx.lineTo(x, y);
         ctx.stroke();
         ctx.beginPath();
@@ -399,8 +403,7 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
                     <td><?= $i + 1 ?></td>
                     <?php if ($canViewAll): ?>
                         <td>
-                            <?= h((string) ($target['owner_nama'] ?? '-')) ?>
-                            <br><small><?= h(role_label((string) ($target['owner_role'] ?? ''))) ?></small>
+                            <?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
                     <td><?= h((string) $target['sasaran']) ?></td>

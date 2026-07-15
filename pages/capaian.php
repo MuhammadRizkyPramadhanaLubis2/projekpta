@@ -5,16 +5,17 @@ $user = current_user();
 $tahun = year_value();
 $canViewAll = user_can('view_all_targets');
 $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? 0) : (int) $user['id'];
-$tw = (int) ($_GET['tw'] ?? 1);
-$tw = max(1, min(4, $tw));
-$twColumn = 'real_tw' . $tw;
+$bulan = (int) ($_GET['bulan'] ?? 1);
+$bulan = max(1, min(12, $bulan));
+$months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+$bulanColumn = 'real_' . $months[$bulan - 1];
 
 $owners = [];
 if ($canViewAll) {
     $owners = db()->query('SELECT id, nama, role, unit FROM users WHERE status = "active" ORDER BY unit, role, nama')->fetchAll();
 }
 
-$query = "SELECT tk.*, tk.{$twColumn} AS realisasi, u.nama AS owner_nama, u.role AS owner_role
+$query = "SELECT tk.*, tk.{$bulanColumn} AS realisasi, u.nama AS owner_nama, u.role AS owner_role
           FROM target_kinerja tk
           LEFT JOIN users u ON u.id = tk.user_id
           WHERE tk.tahun = :tahun";
@@ -36,10 +37,10 @@ $rows = $stmt->fetchAll();
 $weightedTotal = 0.0;
 $weightSum = 0.0;
 foreach ($rows as &$row) {
-    $target = target_for_quarter($row, $tw);
+    $target = target_for_month($row, $bulan);
     $realisasi = num($row['realisasi']);
     $weight = max(0, num($row['bobot'] ?? 1));
-    $row['target_triwulan'] = $target;
+    $row['target_bulan'] = $target;
     $row['capaian'] = achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
     $row['nilai_tertimbang'] = round($row['capaian'] * $weight, 2);
     $weightedTotal += $row['nilai_tertimbang'];
@@ -67,10 +68,10 @@ render_header('Hitung Capaian Kinerja');
         <input type="number" name="tahun" min="2020" max="2100" value="<?= h((string) $tahun) ?>">
     </label>
     <label>
-        Triwulan
-        <select name="tw">
-            <?php for ($i = 1; $i <= 4; $i++): ?>
-                <option value="<?= $i ?>" <?= $i === $tw ? 'selected' : '' ?>>TW<?= $i ?></option>
+        Bulan
+        <select name="bulan">
+            <?php for ($i = 1; $i <= 12; $i++): ?>
+                <option value="<?= $i ?>" <?= $i === $bulan ? 'selected' : '' ?>>Bulan <?= $i ?></option>
             <?php endfor; ?>
         </select>
     </label>
@@ -81,7 +82,7 @@ render_header('Hitung Capaian Kinerja');
                 <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -92,7 +93,8 @@ render_header('Hitung Capaian Kinerja');
 
 <section class="panel">
     <div class="table-wrap">
-        <table>
+        <div class="table-responsive">
+<table>
             <thead>
             <tr>
                 <?php if ($canViewAll): ?>
@@ -102,7 +104,7 @@ render_header('Hitung Capaian Kinerja');
                 <th>Sumber Data</th>
                 <th>Tipe</th>
                 <th>Bobot</th>
-                <th>Target TW<?= $tw ?></th>
+                <th>Target Bulan <?= $bulan ?></th>
                 <th>Realisasi</th>
                 <th>Capaian (%)</th>
                 <th>Nilai Tertimbang</th>
@@ -116,8 +118,7 @@ render_header('Hitung Capaian Kinerja');
                 <tr>
                     <?php if ($canViewAll): ?>
                         <td>
-                            <?= h((string) ($row['owner_nama'] ?? '-')) ?>
-                            <br><small><?= h(role_label((string) ($row['owner_role'] ?? ''))) ?></small>
+                            <?= format_user_label($row['owner_nama'] ?? '', $row['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
                     <td>
@@ -129,14 +130,14 @@ render_header('Hitung Capaian Kinerja');
                     <td><?= h((string) ($row['sumber_data'] ?: '-')) ?></td>
                     <td><?= h(indicator_type_label((string) ($row['tipe_indikator'] ?? 'max'))) ?></td>
                     <td><?= h((string) ($row['bobot'] ?? 1)) ?></td>
-                    <td><?= h((string) $row['target_triwulan']) ?></td>
+                    <td><?= h((string) $row['target_bulan']) ?></td>
                     <td>
                         <?= h((string) $row['realisasi']) ?>
                         <?php
                         if (($row['is_mandatory'] ?? 0) == 1) {
                             $meta = json_decode((string)($row['metadata'] ?? '{}'), true);
-                            if (is_array($meta) && isset($meta['tw' . $tw])) {
-                                $m = $meta['tw' . $tw];
+                            if (is_array($meta) && isset($meta[$months[$bulan - 1]])) {
+                                $m = $meta[$months[$bulan - 1]];
                                 if (($row['owner_role'] ?? '') === 'PanmudBanding') {
                                     echo '<br><small style="color:#64748b;">(Masuk: ' . h((string)($m['a'] ?? 0)) . ', Selesai: ' . h((string)($m['b'] ?? 0)) . ')</small>';
                                 } elseif (($row['owner_role'] ?? '') === 'PanmudHukum') {
@@ -152,9 +153,10 @@ render_header('Hitung Capaian Kinerja');
             <?php endforeach; ?>
             </tbody>
         </table>
+</div>
     </div>
     <div class="stat">
-        Totalitas Capaian Kinerja Berbobot TW<?= $tw ?>:
+        Totalitas Capaian Kinerja Berbobot Bulan <?= $bulan ?>:
         <?= $average !== null ? h((string) $average) . '%' : 'Belum tersedia' ?>
     </div>
 </section>

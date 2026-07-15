@@ -33,7 +33,6 @@ $user = $_SESSION['user'] ?? null;
                 <a href="#hero">Beranda</a>
                 <a href="#about">Tentang</a>
                 <a href="#fitur-utama">Fitur</a>
-                <a href="#sisa-fitur">Layanan</a>
                 <a href="#notifikasi">Informasi</a>
                 <a href="#peta">Lokasi</a>
                 <?php if ($isLoggedIn): ?>
@@ -58,11 +57,11 @@ $user = $_SESSION['user'] ?? null;
 
         <div class="lp-container lp-hero-content">
             <div class="lp-hero-text">
-                <h1 class="lp-hero-title lp-reveal reveal-blur"  style="--i:1"><?= h((string) $pageData['title']) ?></h1>
-                <p class="lp-hero-subtitle lp-reveal reveal-blur"  style="--i:2"><?= h((string) $pageData['subtitle']) ?></p>
-                <p class="lp-hero-lead lp-reveal reveal-blur"  style="--i:3"><?= h((string) $pageData['lead']) ?></p>
+                <div class="lp-hero-logo-wrapper lp-reveal reveal-blur" style="--i:1;">
+                    <img src="assets/logoikpaberanda.png" alt="Logo IKPA" class="lp-hero-logo">
+                </div>
 
-                <div class="lp-hero-action lp-reveal reveal-blur"  style="margin-top: 32px; --i:4;">
+                <div class="lp-hero-action lp-reveal reveal-blur"  style="margin-top: 16px; --i:4;">
                     <?php if ($isLoggedIn): ?>
                         <a href="index.php?page=dashboard" class="lp-btn lp-btn-primary"
                             style="padding: 16px 32px; font-size: 1.1rem;">Ke Dashboard <i
@@ -142,81 +141,10 @@ $user = $_SESSION['user'] ?? null;
         </div>
     </section>
 
-    <!-- SECTION 4: SISA FITUR -->
-    <section id="sisa-fitur" class="lp-section lp-site-green">
-        <div class="lp-container">
-            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center;">Layanan Lainnya</h2>
-            <div class="lp-rows-container">
-                <a href="index.php?page=portal&slug=revisi" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:1">
-                    <div class="lp-row-icon float-icon"><i class="ph-duotone ph-arrows-clockwise"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Revisi</div>
-                        <div class="lp-row-desc">Modul pengelolaan revisi anggaran secara terpadu.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=program-kerja-sop" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:2">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-clipboard-text"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Program Kerja & SOP</div>
-                        <div class="lp-row-desc">Dokumen Standar Operasional Prosedur dan rencana kerja.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=hibah" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:3">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-handshake"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Hibah</div>
-                        <div class="lp-row-desc">Informasi dan pelaporan terkait pengelolaan hibah.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=manajemen-risiko" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:4">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-warning-octagon"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Manajemen Risiko</div>
-                        <div class="lp-row-desc">Pemetaan dan mitigasi risiko operasional lembaga.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=monev-kinerja" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:5">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.2s;"><i class="ph-duotone ph-chart-bar"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Evaluasi AKIP</div>
-                        <div class="lp-row-desc">Penilaian dan evaluasi Akuntabilitas Kinerja Instansi.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=e-monev-bappenas" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:6">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-monitor-play"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">e-Monev Bappenas</div>
-                        <div class="lp-row-desc">Sistem monitoring dan evaluasi terintegrasi Bappenas.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=capaian-kinerja" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:7">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.4s;"><i class="ph-duotone ph-check-circle"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Monev Capaian Kinerja</div>
-                        <div class="lp-row-desc">Pemantauan target dan realisasi kinerja secara berkala.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=penyelesaian-perkara" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:8">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.6s;"><i class="ph-duotone ph-scales"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Pojok Baca</div>
-                        <div class="lp-row-desc">Kumpulan literatur dan regulasi terkait peradilan.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+
 
     <!-- SECTION 5: NOTIFIKASI / INFORMASI KINERJA -->
-    <section id="notifikasi" class="lp-section lp-site-green">
+    <section id="notifikasi" class="lp-section lp-site-green" style="padding-top: 100px;">
         <div class="lp-container">
             <div class="lp-section-header lp-reveal reveal-fade-up" 
                 style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
@@ -408,7 +336,7 @@ $user = $_SESSION['user'] ?? null;
 
     <script src="assets/landing.js"></script>
     <script>
-        // Fluid Ambient Background & Glow Cursor (VividMotion style)
+        // Classic Android Live Wallpaper Style (Phase Beam / Floating Orbs)
         (function() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -419,7 +347,6 @@ $user = $_SESSION['user'] ?? null;
             canvas.style.width = '100vw';
             canvas.style.height = '100vh';
             canvas.style.pointerEvents = 'none';
-            // Z-index 0 menempatkan canvas DI BELAKANG konten (container z-index: 2)
             canvas.style.zIndex = '0';
             document.body.appendChild(canvas);
 
@@ -431,102 +358,87 @@ $user = $_SESSION['user'] ?? null;
             window.addEventListener('resize', resize);
             resize();
 
-            // Background ambient blobs (waves)
-            const blobs = [
-                { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: window.innerWidth * 0.6, vx: 0.6, vy: 0.4, color: 'rgba(16, 185, 129, 0.12)' }, // Emerald
-                { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: window.innerWidth * 0.7, vx: -0.5, vy: 0.7, color: 'rgba(218, 165, 32, 0.08)' }, // Gold
-                { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight, r: window.innerWidth * 0.5, vx: 0.4, vy: -0.5, color: 'rgba(52, 211, 153, 0.15)' } // Light Green
+            const orbs = [];
+            const colors = [
+                'rgba(16, 185, 129,',   // Emerald
+                'rgba(247, 215, 116,',  // Gold
+                'rgba(4, 120, 87,',     // Darker Green
+                'rgba(52, 211, 153,'    // Light Green
             ];
 
-            const particles = [];
-            const mouse = { x: -100, y: -100 };
-            
-            // For smooth cursor following
-            let currentMouse = { x: -100, y: -100 };
-            let isMoving = false;
-            let moveTimeout;
+            // Create 30 glowing orbs
+            for (let i = 0; i < 30; i++) {
+                orbs.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    radius: Math.random() * 80 + 20,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: Math.random() * -1 - 0.2, // always drift upwards
+                    baseAlpha: Math.random() * 0.15 + 0.05,
+                    colorStr: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
 
+            const mouse = { x: -100, y: -100 };
             document.addEventListener('mousemove', function(e) {
                 mouse.x = e.clientX;
                 mouse.y = e.clientY;
-                isMoving = true;
-                clearTimeout(moveTimeout);
-                moveTimeout = setTimeout(() => isMoving = false, 50);
             });
 
             function animate() {
-                // Background color (clears previous frame)
+                // Base dark green background
                 ctx.globalCompositeOperation = 'source-over';
-                ctx.fillStyle = '#022c22'; // Base dark green
+                ctx.fillStyle = '#022c22';
                 ctx.fillRect(0, 0, width, height);
                 
-                // Draw ambient blobs (moving waves)
                 ctx.globalCompositeOperation = 'screen';
-                blobs.forEach(b => {
-                    b.x += b.vx;
-                    b.y += b.vy;
-                    // Bounce off walls gently
-                    if (b.x < -b.r * 0.5 || b.x > width + b.r * 0.5) b.vx *= -1;
-                    if (b.y < -b.r * 0.5 || b.y > height + b.r * 0.5) b.vy *= -1;
 
-                    const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
-                    grad.addColorStop(0, b.color);
-                    grad.addColorStop(1, 'rgba(0,0,0,0)');
-                    ctx.fillStyle = grad;
+                // Draw moving orbs
+                orbs.forEach(orb => {
+                    orb.x += orb.vx;
+                    orb.y += orb.vy;
+
+                    // Interaction with mouse (gentle push)
+                    const dx = orb.x - mouse.x;
+                    const dy = orb.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        orb.x += dx * 0.01;
+                        orb.y += dy * 0.01;
+                    }
+
+                    // Reset if out of bounds (loop to bottom)
+                    if (orb.y < -orb.radius) {
+                        orb.y = height + orb.radius;
+                        orb.x = Math.random() * width;
+                    }
+                    if (orb.x < -orb.radius) orb.x = width + orb.radius;
+                    if (orb.x > width + orb.radius) orb.x = -orb.radius;
+
+                    // Draw soft glowing orb
+                    const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius);
+                    grad.addColorStop(0, `${orb.colorStr} ${orb.baseAlpha})`);
+                    grad.addColorStop(0.5, `${orb.colorStr} ${orb.baseAlpha * 0.5})`);
+                    grad.addColorStop(1, `${orb.colorStr} 0)`);
+
                     ctx.beginPath();
-                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                    ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = grad;
                     ctx.fill();
                 });
 
-                // Smooth mouse interpolation
+                // Add cursor glow (optional, subtle)
                 if (mouse.x > 0) {
-                    if (currentMouse.x === -100) {
-                        currentMouse.x = mouse.x;
-                        currentMouse.y = mouse.y;
-                    } else {
-                        currentMouse.x += (mouse.x - currentMouse.x) * 0.15;
-                        currentMouse.y += (mouse.y - currentMouse.y) * 0.15;
-                    }
-                }
-
-                // Add cursor particle
-                if (mouse.x > 0 && isMoving) {
-                    particles.push({
-                        x: currentMouse.x,
-                        y: currentMouse.y,
-                        size: 90, // Soft brush size
-                        life: 1,
-                        vx: (Math.random() - 0.5) * 0.3,
-                        vy: (Math.random() - 0.5) * 0.3 - 0.2 // drift slowly up
-                    });
-                }
-
-                // Draw cursor particles
-                for (let i = 0; i < particles.length; i++) {
-                    const p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.life -= 0.015; // Fade out speed
-                    p.size += 0.8; // Expand slowly
-
-                    if (p.life <= 0) {
-                        particles.splice(i, 1);
-                        i--;
-                        continue;
-                    }
-
-                    // Soft glowing radial gradient for cursor
-                    const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-                    gradient.addColorStop(0, `rgba(247, 215, 116, ${p.life * 0.2})`);
-                    gradient.addColorStop(0.5, `rgba(247, 215, 116, ${p.life * 0.08})`);
-                    gradient.addColorStop(1, `rgba(247, 215, 116, 0)`);
-
+                    const cursorGrad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 100);
+                    cursorGrad.addColorStop(0, 'rgba(247, 215, 116, 0.1)');
+                    cursorGrad.addColorStop(1, 'rgba(247, 215, 116, 0)');
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fillStyle = gradient;
+                    ctx.arc(mouse.x, mouse.y, 100, 0, Math.PI * 2);
+                    ctx.fillStyle = cursorGrad;
                     ctx.fill();
                 }
-                
+
+                ctx.globalCompositeOperation = 'source-over';
                 requestAnimationFrame(animate);
             }
             animate();

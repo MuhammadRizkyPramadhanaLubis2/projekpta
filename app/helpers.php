@@ -13,7 +13,7 @@ function get_signature_img_tag(string $base64Data, int $maxWidth = 150, int $max
     }
     
     // Fallback default style
-    $style = "display: block; margin: 10px auto;";
+    $style = "display: block; margin: 10px auto; max-width: 100%; height: auto;";
     
     // Try to get intrinsic size from base64 string
     $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
@@ -86,6 +86,22 @@ function num(mixed $value): float
     return 0.0;
 }
 
+function target_for_quarter(array $target, int $quarter): float
+{
+    $total = 0.0;
+    $months = [];
+    if ($quarter === 1) $months = ['jan', 'feb', 'mar'];
+    elseif ($quarter === 2) $months = ['apr', 'mei', 'jun'];
+    elseif ($quarter === 3) $months = ['jul', 'agu', 'sep'];
+    elseif ($quarter === 4) $months = ['okt', 'nov', 'des'];
+
+    foreach ($months as $m) {
+        $total += num($target['target_' . $m] ?? 0);
+    }
+    
+    return $total;
+}
+
 function indicator_type_options(): array
 {
     return [
@@ -117,42 +133,47 @@ function achievement_value(float $target, float $realisasi, string $type): float
     return round(($realisasi / $target) * 100, 2);
 }
 
-function target_for_quarter(array $row, int $tw): float
+function target_for_month(array $row, int $month): float
 {
-    $quarterTarget = num($row['target_tw' . $tw] ?? 0);
-    if ($quarterTarget > 0) {
-        return $quarterTarget;
+    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+    $m = $months[$month - 1] ?? 'jan';
+    $monthTarget = num($row['target_' . $m] ?? 0);
+    if ($monthTarget > 0) {
+        return $monthTarget;
     }
 
-    return round(num($row['target'] ?? 0) / 4, 2);
+    return round(num($row['target'] ?? 0) / 12, 2);
 }
 
-function achievement_for_quarter(array $row, int $tw): float
+function achievement_for_month(array $row, int $month): float
 {
-    $tw = max(1, min(4, $tw));
-    $target = target_for_quarter($row, $tw);
-    $realisasi = num($row['real_tw' . $tw] ?? 0);
+    $month = max(1, min(12, $month));
+    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+    $m = $months[$month - 1] ?? 'jan';
+    
+    $target = target_for_month($row, $month);
+    $realisasi = num($row['real_' . $m] ?? 0);
 
     return achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
 }
 
-function achievement_trend(array $row, int $tw): array
+function achievement_trend(array $row, int $month): array
 {
-    $tw = max(1, min(4, $tw));
-    $current = achievement_for_quarter($row, $tw);
+    $month = max(1, min(12, $month));
+    $current = achievement_for_month($row, $month);
 
-    if ($tw === 1) {
+    if ($month === 1) {
         return [
             'previous' => null,
             'current' => $current,
             'status' => 'baseline',
-            'label' => 'Baseline TW1',
+            'label' => 'Baseline Bulan 1',
             'jenis' => 'Baseline capaian awal',
             'required' => true,
         ];
     }
 
-    $previous = achievement_for_quarter($row, $tw - 1);
+    $previous = achievement_for_month($row, $month - 1);
     if ($current > $previous) {
         $status = 'naik';
         $label = 'Capaian naik';
@@ -189,7 +210,7 @@ function role_catalog(): array
         'Admin' => [
             'label' => 'Administrator',
             'unit_type' => 'PTA Medan',
-            'permissions' => ['manage_users', 'view_all_targets', 'edit_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
+            'permissions' => ['manage_users', 'view_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
         ],
         'PanmudBanding' => [
             'label' => 'Panmud Banding',
@@ -219,7 +240,7 @@ function role_catalog(): array
         'Perencanaan' => [
             'label' => 'Kasubag Perencanaan Program dan Anggaran',
             'unit_type' => 'PTA Medan',
-            'permissions' => ['manage_users', 'view_all_targets', 'edit_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
+            'permissions' => ['manage_users', 'view_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
         ],
         'SatkerPanmudHukum' => [
             'label' => 'Panmud Hukum Satker PA',
@@ -232,6 +253,25 @@ function role_catalog(): array
             'permissions' => ['input_target', 'evaluate', 'print_documents'],
         ],
     ];
+}
+
+
+function format_user_label(?string $nama, ?string $role, bool $multiline = false): string {
+    $namaStr = trim((string)$nama);
+    $roleStr = trim(role_label((string)$role));
+    
+    if ($namaStr === '' && $roleStr === '') return '-';
+    if ($namaStr === '') return h($roleStr);
+    if ($roleStr === '') return h($namaStr);
+    
+    if (strcasecmp($namaStr, $roleStr) === 0) {
+        return h($namaStr);
+    }
+    
+    if ($multiline) {
+        return h($namaStr) . '<br><small>' . h($roleStr) . '</small>';
+    }
+    return h($namaStr) . ' - ' . h($roleStr);
 }
 
 function role_label(string $role): string
@@ -555,6 +595,7 @@ function shared_workflow_groups(): array
             ['Monev Capaian Kinerja', 'modul', 'diagram-capaian'],
         ],
         'Tersier' => [
+            ['Portal Informasi Kinerja (IFKIN)', 'portal', 'notifikasi'],
             ['Regulasi & Artikel', 'modul', 'regulasi'],
             ['Info & Pengumuman', 'modul', 'info-pengumuman'],
             ['LHE PA', 'modul', 'lhe-pa'],

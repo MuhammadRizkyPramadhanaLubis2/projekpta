@@ -106,7 +106,7 @@ if (!$isDocx) {
                 <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -396,8 +396,7 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
                     <td><?= $i + 1 ?></td>
                     <?php if ($canViewAll): ?>
                         <td>
-                            <?= h((string) ($target['owner_nama'] ?? '-')) ?>
-                            <br><small><?= h(role_label((string) ($target['owner_role'] ?? ''))) ?></small>
+                            <?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
                     <td><?= h((string) $target['sasaran']) ?></td>

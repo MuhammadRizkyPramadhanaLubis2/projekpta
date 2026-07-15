@@ -42,52 +42,85 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $targets = $_POST['target'] ?? [];
     $pilihanDipa = $_POST['pilihan_dipa'] ?? [];
     $nilaiDipa = $_POST['nilai_dipa'] ?? [];
-    $realTw1 = $_POST['real_tw1'] ?? [];
-    $realTw2 = $_POST['real_tw2'] ?? [];
-    $realTw3 = $_POST['real_tw3'] ?? [];
-    $realTw4 = $_POST['real_tw4'] ?? [];
-    $analisisKegiatan = $_POST['analisis_kegiatan'] ?? [];
-    $analisisUpaya = $_POST['analisis_upaya'] ?? [];
-    $analisisStrategi = $_POST['analisis_strategi'] ?? [];
-    $analisisKendala = $_POST['analisis_kendala'] ?? [];
-    $analisisSolusi = $_POST['analisis_solusi'] ?? [];
+    $real_jan = $_POST['real_jan'] ?? [];
+    $real_feb = $_POST['real_feb'] ?? [];
+    $real_mar = $_POST['real_mar'] ?? [];
+    $real_apr = $_POST['real_apr'] ?? [];
+    $real_mei = $_POST['real_mei'] ?? [];
+    $real_jun = $_POST['real_jun'] ?? [];
+    $real_jul = $_POST['real_jul'] ?? [];
+    $real_agu = $_POST['real_agu'] ?? [];
+    $real_sep = $_POST['real_sep'] ?? [];
+    $real_okt = $_POST['real_okt'] ?? [];
+    $real_nov = $_POST['real_nov'] ?? [];
+    $real_des = $_POST['real_des'] ?? [];
+                                    $analisisCapaian = $_POST['analisis_capaian'] ?? [];
+    $meta_jana = $_POST['meta_jana'] ?? [];
+    $meta_janb = $_POST['meta_janb'] ?? [];
+    $meta_feba = $_POST['meta_feba'] ?? [];
+    $meta_febb = $_POST['meta_febb'] ?? [];
+    $meta_mara = $_POST['meta_mara'] ?? [];
+    $meta_marb = $_POST['meta_marb'] ?? [];
+    $meta_apra = $_POST['meta_apra'] ?? [];
+    $meta_aprb = $_POST['meta_aprb'] ?? [];
+    $meta_meia = $_POST['meta_meia'] ?? [];
+    $meta_meib = $_POST['meta_meib'] ?? [];
+    $meta_juna = $_POST['meta_juna'] ?? [];
+    $meta_junb = $_POST['meta_junb'] ?? [];
+    $meta_jula = $_POST['meta_jula'] ?? [];
+    $meta_julb = $_POST['meta_julb'] ?? [];
+    $meta_agua = $_POST['meta_agua'] ?? [];
+    $meta_agub = $_POST['meta_agub'] ?? [];
+    $meta_sepa = $_POST['meta_sepa'] ?? [];
+    $meta_sepb = $_POST['meta_sepb'] ?? [];
+    $meta_okta = $_POST['meta_okta'] ?? [];
+    $meta_oktb = $_POST['meta_oktb'] ?? [];
+    $meta_nova = $_POST['meta_nova'] ?? [];
+    $meta_novb = $_POST['meta_novb'] ?? [];
+    $meta_desa = $_POST['meta_desa'] ?? [];
+    $meta_desb = $_POST['meta_desb'] ?? [];
 
-    $metaTw1a = $_POST['meta_tw1a'] ?? [];
-    $metaTw1b = $_POST['meta_tw1b'] ?? [];
-    $metaTw2a = $_POST['meta_tw2a'] ?? [];
-    $metaTw2b = $_POST['meta_tw2b'] ?? [];
-    $metaTw3a = $_POST['meta_tw3a'] ?? [];
-    $metaTw3b = $_POST['meta_tw3b'] ?? [];
-    $metaTw4a = $_POST['meta_tw4a'] ?? [];
-    $metaTw4b = $_POST['meta_tw4b'] ?? [];
-
+                                
     $insert = db()->prepare(
         'INSERT INTO target_kinerja
          (tahun, unit, sasaran, indikator, satuan, tipe_indikator, sumber_data, bobot,
-          target, target_tw1, target_tw2, target_tw3, target_tw4,
-          dipa01, dipa04, real_tw1, real_tw2, real_tw3, real_tw4,
-          analisis_kegiatan, analisis_upaya, analisis_strategi, analisis_kendala, analisis_solusi,
+          target, target_jan, target_feb, target_mar, target_apr, target_mei, target_jun, target_jul, target_agu, target_sep, target_okt, target_nov, target_des, dipa01, dipa04, real_jan, real_feb, real_mar, real_apr, real_mei, real_jun, real_jul, real_agu, real_sep, real_okt, real_nov, real_des, analisis_capaian,
           user_id, metadata)
          VALUES
          (:tahun, :unit, :sasaran, :indikator, :satuan, :tipe_indikator, :sumber_data, :bobot,
-          :target, :target_tw1, :target_tw2, :target_tw3, :target_tw4,
-          :dipa01, :dipa04, :real_tw1, :real_tw2, :real_tw3, :real_tw4,
-          :analisis_kegiatan, :analisis_upaya, :analisis_strategi, :analisis_kendala, :analisis_solusi,
+          :target, :target_jan, :target_feb, :target_mar, :target_apr, :target_mei, :target_jun, :target_jul, :target_agu, :target_sep, :target_okt, :target_nov, :target_des, :dipa01, :dipa04, :real_jan, :real_feb, :real_mar, :real_apr, :real_mei, :real_jun, :real_jul, :real_agu, :real_sep, :real_okt, :real_nov, :real_des, :analisis_capaian,
           :user_id, :metadata)'
     );
     $update = db()->prepare(
         'UPDATE target_kinerja
          SET sasaran = :sasaran, indikator = :indikator,
              satuan = :satuan, tipe_indikator = :tipe_indikator, sumber_data = :sumber_data, bobot = :bobot,
-             target = :target, target_tw1 = :target_tw1, target_tw2 = :target_tw2,
-             target_tw3 = :target_tw3, target_tw4 = :target_tw4,
+             target = :target, target_jan = :target_jan,
+             target_feb = :target_feb,
+             target_mar = :target_mar,
+             target_apr = :target_apr,
+             target_mei = :target_mei,
+             target_jun = :target_jun,
+             target_jul = :target_jul,
+             target_agu = :target_agu,
+             target_sep = :target_sep,
+             target_okt = :target_okt,
+             target_nov = :target_nov,
+             target_des = :target_des,
              dipa01 = :dipa01, dipa04 = :dipa04,
-             real_tw1 = :real_tw1, real_tw2 = :real_tw2, real_tw3 = :real_tw3, real_tw4 = :real_tw4,
-             analisis_kegiatan = :analisis_kegiatan,
-             analisis_upaya = :analisis_upaya,
-             analisis_strategi = :analisis_strategi,
-             analisis_kendala = :analisis_kendala,
-             analisis_solusi = :analisis_solusi,
+             real_jan = :real_jan,
+             real_feb = :real_feb,
+             real_mar = :real_mar,
+             real_apr = :real_apr,
+             real_mei = :real_mei,
+             real_jun = :real_jun,
+             real_jul = :real_jul,
+             real_agu = :real_agu,
+             real_sep = :real_sep,
+             real_okt = :real_okt,
+             real_nov = :real_nov,
+             real_des = :real_des,
+             analisis_capaian = :analisis_capaian,
              metadata = :metadata,
              updated_at = CURRENT_TIMESTAMP
          WHERE id = :id'
@@ -155,15 +188,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($m3a > 0) $r3 = round(($m3b / $m3a) * 100, 2); else $r3 = 0;
                 if ($m4a > 0) $r4 = round(($m4b / $m4a) * 100, 2); else $r4 = 0;
             } elseif ($isHukum) {
-                $t1 = $m1a + $m1b; if ($t1 > 0) $r1 = round(($m1a / $t1) * 100, 2); else $r1 = 0;
-                $t2 = $m2a + $m2b; if ($t2 > 0) $r2 = round(($m2a / $t2) * 100, 2); else $r2 = 0;
-                $t3 = $m3a + $m3b; if ($t3 > 0) $r3 = round(($m3a / $t3) * 100, 2); else $r3 = 0;
-                $t4 = $m4a + $m4b; if ($t4 > 0) $r4 = round(($m4a / $t4) * 100, 2); else $r4 = 0;
+                $t_jan = $mjana + $mjanb; if ($t_jan > 0) $r_jan = round(($mjana / $t_jan) * 100, 2); else $r_jan = 0;
+                $t_feb = $mfeba + $mfebb; if ($t_feb > 0) $r_feb = round(($mfeba / $t_feb) * 100, 2); else $r_feb = 0;
+                $t_mar = $mmara + $mmarb; if ($t_mar > 0) $r_mar = round(($mmara / $t_mar) * 100, 2); else $r_mar = 0;
+                $t_apr = $mapra + $maprb; if ($t_apr > 0) $r_apr = round(($mapra / $t_apr) * 100, 2); else $r_apr = 0;
+                $t_mei = $mmeia + $mmeib; if ($t_mei > 0) $r_mei = round(($mmeia / $t_mei) * 100, 2); else $r_mei = 0;
+                $t_jun = $mjuna + $mjunb; if ($t_jun > 0) $r_jun = round(($mjuna / $t_jun) * 100, 2); else $r_jun = 0;
+                $t_jul = $mjula + $mjulb; if ($t_jul > 0) $r_jul = round(($mjula / $t_jul) * 100, 2); else $r_jul = 0;
+                $t_agu = $magua + $magub; if ($t_agu > 0) $r_agu = round(($magua / $t_agu) * 100, 2); else $r_agu = 0;
+                $t_sep = $msepa + $msepb; if ($t_sep > 0) $r_sep = round(($msepa / $t_sep) * 100, 2); else $r_sep = 0;
+                $t_okt = $mokta + $moktb; if ($t_okt > 0) $r_okt = round(($mokta / $t_okt) * 100, 2); else $r_okt = 0;
+                $t_nov = $mnova + $mnovb; if ($t_nov > 0) $r_nov = round(($mnova / $t_nov) * 100, 2); else $r_nov = 0;
+                $t_des = $mdesa + $mdesb; if ($t_des > 0) $r_des = round(($mdesa / $t_des) * 100, 2); else $r_des = 0;
             }
-            $metaData['tw1'] = ['a' => $m1a, 'b' => $m1b];
-            $metaData['tw2'] = ['a' => $m2a, 'b' => $m2b];
-            $metaData['tw3'] = ['a' => $m3a, 'b' => $m3b];
-            $metaData['tw4'] = ['a' => $m4a, 'b' => $m4b];
+            $metaData['jan'] = ['a' => $mjana, 'b' => $mjanb];
+            $metaData['feb'] = ['a' => $mfeba, 'b' => $mfebb];
+            $metaData['mar'] = ['a' => $mmara, 'b' => $mmarb];
+            $metaData['apr'] = ['a' => $mapra, 'b' => $maprb];
+            $metaData['mei'] = ['a' => $mmeia, 'b' => $mmeib];
+            $metaData['jun'] = ['a' => $mjuna, 'b' => $mjunb];
+            $metaData['jul'] = ['a' => $mjula, 'b' => $mjulb];
+            $metaData['agu'] = ['a' => $magua, 'b' => $magub];
+            $metaData['sep'] = ['a' => $msepa, 'b' => $msepb];
+            $metaData['okt'] = ['a' => $mokta, 'b' => $moktb];
+            $metaData['nov'] = ['a' => $mnova, 'b' => $mnovb];
+            $metaData['des'] = ['a' => $mdesa, 'b' => $mdesb];
         }
 
         $payload = [
@@ -175,21 +224,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'sumber_data' => trim((string) ($sumberData[$i] ?? '')),
             'bobot' => max(0, num($bobot[$i] ?? 1)),
             'target' => num($targets[$i] ?? 0),
-            'target_tw1' => 0,
-            'target_tw2' => 0,
-            'target_tw3' => 0,
-            'target_tw4' => 0,
+            'target_jan' => 0, 'target_feb' => 0, 'target_mar' => 0,
+            'target_apr' => 0, 'target_mei' => 0, 'target_jun' => 0,
+            'target_jul' => 0, 'target_agu' => 0, 'target_sep' => 0,
+            'target_okt' => 0, 'target_nov' => 0, 'target_des' => 0,
             'dipa01' => ($pilihanDipa[$i] ?? '01') === '01' ? num($nilaiDipa[$i] ?? 0) : 0,
             'dipa04' => ($pilihanDipa[$i] ?? '01') === '04' ? num($nilaiDipa[$i] ?? 0) : 0,
-            'real_tw1' => $r1,
-            'real_tw2' => $r2,
-            'real_tw3' => $r3,
-            'real_tw4' => $r4,
-            'analisis_kegiatan' => trim((string) ($analisisKegiatan[$i] ?? '')),
-            'analisis_upaya' => trim((string) ($analisisUpaya[$i] ?? '')),
-            'analisis_strategi' => trim((string) ($analisisStrategi[$i] ?? '')),
-            'analisis_kendala' => trim((string) ($analisisKendala[$i] ?? '')),
-            'analisis_solusi' => trim((string) ($analisisSolusi[$i] ?? '')),
+            'real_jan' => $r_jan, 'real_feb' => $r_feb, 'real_mar' => $r_mar,
+            'real_apr' => $r_apr, 'real_mei' => $r_mei, 'real_jun' => $r_jun,
+            'real_jul' => $r_jul, 'real_agu' => $r_agu, 'real_sep' => $r_sep,
+            'real_okt' => $r_okt, 'real_nov' => $r_nov, 'real_des' => $r_des,
+            'analisis_capaian' => trim((string) ($analisisCapaian[$i] ?? '')),
             'metadata' => json_encode($metaData),
         ];
 
@@ -272,6 +317,7 @@ $stmt->execute($params);
 $rows = $stmt->fetchAll();
 $rows[] = [
     'id' => '',
+    'user_id' => $selectedUserId > 0 ? $selectedUserId : $user['id'],
     'owner_nama' => $selectedUserId > 0 ? '' : $user['nama'],
     'owner_role' => $user['role'],
     'sasaran' => '',
@@ -319,7 +365,7 @@ render_header('Input Target Kinerja');
                     <option value="0">Semua Pengguna</option>
                 <?php foreach ($owners as $owner): ?>
                     <option value="<?= h((string) $owner['id']) ?>" <?= (int) $owner['id'] === $selectedUserId ? 'selected' : '' ?>>
-                        <?= h((string) $owner['nama']) ?> - <?= h(role_label((string) $owner['role'])) ?>
+                        <?= format_user_label($owner['nama'] ?? '', $owner['role'] ?? '', false) ?>
                     </option>
                 <?php endforeach; ?>
                 </select>
@@ -344,7 +390,8 @@ render_header('Input Target Kinerja');
     <input type="hidden" name="user_id" value="<?= h((string) $selectedUserId) ?>">
     <input type="hidden" name="sasaran_filter" value="<?= h($selectedSasaran) ?>">
     <div class="table-wrap">
-        <table>
+        <div class="table-responsive">
+<table>
             <thead>
             <tr>
                 <?php if ($canViewAll): ?>
@@ -359,10 +406,18 @@ render_header('Input Target Kinerja');
                 <th>Target</th>
                 <th>Pilihan DIPA</th>
                 <th>Nilai DIPA</th>
-                <th>Realisasi TW1</th>
-                <th>Realisasi TW2</th>
-                <th>Realisasi TW3</th>
-                <th>Realisasi TW4</th>
+                <th>Realisasi Januari</th>
+                <th>Realisasi Februari</th>
+                <th>Realisasi Maret</th>
+                <th>Realisasi April</th>
+                <th>Realisasi Mei</th>
+                <th>Realisasi Juni</th>
+                <th>Realisasi Juli</th>
+                <th>Realisasi Agustus</th>
+                <th>Realisasi September</th>
+                <th>Realisasi Oktober</th>
+                <th>Realisasi November</th>
+                <th>Realisasi Desember</th>
                 <th>Analisis Capaian Kinerja</th>
             </tr>
             </thead>
@@ -370,19 +425,15 @@ render_header('Input Target Kinerja');
             <?php foreach ($rows as $rowIndex => $row): ?>
                 <?php
                 $targetValue = num($row['target'] ?? 0);
-                $realizationTotal = num($row['real_tw1'] ?? 0) + num($row['real_tw2'] ?? 0) + num($row['real_tw3'] ?? 0) + num($row['real_tw4'] ?? 0);
+                $realizationTotal = 0;
+                $months_list = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+                foreach ($months_list as $m) $realizationTotal += num($row['real_'.$m] ?? 0);
                 $achievementRaw = achievement_value($targetValue, $realizationTotal, (string) ($row['tipe_indikator'] ?? 'max'));
                 $achievementPercent = max(0, min(100, $achievementRaw));
                 $currentSatuan = (string) ($row['satuan'] ?? '');
                 $currentSource = (string) ($row['sumber_data'] ?? '');
                 $modalId = 'target-analysis-modal-' . $rowIndex;
-                $analysisFilled = trim(
-                    (string) ($row['analisis_kegiatan'] ?? '') .
-                    (string) ($row['analisis_upaya'] ?? '') .
-                    (string) ($row['analisis_strategi'] ?? '') .
-                    (string) ($row['analisis_kendala'] ?? '') .
-                    (string) ($row['analisis_solusi'] ?? '')
-                ) !== '';
+                $analysisFilled = trim((string) ($row['analisis_capaian'] ?? '')) !== '';
                 ?>
                 <?php 
                     $isMandatory = (int) ($row['is_mandatory'] ?? 0) === 1; 
@@ -394,7 +445,7 @@ render_header('Input Target Kinerja');
                     $lblA = $isPanmudBanding ? 'Perkara Masuk' : 'Jml E-Court';
                     $lblB = $isPanmudBanding ? 'Selesai Tepat Waktu' : 'Jml Non E-Court';
                 ?>
-                <tr>
+                <tr data-user-id="<?= h((string)($row['user_id'])) ?>">
                     <?php if ($canViewAll): ?>
                         <td>
                             <?= h((string) ($row['owner_nama'] ?: 'Baris Baru')) ?>
@@ -458,27 +509,29 @@ render_header('Input Target Kinerja');
                         </select>
                     </td>
                     <td><input type="number" step="0.01" name="nilai_dipa[]" value="<?= h((string) $nilDipa) ?>"></td>
-                    <?php for ($t = 1; $t <= 4; $t++): 
-                        $rtw = $row['real_tw' . $t];
-                        $m_a = $meta['tw' . $t]['a'] ?? 0;
-                        $m_b = $meta['tw' . $t]['b'] ?? 0;
+                    <?php
+                    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+                    foreach ($months as $m):
+                        $rtw = $row['real_' . $m] ?? 0;
+                        $m_a = $meta[$m]['a'] ?? 0;
+                        $m_b = $meta[$m]['b'] ?? 0;
                     ?>
                         <td>
                             <?php if ($isMulti): ?>
                                 <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:4px; font-size:0.8rem;">
                                     <label><?= $lblA ?></label>
-                                    <input type="number" step="0.01" name="meta_tw<?= $t ?>a[]" value="<?= h((string)$m_a) ?>">
+                                    <input type="number" step="0.01" name="meta_<?= $m ?>a[]" value="<?= h((string)$m_a) ?>">
                                     <label><?= $lblB ?></label>
-                                    <input type="number" step="0.01" name="meta_tw<?= $t ?>b[]" value="<?= h((string)$m_b) ?>">
+                                    <input type="number" step="0.01" name="meta_<?= $m ?>b[]" value="<?= h((string)$m_b) ?>">
                                 </div>
-                                <input type="hidden" name="real_tw<?= $t ?>[]" value="<?= h((string) $rtw) ?>">
+                                <input type="hidden" name="real_<?= $m ?>[]" value="<?= h((string) $rtw) ?>">
                             <?php else: ?>
-                                <input type="number" step="0.01" name="real_tw<?= $t ?>[]" value="<?= h((string) $rtw) ?>">
-                                <input type="hidden" name="meta_tw<?= $t ?>a[]" value="0">
-                                <input type="hidden" name="meta_tw<?= $t ?>b[]" value="0">
+                                <input type="number" step="0.01" name="real_<?= $m ?>[]" value="<?= h((string) $rtw) ?>">
+                                <input type="hidden" name="meta_<?= $m ?>a[]" value="0">
+                                <input type="hidden" name="meta_<?= $m ?>b[]" value="0">
                             <?php endif; ?>
                         </td>
-                    <?php endfor; ?>
+                    <?php endforeach; ?>
                     <td class="target-analysis-cell">
                         <div class="analysis-compact">
                             <span class="analysis-score"><?= h((string) round($achievementPercent, 1)) ?>%</span>
@@ -521,24 +574,8 @@ render_header('Input Target Kinerja');
                                     </aside>
                                     <div class="analysis-fields">
                                         <label>
-                                            Kegiatan
-                                            <textarea name="analisis_kegiatan[]" rows="3"><?= h((string) ($row['analisis_kegiatan'] ?? '')) ?></textarea>
-                                        </label>
-                                        <label>
-                                            Upaya
-                                            <textarea name="analisis_upaya[]" rows="3"><?= h((string) ($row['analisis_upaya'] ?? '')) ?></textarea>
-                                        </label>
-                                        <label>
-                                            Strategi
-                                            <textarea name="analisis_strategi[]" rows="3"><?= h((string) ($row['analisis_strategi'] ?? '')) ?></textarea>
-                                        </label>
-                                        <label>
-                                            Kendala
-                                            <textarea name="analisis_kendala[]" rows="3"><?= h((string) ($row['analisis_kendala'] ?? '')) ?></textarea>
-                                        </label>
-                                        <label>
-                                            Solusi
-                                            <textarea name="analisis_solusi[]" rows="3"><?= h((string) ($row['analisis_solusi'] ?? '')) ?></textarea>
+                                            Kegiatan / Upaya / Strategi / Kendala / Solusi yang Dilaksanakan dalam Mencapai Target
+                                            <textarea name="analisis_capaian[]" rows="10"><?= h((string) ($row['analisis_capaian'] ?? '')) ?></textarea>
                                         </label>
                                     </div>
                                 </div>
@@ -550,7 +587,7 @@ render_header('Input Target Kinerja');
                         </div>
                     </td>
                     <td style="text-align:center;">
-                        <?php if ($row['id'] && !$isMandatory): ?>
+                        <?php if ($row['id'] && !$isMandatory && $selectedUserId === (int)$user['id']): ?>
                             <button class="danger target-delete" name="action" value="delete" onclick="this.form.delete_id.value='<?= h((string) $row['id']) ?>'" style="margin-bottom: 5px;">Hapus</button>
                         <?php elseif ($isMandatory): ?>
                             <span class="small-badge" style="background:#10b981; color:#fff; border:none; display:inline-block; margin-bottom: 5px;">Mandatory</span>
@@ -572,14 +609,41 @@ render_header('Input Target Kinerja');
             <?php endforeach; ?>
             </tbody>
         </table>
+</div>
     </div>
     <input type="hidden" name="delete_id" value="">
+    <?php if ($selectedUserId === (int)$user['id'] || $selectedUserId === 0): ?>
     <div class="toolbar">
         <button type="submit" name="action" value="save">Simpan</button>
+        <?php if ($selectedUserId === (int)$user['id']): ?>
         <a class="button secondary" href="index.php?page=target&tahun=<?= h((string) $tahun) ?>">Tambah Baris Kosong</a>
+        <?php endif; ?>
     </div>
+    <?php else: ?>
+    <div class="toolbar">
+        <p class="muted" style="margin: 0; font-style: italic;">Anda sedang dalam mode melihat. Anda hanya dapat mengisi atau mengubah target pada akun Anda sendiri.</p>
+    </div>
+    <?php endif; ?>
 </form>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const currentUserId = <?= (int)$user['id'] ?>;
+    document.querySelectorAll('.table-responsive tbody tr').forEach(tr => {
+        const rowUserId = parseInt(tr.dataset.userId || 0, 10);
+        if (rowUserId !== currentUserId) {
+            const inputs = tr.querySelectorAll('input, select, textarea');
+            inputs.forEach(el => {
+                if (el.type !== 'hidden') {
+                    el.disabled = true;
+                    el.style.backgroundColor = '#f8fafc';
+                    el.style.color = '#64748b';
+                    el.style.cursor = 'not-allowed';
+                }
+            });
+        }
+    });
+});
+
 document.addEventListener('click', function (event) {
     const openButton = event.target.closest('[data-modal-target]');
     if (openButton) {
