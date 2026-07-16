@@ -828,6 +828,17 @@ textarea:focus {
     box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
 }
 
+input[type="checkbox"],
+input[type="radio"] {
+    width: auto;
+    padding: 0;
+    border-radius: 4px;
+    box-shadow: none;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+
 textarea {
     min-height: 120px;
     resize: vertical;

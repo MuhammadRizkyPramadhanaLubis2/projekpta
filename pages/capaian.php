@@ -15,40 +15,46 @@ if ($canViewAll) {
     $owners = db()->query('SELECT id, nama, role, unit FROM users WHERE status = "active" ORDER BY unit, role, nama')->fetchAll();
 }
 
-$query = "SELECT tk.*, tk.{$bulanColumn} AS realisasi, u.nama AS owner_nama, u.role AS owner_role
-          FROM target_kinerja tk
-          LEFT JOIN users u ON u.id = tk.user_id
-          WHERE tk.tahun = :tahun";
-$params = ['tahun' => $tahun];
+$isFilterSubmitted = isset($_GET['filter_submitted']);
+$rows = [];
+$average = null;
 
-if ($canViewAll && $selectedUserId > 0) {
-    $query .= ' AND tk.user_id = :user_id';
-    $params['user_id'] = $selectedUserId;
-} elseif (!$canViewAll) {
-    $query .= ' AND tk.user_id = :user_id';
-    $params['user_id'] = (int) $user['id'];
+if ($isFilterSubmitted) {
+    $query = "SELECT tk.*, tk.{$bulanColumn} AS realisasi, u.nama AS owner_nama, u.role AS owner_role
+              FROM target_kinerja tk
+              LEFT JOIN users u ON u.id = tk.user_id
+              WHERE tk.tahun = :tahun";
+    $params = ['tahun' => $tahun];
+
+    if ($canViewAll && $selectedUserId > 0) {
+        $query .= ' AND tk.user_id = :user_id';
+        $params['user_id'] = $selectedUserId;
+    } elseif (!$canViewAll) {
+        $query .= ' AND tk.user_id = :user_id';
+        $params['user_id'] = (int) $user['id'];
+    }
+
+    $query .= ' ORDER BY u.unit, u.role, u.nama, tk.id';
+    $stmt = db()->prepare($query);
+    $stmt->execute($params);
+    $rows = $stmt->fetchAll();
+
+    $weightedTotal = 0.0;
+    $weightSum = 0.0;
+    foreach ($rows as &$row) {
+        $target = target_for_month($row, $bulan);
+        $realisasi = num($row['realisasi']);
+        $weight = max(0, num($row['bobot'] ?? 1));
+        $row['target_bulan'] = $target;
+        $row['capaian'] = achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
+        $row['nilai_tertimbang'] = round($row['capaian'] * $weight, 2);
+        $weightedTotal += $row['nilai_tertimbang'];
+        $weightSum += $weight;
+    }
+    unset($row);
+
+    $average = $weightSum > 0 ? round($weightedTotal / $weightSum, 2) : null;
 }
-
-$query .= ' ORDER BY u.unit, u.role, u.nama, tk.id';
-$stmt = db()->prepare($query);
-$stmt->execute($params);
-$rows = $stmt->fetchAll();
-
-$weightedTotal = 0.0;
-$weightSum = 0.0;
-foreach ($rows as &$row) {
-    $target = target_for_month($row, $bulan);
-    $realisasi = num($row['realisasi']);
-    $weight = max(0, num($row['bobot'] ?? 1));
-    $row['target_bulan'] = $target;
-    $row['capaian'] = achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
-    $row['nilai_tertimbang'] = round($row['capaian'] * $weight, 2);
-    $weightedTotal += $row['nilai_tertimbang'];
-    $weightSum += $weight;
-}
-unset($row);
-
-$average = $weightSum > 0 ? round($weightedTotal / $weightSum, 2) : null;
 
 render_header('Hitung Capaian Kinerja');
 ?>
@@ -63,6 +69,7 @@ render_header('Hitung Capaian Kinerja');
 
 <form method="get" class="toolbar">
     <input type="hidden" name="page" value="capaian">
+    <input type="hidden" name="filter_submitted" value="1">
     <label>
         Tahun
         <input type="number" name="tahun" min="2020" max="2100" value="<?= h((string) $tahun) ?>">
@@ -91,12 +98,20 @@ render_header('Hitung Capaian Kinerja');
     <button type="submit">Hitung</button>
 </form>
 
+<?php if ($isFilterSubmitted): ?>
 <section class="panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="margin: 0;">Data Capaian Kinerja</h3>
+        <button type="button" class="button secondary" onclick="printSelectedPDF()">Print Preview (PDF)</button>
+    </div>
     <div class="table-wrap">
-        <div class="table-responsive">
+        <div class="table-responsive" id="dataTableContainer" style="max-height: 500px; overflow-y: auto;">
 <table>
             <thead>
             <tr>
+                <th style="width: 40px; text-align: center;">
+                    <input type="checkbox" id="selectAllPrint" onclick="document.querySelectorAll('.print-checkbox').forEach(cb => cb.checked = this.checked)">
+                </th>
                 <?php if ($canViewAll): ?>
                     <th>Pemilik</th>
                 <?php endif; ?>
@@ -112,10 +127,13 @@ render_header('Hitung Capaian Kinerja');
             </thead>
             <tbody>
             <?php if (!$rows): ?>
-                <tr><td colspan="<?= $canViewAll ? '9' : '8' ?>">Belum ada data Target Kinerja untuk tahun ini.</td></tr>
+                <tr><td colspan="<?= $canViewAll ? '10' : '9' ?>">Belum ada data Target Kinerja untuk tahun ini.</td></tr>
             <?php endif; ?>
             <?php foreach ($rows as $row): ?>
                 <tr>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="print-checkbox" value="<?= h((string) $row['id']) ?>">
+                    </td>
                     <?php if ($canViewAll): ?>
                         <td>
                             <?= format_user_label($row['owner_nama'] ?? '', $row['owner_role'] ?? '', true) ?>
@@ -160,4 +178,57 @@ render_header('Hitung Capaian Kinerja');
         <?= $average !== null ? h((string) $average) . '%' : 'Belum tersedia' ?>
     </div>
 </section>
+<?php endif; ?>
+
+<style>
+@media print {
+    @page {
+        size: landscape;
+        margin: 1cm;
+    }
+    .table-responsive {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+}
+</style>
+
+<script>
+function printSelectedPDF() {
+    const selectedCheckboxes = Array.from(document.querySelectorAll('.print-checkbox:checked'));
+    if (selectedCheckboxes.length === 0) {
+        alert('Pilih setidaknya satu data untuk di-print.');
+        return;
+    }
+    
+    // Add .print-hide to unselected rows
+    const allRows = document.querySelectorAll('#dataTableContainer tbody tr');
+    allRows.forEach(tr => {
+        const cb = tr.querySelector('.print-checkbox');
+        if (cb && !cb.checked) {
+            tr.classList.add('print-hide');
+        }
+    });
+
+    const analysisRule = document.querySelector('.analysis-rule');
+    if (analysisRule) analysisRule.classList.add('print-hide');
+    
+    const tableHeaderActions = document.querySelector('section.panel > div:first-of-type');
+    if (tableHeaderActions) tableHeaderActions.classList.add('print-hide');
+
+    document.querySelectorAll('#selectAllPrint, .print-checkbox').forEach(el => {
+        if (el.parentElement) el.parentElement.classList.add('print-hide');
+    });
+
+    window.print();
+
+    allRows.forEach(tr => tr.classList.remove('print-hide'));
+    if (analysisRule) analysisRule.classList.remove('print-hide');
+    if (tableHeaderActions) tableHeaderActions.classList.remove('print-hide');
+    document.querySelectorAll('#selectAllPrint, .print-checkbox').forEach(el => {
+        if (el.parentElement) el.parentElement.classList.remove('print-hide');
+    });
+}
+</script>
+
 <?php render_footer(); ?>
