@@ -4,6 +4,7 @@ declare(strict_types=1);
 $user = current_user();
 $tahun = year_value();
 $canViewAll = user_can('view_all_targets');
+$canEditAll = user_can('edit_all_targets');
 $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? $_POST['user_id'] ?? 0) : (int) $user['id'];
 $selectedSasaran = trim((string) ($_GET['sasaran_filter'] ?? $_POST['sasaran_filter'] ?? ''));
 $profile = role_profile((string) $user['role']);
@@ -578,7 +579,7 @@ render_header('Input Target Kinerja');
                         </div>
                     </td>
                     <td style="text-align:center;">
-                        <?php if ($row['id'] && !$isMandatory && $selectedUserId === (int)$user['id']): ?>
+                        <?php if ($row['id'] && !$isMandatory && ($selectedUserId === (int)$user['id'] || $canEditAll)): ?>
                             <button class="danger target-delete" name="action" value="delete" onclick="this.form.delete_id.value='<?= h((string) $row['id']) ?>'" style="margin-bottom: 5px;">Hapus</button>
                         <?php elseif ($isMandatory): ?>
                             <span class="small-badge" style="background:#10b981; color:#fff; border:none; display:inline-block; margin-bottom: 5px;">Mandatory</span>
@@ -852,7 +853,7 @@ render_header('Input Target Kinerja');
                         </div>
                     </td>
                     <td style="text-align:center;">
-                        <?php if ($row['id'] && !$isMandatory && $selectedUserId === (int)$user['id']): ?>
+                        <?php if ($row['id'] && !$isMandatory && ($selectedUserId === (int)$user['id'] || $canEditAll)): ?>
                             <button class="danger target-delete" name="action" value="delete" onclick="this.form.delete_id.value='<?= h((string) $row['id']) ?>'" style="margin-bottom: 5px;">Hapus</button>
                         <?php elseif ($isMandatory): ?>
                             <span class="small-badge" style="background:#10b981; color:#fff; border:none; display:inline-block; margin-bottom: 5px;">Mandatory</span>
@@ -882,7 +883,7 @@ render_header('Input Target Kinerja');
 
 
     <input type="hidden" name="delete_id" value="">
-    <?php if ($selectedUserId === (int)$user['id'] || $selectedUserId === 0): ?>
+    <?php if ($selectedUserId === (int)$user['id'] || $selectedUserId === 0 || $canEditAll): ?>
     <div class="toolbar panel" id="mainSaveContainer" style="margin-top: 1.5rem; display: none;">
         <button type="submit" name="action" value="save">Simpan Perubahan Data</button>
     </div>
@@ -896,9 +897,10 @@ render_header('Input Target Kinerja');
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const currentUserId = <?= (int)$user['id'] ?>;
+    const canEditAllTargets = <?= $canEditAll ? 'true' : 'false' ?>;
     document.querySelectorAll('.table-responsive tbody tr').forEach(tr => {
         const rowUserId = parseInt(tr.dataset.userId || 0, 10);
-        if (rowUserId !== currentUserId) {
+        if (!canEditAllTargets && rowUserId !== currentUserId) {
             const inputs = tr.querySelectorAll('input, select, textarea');
             inputs.forEach(el => {
                 if (el.type !== 'hidden' && !el.classList.contains('print-checkbox')) {
