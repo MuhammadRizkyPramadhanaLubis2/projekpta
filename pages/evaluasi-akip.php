@@ -1,694 +1,262 @@
 <?php
 declare(strict_types=1);
 
-$satkerId = $_GET['user_id'] ?? null;
+$user = current_user();
+$role = (string) ($user['role'] ?? '');
+$isEvaluator = in_array($role, ['Perencanaan', 'Admin'], true);
+$isSatker = str_starts_with($role, 'Satker');
+if (!$user || (!$isEvaluator && !$isSatker)) {
+    flash('Halaman Evaluasi hanya tersedia untuk evaluator dan satuan kerja.', 'error');
+    header('Location: index.php?page=dashboard');
+    exit;
+}
+
+require __DIR__ . '/../app/evaluasi_akip_instrument.php';
+
+function sakip_defaults(array $sections, string $channel): array
+{
+    $result = [];
+    foreach ($sections as $section) {
+        foreach ($section['subsections'] as $sub) {
+            $isMandiri = $channel === 'mandiri';
+            $result[$sub['code']] = [
+                'jawaban' => $isMandiri ? $sub['satker_answer'] : $sub['evaluator_answer'],
+                'nilai' => (float) ($isMandiri ? $sub['satker_score'] : $sub['evaluator_score']),
+                'catatan' => $isMandiri ? '' : (string) $sub['notes'],
+                'rekomendasi' => '',
+                'kriteria' => [],
+            ];
+        }
+    }
+    return $result;
+}
+
+function sakip_summary(array $data): array
+{
+    $total = 0.0;
+    foreach ($data as $item) {
+        $total += (float) ($item['nilai'] ?? 0);
+    }
+    $grade = $total >= 90 ? 'AA' : ($total >= 80 ? 'A' : ($total >= 70 ? 'BB' : ($total >= 60 ? 'B' : ($total >= 50 ? 'CC' : ($total >= 30 ? 'C' : 'D')))));
+    return ['total' => round($total, 2), 'grade' => $grade];
+}
+
 $tahun = year_value();
-$user = current_user();
-
-if ($user['role'] !== 'Perencanaan') {
-    flash('Halaman ini khusus untuk role Perencanaan.', 'error');
-    header('Location: index.php?page=beranda');
-    exit;
+$satkerId = (int) ($_GET['user_id'] ?? $_POST['satker_id'] ?? 0);
+if ($isSatker) {
+    $satkerId = (int) $user['id'];
 }
-
-if (!$satkerId) {
-    $satkers = db()->query('SELECT u.id, u.nama, u.role, u.unit, es.nilai_akhir, es.grade_akhir, es.status, es.lhe_file FROM users u LEFT JOIN evaluasi_sakip es ON u.id = es.satker_id AND es.tahun = ' . (int)$tahun . ' WHERE u.status = "active" AND u.unit != "PTA Medan" AND u.role LIKE "Satker%" GROUP BY u.unit ORDER BY u.nama')->fetchAll();
+$mode = (string) ($_GET['mode'] ?? ($isSatker ? 'mandiri' : ($satkerId > 0 ? 'evaluator' : 'list')));
+$allowedModes = $isEvaluator ? ['list', 'mandiri', 'evaluator', 'lhe'] : ['mandiri'];
+if (!in_array($mode, $allowedModes, true)) {
+    $mode = $isEvaluator ? 'list' : 'mandiri';
 }
+$canEditMandiri = $isSatker && $satkerId === (int) $user['id'];
 
-
-
-// -------------------------------------------------------------
-// Tampilkan Worksheet Evaluasi jika ada user_id yang dipilih
-// -------------------------------------------------------------
-$satkerName = 'Satuan Kerja';
-$stmt = db()->prepare('SELECT unit FROM users WHERE id = :id');
-$stmt->execute(['id' => $satkerId]);
-$u = $stmt->fetch();
-if ($u) {
-    $satkerName = $u['unit'];
-}
-
-// Data evaluasi â€“ diambil langsung dari file asli
-$summary = [
-    'title' => 'Lembar Kerja Evaluasi Akuntabilitas Kinerja',
-    'subtitle' => $satkerName . ' Tahun ' . $tahun,
-    'satker_score' => '100.00',
-    'satker_grade' => 'AA',
-    'evaluator_score' => '87.80',
-    'evaluator_grade' => 'A',
-    'component_count' => 4,
-    'subcomponent_count' => 11,
-];
-
-$sections = [
-    [
-        'code' => '1',
-        'title' => 'Perencanaan Kinerja',
-        'weight' => '30.00',
-        'evaluator' => '24.60',
-        'subsections' => [
-            [
-                'code' => '1.a',
-                'title' => 'Dokumen Perencanaan Kinerja telah tersedia',
-                'weight' => '6',
-                'satker_answer' => 'AA',
-                'satker_score' => '6',
-                'evaluator_answer' => 'A',
-                'evaluator_score' => '5.4',
-                'notes' => 'Mayoritas dokumen sudah sesuai. Tambahan penyempurnaan utama: perjanjian kinerja, RKA/RPA, dan penguatan rencana aksi.',
-                'criteria' => [
-                    ['text' => 'Terdapat pedoman teknis perencanaan kinerja.', 'evidence' => ['Pedoman teknis perencanaan kinerja'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Terdapat dokumen perencanaan kinerja jangka panjang.', 'evidence' => ['Dokumen perencanaan kinerja jangka panjang'], 'note' => 'Sudah sesuai berdasarkan blueprint Mahkamah Agung.'],
-                    ['text' => 'Terdapat dokumen perencanaan kinerja jangka menengah.', 'evidence' => ['RENSTRA'], 'note' => 'Perlu ditambahkan perjanjian kinerja.'],
-                    ['text' => 'Terdapat dokumen perencanaan kinerja jangka pendek.', 'evidence' => ['Rencana Kinerja Tahunan'], 'note' => 'Perlu diperkuat dengan rencana aksi.'],
-                    ['text' => 'Terdapat dokumen perencanaan aktivitas yang mendukung kinerja.', 'evidence' => ['Dokumen RKT & Rencana Aksi Kinerja'], 'note' => 'Perlu tambahan RKA, DIPA, dan RPA.'],
-                    ['text' => 'Terdapat dokumen perencanaan anggaran yang mendukung kinerja.', 'evidence' => ['Dokumen perencanaan anggaran'], 'note' => 'Sesuai.'],
-                ],
-            ],
-            [
-                'code' => '1.b',
-                'title' => 'Dokumen Perencanaan Kinerja telah memenuhi standar yang baik',
-                'weight' => '9',
-                'satker_answer' => 'AA',
-                'satker_score' => '9',
-                'evaluator_answer' => 'BB',
-                'evaluator_score' => '7.2',
-                'notes' => 'Kualitas rumusan sudah baik, namun evaluator meminta penguatan pohon kinerja, IKU, dan sinkronisasi sasaranâ€“outcomeâ€“output.',
-                'criteria' => [
-                    ['text' => 'Dokumen Perencanaan Kinerja telah diformalkan.', 'evidence' => ['Dokumen perencanaan kinerja telah diformalkan'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Dokumen Perencanaan Kinerja telah dipublikasikan tepat waktu.', 'evidence' => ['Dokumen perencanaan dipublikasikan tepat waktu'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Dokumen Perencanaan Kinerja telah menggambarkan kebutuhan atas kinerja sebenarnya yang perlu dicapai.', 'evidence' => ['Dokumen perencanaan kinerja menggambarkan kebutuhan kinerja'], 'note' => 'Perlu dimasukkan pohon kinerja PA Binjai.'],
-                    ['text' => 'Kualitas rumusan hasil (tujuan/sasaran) telah jelas menggambarkan kondisi kinerja yang akan dicapai.', 'evidence' => ['Rumusan hasil / tujuan / sasaran'], 'note' => 'Sudah baik, namun perlu validasi ulang sasaran di setiap satuan kerja.'],
-                    ['text' => 'Ukuran keberhasilan (indikator kinerja) telah memenuhi kriteria SMART.', 'evidence' => ['Dokumen IKU memenuhi kriteria SMART'], 'note' => 'Sudah sesuai dengan IKU MARI.'],
-                    ['text' => 'IKU menggambarkan kondisi kinerja utama yang berkelanjutan (sustainable).', 'evidence' => ['Dokumen IKU yang sustainable'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Target yang ditetapkan dalam Perencanaan Kinerja dapat dicapai (achievable), menantang, dan realistis.', 'evidence' => ['Target kinerja yang achievable'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Setiap dokumen perencanaan menggambarkan hubungan yang berkesinambungan/cascading.', 'evidence' => ['Pohon kinerja dan cascading PK Ketua, wakil, hakim, kesekretariatan, kepaniteraan'], 'note' => 'Sudah ada.'],
-                    ['text' => 'Perencanaan kinerja memberikan informasi hubungan kinerja, strategi, kebijakan, dan aktivitas lintas bidang.', 'evidence' => ['Perencanaan kinerja yang menjelaskan hubungan kinerja'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Setiap unit/satuan kerja merumuskan dan menetapkan Perencanaan Kinerja.', 'evidence' => ['Perencanaan kinerja satker'], 'note' => 'Sudah ada.'],
-                    ['text' => 'Setiap pegawai merumuskan dan menetapkan Perencanaan Kinerja.', 'evidence' => ['Sasaran Kinerja Pegawai'], 'note' => 'Sudah sesuai.'],
-                ],
-            ],
-            [
-                'code' => '1.c',
-                'title' => 'Perencanaan Kinerja telah dimanfaatkan untuk mewujudkan hasil yang berkesinambungan',
-                'weight' => '15',
-                'satker_answer' => 'AA',
-                'satker_score' => '15',
-                'evaluator_answer' => 'BB',
-                'evaluator_score' => '12',
-                'notes' => 'Pemanfaatan dokumen sudah kuat, namun evaluator meminta tambahan bukti analisis perbaikan, monitoring berkala, dan evidence tingkat pegawai.',
-                'criteria' => [
-                    ['text' => 'Anggaran yang ditetapkan telah mengacu pada kinerja yang ingin dicapai.', 'evidence' => ['Dokumen DIPA, matriks pendanaan, dan RKA satker'], 'note' => 'Perlu ditambahkan rencana penggunaan anggaran per tahun.'],
-                    ['text' => 'Aktivitas yang dilaksanakan telah mendukung kinerja yang ingin dicapai.', 'evidence' => ['SOP pada masing-masing indikator yang mendukung kinerja'], 'note' => 'Perlu disandingkan dengan DIPA, RKA, PK, dan renaksi.'],
-                    ['text' => 'Target yang ditetapkan telah dicapai dengan baik atau setidaknya on the right track.', 'evidence' => ['Dokumen capaian kinerja dan capaian anggaran secara berkala'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Rencana aksi kinerja berjalan dinamis karena capaian dipantau berkala.', 'evidence' => ['Dokumen capaian kinerja berkala pada aplikasi Komdanas dan SAKTI'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Terdapat perbaikan/penyempurnaan dokumen perencanaan dari hasil analisis perbaikan sebelumnya.', 'evidence' => ['Dokumen reviu RKT tahun 2023, 2024, dan 2025'], 'note' => 'Sebaiknya hasil analisis perbaikan ditampilkan eksplisit.'],
-                    ['text' => 'Terdapat perbaikan dokumen perencanaan dalam mewujudkan kondisi/hasil yang lebih baik.', 'evidence' => ['Dokumen reviu RKT'], 'note' => 'Sesuai.'],
-                    ['text' => 'Setiap unit/satuan kerja memahami dan peduli untuk mencapai kinerja yang telah direncanakan.', 'evidence' => ['Laporan perkara, penyerapan anggaran, monev Bappenas, realisasi anggaran, pengukuran perjanjian kinerja'], 'note' => 'Sesuai.'],
-                    ['text' => 'Setiap pegawai memahami dan peduli untuk mencapai kinerja yang telah direncanakan.', 'evidence' => ['Pengukuran perjanjian kinerja bulanan, undangan, daftar hadir, rakor bulanan, realisasi anggaran'], 'note' => 'Perlu tambahan PCK bulanan sebagai evidence.'],
-                ],
-            ],
-        ],
-    ],
-    [
-        'code' => '2',
-        'title' => 'Pengukuran Kinerja',
-        'weight' => '30.00',
-        'evaluator' => '25.50',
-        'subsections' => [
-            [
-                'code' => '2.a',
-                'title' => 'Pengukuran Kinerja telah dilakukan',
-                'weight' => '10',
-                'satker_answer' => 'AA',
-                'satker_score' => '10',
-                'evaluator_answer' => 'BB',
-                'evaluator_score' => '4.8',
-                'notes' => 'Dasar pengukuran tersedia, tetapi evaluator menekankan inovasi atau aplikasi pengumpulan data serta analisa pengukuran pada LKjIP.',
-                'criteria' => [
-                    ['text' => 'Terdapat pedoman teknis pengukuran kinerja dan pengumpulan data.', 'evidence' => ['Dokumen teknis pengukuran kinerja'], 'note' => 'Sesuai.'],
-                    ['text' => 'Terdapat definisi operasional yang jelas atas kinerja dan cara mengukur indikator.', 'evidence' => ['Dokumen IKU dan penjelasannya'], 'note' => 'Tambahkan analisa pengukuran pada LKjIP sebagai evidence.'],
-                    ['text' => 'Terdapat mekanisme yang jelas terhadap pengumpulan data kinerja yang dapat diandalkan.', 'evidence' => ['Dokumen SOP pengumpulan data kinerja'], 'note' => 'Jika memungkinkan, tambahkan inovasi/aplikasi pengumpulan kinerja.'],
-                ],
-            ],
-            [
-                'code' => '2.b',
-                'title' => 'Pengukuran Kinerja telah menjadi kebutuhan dalam mewujudkan kinerja secara efektif, efisien, berjenjang, dan berkelanjutan',
-                'weight' => '10',
-                'satker_answer' => 'AA',
-                'satker_score' => '10',
-                'evaluator_answer' => 'BB',
-                'evaluator_score' => '7.2',
-                'notes' => 'Praktik pengukuran sudah rutin, relevan, dan berjenjang. Penguatan utama ada pada aplikasi pendukung dan integrasi monitoring lintas level.',
-                'criteria' => [
-                    ['text' => 'Pimpinan terlibat sebagai decision maker dalam mengukur capaian kinerja.', 'evidence' => ['Dokumen monev capaian kinerja secara berkala'], 'note' => 'Sesuai.'],
-                    ['text' => 'Data kinerja yang dikumpulkan relevan untuk mengukur capaian kinerja yang diharapkan.', 'evidence' => ['Dokumen capaian kinerja'], 'note' => 'Sesuai.'],
-                    ['text' => 'Data kinerja yang dikumpulkan mendukung capaian kinerja yang diharapkan.', 'evidence' => ['Data pendukung pengukuran capaian kinerja'], 'note' => 'Sesuai.'],
-                    ['text' => 'Pengukuran kinerja telah dilakukan secara berkala.', 'evidence' => ['Dokumen capaian kinerja Komdanas bulanan dan triwulan'], 'note' => 'Sesuai.'],
-                    ['text' => 'Setiap level organisasi memantau pengukuran capaian kinerja unit di bawahnya secara berjenjang.', 'evidence' => ['Monev Bappenas, capaian kinerja Komdanas, laporan perkara, SKP pegawai yang telah dinilai atasan'], 'note' => 'Sesuai.'],
-                    ['text' => 'Pengumpulan data kinerja telah memanfaatkan teknologi informasi.', 'evidence' => ['Penggunaan aplikasi KOMDANAS, e-Monev Bappenas, SPAN, dan SIPP untuk entry data'], 'note' => 'Sesuai, namun akan lebih kuat jika ada inovasi khusus.'],
-                    ['text' => 'Pengukuran capaian kinerja telah memanfaatkan teknologi informasi.', 'evidence' => ['Penggunaan aplikasi KOMDANAS, e-Monev Bappenas, SPAN, dan SIPP untuk pengukuran'], 'note' => 'Sesuai.'],
-                ],
-            ],
-            [
-                'code' => '2.c',
-                'title' => 'Pengukuran Kinerja telah dijadikan dasar reward, punishment, dan penyesuaian strategi',
-                'weight' => '10',
-                'satker_answer' => 'AA',
-                'satker_score' => '10',
-                'evaluator_answer' => 'A',
-                'evaluator_score' => '13.5',
-                'notes' => 'Nilai kuat. Penyempurnaan diarahkan pada dokumen refocusing, penempatan jabatan, efisiensi anggaran, serta bukti pemahaman pegawai.',
-                'criteria' => [
-                    ['text' => 'Pengukuran Kinerja menjadi dasar penyesuaian tunjangan kinerja/penghasilan.', 'evidence' => ['Dokumen PKP'], 'note' => 'Tambahkan piagam atau prestasi kinerja satker/pegawai bila ada.'],
-                    ['text' => 'Pengukuran Kinerja menjadi dasar penempatan/penghapusan jabatan struktural maupun fungsional.', 'evidence' => ['Dokumen Baperjakat, SK pegawai yang mendapat promosi'], 'note' => 'Sesuai.'],
-                    ['text' => 'Pengukuran Kinerja mempengaruhi penyesuaian (refocusing) organisasi.', 'evidence' => ['Standar dokumen refocusing'], 'note' => 'Perlu dokumen RKAKL berisi data adjustment.'],
-                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian strategi dalam mencapai kinerja.', 'evidence' => ['Dokumen rapat intern, reviu SOP, dokumen RTM'], 'note' => 'Sesuai.'],
-                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian kebijakan dalam mencapai kinerja.', 'evidence' => ['Dokumen rapat intern tindak lanjut, reviu SOP, dokumen RTM'], 'note' => 'Sesuai.'],
-                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian aktivitas dalam mencapai kinerja.', 'evidence' => ['Kebijakan pusat dan hasil reviu revisi anggaran'], 'note' => 'Sesuai.'],
-                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian anggaran.', 'evidence' => ['Kebijakan pusat dan hasil reviu revisi anggaran'], 'note' => 'Sesuai.'],
-                    ['text' => 'Terdapat efisiensi atas penggunaan anggaran dalam mencapai kinerja.', 'evidence' => ['Dokumen rapat capaian kinerja berkala, undangan, daftar hadir, notulen'], 'note' => 'Sesuai.'],
-                    ['text' => 'Setiap unit/satuan kerja memahami hasil pengukuran kinerja.', 'evidence' => ['Dokumen capaian rapat kinerja secara berkala'], 'note' => 'Perlu ditambah SKP dan PCK.'],
-                    ['text' => 'Setiap pegawai memahami hasil pengukuran kinerja.', 'evidence' => ['Dokumen rapat capaian kinerja berkala, undangan, daftar hadir, notulen'], 'note' => 'Perlu tambahan hasil wawancara pegawai yang difungsikan.'],
-                ],
-            ],
-        ],
-    ],
-    [
-        'code' => '3',
-        'title' => 'Pelaporan Kinerja',
-        'weight' => '15.00',
-        'evaluator' => '13.95',
-        'subsections' => [
-            [
-                'code' => '3.a',
-                'title' => 'Terdapat Dokumen Laporan yang menggambarkan kinerja',
-                'weight' => '10.5',
-                'satker_answer' => 'AA',
-                'satker_score' => '10.5',
-                'evaluator_answer' => 'BB',
-                'evaluator_score' => '2.4',
-                'notes' => 'Basis dokumen sudah baik dan lengkap. Evaluator menilai publikasi, reviu, dan formalisasi sudah tersedia dengan baik.',
-                'criteria' => [
-                    ['text' => 'Dokumen Laporan Kinerja telah disusun.', 'evidence' => ['Dokumen LKjIP 2023'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Dokumen Laporan Kinerja telah disusun secara berkala.', 'evidence' => ['Dokumen LKjIP 2022 dan 2023'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Dokumen Laporan Kinerja telah diformalkan.', 'evidence' => ['Dokumen LKjIP 2023 yang telah diformalkan'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Dokumen Laporan Kinerja telah direviu.', 'evidence' => ['Dokumen reviu LKjIP 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Dokumen Laporan Kinerja telah dipublikasikan.', 'evidence' => ['Dokumen laporan kinerja telah dipublikasikan'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Dokumen Laporan Kinerja telah disampaikan tepat waktu.', 'evidence' => ['Dokumen laporan kinerja tepat waktu'], 'note' => 'Sudah sesuai.'],
-                ],
-            ],
-            [
-                'code' => '3.b',
-                'title' => 'Dokumen Laporan Kinerja telah memenuhi standar menggambarkan kualitas capaian',
-                'weight' => '4.5',
-                'satker_answer' => 'AA',
-                'satker_score' => '4.5',
-                'evaluator_answer' => 'A',
-                'evaluator_score' => '4.05',
-                'notes' => 'Laporan kuat secara standar dan isi. Perlu dijaga konsistensi narasi perbandingan tahunan serta benchmark kinerja.',
-                'criteria' => [
-                    ['text' => 'Dokumen Laporan Kinerja disusun secara berkualitas sesuai standar.', 'evidence' => ['Dokumen LKjIP sesuai PermenPAN RB No. 53 Tahun 2014'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan mengungkap seluruh informasi tentang pencapaian kinerja.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja dengan target tahunan.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja dengan target jangka menengah.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja dengan tahun-tahun sebelumnya.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja di level nasional/internasional.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan kualitas capaian kinerja beserta upaya/hambatan.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan efisiensi penggunaan sumber daya.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Laporan menginfokan upaya perbaikan/penyempurnaan kinerja ke depan.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                ],
-            ],
-            [
-                'code' => '3.c',
-                'title' => 'Pelaporan Kinerja telah memberikan dampak besar dalam penyesuaian strategi/kebijakan berikutnya',
-                'weight' => '7.5',
-                'satker_answer' => 'AA',
-                'satker_score' => '7.5',
-                'evaluator_answer' => 'AA',
-                'evaluator_score' => '7.5',
-                'notes' => 'Subkomponen paling kuat. Laporan dinilai sudah digunakan sebagai referensi pimpinan, evaluasi capaian, penganggaran, dan budaya kinerja.',
-                'criteria' => [
-                    ['text' => 'Informasi dalam laporan kinerja selalu menjadi perhatian utama pimpinan.', 'evidence' => ['Capaian kinerja dan dokumen rapat kinerja'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Penyajian informasi dalam laporan kinerja menjadi kepedulian seluruh pegawai.', 'evidence' => ['Capaian kinerja, rapat, pengukuran kinerja, SOP pengumpulan data'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Informasi dalam laporan kinerja berkala digunakan dalam penyesuaian aktivitas.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Informasi dalam laporan kinerja berkala digunakan dalam penyesuaian penggunaan anggaran.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Informasi dalam laporan kinerja digunakan dalam evaluasi keberhasilan kinerja.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Informasi dalam laporan kinerja digunakan dalam penyesuaian perencanaan berikutnya.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
-                    ['text' => 'Informasi dalam laporan kinerja mempengaruhi perubahan budaya kinerja organisasi.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Perlu ditambahkan notula evaluasi rapat awal dan akhir tahun.'],
-                ],
-            ],
-        ],
-    ],
-    [
-        'code' => '4',
-        'title' => 'Evaluasi Akuntabilitas Kinerja Internal',
-        'weight' => '25.00',
-        'evaluator' => '23.75',
-        'subsections' => [
-            [
-                'code' => '4.a',
-                'title' => 'Evaluasi Akuntabilitas Kinerja Internal telah dilaksanakan',
-                'weight' => '10',
-                'satker_answer' => 'AA',
-                'satker_score' => '10',
-                'evaluator_answer' => 'A',
-                'evaluator_score' => '4.5',
-                'notes' => 'Pelaksanaan LHE AKIP dinilai matang. Pedoman, Hawasbid, dan tindak lanjut sudah terlihat jelas.',
-                'criteria' => [
-                    ['text' => 'Terdapat pedoman teknis Evaluasi Akuntabilitas Kinerja Internal.', 'evidence' => ['LHE AKIP, pedoman Evaluasi MA, dan PermenPAN RB 88 Tahun 2021'], 'note' => 'Sudah mantap.'],
-                    ['text' => 'Evaluasi Akuntabilitas Kinerja Internal telah dilaksanakan pada seluruh unit kerja/perangkat daerah.', 'evidence' => ['LHE AKIP, dokumen Hawasbid, TLHP'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Evaluasi Akuntabilitas Kinerja Internal dilaksanakan secara berjenjang.', 'evidence' => ['LHE AKIP, dokumen Hawasbid, TLHP'], 'note' => 'Sudah baik.'],
-                ],
-            ],
-            [
-                'code' => '4.b',
-                'title' => 'Evaluasi Akuntabilitas Kinerja Internal telah dilaksanakan secara berkualitas dengan sumber daya yang memadai',
-                'weight' => '7.5',
-                'satker_answer' => 'AA',
-                'satker_score' => '7.5',
-                'evaluator_answer' => 'A',
-                'evaluator_score' => '6.75',
-                'notes' => 'Kualitas tim dan dokumen sudah sangat baik. Poin plus terlihat pada SDM bersertifikat, pemanfaatan TI, dan kedalaman evaluasi.',
-                'criteria' => [
-                    ['text' => 'Evaluasi Akuntabilitas Kinerja Internal dilaksanakan sesuai standar.', 'evidence' => ['SK pedoman Evaluasi, SK tim reviu IKU, PK PA Binjai, dan LHE'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Evaluasi dilaksanakan oleh SDM yang memadai.', 'evidence' => ['LHE AKIP, SK pedoman Evaluasi, SDM bersertifikat SAKIP'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Evaluasi dilaksanakan dengan pendalaman yang memadai.', 'evidence' => ['LHE AKIP'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Evaluasi dilaksanakan pada seluruh unit kerja/perangkat daerah.', 'evidence' => ['LHE AKIP'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Evaluasi memanfaatkan Teknologi Informasi (Aplikasi).', 'evidence' => ['Pemanfaatan TI dalam Evaluasi'], 'note' => 'Sudah baik.'],
-                ],
-            ],
-            [
-                'code' => '4.c',
-                'title' => 'Implementasi SAKIP meningkat karena evaluasi internal memberi dampak nyata',
-                'weight' => '7.5',
-                'satker_answer' => 'AA',
-                'satker_score' => '7.5',
-                'evaluator_answer' => 'AA',
-                'evaluator_score' => '12.5',
-                'notes' => 'Dampak evaluasi internal sangat kuat. Rekomendasi ditindaklanjuti dan menjadi dasar perbaikan akuntabilitas serta efisiensi kinerja.',
-                'criteria' => [
-                    ['text' => 'Seluruh rekomendasi hasil evaluasi akuntabilitas kinerja internal telah ditindaklanjuti.', 'evidence' => ['Dokumen TLHP, LHE, reviu IKU, reviu Renstra, e-SAKIP reviu, SAKIP Komdanas'], 'note' => 'Perlu tambahan notula rapat pembahasan evaluasi untuk tindak lanjut LHE.'],
-                    ['text' => 'Terjadi peningkatan implementasi SAKIP melalui tindak lanjut rekomendasi.', 'evidence' => ['Dokumen LHE, pengukuran kinerja, TLHP, Hawasbid, reviu renstra, PK 2023'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Hasil evaluasi dimanfaatkan untuk perbaikan dan peningkatan akuntabilitas kinerja.', 'evidence' => ['Dokumen evaluasi akuntabilitas kinerja'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Hasil evaluasi dimanfaatkan dalam mendukung efektivitas dan efisiensi kinerja.', 'evidence' => ['Dokumen evaluasi akuntabilitas kinerja'], 'note' => 'Sudah baik.'],
-                    ['text' => 'Terjadi perbaikan dan peningkatan kinerja dengan memanfaatkan hasil evaluasi internal.', 'evidence' => ['Perbaikan akuntabilitas kinerja'], 'note' => 'Sudah baik.'],
-                ],
-            ],
-        ],
-    ],
-];
-
-$user = current_user();
-if (!$user || $user['role'] !== 'Perencanaan') {
-    http_response_code(403);
-    render_header('Akses Ditolak');
-    echo '<section class="panel"><h2>Akses Ditolak</h2><p class="muted">Halaman ini khusus untuk role Perencanaan.</p><a class="button secondary" href="index.php?page=dashboard">Kembali ke Menu</a></section>';
-    render_footer();
-    exit;
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (($_POST['action'] ?? '') === 'upload_lhe') {
-        $sid = (int)($_POST['satker_id'] ?? 0);
-        if ($sid > 0 && isset($_FILES['lhe_file']) && $_FILES['lhe_file']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = dirname(__DIR__) . '/data/uploads/';
-            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-            $ext = pathinfo($_FILES['lhe_file']['name'], PATHINFO_EXTENSION);
-            $filename = 'lhe_' . $tahun . '_' . $sid . '_' . time() . '.' . $ext;
-            move_uploaded_file($_FILES['lhe_file']['tmp_name'], $uploadDir . $filename);
-
-            $stmt = db()->prepare('SELECT id FROM evaluasi_sakip WHERE tahun = :t AND satker_id = :sid');
-            $stmt->execute(['t' => $tahun, 'sid' => $sid]);
-            if ($stmt->fetch()) {
-                $upd = db()->prepare('UPDATE evaluasi_sakip SET lhe_file = :f, updated_at = CURRENT_TIMESTAMP WHERE tahun = :t AND satker_id = :sid');
-                $upd->execute(['f' => $filename, 't' => $tahun, 'sid' => $sid]);
-            } else {
-                $ins = db()->prepare('INSERT INTO evaluasi_sakip (tahun, satker_id, evaluator_id, status, lhe_file) VALUES (:t, :sid, :eid, "Evaluasi", :f)');
-                $ins->execute(['t' => $tahun, 'sid' => $sid, 'eid' => $user['id'], 'f' => $filename]);
-            }
-            $flash = ['type' => 'success', 'message' => 'File LHE berhasil diunggah.'];
-        }
-    } elseif (($_POST['action'] ?? '') === 'save_eval_ajax') {
-        $sid = (int)($_POST['satker_id'] ?? 0);
-        $type = $_POST['type'] ?? '';
-        $code = $_POST['code'] ?? '';
-        
-        if ($sid > 0 && $code) {
-            $stmt = db()->prepare('SELECT data_nilai FROM evaluasi_sakip WHERE tahun = :t AND satker_id = :sid');
-            $stmt->execute(['t' => $tahun, 'sid' => $sid]);
-            $row = $stmt->fetch();
-            $dn = $row && $row['data_nilai'] ? json_decode($row['data_nilai'], true) : [];
-            
-            if (!isset($dn[$code])) {
-                $dn[$code] = ['jawaban' => '', 'nilai' => 0, 'catatan' => '', 'rekomendasi' => '', 'kriteria' => []];
-            }
-            
-            if ($type === 'jawaban') {
-                $dn[$code]['jawaban'] = $_POST['value'];
-                $dn[$code]['nilai'] = (float)$_POST['score'];
-            } elseif ($type === 'catatan') {
-                $dn[$code]['catatan'] = $_POST['value'];
-            } elseif ($type === 'rekomendasi') {
-                $dn[$code]['rekomendasi'] = $_POST['value'];
-            }
-            
-            // Recalculate total
-            $totalScore = 0.0;
-            foreach ($dn as $c => $data) {
-                $totalScore += (float)($data['nilai'] ?? 0);
-            }
-            
-            $grade = 'E';
-            if ($totalScore >= 90) $grade = 'AA';
-            elseif ($totalScore >= 80) $grade = 'A';
-            elseif ($totalScore >= 70) $grade = 'BB';
-            elseif ($totalScore >= 60) $grade = 'B';
-            elseif ($totalScore >= 50) $grade = 'CC';
-            elseif ($totalScore >= 30) $grade = 'C';
-            elseif ($totalScore >= 10) $grade = 'D';
-            
-            $jsonData = json_encode($dn);
-            
-            if ($row) {
-                $upd = db()->prepare('UPDATE evaluasi_sakip SET nilai_akhir = :n, grade_akhir = :g, data_nilai = :dn, evaluator_id = :eid, updated_at = CURRENT_TIMESTAMP WHERE tahun = :t AND satker_id = :sid');
-                $upd->execute(['n' => $totalScore, 'g' => $grade, 'dn' => $jsonData, 'eid' => $user['id'], 't' => $tahun, 'sid' => $sid]);
-            } else {
-                $ins = db()->prepare('INSERT INTO evaluasi_sakip (tahun, satker_id, evaluator_id, nilai_akhir, grade_akhir, data_nilai, status) VALUES (:t, :sid, :eid, :n, :g, :dn, "Evaluasi")');
-                $ins->execute(['t' => $tahun, 'sid' => $sid, 'eid' => $user['id'], 'n' => $totalScore, 'g' => $grade, 'dn' => $jsonData]);
-            }
-            
-            header('Content-Type: application/json');
-            echo json_encode(['status' => 'success', 'total_score' => $totalScore, 'grade' => $grade]);
-            exit;
-        }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'save_assessment_ajax') {
+    $channel = (string) ($_POST['channel'] ?? '');
+    $type = (string) ($_POST['type'] ?? '');
+    $code = trim((string) ($_POST['code'] ?? ''));
+    $criterionIndex = max(0, (int) ($_POST['criterion_index'] ?? 0));
+    $allowedType = ['jawaban', 'catatan', 'rekomendasi', 'criteria_note'];
+    $authorized = ($channel === 'mandiri' && $canEditMandiri) || ($channel === 'evaluator' && $isEvaluator);
+    if (!$authorized || $satkerId <= 0 || $code === '' || !in_array($type, $allowedType, true)) {
         header('Content-Type: application/json');
         echo json_encode(['status' => 'error']);
         exit;
     }
-}
-
-
-
-// Fetch data_nilai from DB to populate answers
-$dn = [];
-if ($satkerId) {
-    $stmt = db()->prepare('SELECT data_nilai FROM evaluasi_sakip WHERE tahun = :t AND satker_id = :sid');
-    $stmt->execute(['t' => $tahun, 'sid' => $satkerId]);
-    $row = $stmt->fetch();
-    if ($row && $row['data_nilai']) {
-        $dn = json_decode($row['data_nilai'], true);
+    $stmt = db()->prepare('SELECT data_mandiri, data_nilai FROM evaluasi_sakip WHERE tahun = :tahun AND satker_id = :satker_id');
+    $stmt->execute(['tahun' => $tahun, 'satker_id' => $satkerId]);
+    $existing = $stmt->fetch();
+    $column = $channel === 'mandiri' ? 'data_mandiri' : 'data_nilai';
+    $data = $existing && $existing[$column] ? json_decode((string) $existing[$column], true) : sakip_defaults($sections, $channel);
+    $data[$code] ??= ['jawaban' => '', 'nilai' => 0, 'catatan' => '', 'rekomendasi' => '', 'kriteria' => []];
+    if ($type === 'jawaban') {
+        $data[$code]['jawaban'] = (string) ($_POST['value'] ?? '');
+        $data[$code]['nilai'] = (float) ($_POST['score'] ?? 0);
+    } elseif ($type === 'criteria_note') {
+        $data[$code]['kriteria'][$criterionIndex]['catatan'] = trim((string) ($_POST['value'] ?? ''));
+    } else {
+        $data[$code][$type] = trim((string) ($_POST['value'] ?? ''));
     }
-}
-
-define('HIDE_PAGE_TOPBAR', true);
-render_header('Evaluasi SAKIP');
-?>
-<link rel="stylesheet" href="assets/evaluasi-akip.css" />
-<div class="evaluasi-wrapper">
-
-<?php if (!$satkerId): ?>
-<header class="primer-hero" style="padding-bottom: 80px;">
-  <div class="primer-hero__inner">
-    <div class="primer-hero__copy">
-      <span class="hero-kicker">Evaluasi SAKIP · Dashboard</span>
-      <h1>Dashboard Evaluasi Kinerja SAKIP</h1>
-      <p>Pantau perkembangan dan tindak lanjut evaluasi akuntabilitas kinerja setiap Satuan Kerja.</p>
-    </div>
-  </div>
-</header>
-<main class="primer-shell">
-    <section class="worksheet-card">
-        <div class="worksheet-header">
-            <div>
-                <span class="section-eyebrow">Daftar Satker</span>
-                <h2>Pilih Satuan Kerja untuk Evaluasi</h2>
-            </div>
-            <div class="worksheet-totals">
-                <form method="get" style="display:flex; gap:10px; align-items:center;">
-                    <input type="hidden" name="page" value="evaluasi-akip">
-                    <select name="tahun" onchange="this.form.submit()" style="padding: 12px; border-radius: 12px; border: 1px solid var(--border);">
-                        <?php for($y=2020; $y<=2030; $y++): ?>
-                            <option value="<?= $y ?>" <?= $y === $tahun ? 'selected' : '' ?>><?= $y ?></option>
-                        <?php endfor; ?>
-                    </select>
-                </form>
-            </div>
-        </div>
-
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead style="background: var(--bg-secondary); color: var(--text-primary);">
-                    <tr>
-                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">No</th>
-                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Satuan Kerja</th>
-                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Tahun Penilaian</th>
-                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Nilai Evaluasi</th>
-                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Status</th>
-                        <th style="padding: 12px; border-bottom: 2px solid var(--border);">Unggah LHE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (!$satkers): ?>
-                        <tr><td colspan="5" style="padding: 12px; text-align: center;">Belum ada data Satuan Kerja.</td></tr>
-                    <?php endif; ?>
-                    <?php foreach ($satkers as $index => $satker): ?>
-                        <tr style="border-bottom: 1px solid var(--border);">
-                            <td style="padding: 12px;"><?= $index + 1 ?></td>
-                            <td style="padding: 12px;">
-                                <strong><a href="index.php?page=evaluasi-akip&user_id=<?= h((string)$satker['id']) ?>" style="color: var(--primary); text-decoration: none;"><?= h((string)$satker['unit']) ?></a></strong>
-                                <br>
-                                <small><a href="index.php?page=evaluasi-akip&user_id=<?= h((string)$satker['id']) ?>" style="color: #3b82f6;">(Klik untuk menuju instrumen)</a></small>
-                            </td>
-                            <td style="padding: 12px;"><?= $tahun ?></td>
-                            <td style="padding: 12px; color: #10b981; font-weight: bold; font-size: 1.2rem;"><?= $satker['grade_akhir'] ? h($satker['grade_akhir']) : '-' ?></td>
-                            <td style="padding: 12px; color: var(--text-muted);"><?= $satker['status'] ? h($satker['status']) : 'Belum Dievaluasi' ?></td>
-                            <td style="padding: 12px;">
-                                <?php if ($satker['lhe_file']): ?>
-                                    <a href="data/uploads/<?= h($satker['lhe_file']) ?>" target="_blank" style="display:inline-block; margin-bottom: 5px; color: var(--primary);">Lihat Dokumen</a>
-                                <?php endif; ?>
-                                <form method="post" enctype="multipart/form-data" style="display: flex; gap: 5px; align-items: center;">
-                                    <input type="hidden" name="action" value="upload_lhe">
-                                    <input type="hidden" name="satker_id" value="<?= h((string)$satker['id']) ?>">
-                                    <input type="file" name="lhe_file" accept=".pdf,.doc,.docx" required style="font-size: 0.8rem; width: 150px;">
-                                    <button type="submit" style="padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; border: 1px solid var(--primary); background: var(--primary); color: white; cursor: pointer;">Upload</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </section>
-</main>
-<?php else: ?>
-
-<header class="primer-hero">
-  <div class="primer-hero__inner">
-    <div class="primer-hero__copy">
-      <span class="hero-kicker">Evaluasi SAKIP · Worksheet</span>
-      <h1>Lembar Kerja Evaluasi Akuntabilitas Kinerja</h1>
-      <p><?= h($satker['unit'] ?? '') ?> Tahun <?= $tahun ?> · Review dan lengkapi evaluasi beserta catatan dan rekomendasi.</p>
-    </div>
-    <div class="hero-scoreboard">
-      <div class="hero-scorecard hero-scorecard--primary"><span>Nilai Evaluator</span><strong><?= number_format(floatval($summary['evaluator_score'] ?? 0), 2) ?></strong><em>Predikat <?= h($summary['evaluator_grade'] ?? 'E') ?></em></div>
-      <div class="hero-scorecard"><span>Nilai Satker</span><strong><?= number_format(floatval($summary['satker_score'] ?? 0), 2) ?></strong><em>Predikat <?= h($summary['satker_grade'] ?? 'E') ?></em></div>
-    </div>
-  </div>
-</header>
-<main class="primer-shell">
-  <section class="overview-grid">
-    <article class="overview-card"><span class="overview-label">Komponen</span><strong>4</strong><p>Perencanaan, Pengukuran, Pelaporan, Evaluasi Internal.</p></article>
-    <article class="overview-card"><span class="overview-label">Subkomponen</span><strong><?= count($sections) ?></strong><p>Subkomponen terstruktur sesuai LHE asli.</p></article>
-    <article class="overview-card"><span class="overview-label">Status</span><strong><?= h($satker['status'] ?? 'Draft') ?></strong><p>Kondisi evaluasi saat ini.</p></article>
-    <article class="overview-card">
-        <span class="overview-label">Kembali</span>
-        <strong><a href="index.php?page=evaluasi-akip" style="color: var(--primary-dark); text-decoration: none;">Dashboard</a></strong>
-        <p>Kembali ke daftar Satker.</p>
-    </article>
-  </section>
-
-  <section class="worksheet-card">
-    <div class="worksheet-header">
-      <div>
-        <span class="section-eyebrow">Lembar Evaluasi</span>
-        <h2>Struktur penilaian Kinerja SAKIP</h2>
-        <p>Klik ganda (double-click) pada kolom Catatan atau Rekomendasi untuk mengedit. Nilai akan otomatis tersimpan.</p>
-      </div>
-      <div class="worksheet-totals">
-        <div><span>Total Satker</span><strong><?= number_format(floatval($summary['satker_score'] ?? 0), 2) ?></strong></div>
-        <div><span>Total Evaluator</span><strong><?= number_format(floatval($summary['evaluator_score'] ?? 0), 2) ?></strong></div>
-      </div>
-    </div>
-
-    <?php foreach ($sections as $section): ?>
-    <section class="component-panel">
-      <div class="component-banner">
-        <div><span class="component-badge">Komponen <?= h($section['code']) ?></span><h3><?= h($section['title']) ?></h3></div>
-        <div class="component-summary"><div><span>Bobot</span><strong><?= number_format((float)$section['weight'], 2) ?></strong></div><div><span>Subtotal Evaluator</span><strong><?= number_format((float)$section['evaluator'], 2) ?></strong></div></div>
-      </div>
-      
-      <?php foreach ($section['subsections'] as $sub): ?>
-      <?php 
-          $ans = $dn[$sub['code']]['jawaban'] ?? $sub['evaluator_answer'];
-          $sc = $dn[$sub['code']]['nilai'] ?? $sub['evaluator_score'];
-          $nt = $dn[$sub['code']]['catatan'] ?? $sub['notes'];
-          $rek = $dn[$sub['code']]['rekomendasi'] ?? '';
-      ?>
-      <article class="sheet-block">
-        <div class="sheet-table sheet-table--head">
-          <div>No</div><div>Komponen</div><div>Bobot</div><div>Evaluator<br><small>Jawaban</small></div><div>Evaluator<br><small>Nilai</small></div><div>Catatan</div><div>Rekomendasi</div><div>Dokumen</div>
-        </div>
-        <div class="sheet-table sheet-table--body">
-          <div class="cell-code"><?= h($sub['code']) ?></div>
-          <div class="cell-title"><h4><?= h($sub['title']) ?></h4></div>
-          <div class="cell-number"><?= h($sub['weight']) ?></div>
-          <div class="cell-answer cell-answer--evaluator">
-              <?php $options = ['AA', 'A', 'BB', 'B', 'CC', 'C', 'D', 'E']; ?>
-              <select name="eval_jawaban[<?= h($sub['code']) ?>]" 
-                      class="eval-jawaban-select" 
-                      data-code="<?= h($sub['code']) ?>"
-                      data-bobot="<?= h($sub['weight']) ?>" 
-                      data-target="eval_nilai_<?= h(str_replace('.', '_', $sub['code'])) ?>"
-                      style="width: 100%; border: none; background: transparent; font-weight: bold; color: inherit; text-align: center; appearance: none; cursor: pointer;">
-                  <?php foreach ($options as $opt): ?>
-                      <option value="<?= $opt ?>" <?= $opt === $ans ? 'selected' : '' ?>><?= $opt ?></option>
-                  <?php endforeach; ?>
-              </select>
-          </div>
-          <div class="cell-number cell-number--accent">
-              <input type="number" step="0.01" 
-                     id="eval_nilai_<?= h(str_replace('.', '_', $sub['code'])) ?>" 
-                     value="<?= h((string)$sc) ?>" 
-                     readonly 
-                     style="width: 100%; text-align: center; background: transparent; border: none; font-weight: bold; color: inherit;">
-          </div>
-          <div class="cell-note" ondblclick="editField(this, '<?= h($sub['code']) ?>', 'catatan')" style="cursor: pointer;" title="Double-click to edit">
-              <div class="display-text"><?= nl2br(h($nt)) ?: '<i style="color:#ccc;">(kosong)</i>' ?></div>
-              <textarea style="display:none; width: 100%; height: 80px;" rows="3"><?= h($nt) ?></textarea>
-          </div>
-          <div class="cell-note" ondblclick="editField(this, '<?= h($sub['code']) ?>', 'rekomendasi')" style="cursor: pointer;" title="Double-click to edit">
-              <div class="display-text"><?= nl2br(h($rek)) ?: '<i style="color:#ccc;">(kosong)</i>' ?></div>
-              <textarea style="display:none; width: 100%; height: 80px;" rows="3"><?= h($rek) ?></textarea>
-          </div>
-          <div style="font-size: 0.8rem; color: var(--muted); text-align: center;">-</div>
-        </div>
-        
-        <?php if (!empty($sub['criteria'])): ?>
-        <div class="criteria-card">
-          <div class="criteria-card__header">Kriteria</div>
-          <div class="criteria-table criteria-table--head"><div>No</div><div>Uraian Kriteria</div><div>Dokumen / Evidence</div><div>Catatan Singkat</div></div>
-          <?php foreach ($sub['criteria'] as $index => $criterion): ?>
-          <?php $cn = $dn[$sub['code']]['kriteria'][$index] ?? $criterion['note']; ?>
-          <div class="criteria-table criteria-table--row">
-              <div class="criteria-no"><?= $index + 1 ?></div>
-              <div class="criteria-text"><?= h($criterion['text']) ?></div>
-              <div class="criteria-evidence">
-                  <?php foreach ($criterion['evidence'] as $ev): ?>
-                      <span class="evidence-chip"><?= h($ev) ?></span>
-                  <?php endforeach; ?>
-              </div>
-              <div class="criteria-note"><?= h($cn) ?></div>
-          </div>
-          <?php endforeach; ?>
-        </div>
-        <?php endif; ?>
-      </article>
-      <?php endforeach; ?>
-    </section>
-    <?php endforeach; ?>
-    
-  </section>
-</main>
-</div>
-<?php endif; ?>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-// Logic to calculate score based on weight and option multiplier
-function calculateScore(selectEl) {
-    const bobot = parseFloat(selectEl.dataset.bobot) || 0;
-    const val = selectEl.value;
-    let multiplier = 0;
-    switch(val) {
-        case 'AA': multiplier = 1.0; break;
-        case 'A':  multiplier = 0.9; break;
-        case 'BB': multiplier = 0.8; break;
-        case 'B':  multiplier = 0.7; break;
-        case 'CC': multiplier = 0.6; break;
-        case 'C':  multiplier = 0.5; break;
-        case 'D':  multiplier = 0.4; break;
-        case 'E':  multiplier = 0.0; break;
-    }
-    const targetId = selectEl.dataset.target;
-    const score = bobot * multiplier;
-    document.getElementById(targetId).value = score.toFixed(2);
-}
-
-function editField(container, code, type) {
-    const displayDiv = container.querySelector('.display-text');
-    const textarea = container.querySelector('textarea');
-    if (!displayDiv || !textarea) return;
-    
-    displayDiv.style.display = 'none';
-    textarea.style.display = 'block';
-    textarea.focus();
-    
-    // Auto-save on blur
-    textarea.onblur = function() {
-        const value = this.value;
-        if(value.trim() === '') {
-            displayDiv.innerHTML = '<i style="color:#ccc;">(kosong)</i>';
+    $summary = sakip_summary($data);
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE);
+    if ($existing) {
+        if ($channel === 'mandiri') {
+            $save = db()->prepare('UPDATE evaluasi_sakip SET nilai_mandiri = :nilai, grade_mandiri = :grade, data_mandiri = :data, updated_at = CURRENT_TIMESTAMP WHERE tahun = :tahun AND satker_id = :satker_id');
         } else {
-            displayDiv.innerHTML = value.replace(/\n/g, '<br>');
+            $save = db()->prepare('UPDATE evaluasi_sakip SET nilai_akhir = :nilai, grade_akhir = :grade, data_nilai = :data, evaluator_id = :evaluator, updated_at = CURRENT_TIMESTAMP WHERE tahun = :tahun AND satker_id = :satker_id');
         }
-        this.style.display = 'none';
-        displayDiv.style.display = 'block';
-        
-        saveAjax(type, code, value, 0);
-    };
-}
-
-function saveAjax(type, code, value, score) {
-    const formData = new FormData();
-    formData.append('action', 'save_eval_ajax');
-    formData.append('satker_id', '<?= h((string)$satkerId) ?>');
-    formData.append('type', type);
-    formData.append('code', code);
-    formData.append('value', value);
-    if (type === 'jawaban') {
-        formData.append('score', score);
+    } else {
+        if ($channel === 'mandiri') {
+            $save = db()->prepare('INSERT INTO evaluasi_sakip (tahun, satker_id, nilai_mandiri, grade_mandiri, data_mandiri, status) VALUES (:tahun, :satker_id, :nilai, :grade, :data, "Penilaian Mandiri")');
+        } else {
+            $save = db()->prepare('INSERT INTO evaluasi_sakip (tahun, satker_id, evaluator_id, nilai_akhir, grade_akhir, data_nilai, status) VALUES (:tahun, :satker_id, :evaluator, :nilai, :grade, :data, "Evaluasi")');
+        }
     }
-    
-    fetch('index.php?page=evaluasi-akip', {
-        method: 'POST',
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === 'success') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Tersimpan otomatis',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 1500
-            });
-            setTimeout(() => window.location.reload(), 1500); 
-        }
-    });
+    $params = ['tahun' => $tahun, 'satker_id' => $satkerId, 'nilai' => $summary['total'], 'grade' => $summary['grade'], 'data' => $json];
+    if ($channel === 'evaluator') {
+        $params['evaluator'] = (int) $user['id'];
+    }
+    $save->execute($params);
+    header('Content-Type: application/json');
+    echo json_encode(['status' => 'success', 'total_score' => $summary['total'], 'grade' => $summary['grade']]);
+    exit;
 }
 
-document.querySelectorAll('.eval-jawaban-select').forEach(select => {
-    select.addEventListener('change', function() {
-        calculateScore(this);
-        const code = this.dataset.code;
-        const targetId = this.dataset.target;
-        const targetInput = document.getElementById(targetId);
-        saveAjax('jawaban', code, this.value, targetInput.value);
-    });
-});
-</script>
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'upload_evidence') {
+    $subCode = trim((string) ($_POST['sub_code'] ?? ''));
+    $criterionIndex = max(0, (int) ($_POST['criterion_index'] ?? 0));
+    $file = $_FILES['evidence_file'] ?? null;
+    if (!$canEditMandiri || $satkerId <= 0 || $subCode === '' || !$file || $file['error'] !== UPLOAD_ERR_OK) {
+        flash('Dokumen belum dipilih atau Anda tidak memiliki akses.', 'error');
+    } else {
+        $extension = strtolower((string) pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($extension, ['pdf', 'doc', 'docx'], true)) {
+            flash('Dokumen harus berformat PDF, DOC, atau DOCX.', 'error');
+        } elseif ((int) $file['size'] > 10 * 1024 * 1024) {
+            flash('Ukuran dokumen maksimal 10 MB.', 'error');
+        } else {
+            $uploadDir = dirname(__DIR__) . '/data/uploads/evaluasi-akip/';
+            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+            $storedName = 'evidence_' . $tahun . '_' . $satkerId . '_' . str_replace('.', '-', $subCode) . '_' . $criterionIndex . '_' . bin2hex(random_bytes(6)) . '.' . $extension;
+            if (move_uploaded_file($file['tmp_name'], $uploadDir . $storedName)) {
+                $save = db()->prepare('INSERT INTO evaluasi_sakip_dokumen (tahun, satker_id, sub_code, criterion_index, original_name, stored_name, uploaded_by) VALUES (:tahun, :satker_id, :sub_code, :criterion_index, :original_name, :stored_name, :uploaded_by)');
+                $save->execute(['tahun' => $tahun, 'satker_id' => $satkerId, 'sub_code' => $subCode, 'criterion_index' => $criterionIndex, 'original_name' => basename((string) $file['name']), 'stored_name' => $storedName, 'uploaded_by' => (int) $user['id']]);
+                flash('Dokumen kriteria berhasil ditambahkan.');
+            }
+        }
+    }
+    header('Location: index.php?page=evaluasi-akip&mode=mandiri&user_id=' . $satkerId . '&tahun=' . $tahun . '#sub-' . urlencode(str_replace('.', '-', $subCode)));
+    exit;
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'upload_lhe' && $isEvaluator) {
+    $file = $_FILES['lhe_file'] ?? null;
+    if ($satkerId > 0 && $file && $file['error'] === UPLOAD_ERR_OK && strtolower((string) pathinfo($file['name'], PATHINFO_EXTENSION)) === 'pdf') {
+        $uploadDir = dirname(__DIR__) . '/data/uploads/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+        $filename = 'lhe_' . $tahun . '_' . $satkerId . '_' . time() . '.pdf';
+        if (move_uploaded_file($file['tmp_name'], $uploadDir . $filename)) {
+            $stmt = db()->prepare('SELECT id FROM evaluasi_sakip WHERE tahun = :tahun AND satker_id = :satker_id');
+            $stmt->execute(['tahun' => $tahun, 'satker_id' => $satkerId]);
+            if ($stmt->fetch()) {
+                $save = db()->prepare('UPDATE evaluasi_sakip SET lhe_file = :file, updated_at = CURRENT_TIMESTAMP WHERE tahun = :tahun AND satker_id = :satker_id');
+                $save->execute(['tahun' => $tahun, 'satker_id' => $satkerId, 'file' => $filename]);
+            } else {
+                $save = db()->prepare('INSERT INTO evaluasi_sakip (tahun, satker_id, evaluator_id, status, lhe_file) VALUES (:tahun, :satker_id, :evaluator, "Evaluasi", :file)');
+                $save->execute(['tahun' => $tahun, 'satker_id' => $satkerId, 'evaluator' => (int) $user['id'], 'file' => $filename]);
+            }
+            flash('Dokumen LHE berhasil diunggah.');
+        }
+    } else {
+        flash('Pilih dokumen LHE berformat PDF.', 'error');
+    }
+    header('Location: index.php?page=evaluasi-akip&mode=lhe&user_id=' . $satkerId . '&tahun=' . $tahun);
+    exit;
+}
+
+$satker = null;
+$evaluation = null;
+if ($satkerId > 0) {
+    $stmt = db()->prepare('SELECT id, nama, unit FROM users WHERE id = :id');
+    $stmt->execute(['id' => $satkerId]);
+    $satker = $stmt->fetch();
+    $stmt = db()->prepare('SELECT * FROM evaluasi_sakip WHERE tahun = :tahun AND satker_id = :satker_id');
+    $stmt->execute(['tahun' => $tahun, 'satker_id' => $satkerId]);
+    $evaluation = $stmt->fetch() ?: null;
+}
+$dataMandiri = $evaluation && $evaluation['data_mandiri'] ? json_decode((string) $evaluation['data_mandiri'], true) : sakip_defaults($sections, 'mandiri');
+$dataEvaluator = $evaluation && $evaluation['data_nilai'] ? json_decode((string) $evaluation['data_nilai'], true) : sakip_defaults($sections, 'evaluator');
+$summaryMandiri = sakip_summary($dataMandiri);
+$summaryEvaluator = sakip_summary($dataEvaluator);
+
+$criterionDocuments = [];
+if ($satkerId > 0) {
+    $stmt = db()->prepare('SELECT * FROM evaluasi_sakip_dokumen WHERE tahun = :tahun AND satker_id = :satker_id ORDER BY id');
+    $stmt->execute(['tahun' => $tahun, 'satker_id' => $satkerId]);
+    foreach ($stmt->fetchAll() as $document) {
+        $criterionDocuments[(string) $document['sub_code']][(int) $document['criterion_index']][] = $document;
+    }
+}
+
+$satkers = [];
+if ($mode === 'list' && $isEvaluator) {
+    $stmt = db()->prepare('SELECT u.id, u.nama, u.unit, es.nilai_mandiri, es.grade_mandiri, es.nilai_akhir, es.grade_akhir, es.status, es.lhe_file FROM users u LEFT JOIN evaluasi_sakip es ON u.id = es.satker_id AND es.tahun = :tahun WHERE u.status = "active" AND u.role LIKE "Satker%" ORDER BY u.unit, u.nama');
+    $stmt->execute(['tahun' => $tahun]);
+    $satkers = $stmt->fetchAll();
+}
+
+render_header('Evaluasi');
+?>
+<link rel="stylesheet" href="assets/evaluasi-akip.css?v=<?= time() ?>">
+<div class="evakip">
+<nav class="evakip-tabs" aria-label="Navigasi Evaluasi">
+    <?php if ($isEvaluator): ?><a href="index.php?page=evaluasi-akip&tahun=<?= $tahun ?>" class="<?= $mode === 'list' ? 'active' : '' ?>"><i class="ph ph-list-bullets"></i> Daftar Evaluasi</a><?php endif; ?>
+    <?php if ($satkerId > 0): ?>
+        <a href="index.php?page=evaluasi-akip&mode=mandiri&user_id=<?= $satkerId ?>&tahun=<?= $tahun ?>" class="<?= $mode === 'mandiri' ? 'active' : '' ?>"><i class="ph ph-clipboard-text"></i> Penilaian Mandiri</a>
+        <?php if ($isEvaluator): ?><a href="index.php?page=evaluasi-akip&mode=evaluator&user_id=<?= $satkerId ?>&tahun=<?= $tahun ?>" class="<?= $mode === 'evaluator' ? 'active' : '' ?>"><i class="ph ph-check-square"></i> Evaluasi Penilaian Mandiri</a><a href="index.php?page=evaluasi-akip&mode=lhe&user_id=<?= $satkerId ?>&tahun=<?= $tahun ?>" class="<?= $mode === 'lhe' ? 'active' : '' ?>"><i class="ph ph-file-pdf"></i> LHE</a><?php endif; ?>
+    <?php endif; ?>
+</nav>
+
+<?php if ($mode === 'list'): ?>
+<section class="evakip-heading"><div><span class="evakip-kicker">Evaluasi</span><h2>Daftar Penilaian Mandiri</h2><p>Buka penilaian mandiri satker, lalu lakukan evaluasi pada data yang sama.</p></div><form method="get" class="evakip-year"><input type="hidden" name="page" value="evaluasi-akip"><label>Tahun Penilaian<select name="tahun" onchange="this.form.submit()"><?php for ($y=2020;$y<=2030;$y++): ?><option value="<?= $y ?>" <?= $y===$tahun?'selected':'' ?>><?= $y ?></option><?php endfor; ?></select></label></form></section>
+<section class="evakip-card"><div class="evakip-table-wrap"><table class="evakip-table"><thead><tr><th>No</th><th>Satuan Kerja</th><th>Tahun</th><th>Mandiri</th><th>Evaluasi</th><th>LHE</th><th>Aksi</th></tr></thead><tbody><?php foreach ($satkers as $index=>$row): ?><tr><td><?= $index+1 ?></td><td><strong><?= h((string)$row['unit']) ?></strong><small><?= h((string)$row['nama']) ?></small></td><td><?= $tahun ?></td><td><span class="evakip-grade"><?= h((string)($row['grade_mandiri']?:'-')) ?></span><small><?= $row['nilai_mandiri']!==null?number_format((float)$row['nilai_mandiri'],2):'Belum diisi' ?></small></td><td><span class="evakip-grade"><?= h((string)($row['grade_akhir']?:'-')) ?></span><small><?= $row['nilai_akhir']!==null?number_format((float)$row['nilai_akhir'],2):'Belum dinilai' ?></small></td><td><?= $row['lhe_file']?'<span class="evakip-file-ok">Tersedia</span>':'<span class="evakip-file-empty">Belum ada</span>' ?></td><td><div class="evakip-row-actions"><a class="button secondary evakip-action" href="index.php?page=evaluasi-akip&mode=mandiri&user_id=<?= (int)$row['id'] ?>&tahun=<?= $tahun ?>">Lihat Mandiri</a><a class="button evakip-action" href="index.php?page=evaluasi-akip&mode=evaluator&user_id=<?= (int)$row['id'] ?>&tahun=<?= $tahun ?>">Evaluasi</a></div></td></tr><?php endforeach; ?></tbody></table></div></section>
+
+<?php elseif ($mode === 'lhe'): ?>
+<section class="evakip-heading"><div><span class="evakip-kicker"><?= h((string)($satker['unit']??'Satker')) ?> · <?= $tahun ?></span><h2>Laporan Hasil Evaluasi</h2><p>Unggah dan lihat status dokumen LHE.</p></div></section><div class="evakip-lhe-grid"><section class="evakip-card evakip-upload"><i class="ph ph-file-arrow-up"></i><h3>Unggah Dokumen LHE</h3><p>Gunakan PDF LHE final.</p><form method="post" enctype="multipart/form-data"><input type="hidden" name="action" value="upload_lhe"><input type="hidden" name="satker_id" value="<?= $satkerId ?>"><input type="file" name="lhe_file" accept="application/pdf,.pdf" required><button>Unggah LHE</button></form></section><section class="evakip-card"><h3>Status Dokumen</h3><?php if ($evaluation&&$evaluation['lhe_file']): ?><div class="evakip-document"><span class="evakip-document-icon"><i class="ph ph-check"></i></span><div><strong>Dokumen tersedia</strong><small><?= h((string)$evaluation['lhe_file']) ?></small></div><a class="button secondary" target="_blank" href="data/uploads/<?= h((string)$evaluation['lhe_file']) ?>">Lihat PDF</a></div><?php else: ?><div class="evakip-document"><span class="evakip-document-icon empty"><i class="ph ph-clock"></i></span><div><strong>Belum ada dokumen</strong><small>LHE belum diunggah.</small></div></div><?php endif; ?></section></div>
+
+<?php else: $isMandiriMode=$mode==='mandiri'; $channel=$isMandiriMode?'mandiri':'evaluator'; $currentData=$isMandiriMode?$dataMandiri:$dataEvaluator; $currentSummary=$isMandiriMode?$summaryMandiri:$summaryEvaluator; $editable=$isMandiriMode?$canEditMandiri:$isEvaluator; ?>
+<section class="evakip-heading"><div><span class="evakip-kicker"><?= h((string)($satker['unit']??'Satker')) ?> · <?= $tahun ?></span><h2><?= $isMandiriMode?'Penilaian Mandiri':'Evaluasi Penilaian Mandiri' ?></h2><p><?= $isMandiriMode?'Isi jawaban, catatan, dan dokumen bukti secara bertahap.':'Bandingkan jawaban mandiri dengan bukti, lalu isi analisis dan rekomendasi evaluator.' ?></p></div><div class="evakip-total"><small><?= $isMandiriMode?'Nilai Mandiri':'Nilai Evaluator' ?></small><strong id="evakip-total-value"><?= number_format($currentSummary['total'],2) ?></strong><span id="evakip-grade-value"><?= h($currentSummary['grade']) ?></span></div></section>
+<?php if ($isMandiriMode && !$editable): ?><div class="evakip-view-note"><i class="ph ph-eye"></i> Mode lihat. Data Penilaian Mandiri hanya dapat diubah oleh satuan kerja.</div><?php endif; ?>
+<div class="evakip-layout"><aside class="evakip-index"><?php foreach($sections as $section): ?><a href="#komponen-<?= h($section['code']) ?>"><span><?= h($section['code']) ?></span><?= h($section['title']) ?></a><?php endforeach; ?></aside><div class="evakip-components">
+<?php foreach($sections as $section): ?><section class="evakip-component" id="komponen-<?= h($section['code']) ?>"><header><div><span>Komponen <?= h($section['code']) ?></span><h3><?= h($section['title']) ?></h3></div><div><small>Bobot <?= h($section['weight']) ?></small><strong><?= h($isMandiriMode?$section['weight']:$section['evaluator']) ?></strong></div></header>
+<?php foreach($section['subsections'] as $sub): $mandiri=$dataMandiri[$sub['code']]??[]; $eval=$dataEvaluator[$sub['code']]??[]; $active=$currentData[$sub['code']]??[]; ?><details class="evakip-sub" id="sub-<?= h(str_replace('.','-',$sub['code'])) ?>" open><summary><span class="evakip-code"><?= h($sub['code']) ?></span><span><strong><?= h($sub['title']) ?></strong><small>Bobot <?= h($sub['weight']) ?></small></span><span class="evakip-sub-score"><small><?= $isMandiriMode?'Mandiri':'Mandiri → Evaluator' ?></small><b><?= h((string)($mandiri['jawaban']??'-')) ?> · <?= number_format((float)($mandiri['nilai']??0),2) ?><?= !$isMandiriMode?' → '.h((string)($eval['jawaban']??'-')).' · '.number_format((float)($eval['nilai']??0),2):'' ?></b></span></summary><div class="evakip-sub-body">
+<?php if ($isMandiriMode): ?><div class="evakip-input-row"><label>Jawaban Mandiri<select class="evakip-assessment-answer" data-channel="mandiri" data-code="<?= h($sub['code']) ?>" data-weight="<?= h($sub['weight']) ?>" <?= !$editable?'disabled':'' ?>><?php foreach(['AA','A','BB','B','CC','C','D','E'] as $option): ?><option value="<?= $option ?>" <?= $option===($active['jawaban']??'')?'selected':'' ?>><?= $option ?></option><?php endforeach; ?></select></label><label>Nilai<input class="evakip-assessment-score" data-channel="mandiri" data-code="<?= h($sub['code']) ?>" value="<?= number_format((float)($active['nilai']??0),2,'.','') ?>" readonly></label><label>Catatan Mandiri<textarea class="evakip-assessment-text" data-channel="mandiri" data-type="catatan" data-code="<?= h($sub['code']) ?>" rows="2" <?= !$editable?'readonly':'' ?>><?= h((string)($active['catatan']??'')) ?></textarea></label></div>
+<?php else: ?><div class="evakip-compare"><div class="evakip-compare-card mandiri"><span>Penilaian Mandiri</span><strong><?= h((string)($mandiri['jawaban']??'-')) ?> · <?= number_format((float)($mandiri['nilai']??0),2) ?></strong><p><?= h((string)($mandiri['catatan']??'Belum ada catatan mandiri.')) ?></p></div><div class="evakip-compare-card evaluator"><span>Evaluasi</span><div class="evakip-evaluator-inputs"><label>Jawaban<select class="evakip-assessment-answer" data-channel="evaluator" data-code="<?= h($sub['code']) ?>" data-weight="<?= h($sub['weight']) ?>"><?php foreach(['AA','A','BB','B','CC','C','D','E'] as $option): ?><option value="<?= $option ?>" <?= $option===($eval['jawaban']??'')?'selected':'' ?>><?= $option ?></option><?php endforeach; ?></select></label><label>Nilai<input class="evakip-assessment-score" data-channel="evaluator" data-code="<?= h($sub['code']) ?>" value="<?= number_format((float)($eval['nilai']??0),2,'.','') ?>" readonly></label></div><label>Catatan Evaluator<textarea class="evakip-assessment-text" data-channel="evaluator" data-type="catatan" data-code="<?= h($sub['code']) ?>" rows="2"><?= h((string)($eval['catatan']??'')) ?></textarea></label><label>Rekomendasi<textarea class="evakip-assessment-text" data-channel="evaluator" data-type="rekomendasi" data-code="<?= h($sub['code']) ?>" rows="2"><?= h((string)($eval['rekomendasi']??'')) ?></textarea></label></div></div><?php endif; ?>
+<div class="evakip-criteria-head"><span>No</span><span>Kriteria dan Dokumen</span><span><?= $isMandiriMode?'Catatan Kriteria':'Analisis Evaluator' ?></span></div>
+<?php foreach($sub['criteria'] as $criterionIndex=>$criterion): $mandiriCriterion=$mandiri['kriteria'][$criterionIndex]['catatan']??''; $evalCriterion=$eval['kriteria'][$criterionIndex]['catatan']??$criterion['note']; ?><div class="evakip-criterion"><span><?= $criterionIndex+1 ?></span><div><p><?= h($criterion['text']) ?></p><small class="evakip-required-label"><?= $isMandiriMode ? 'Dokumen yang diminta' : 'Bukti Penilaian Mandiri' ?></small><div class="evakip-evidence"><?php foreach($criterion['evidence'] as $evidence): ?><span><?= h($evidence) ?></span><?php endforeach; ?></div><div class="evakip-uploaded-docs"><?php foreach($criterionDocuments[$sub['code']][$criterionIndex]??[] as $document): ?><a href="data/uploads/evaluasi-akip/<?= h((string)$document['stored_name']) ?>" target="_blank"><i class="ph ph-file"></i><?= h((string)$document['original_name']) ?></a><?php endforeach; ?></div><?php if ($isMandiriMode&&$editable): ?><form class="evakip-evidence-upload" method="post" enctype="multipart/form-data"><input type="hidden" name="action" value="upload_evidence"><input type="hidden" name="satker_id" value="<?= $satkerId ?>"><input type="hidden" name="sub_code" value="<?= h($sub['code']) ?>"><input type="hidden" name="criterion_index" value="<?= $criterionIndex ?>"><label class="evakip-file-picker"><i class="ph ph-paperclip"></i><span>Tambah dokumen</span><input type="file" name="evidence_file" accept=".pdf,.doc,.docx" required></label><button class="evakip-upload-button">Unggah</button></form><?php endif; ?></div><textarea class="evakip-criterion-analysis" data-channel="<?= $channel ?>" data-type="criteria_note" data-code="<?= h($sub['code']) ?>" data-index="<?= $criterionIndex ?>" rows="3" <?= !$editable?'readonly':'' ?>><?= h((string)($isMandiriMode?$mandiriCriterion:$evalCriterion)) ?></textarea></div><?php endforeach; ?>
+</div></details><?php endforeach; ?></section><?php endforeach; ?></div></div>
+<?php endif; ?>
+</div>
+<div class="evakip-preview-modal" id="evakip-preview-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="evakip-preview-title">
+    <div class="evakip-preview-modal__backdrop" data-preview-close></div>
+    <section class="evakip-preview-modal__dialog">
+        <header><div><span>BUKTI PENILAIAN MANDIRI</span><strong id="evakip-preview-title">Preview dokumen</strong></div><button type="button" class="evakip-preview-modal__close" data-preview-close aria-label="Tutup preview"><i class="ph ph-x"></i></button></header>
+        <iframe id="evakip-preview-frame" title="Preview dokumen bukti"></iframe>
+    </section>
+</div>
+<script>
+(function(){const multipliers={AA:1,A:.9,BB:.8,B:.7,CC:.6,C:.5,D:.4,E:0};function save(channel,type,code,value,score,index){const data=new FormData();data.append('action','save_assessment_ajax');data.append('satker_id','<?= $satkerId ?>');data.append('channel',channel);data.append('type',type);data.append('code',code);data.append('value',value);data.append('score',score||0);data.append('criterion_index',index||0);fetch('index.php?page=evaluasi-akip&tahun=<?= $tahun ?>',{method:'POST',body:data}).then(r=>r.json()).then(result=>{if(result.status==='success'){const total=document.getElementById('evakip-total-value'),grade=document.getElementById('evakip-grade-value');if(total)total.textContent=Number(result.total_score).toFixed(2);if(grade)grade.textContent=result.grade;}});}document.querySelectorAll('.evakip-assessment-answer').forEach(el=>el.addEventListener('change',function(){const score=(Number(this.dataset.weight)*(multipliers[this.value]||0)).toFixed(2);const input=document.querySelector('.evakip-assessment-score[data-channel="'+this.dataset.channel+'"][data-code="'+this.dataset.code+'"]');if(input)input.value=score;save(this.dataset.channel,'jawaban',this.dataset.code,this.value,score,0);}));document.querySelectorAll('.evakip-assessment-text').forEach(el=>el.addEventListener('change',function(){save(this.dataset.channel,this.dataset.type,this.dataset.code,this.value,0,0);}));document.querySelectorAll('.evakip-criterion-analysis').forEach(el=>el.addEventListener('change',function(){save(this.dataset.channel,'criteria_note',this.dataset.code,this.value,0,this.dataset.index);}));document.querySelectorAll('.evakip-file-picker input').forEach(input=>input.addEventListener('change',function(){const picker=this.closest('.evakip-file-picker'),label=picker&&picker.querySelector('span');if(this.files[0]&&label){label.textContent=this.files[0].name;picker.classList.add('has-file');}}));})();
+</script>
+<script>
+(function () {
+    const modal = document.getElementById('evakip-preview-modal');
+    const frame = document.getElementById('evakip-preview-frame');
+    const title = document.getElementById('evakip-preview-title');
+    if (!modal || !frame || !title) return;
+
+    document.querySelectorAll('.evakip-uploaded-docs').forEach((container) => {
+        if (container.children.length) return;
+        const criterion = container.closest('.evakip-criterion');
+        const evidence = criterion && criterion.querySelector('.evakip-evidence span');
+        const documentName = evidence ? evidence.textContent.trim() : 'Dokumen bukti penilaian mandiri';
+        container.innerHTML = '<article class="evakip-evidence-document evakip-evidence-document--dummy"><span class="evakip-evidence-document__icon"><i class="ph ph-file-text"></i></span><div><strong>' + documentName + '</strong><small>Dokumen contoh · siap dipreview</small></div><button type="button" class="evakip-preview-button" data-preview-url="assets/dummy-evaluasi-akip.html" data-preview-title="' + documentName.replace(/&/g, '&amp;').replace(/\"/g, '&quot;') + '"><i class="ph ph-eye"></i> Preview</button></article>';
+    });
+
+    const close = () => {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        frame.removeAttribute('src');
+    };
+    document.querySelectorAll('[data-preview-close]').forEach((button) => button.addEventListener('click', close));
+    document.querySelectorAll('.evakip-preview-button').forEach((button) => button.addEventListener('click', () => {
+        title.textContent = button.dataset.previewTitle || 'Preview dokumen';
+        frame.src = button.dataset.previewUrl;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+    }));
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape') close(); });
+}());
+</script>
 <?php render_footer(); ?>

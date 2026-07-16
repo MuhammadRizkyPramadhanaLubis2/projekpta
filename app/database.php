@@ -121,6 +121,9 @@ function init_database(): void
             tahun INTEGER NOT NULL,
             satker_id INTEGER NOT NULL,
             evaluator_id INTEGER,
+            nilai_mandiri REAL,
+            grade_mandiri TEXT,
+            data_mandiri TEXT,
             nilai_akhir REAL,
             grade_akhir TEXT,
             data_nilai TEXT,
@@ -132,6 +135,33 @@ function init_database(): void
             FOREIGN KEY (satker_id) REFERENCES users(id) ON DELETE CASCADE
         )'
     );
+
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS evaluasi_sakip_dokumen (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tahun INTEGER NOT NULL,
+            satker_id INTEGER NOT NULL,
+            sub_code TEXT NOT NULL,
+            criterion_index INTEGER NOT NULL,
+            original_name TEXT NOT NULL,
+            stored_name TEXT NOT NULL,
+            uploaded_by INTEGER,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (satker_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+        )'
+    );
+
+    $sakipColumns = [
+        'nilai_mandiri' => 'REAL',
+        'grade_mandiri' => 'TEXT',
+        'data_mandiri' => 'TEXT',
+    ];
+    foreach ($sakipColumns as $column => $definition) {
+        if (!table_has_column($pdo, 'evaluasi_sakip', $column)) {
+            $pdo->exec('ALTER TABLE evaluasi_sakip ADD COLUMN ' . $column . ' ' . $definition);
+        }
+    }
 
 
     if (!table_has_column($pdo, 'document_meta', 'pihak1_ttd')) {
