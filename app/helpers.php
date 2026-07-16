@@ -580,7 +580,6 @@ function shared_workflow_groups(): array
             ['Renstra', 'modul', 'renstra'],
             ['IKU', 'modul', 'iku'],
             ['Renaksi', 'modul', 'renaksi'],
-            ['RKA-KL & Revisi', 'modul', 'rka-kl-revisi'],
             ['E-Monev Bappenas', 'modul', 'e-monev-bappenas'],
             [
                 'Laporan Kinerja',
@@ -600,7 +599,14 @@ function shared_workflow_groups(): array
             ['Regulasi & Artikel', 'modul', 'regulasi'],
             ['Info & Pengumuman', 'modul', 'info-pengumuman'],
             ['LHE PA', 'modul', 'lhe-pa'],
-            ['Upload TOR/KAK ABT/Baseline', 'modul', 'upload-tor-kak'],
+            [
+                'Upload TOR/KAK ABT/Baseline',
+                'modul',
+                'upload-tor-kak',
+                [
+                    ['Revisi', 'portal', 'revisi'],
+                ],
+            ],
             ['Tupoksi & Tim', 'modul', 'tupoksi-tim'],
         ],
     ];
