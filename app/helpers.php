@@ -210,7 +210,7 @@ function role_catalog(): array
         'Admin' => [
             'label' => 'Administrator',
             'unit_type' => 'PTA Medan',
-            'permissions' => ['manage_users', 'view_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
+            'permissions' => ['manage_users', 'view_all_targets', 'edit_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
         ],
         'PanmudBanding' => [
             'label' => 'Panmud Banding',
@@ -240,7 +240,7 @@ function role_catalog(): array
         'Perencanaan' => [
             'label' => 'Kasubag Perencanaan Program dan Anggaran',
             'unit_type' => 'PTA Medan',
-            'permissions' => ['manage_users', 'view_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
+            'permissions' => ['manage_users', 'view_all_targets', 'edit_all_targets', 'input_target', 'evaluate', 'print_documents', 'view_reports'],
         ],
         'SatkerPanmudHukum' => [
             'label' => 'Panmud Hukum Satker PA',
@@ -580,7 +580,6 @@ function shared_workflow_groups(): array
             ['Renstra', 'modul', 'renstra'],
             ['IKU', 'modul', 'iku'],
             ['Renaksi', 'modul', 'renaksi'],
-            ['RKA-KL & Revisi', 'modul', 'rka-kl-revisi'],
             ['E-Monev Bappenas', 'modul', 'e-monev-bappenas'],
             [
                 'Laporan Kinerja',
@@ -600,7 +599,14 @@ function shared_workflow_groups(): array
             ['Regulasi & Artikel', 'modul', 'regulasi'],
             ['Info & Pengumuman', 'modul', 'info-pengumuman'],
             ['LHE PA', 'modul', 'lhe-pa'],
-            ['Upload TOR/KAK ABT/Baseline', 'modul', 'upload-tor-kak'],
+            [
+                'Upload TOR/KAK ABT/Baseline',
+                'modul',
+                'upload-tor-kak',
+                [
+                    ['Revisi', 'portal', 'revisi'],
+                ],
+            ],
             ['Tupoksi & Tim', 'modul', 'tupoksi-tim'],
         ],
     ];

@@ -9,8 +9,35 @@ $profile = role_profile((string) $user['role']);
 $documentUser = document_owner($user, $canViewAll, $selectedUserId);
 $profile = role_profile((string) $documentUser['role']);
 
+/**
+ * Metadata tambahan PK disimpan sebagai JSON pada kolom catatan yang sudah ada.
+ * Dengan cara ini NIP dapat dipakai tanpa mengubah struktur database.
+ */
+function pk_meta_extras(string $raw): array
+{
+    $defaults = ['pihak1_nip'=>'', 'pihak2_nip'=>'', 'catatan'=>''];
+    $decoded = json_decode($raw, true);
+    if (is_array($decoded) && (int)($decoded['_pk_version'] ?? 0) >= 1) {
+        return array_merge($defaults, array_intersect_key($decoded, $defaults));
+    }
+    $defaults['catatan'] = $raw;
+    return $defaults;
+}
+
+function pk_meta_pack(array $post): string
+{
+    return json_encode([
+        '_pk_version'=>1,
+        'pihak1_nip'=>trim((string)($post['pihak1_nip'] ?? '')),
+        'pihak2_nip'=>trim((string)($post['pihak2_nip'] ?? '')),
+        'catatan'=>trim((string)($post['catatan'] ?? '')),
+    ], JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    save_document_meta($documentUser, $tahun, 'pk', $_POST);
+    $pkPayload = $_POST;
+    $pkPayload['catatan'] = pk_meta_pack($_POST);
+    save_document_meta($documentUser, $tahun, 'pk', $pkPayload);
     flash('Metadata dan Tanda Tangan Perjanjian Kinerja berhasil disimpan.');
     header('Location: index.php?page=pk&tahun=' . $tahun . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : ''));
     exit;
@@ -38,6 +65,7 @@ $stmt = db()->prepare($query);
 $stmt->execute($params);
 $targets = $stmt->fetchAll();
 $meta = document_meta($documentUser, $tahun, 'pk');
+$pkExtra = pk_meta_extras((string)($meta['catatan'] ?? ''));
 
 // Handle Export CSV
 if (($_GET['export'] ?? '') === 'csv') {
@@ -85,6 +113,7 @@ if (!$isDocx) {
 .signature-canvas { border: 1px dashed #94a3b8; background: #fff; cursor: crosshair; display: block; margin-bottom: 8px; max-width: 100%; touch-action: none; }
 .signature-preview { max-width: 150px; max-height: 80px; display: block; margin-top: 8px; }
 .clear-canvas-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 0.85rem; cursor: pointer; font-weight: 600; }
+.pk-page-actions{display:grid;grid-template-columns:repeat(5,minmax(145px,1fr));gap:8px;width:100%;margin-top:8px}.pk-page-actions .button,.pk-page-actions button{display:flex;align-items:center;justify-content:center;gap:7px;text-align:center;text-decoration:none}.pk-word-button{background:#1d4ed8!important;color:#fff!important}.pk-csv-button{background:#047857!important;color:#fff!important}.pk-meta-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:18px}.pk-meta-heading span{color:#047857;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.pk-meta-heading h2{margin:5px 0}.pk-meta-heading p{margin:0;color:#64748b}.pk-meta-heading>div:last-child{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid #b7e7cf;border-radius:10px;background:#ecfdf5;color:#047857;font-size:.76rem;font-weight:800;white-space:nowrap}.pk-full-field{grid-column:1/-1}@media(max-width:1050px){.pk-page-actions{grid-template-columns:repeat(3,minmax(140px,1fr))}}@media(max-width:680px){.pk-page-actions{grid-template-columns:1fr}.pk-meta-heading{display:block}.pk-meta-heading>div:last-child{margin-top:12px}.pk-full-field{grid-column:auto}}
 </style>
 
 <form method="get" class="toolbar">
@@ -106,31 +135,33 @@ if (!$isDocx) {
             </select>
         </label>
     <?php endif; ?>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; width: 100%; align-items: stretch; margin-top: 8px;">
-        <button type="submit" class="secondary">Tampilkan</button>
-        <button type="button" onclick="window.print()">Cetak PDF</button>
-        <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=doc" class="button" style="background:#1d4ed8; color:white; padding:8px 16px; border-radius:4px; text-decoration:none; text-align: center; display: flex; justify-content: center; align-items: center; font-weight: 600;">Ekspor Word</a>
-        <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=csv" class="button" style="background:#047857; color:white; padding:8px 16px; border-radius:4px; text-decoration:none; text-align: center; display: flex; justify-content: center; align-items: center; font-weight: 600;">Ekspor CSV</a>
+    <div class="pk-page-actions">
+        <button type="submit" class="secondary"><i class="ph ph-funnel"></i> Tampilkan</button>
+        <button type="button" class="secondary" onclick="document.getElementById('pk-preview-start')?.scrollIntoView({behavior:'smooth'})"><i class="ph ph-eye"></i> Lihat Pratinjau</button>
+        <button type="button" onclick="window.print()"><i class="ph ph-printer"></i> Cetak / Simpan PDF</button>
+        <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=doc" class="button pk-word-button"><i class="ph ph-file-doc"></i> Ekspor Word</a>
+        <a href="index.php?page=pk&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=csv" class="button pk-csv-button"><i class="ph ph-file-csv"></i> Ekspor CSV</a>
     </div>
 </form>
 
-<section class="panel print-meta-form">
-    <h2>Metadata Perjanjian Kinerja</h2>
+<section class="panel print-meta-form pk-meta-panel">
+    <div class="pk-meta-heading"><div><span>Format Resmi 2026</span><h2>Metadata Perjanjian Kinerja</h2><p>Isi pihak yang menandatangani. Pernyataan, lampiran target, dan lampiran anggaran dibuat otomatis.</p></div><div><i class="ph ph-seal-check"></i> Nomor Surat tidak digunakan</div></div>
     <form method="post" class="document-form-grid" id="meta-form">
         <input type="hidden" name="tahun" value="<?= h((string) $tahun) ?>">
         <input type="hidden" name="user_id" value="<?= h((string) $selectedUserId) ?>">
-        <label>No. Surat <input name="no_surat" value="<?= h((string) $meta['no_surat']) ?>"></label>
         <label>Tanggal Surat <input type="date" name="tanggal_surat" value="<?= h((string) $meta['tanggal_surat']) ?>"></label>
         <label>Lokasi <input name="lokasi" value="<?= h((string) $meta['lokasi']) ?>"></label>
-        <label>Nama Pihak I <input name="pihak1_nama" value="<?= h((string) $meta['pihak1_nama']) ?>"></label>
-        <label>Jabatan Pihak I <input name="pihak1_jabatan" value="<?= h((string) $meta['pihak1_jabatan']) ?>"></label>
-        <label>Nama Pihak II <input name="pihak2_nama" value="<?= h((string) $meta['pihak2_nama']) ?>"></label>
-        <label>Jabatan Pihak II <input name="pihak2_jabatan" value="<?= h((string) $meta['pihak2_jabatan']) ?>"></label>
-        <label>Catatan Dokumen <textarea name="catatan"><?= h((string) $meta['catatan']) ?></textarea></label>
+        <label>Nama Pihak Pertama <input name="pihak1_nama" required value="<?= h((string) $meta['pihak1_nama']) ?>"></label>
+        <label>Jabatan Pihak Pertama <input name="pihak1_jabatan" required value="<?= h((string) $meta['pihak1_jabatan']) ?>"></label>
+        <label>NIP Pihak Pertama <input name="pihak1_nip" inputmode="numeric" value="<?= h((string) $pkExtra['pihak1_nip']) ?>" placeholder="Opsional untuk PK individu"></label>
+        <label>Nama Pihak Kedua <input name="pihak2_nama" required value="<?= h((string) $meta['pihak2_nama']) ?>"></label>
+        <label>Jabatan Pihak Kedua <input name="pihak2_jabatan" required value="<?= h((string) $meta['pihak2_jabatan']) ?>"></label>
+        <label>NIP Pihak Kedua <input name="pihak2_nip" inputmode="numeric" value="<?= h((string) $pkExtra['pihak2_nip']) ?>" placeholder="Opsional untuk PK individu"></label>
+        <label class="pk-full-field">Catatan Dokumen <textarea name="catatan" placeholder="Catatan internal, tidak ditampilkan pada naskah resmi."><?= h((string) $pkExtra['catatan']) ?></textarea></label>
         
         <!-- Pihak 1 TTD UI -->
         <div style="grid-column: 1 / -1; border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 8px;">
-            <label>Tanda Tangan Pihak I</label>
+            <label>Tanda Tangan Pihak Pertama</label>
             <input type="hidden" name="pihak1_ttd" id="pihak1_ttd" value="<?= h((string) $meta['pihak1_ttd']) ?>">
             <div class="signature-tabs">
                 <div class="signature-tab active" onclick="switchTab('p1', 'canvas')">Tulis Tangan</div>
@@ -151,7 +182,7 @@ if (!$isDocx) {
 
         <!-- Pihak 2 TTD UI -->
         <div style="grid-column: 1 / -1; border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 8px;">
-            <label>Tanda Tangan Pihak II</label>
+            <label>Tanda Tangan Pihak Kedua</label>
             <input type="hidden" name="pihak2_ttd" id="pihak2_ttd" value="<?= h((string) $meta['pihak2_ttd']) ?>">
             <div class="signature-tabs">
                 <div class="signature-tab active" onclick="switchTab('p2', 'canvas')">Tulis Tangan</div>
@@ -336,117 +367,7 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
 <body>
 <?php endif; ?>
 
-<section class="print-sheet">
-    <h2 style="text-align: center;">PERJANJIAN KINERJA TAHUN <?= h((string) $tahun) ?></h2>
-    <h3 style="text-align: center;"><?= h((string) $documentUser['unit']) ?> - <?= h(role_label((string) $documentUser['role'])) ?></h3>
-    <p class="document-number" style="text-align: center;">
-        Nomor: <?= h((string) ($meta['no_surat'] ?: '-')) ?>
-    </p>
-
-    <?php if (!$isDocx): ?>
-    <div class="document-context">
-        <div>
-            <strong>Ruang Lingkup Kinerja</strong>
-            <span><?= h((string) $profile['scope']) ?></span>
-        </div>
-        <div>
-            <strong>Sumber Data/Realisasi</strong>
-            <span><?= h(implode(', ', $profile['sources'])) ?></span>
-        </div>
-        <div>
-            <strong>Output Wajib</strong>
-            <span><?= h(implode('; ', $profile['outputs'])) ?></span>
-        </div>
-    </div>
-    <?php endif; ?>
-
-    <p style="text-align: justify;">
-        Dalam rangka mewujudkan manajemen pemerintahan yang efektif, transparan, dan akuntabel,
-        <?= h(role_label((string) $documentUser['role'])) ?> menetapkan target kinerja sesuai
-        tugas jabatan, sumber data aplikasi pendukung, dan indikator kinerja yang tercantum pada lampiran.
-    </p>
-
-    <p style="text-align: justify;">
-        Perjanjian ini dibuat di <?= h((string) $meta['lokasi']) ?> pada tanggal
-        <?= h((string) $meta['tanggal_surat']) ?> antara <?= h((string) $meta['pihak1_nama']) ?>
-        selaku <?= h((string) $meta['pihak1_jabatan']) ?> dengan <?= h((string) $meta['pihak2_nama']) ?>
-        selaku <?= h((string) $meta['pihak2_jabatan']) ?>.
-    </p>
-
-    <div class="table-wrap">
-        <table>
-            <thead>
-            <tr>
-                <th>No</th>
-                <?php if ($canViewAll): ?>
-                    <th>Pemilik</th>
-                <?php endif; ?>
-                <th>Sasaran Kinerja</th>
-                <th>Indikator Kinerja</th>
-                <th>Satuan</th>
-                <th>Tipe</th>
-                <th>Bobot</th>
-                <th>Target Tahunan</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php if (!$targets): ?>
-                <tr>
-                    <td colspan="<?= $canViewAll ? '8' : '7' ?>">
-                        Belum ada target kinerja. Indikator yang perlu dibuat untuk role ini:
-                        <?= h(implode('; ', $profile['outputs'])) ?>.
-                    </td>
-                </tr>
-            <?php endif; ?>
-            <?php foreach ($targets as $i => $target): ?>
-                <tr>
-                    <td><?= $i + 1 ?></td>
-                    <?php if ($canViewAll): ?>
-                        <td>
-                            <?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?>
-                        </td>
-                    <?php endif; ?>
-                    <td><?= h((string) $target['sasaran']) ?></td>
-                    <td><?= h((string) $target['indikator']) ?></td>
-                    <td><?= h((string) ($target['satuan'] ?? '-')) ?></td>
-                    <td><?= h(indicator_type_label((string) ($target['tipe_indikator'] ?? 'max'))) ?></td>
-                    <td><?= h((string) ($target['bobot'] ?? 1)) ?></td>
-                    <td><?= h((string) $target['target']) ?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
-    <table style="width: 100%; border: none; margin-top: 40px;">
-        <tr>
-            <td style="width: 50%; text-align: center; border: none; vertical-align: bottom;">
-                <strong>Pihak I</strong><br>
-                <small><?= h((string) $meta['pihak1_jabatan']) ?></small><br>
-                <?php if (!empty($meta['pihak1_ttd'])): ?>
-                    <?= get_signature_img_tag((string) $meta['pihak1_ttd']) ?><br>
-                <?php else: ?>
-                    <br><br><br><br>
-                <?php endif; ?>
-                <span style="text-decoration: underline; font-weight: bold;"><?= h((string) $meta['pihak1_nama']) ?></span>
-            </td>
-            <td style="width: 50%; text-align: center; border: none; vertical-align: bottom;">
-                <strong>Pihak II</strong><br>
-                <small><?= h((string) $meta['pihak2_jabatan']) ?></small><br>
-                <?php if (!empty($meta['pihak2_ttd'])): ?>
-                    <?= get_signature_img_tag((string) $meta['pihak2_ttd']) ?><br>
-                <?php else: ?>
-                    <br><br><br><br>
-                <?php endif; ?>
-                <span style="text-decoration: underline; font-weight: bold;"><?= h((string) $meta['pihak2_nama']) ?></span>
-            </td>
-        </tr>
-    </table>
-
-    <?php if (!empty($meta['catatan'])): ?>
-        <p class="muted" style="margin-top: 40px; font-size: 0.9em;"><?= nl2br(h((string) $meta['catatan'])) ?></p>
-    <?php endif; ?>
-</section>
+<?php require __DIR__ . '/../app/templates/perjanjian_kinerja.php'; ?>
 
 <?php if ($isDocx): ?>
 </body>
