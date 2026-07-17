@@ -6,30 +6,13 @@ if (!defined('IFKIN_EMBEDDED')) {
 }
 
 $ifkinSites = [
-    [
-        'number' => '01',
-        'title' => 'Mahkamah Agung Republik Indonesia',
-        'description' => 'Portal utama Mahkamah Agung RI untuk informasi kelembagaan, berita, putusan, dan layanan publik.',
-        'url' => 'https://mahkamahagung.go.id/id',
-    ],
-    [
-        'number' => '02',
-        'title' => 'Badan Urusan Administrasi',
-        'description' => 'Informasi administrasi, perencanaan, organisasi, kepegawaian, dan layanan pendukung Mahkamah Agung RI.',
-        'url' => 'https://bua.mahkamahagung.go.id/',
-    ],
-    [
-        'number' => '03',
-        'title' => 'Direktorat Jenderal Badan Peradilan Agama',
-        'description' => 'Portal pembinaan, layanan, berita, regulasi, dan informasi peradilan agama se-Indonesia.',
-        'url' => 'https://badilag.mahkamahagung.go.id/',
-    ],
-    [
-        'number' => '04',
-        'title' => 'Badan Pengawasan Mahkamah Agung',
-        'description' => 'Informasi pengawasan, disiplin, pengumuman, dan kebijakan integritas aparatur peradilan.',
-        'url' => 'https://bawas.mahkamahagung.go.id/',
-    ],
+    ['number'=>'01','title'=>'KemenPAN-RB','description'=>'Portal Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi. URL menunggu data resmi.','url'=>'','icon'=>'ph-buildings'],
+    ['number'=>'02','title'=>'Bappenas','description'=>'Portal Kementerian Perencanaan Pembangunan Nasional/Bappenas. URL menunggu data resmi.','url'=>'','icon'=>'ph-chart-line-up'],
+    ['number'=>'03','title'=>'KPK RI','description'=>'Portal Komisi Pemberantasan Korupsi Republik Indonesia. URL menunggu data resmi.','url'=>'','icon'=>'ph-shield-check'],
+    ['number'=>'04','title'=>'Mahkamah Agung Republik Indonesia','description'=>'Portal utama Mahkamah Agung RI untuk informasi kelembagaan, berita, putusan, dan layanan publik.','url'=>'https://mahkamahagung.go.id/id','icon'=>'ph-scales'],
+    ['number'=>'05','title'=>'Badan Urusan Administrasi','description'=>'Informasi administrasi, perencanaan, organisasi, kepegawaian, dan layanan pendukung Mahkamah Agung RI.','url'=>'https://bua.mahkamahagung.go.id/','icon'=>'ph-buildings'],
+    ['number'=>'06','title'=>'Direktorat Jenderal Badan Peradilan Agama','description'=>'Portal pembinaan, layanan, berita, regulasi, dan informasi peradilan agama se-Indonesia.','url'=>'https://badilag.mahkamahagung.go.id/','icon'=>'ph-bank'],
+    ['number'=>'07','title'=>'Badan Pengawasan Mahkamah Agung','description'=>'Informasi pengawasan, disiplin, pengumuman, dan kebijakan integritas aparatur peradilan.','url'=>'https://bawas.mahkamahagung.go.id/','icon'=>'ph-eye'],
 ];
 ?>
 <style>
@@ -320,6 +303,7 @@ $ifkinSites = [
             padding: 24px 22px 30px;
         }
     }
+.ifkin-card-disabled{opacity:.72;cursor:not-allowed}.ifkin-card-disabled:hover{transform:none;box-shadow:0 24px 55px -38px rgba(7,32,22,.5)}
 </style>
 
 <div class="ifkin-page">
@@ -338,17 +322,16 @@ $ifkinSites = [
                     <h2>Website Pemerintah</h2>
                     <p>Pilih salah satu tautan berikut untuk membuka sumber informasi resmi pada tab baru.</p>
                 </div>
-                <span class="ifkin-count">4 website</span>
+                <span class="ifkin-count"><?= count($ifkinSites) ?> website</span>
             </div>
 
             <div class="ifkin-grid">
                 <?php foreach ($ifkinSites as $site): ?>
-                    <a class="ifkin-card" href="<?= h($site['url']) ?>" target="_blank" rel="noopener noreferrer">
-                        <span class="ifkin-number"><?= h($site['number']) ?></span>
-                        <h3><?= h($site['title']) ?></h3>
-                        <p><?= h($site['description']) ?></p>
-                        <span class="ifkin-url"><?= h($site['url']) ?> <span>&rarr;</span></span>
-                    </a>
+                    <?php if ($site['url'] !== ''): ?><a class="ifkin-card" href="<?= h($site['url']) ?>" target="_blank" rel="noopener noreferrer"><?php else: ?><div class="ifkin-card ifkin-card-disabled" aria-disabled="true"><?php endif; ?>
+                        <span class="ifkin-number"><i class="ph <?= h((string)$site['icon']) ?>"></i></span>
+                        <h3><?= h($site['title']) ?></h3><p><?= h($site['description']) ?></p>
+                        <span class="ifkin-url"><?= $site['url'] !== '' ? h($site['url']) . ' ↗' : 'URL belum tersedia' ?></span>
+                    <?php if ($site['url'] !== ''): ?></a><?php else: ?></div><?php endif; ?>
                 <?php endforeach; ?>
             </div>
         </section>

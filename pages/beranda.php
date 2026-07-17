@@ -27,21 +27,20 @@ $user = $_SESSION['user'] ?? null;
         <div class="lp-container lp-topbar-inner">
             <div class="lp-logo-area">
                 <img src="assets/logo_pta.png" alt="Logo PTA Medan" class="lp-logo">
-                <span class="lp-brand">APKIN RPA — PTA Medan</span>
+                <span class="lp-brand">IKPA</span>
             </div>
             <div class="lp-nav-menu">
                 <a href="#hero">Beranda</a>
                 <a href="#about">Tentang</a>
                 <a href="#fitur-utama">Fitur</a>
-                <a href="#sisa-fitur">Layanan</a>
                 <a href="#notifikasi">Informasi</a>
                 <a href="#peta">Lokasi</a>
                 <?php if ($isLoggedIn): ?>
                     <a href="index.php?page=dashboard" class="lp-btn lp-btn-primary">Dashboard <i
                             class="ph-bold ph-arrow-right"></i></a>
-                    <a href="index.php?page=logout" class="lp-btn lp-btn-outline" style="margin-left:10px;">Logout</a>
+                    <a href="index.php?page=logout" class="lp-btn lp-btn-outline" style="margin-left:10px;">Keluar</a>
                 <?php else: ?>
-                    <a href="index.php?page=login" class="lp-btn lp-btn-primary">Login</a>
+                    <a href="index.php?page=login" class="lp-btn lp-btn-primary">Masuk</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -50,7 +49,7 @@ $user = $_SESSION['user'] ?? null;
     <main class="lp-main-scroller">
     <!-- HERO -->
     <header id="hero" class="lp-hero">
-        <video class="lp-hero-video lp-parallax" data-speed="0.25" autoplay muted loop playsinline preload="auto" poster="assets/pta_bg.png">
+        <video class="lp-hero-video lp-parallax" data-speed="0.25" autoplay muted loop playsinline preload="auto" poster="assets/paluhakim.png">
             <source src="assets/video palu.mp4" type="video/mp4">
         </video>
         <div class="lp-hero-overlay"></div>
@@ -58,18 +57,18 @@ $user = $_SESSION['user'] ?? null;
 
         <div class="lp-container lp-hero-content">
             <div class="lp-hero-text">
-                <h1 class="lp-hero-title lp-reveal reveal-blur"  style="--i:1"><?= h((string) $pageData['title']) ?></h1>
-                <p class="lp-hero-subtitle lp-reveal reveal-blur"  style="--i:2"><?= h((string) $pageData['subtitle']) ?></p>
-                <p class="lp-hero-lead lp-reveal reveal-blur"  style="--i:3"><?= h((string) $pageData['lead']) ?></p>
+                <div class="lp-hero-logo-wrapper lp-reveal reveal-blur" style="--i:1;">
+                    <img src="assets/logoikpaberanda.png" alt="Logo IKPA" class="lp-hero-logo">
+                </div>
 
-                <div class="lp-hero-action lp-reveal reveal-blur"  style="margin-top: 32px; --i:4;">
+                <div class="lp-hero-action lp-reveal reveal-blur"  style="margin-top: 16px; --i:4;">
                     <?php if ($isLoggedIn): ?>
                         <a href="index.php?page=dashboard" class="lp-btn lp-btn-primary"
                             style="padding: 16px 32px; font-size: 1.1rem;">Ke Dashboard <i
                                 class="ph-bold ph-arrow-right"></i></a>
                     <?php else: ?>
                         <a href="index.php?page=login" class="lp-btn lp-btn-primary"
-                            style="padding: 16px 32px; font-size: 1.1rem;">Login ke Sistem <i
+                            style="padding: 16px 32px; font-size: 1.1rem;">Masuk ke Sistem <i
                                 class="ph-bold ph-sign-in"></i></a>
                     <?php endif; ?>
                 </div>
@@ -78,19 +77,17 @@ $user = $_SESSION['user'] ?? null;
     </header>
 
     <!-- TENTANG -->
-    <section id="about" class="lp-section">
+    <section id="about" class="lp-section lp-site-green lp-about-section">
         <div class="lp-container">
-            <div class="lp-about-grid">
-                <div class="lp-about-image lp-reveal reveal-slide-left"  style="--i:1">
-                    <img src="assets/gedung1.webp" alt="Gedung PTA Medan" class="lp-parallax" data-speed="0.1">
-                </div>
-                <div class="lp-about-text lp-reveal reveal-slide-right"  style="--i:2">
+            <div class="lp-about-card-modern lp-reveal reveal-fade-up" style="--i:1">
+                <div class="lp-about-icon-header">
+                    <i class="ph-duotone ph-rocket-launch"></i>
                     <h2 class="lp-section-title">Tentang Aplikasi</h2>
-                    <div class="lp-about-content">
-                        <?php foreach ($pageData['body'] as $paragraph): ?>
-                            <p><?= h((string) $paragraph) ?></p>
-                        <?php endforeach; ?>
-                    </div>
+                </div>
+                <div class="lp-about-content">
+                    <?php foreach ($pageData['body'] as $paragraph): ?>
+                        <p><?= h((string) $paragraph) ?></p>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
@@ -98,123 +95,56 @@ $user = $_SESSION['user'] ?? null;
 
     <!-- FITUR UTAMA -->
     <!-- SECTION 3: FITUR UTAMA -->
-    <section id="fitur-utama" class="lp-section lp-bg-light">
+    <?php
+    $url_primer   = $isLoggedIn ? 'index.php?page=user&menu=primer'   : 'index.php?page=login';
+    $url_sekunder = $isLoggedIn ? 'index.php?page=user&menu=sekunder' : 'index.php?page=login';
+    $url_tersier  = $isLoggedIn ? 'index.php?page=user&menu=tersier'  : 'index.php?page=login';
+    ?>
+    <section id="fitur-utama" class="lp-section lp-bg-light lp-site-green">
         <div class="lp-container">
             <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center;">Fitur Utama</h2>
             <div class="lp-featured-grid">
                 <!-- Kartu 1 -->
-                <div class="lp-featured-card lp-reveal reveal-fade-up"  style="--i:1">
-                    <div class="lp-fc-icon float-icon"><i class="ph-duotone ph-chart-line-up"></i></div>
-                    <a href="index.php?page=portal&slug=penyusunan-anggaran" style="text-decoration: none;">
-                        <h3 class="lp-fc-title">Penyusunan Anggaran</h3>
-                    </a>
-                    <div class="lp-fc-chips">
-                        <a href="index.php?page=portal&slug=baseline" class="lp-chip">Baseline</a>
-                        <a href="index.php?page=portal&slug=pagu-indikatif" class="lp-chip">Pagu Indikatif</a>
-                        <a href="index.php?page=portal&slug=pagu-definitif" class="lp-chip">Pagu Definitif</a>
-                        <a href="index.php?page=portal&slug=abt" class="lp-chip">ABT</a>
+                <div class="lp-featured-card lp-reveal reveal-fade-up" style="--i:1" onclick="window.location.href='<?= $url_primer ?>'">
+                    <div class="lp-fc-content">
+                        <div class="lp-fc-icon"><i class="ph-duotone ph-diamonds-four"></i></div>
+                        <a href="<?= $url_primer ?>" style="text-decoration: none;" onclick="event.preventDefault();">
+                            <h3 class="lp-fc-title">Menu Primer</h3>
+                        </a>
+                        <p class="lp-fc-desc">Akses ke modul prioritas utama dan fungsi kritikal sistem.</p>
                     </div>
+                    <div class="lp-fc-arrow"><i class="ph-bold ph-arrow-right"></i></div>
                 </div>
                 <!-- Kartu 2 -->
-                <div class="lp-featured-card lp-reveal reveal-fade-up"  style="--i:2">
-                    <div class="lp-fc-icon float-icon" style="animation-delay: 0.5s;"><i class="ph-duotone ph-shield-check"></i></div>
-                    <a href="index.php?page=portal&slug=sakip" style="text-decoration: none;">
-                        <h3 class="lp-fc-title">SAKIP</h3>
-                    </a>
-                    <div class="lp-fc-chips">
-                        <a href="index.php?page=portal&slug=sakip-pta-medan" class="lp-chip">SAKIP PTA Medan</a>
-                        <a href="index.php?page=portal&slug=sakip-pa" class="lp-chip">SAKIP PA</a>
+                <div class="lp-featured-card lp-reveal reveal-fade-up" style="--i:2" onclick="window.location.href='<?= $url_sekunder ?>'">
+                    <div class="lp-fc-content">
+                        <div class="lp-fc-icon" style="animation-delay: 0.5s;"><i class="ph-duotone ph-intersect"></i></div>
+                        <a href="<?= $url_sekunder ?>" style="text-decoration: none;" onclick="event.preventDefault();">
+                            <h3 class="lp-fc-title">Menu Sekunder</h3>
+                        </a>
+                        <p class="lp-fc-desc">Akses ke layanan pendukung dan manajemen operasional.</p>
                     </div>
+                    <div class="lp-fc-arrow"><i class="ph-bold ph-arrow-right"></i></div>
                 </div>
                 <!-- Kartu 3 -->
-                <div class="lp-featured-card lp-reveal reveal-fade-up"  style="--i:3">
-                    <div class="lp-fc-icon float-icon" style="animation-delay: 1s;"><i class="ph-duotone ph-users-three"></i></div>
-                    <a href="index.php?page=portal&slug=tugas-dan-fungsi" style="text-decoration: none;">
-                        <h3 class="lp-fc-title">Tugas dan Fungsi</h3>
-                    </a>
-                    <div class="lp-fc-chips">
-                        <a href="index.php?page=portal&slug=squad" class="lp-chip">Squad</a>
+                <div class="lp-featured-card lp-reveal reveal-fade-up" style="--i:3" onclick="window.location.href='<?= $url_tersier ?>'">
+                    <div class="lp-fc-content">
+                        <div class="lp-fc-icon" style="animation-delay: 1s;"><i class="ph-duotone ph-circles-three"></i></div>
+                        <a href="<?= $url_tersier ?>" style="text-decoration: none;" onclick="event.preventDefault();">
+                            <h3 class="lp-fc-title">Menu Tersier</h3>
+                        </a>
+                        <p class="lp-fc-desc">Akses ke fitur tambahan dan konfigurasi preferensi.</p>
                     </div>
+                    <div class="lp-fc-arrow"><i class="ph-bold ph-arrow-right"></i></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 4: SISA FITUR -->
-    <section id="sisa-fitur" class="lp-section">
-        <div class="lp-container">
-            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center;">Layanan Lainnya</h2>
-            <div class="lp-rows-container">
-                <a href="index.php?page=portal&slug=revisi" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:1">
-                    <div class="lp-row-icon float-icon"><i class="ph-duotone ph-arrows-clockwise"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Revisi</div>
-                        <div class="lp-row-desc">Modul pengelolaan revisi anggaran secara terpadu.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=program-kerja-sop" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:2">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-clipboard-text"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Program Kerja & SOP</div>
-                        <div class="lp-row-desc">Dokumen Standar Operasional Prosedur dan rencana kerja.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=hibah" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:3">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-handshake"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Hibah</div>
-                        <div class="lp-row-desc">Informasi dan pelaporan terkait pengelolaan hibah.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=manajemen-risiko" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:4">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-warning-octagon"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Manajemen Risiko</div>
-                        <div class="lp-row-desc">Pemetaan dan mitigasi risiko operasional lembaga.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=monev-kinerja" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:5">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.2s;"><i class="ph-duotone ph-chart-bar"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Evaluasi AKIP</div>
-                        <div class="lp-row-desc">Penilaian dan evaluasi Akuntabilitas Kinerja Instansi.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=e-monev-bappenas" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:6">
-                    <div class="lp-row-icon"><i class="ph-duotone ph-monitor-play"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">e-Monev Bappenas</div>
-                        <div class="lp-row-desc">Sistem monitoring dan evaluasi terintegrasi Bappenas.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=capaian-kinerja" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:7">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.4s;"><i class="ph-duotone ph-check-circle"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Monev Capaian Kinerja</div>
-                        <div class="lp-row-desc">Pemantauan target dan realisasi kinerja secara berkala.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-                <a href="index.php?page=portal&slug=penyelesaian-perkara" class="lp-row-item lp-reveal reveal-fade-up"  style="--i:8">
-                    <div class="lp-row-icon float-icon" style="animation-delay: 0.6s;"><i class="ph-duotone ph-scales"></i></div>
-                    <div class="lp-row-content">
-                        <div class="lp-row-title">Pojok Baca</div>
-                        <div class="lp-row-desc">Kumpulan literatur dan regulasi terkait peradilan.</div>
-                    </div>
-                    <i class="ph-bold ph-caret-right lp-row-arrow"></i>
-                </a>
-            </div>
-        </div>
-    </section>
+
 
     <!-- SECTION 5: NOTIFIKASI / INFORMASI KINERJA -->
-    <section id="notifikasi" class="lp-section">
+    <section id="notifikasi" class="lp-section lp-site-green" style="padding-top: 100px;">
         <div class="lp-container">
             <div class="lp-section-header lp-reveal reveal-fade-up" 
                 style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;">
@@ -227,10 +157,8 @@ $user = $_SESSION['user'] ?? null;
             </div>
 
             <div class="lp-news-layout">
-                <div class="lp-news-featured lp-reveal reveal-scale-up"  style="--i:1">
-                    <div class="lp-news-img-placeholder float-icon">
-                        <i class="ph-duotone ph-image"></i>
-                        <!-- TODO: Gambar unggulan informasi kinerja -->
+                <a href="index.php?page=portal&slug=notifikasi" class="lp-news-featured lp-reveal reveal-scale-up" style="--i:1; text-decoration: none; color: inherit; display: flex; flex-direction: column;">
+                    <div class="lp-news-img-placeholder float-icon" style="background-image: url('assets/gedung2.webp'); background-size: cover; background-position: center; border-radius: 20px 20px 0 0;">
                     </div>
                     <div class="lp-news-content">
                         <div class="lp-news-date">Pusat Informasi</div>
@@ -238,7 +166,7 @@ $user = $_SESSION['user'] ?? null;
                         <p class="lp-news-desc">Rujukan cepat menuju sumber informasi kinerja, kebijakan, pembinaan, dan
                             pengawasan lembaga peradilan.</p>
                     </div>
-                </div>
+                </a>
                 <div class="lp-news-list">
                     <!-- TODO: Ganti dengan tautan/berita dinamis jika data sudah tersedia -->
                     <a href="https://mahkamahagung.go.id" target="_blank" class="lp-news-item lp-reveal reveal-scale-up"  style="--i:2">
@@ -298,15 +226,15 @@ $user = $_SESSION['user'] ?? null;
     ?>
 
     <!-- SECTION 6: PETA LOKASI -->
-    <section id="peta" class="lp-section" style="background: #022c22; padding: 80px 0;">
+    <section id="peta" class="lp-section lp-map-section" style="padding: 80px 0;">
         <div class="lp-container">
-            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center; margin-bottom: 40px; color: #fff;">Jaringan
+            <h2 class="lp-section-title lp-reveal reveal-fade-up"  style="text-align: center; margin-bottom: 40px;">Jaringan
                 Peradilan</h2>
 
             <div class="lp-map-discover lp-reveal reveal-scale-up" >
                 <!-- Kiri: Area Visual Peta -->
                 <div class="lp-discover-visual" id="map-container">
-                    <img src="assets/peta_sumut.svg?v=7" alt="Peta Sumatera" class="lp-discover-bg">
+                    <img src="assets/peta_sumut.svg?v=9" alt="Peta Sumatera" class="lp-discover-bg">
 
                     <?php foreach ($lokasi_peradilan as $idx => $lokasi):
                         $left_pct = (($lokasi['lng'] - $LNG_LEFT) / ($LNG_RIGHT - $LNG_LEFT)) * 100;
@@ -407,6 +335,115 @@ $user = $_SESSION['user'] ?? null;
     </main>
 
     <script src="assets/landing.js"></script>
+    <script>
+        // Classic Android Live Wallpaper Style (Phase Beam / Floating Orbs)
+        (function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.style.position = 'fixed';
+            canvas.style.top = '0';
+            canvas.style.left = '0';
+            canvas.style.width = '100vw';
+            canvas.style.height = '100vh';
+            canvas.style.pointerEvents = 'none';
+            canvas.style.zIndex = '0';
+            document.body.appendChild(canvas);
+
+            let width, height;
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            const orbs = [];
+            const colors = [
+                'rgba(16, 185, 129,',   // Emerald
+                'rgba(247, 215, 116,',  // Gold
+                'rgba(4, 120, 87,',     // Darker Green
+                'rgba(52, 211, 153,'    // Light Green
+            ];
+
+            // Create 30 glowing orbs
+            for (let i = 0; i < 30; i++) {
+                orbs.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    radius: Math.random() * 80 + 20,
+                    vx: (Math.random() - 0.5) * 0.8,
+                    vy: Math.random() * -1 - 0.2, // always drift upwards
+                    baseAlpha: Math.random() * 0.15 + 0.05,
+                    colorStr: colors[Math.floor(Math.random() * colors.length)]
+                });
+            }
+
+            const mouse = { x: -100, y: -100 };
+            document.addEventListener('mousemove', function(e) {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            function animate() {
+                // Base dark green background
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.fillStyle = '#022c22';
+                ctx.fillRect(0, 0, width, height);
+                
+                ctx.globalCompositeOperation = 'screen';
+
+                // Draw moving orbs
+                orbs.forEach(orb => {
+                    orb.x += orb.vx;
+                    orb.y += orb.vy;
+
+                    // Interaction with mouse (gentle push)
+                    const dx = orb.x - mouse.x;
+                    const dy = orb.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        orb.x += dx * 0.01;
+                        orb.y += dy * 0.01;
+                    }
+
+                    // Reset if out of bounds (loop to bottom)
+                    if (orb.y < -orb.radius) {
+                        orb.y = height + orb.radius;
+                        orb.x = Math.random() * width;
+                    }
+                    if (orb.x < -orb.radius) orb.x = width + orb.radius;
+                    if (orb.x > width + orb.radius) orb.x = -orb.radius;
+
+                    // Draw soft glowing orb
+                    const grad = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius);
+                    grad.addColorStop(0, `${orb.colorStr} ${orb.baseAlpha})`);
+                    grad.addColorStop(0.5, `${orb.colorStr} ${orb.baseAlpha * 0.5})`);
+                    grad.addColorStop(1, `${orb.colorStr} 0)`);
+
+                    ctx.beginPath();
+                    ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+                });
+
+                // Add cursor glow (optional, subtle)
+                if (mouse.x > 0) {
+                    const cursorGrad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 100);
+                    cursorGrad.addColorStop(0, 'rgba(247, 215, 116, 0.1)');
+                    cursorGrad.addColorStop(1, 'rgba(247, 215, 116, 0)');
+                    ctx.beginPath();
+                    ctx.arc(mouse.x, mouse.y, 100, 0, Math.PI * 2);
+                    ctx.fillStyle = cursorGrad;
+                    ctx.fill();
+                }
+
+                ctx.globalCompositeOperation = 'source-over';
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+    </script>
 </body>
 
 </html>

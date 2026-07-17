@@ -23,13 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user) {
         $_SESSION['user'] = $user;
+        flash('Berhasil masuk sebagai ' . $user['nama']);
         redirect('dashboard');
     }
 
     $error = 'Username atau password salah.';
 }
 
-render_header('Login');
+render_header('Masuk');
 ?>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
@@ -95,11 +96,30 @@ render_header('Login');
     align-items: center;
 }
 
-.nature-input-group i {
+.nature-input-group i.input-icon {
     position: absolute;
     left: 18px;
     color: rgba(255,255,255,0.9);
     font-size: 1.2rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 18px;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-toggle:hover {
+    color: rgba(255,255,255,1);
 }
 
 .nature-form input {
@@ -223,6 +243,9 @@ render_header('Login');
     .login-card-nature {
         flex-direction: column;
         border-radius: 20px;
+        margin: 20px;
+        width: auto;
+        min-height: auto;
     }
     .nature-right {
         display: none; /* Hide the text/leaves on mobile for better fit */
@@ -243,7 +266,7 @@ render_header('Login');
 
 <div class="login-card-nature">
     <div class="nature-left">
-        <h1>Login</h1>
+        <h1>Masuk</h1>
         
         <?php if ($error): ?>
             <div class="login-error"><?= h($error) ?></div>
@@ -251,32 +274,51 @@ render_header('Login');
         
         <form method="post" class="nature-form">
             <div class="nature-input-group">
-                <i class="ph ph-envelope"></i>
+                <i class="ph ph-envelope input-icon"></i>
                 <input type="text" name="username" placeholder="Username" autocomplete="username" required autofocus>
             </div>
             
             <div class="nature-input-group">
-                <i class="ph ph-lock-key"></i>
-                <input type="password" name="password" placeholder="Password" autocomplete="current-password" required>
+                <i class="ph ph-lock-key input-icon"></i>
+                <input type="password" id="password-input" name="password" placeholder="Password" autocomplete="current-password" required>
+                <button type="button" class="password-toggle" id="toggle-password" title="Tampilkan Password">
+                    <i class="ph ph-eye"></i>
+                </button>
             </div>
             
-            <div class="nature-links">
-                <a href="#">Forgot Password?</a>
-            </div>
             
-            <button type="submit" class="nature-btn">Login</button>
+            <button type="submit" class="nature-btn">Masuk</button>
         </form>
-        
-        <div class="nature-footer">
-            Contoh akun: <strong>admin / admin123</strong>
-        </div>
+    
     </div>
     
     <div class="nature-right">
         <h2>Welcome</h2>
-        <div class="back-text">Back</div>
+        <div class="back-text"></div>
     </div>
 </div>
 
 <?php render_footer(); ?>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.querySelector('#toggle-password');
+    const passwordInput = document.querySelector('#password-input');
+    const toggleIcon = togglePassword.querySelector('i');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        if (type === 'text') {
+            toggleIcon.classList.remove('ph-eye');
+            toggleIcon.classList.add('ph-eye-slash');
+            this.setAttribute('title', 'Sembunyikan Password');
+        } else {
+            toggleIcon.classList.remove('ph-eye-slash');
+            toggleIcon.classList.add('ph-eye');
+            this.setAttribute('title', 'Tampilkan Password');
+        }
+    });
+});
+</script>

@@ -19,6 +19,21 @@ if (!$module) {
 $isDevelopment = module_is_development($module);
 $requiredMaterials = module_required_materials($module);
 $developmentNotes = module_development_notes($module);
+$portalSlug = trim((string) ($module['portal_slug'] ?? ''));
+
+// Modul yang sudah memiliki halaman portal langsung memakai halaman tersebut.
+// Dengan begitu pengguna tetap berada dalam header dan sidebar aplikasi tanpa
+// melewati halaman modul atau tombol referensi tambahan.
+if ($portalSlug !== '') {
+    define('HIDE_PAGE_TOPBAR', true);
+    define('PORTAL_MODULE_PAGE', true);
+    render_header((string) $module['title']);
+    define('PORTAL_EMBEDDED', true);
+    $_GET['slug'] = $portalSlug;
+    require __DIR__ . '/portal.php';
+    render_footer();
+    return;
+}
 
 render_header((string) $module['title']);
 ?>
@@ -104,9 +119,6 @@ render_header((string) $module['title']);
     <div class="toolbar">
         <?php if (!empty($module['internal_page'])): ?>
             <a class="button" href="index.php?page=<?= h((string) $module['internal_page']) ?>">Buka Fitur Terkait</a>
-        <?php endif; ?>
-        <?php if (!empty($module['portal_slug'])): ?>
-            <a class="button secondary" href="index.php?page=portal&slug=<?= h((string) $module['portal_slug']) ?>">Lihat Portal Referensi</a>
         <?php endif; ?>
         <a class="button secondary" href="index.php?page=dashboard">Kembali ke Menu</a>
     </div>

@@ -63,22 +63,20 @@ function init_database(): void
             sumber_data TEXT NOT NULL DEFAULT "",
             bobot REAL NOT NULL DEFAULT 1,
             target REAL NOT NULL DEFAULT 0,
-            target_tw1 REAL NOT NULL DEFAULT 0,
-            target_tw2 REAL NOT NULL DEFAULT 0,
-            target_tw3 REAL NOT NULL DEFAULT 0,
-            target_tw4 REAL NOT NULL DEFAULT 0,
+            target_jan REAL NOT NULL DEFAULT 0, target_feb REAL NOT NULL DEFAULT 0, target_mar REAL NOT NULL DEFAULT 0,
+            target_apr REAL NOT NULL DEFAULT 0, target_mei REAL NOT NULL DEFAULT 0, target_jun REAL NOT NULL DEFAULT 0,
+            target_jul REAL NOT NULL DEFAULT 0, target_agu REAL NOT NULL DEFAULT 0, target_sep REAL NOT NULL DEFAULT 0,
+            target_okt REAL NOT NULL DEFAULT 0, target_nov REAL NOT NULL DEFAULT 0, target_des REAL NOT NULL DEFAULT 0,
             dipa01 REAL NOT NULL DEFAULT 0,
             dipa04 REAL NOT NULL DEFAULT 0,
-            real_tw1 REAL NOT NULL DEFAULT 0,
-            real_tw2 REAL NOT NULL DEFAULT 0,
-            real_tw3 REAL NOT NULL DEFAULT 0,
-            real_tw4 REAL NOT NULL DEFAULT 0,
-            analisis_kegiatan TEXT NOT NULL DEFAULT "",
-            analisis_upaya TEXT NOT NULL DEFAULT "",
-            analisis_strategi TEXT NOT NULL DEFAULT "",
-            analisis_kendala TEXT NOT NULL DEFAULT "",
-            analisis_solusi TEXT NOT NULL DEFAULT "",
+            real_jan REAL NOT NULL DEFAULT 0, real_feb REAL NOT NULL DEFAULT 0, real_mar REAL NOT NULL DEFAULT 0,
+            real_apr REAL NOT NULL DEFAULT 0, real_mei REAL NOT NULL DEFAULT 0, real_jun REAL NOT NULL DEFAULT 0,
+            real_jul REAL NOT NULL DEFAULT 0, real_agu REAL NOT NULL DEFAULT 0, real_sep REAL NOT NULL DEFAULT 0,
+            real_okt REAL NOT NULL DEFAULT 0, real_nov REAL NOT NULL DEFAULT 0, real_des REAL NOT NULL DEFAULT 0,
+            analisis_capaian TEXT NOT NULL DEFAULT "",
             user_id INTEGER,
+            metadata TEXT NOT NULL DEFAULT "{}",
+            is_mandatory INTEGER NOT NULL DEFAULT 0,
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
             updated_at TEXT,
             FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
@@ -117,6 +115,63 @@ function init_database(): void
         )'
     );
 
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS evaluasi_sakip (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tahun INTEGER NOT NULL,
+            satker_id INTEGER NOT NULL,
+            evaluator_id INTEGER,
+            nilai_mandiri REAL,
+            grade_mandiri TEXT,
+            data_mandiri TEXT,
+            nilai_akhir REAL,
+            grade_akhir TEXT,
+            data_nilai TEXT,
+            status TEXT NOT NULL DEFAULT "Evaluasi",
+            lhe_file TEXT,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT,
+            UNIQUE(tahun, satker_id),
+            FOREIGN KEY (satker_id) REFERENCES users(id) ON DELETE CASCADE
+        )'
+    );
+
+    $pdo->exec(
+        'CREATE TABLE IF NOT EXISTS evaluasi_sakip_dokumen (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tahun INTEGER NOT NULL,
+            satker_id INTEGER NOT NULL,
+            sub_code TEXT NOT NULL,
+            criterion_index INTEGER NOT NULL,
+            original_name TEXT NOT NULL,
+            stored_name TEXT NOT NULL,
+            uploaded_by INTEGER,
+            created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (satker_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+        )'
+    );
+
+    $sakipColumns = [
+        'nilai_mandiri' => 'REAL',
+        'grade_mandiri' => 'TEXT',
+        'data_mandiri' => 'TEXT',
+    ];
+    foreach ($sakipColumns as $column => $definition) {
+        if (!table_has_column($pdo, 'evaluasi_sakip', $column)) {
+            $pdo->exec('ALTER TABLE evaluasi_sakip ADD COLUMN ' . $column . ' ' . $definition);
+        }
+    }
+
+
+    if (!table_has_column($pdo, 'document_meta', 'pihak1_ttd')) {
+        $pdo->exec('ALTER TABLE document_meta ADD COLUMN pihak1_ttd TEXT NOT NULL DEFAULT ""');
+    }
+
+    if (!table_has_column($pdo, 'document_meta', 'pihak2_ttd')) {
+        $pdo->exec('ALTER TABLE document_meta ADD COLUMN pihak2_ttd TEXT NOT NULL DEFAULT ""');
+    }
+
     if (!table_has_column($pdo, 'users', 'status')) {
         $pdo->exec('ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT "active"');
     }
@@ -139,20 +194,28 @@ function init_database(): void
         $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN updated_at TEXT');
     }
 
+    if (!table_has_column($pdo, 'target_kinerja', 'metadata')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN metadata TEXT NOT NULL DEFAULT "{}"');
+    }
+
+    if (!table_has_column($pdo, 'target_kinerja', 'is_mandatory')) {
+        $pdo->exec('ALTER TABLE target_kinerja ADD COLUMN is_mandatory INTEGER NOT NULL DEFAULT 0');
+    }
+
     $targetColumns = [
         'satuan' => 'TEXT NOT NULL DEFAULT ""',
         'tipe_indikator' => 'TEXT NOT NULL DEFAULT "max"',
         'sumber_data' => 'TEXT NOT NULL DEFAULT ""',
         'bobot' => 'REAL NOT NULL DEFAULT 1',
-        'target_tw1' => 'REAL NOT NULL DEFAULT 0',
-        'target_tw2' => 'REAL NOT NULL DEFAULT 0',
-        'target_tw3' => 'REAL NOT NULL DEFAULT 0',
-        'target_tw4' => 'REAL NOT NULL DEFAULT 0',
-        'analisis_kegiatan' => 'TEXT NOT NULL DEFAULT ""',
-        'analisis_upaya' => 'TEXT NOT NULL DEFAULT ""',
-        'analisis_strategi' => 'TEXT NOT NULL DEFAULT ""',
-        'analisis_kendala' => 'TEXT NOT NULL DEFAULT ""',
-        'analisis_solusi' => 'TEXT NOT NULL DEFAULT ""',
+        'target_jan' => 'REAL NOT NULL DEFAULT 0', 'target_feb' => 'REAL NOT NULL DEFAULT 0', 'target_mar' => 'REAL NOT NULL DEFAULT 0',
+        'target_apr' => 'REAL NOT NULL DEFAULT 0', 'target_mei' => 'REAL NOT NULL DEFAULT 0', 'target_jun' => 'REAL NOT NULL DEFAULT 0',
+        'target_jul' => 'REAL NOT NULL DEFAULT 0', 'target_agu' => 'REAL NOT NULL DEFAULT 0', 'target_sep' => 'REAL NOT NULL DEFAULT 0',
+        'target_okt' => 'REAL NOT NULL DEFAULT 0', 'target_nov' => 'REAL NOT NULL DEFAULT 0', 'target_des' => 'REAL NOT NULL DEFAULT 0',
+        'real_jan' => 'REAL NOT NULL DEFAULT 0', 'real_feb' => 'REAL NOT NULL DEFAULT 0', 'real_mar' => 'REAL NOT NULL DEFAULT 0',
+        'real_apr' => 'REAL NOT NULL DEFAULT 0', 'real_mei' => 'REAL NOT NULL DEFAULT 0', 'real_jun' => 'REAL NOT NULL DEFAULT 0',
+        'real_jul' => 'REAL NOT NULL DEFAULT 0', 'real_agu' => 'REAL NOT NULL DEFAULT 0', 'real_sep' => 'REAL NOT NULL DEFAULT 0',
+        'real_okt' => 'REAL NOT NULL DEFAULT 0', 'real_nov' => 'REAL NOT NULL DEFAULT 0', 'real_des' => 'REAL NOT NULL DEFAULT 0',
+        'analisis_capaian' => 'TEXT NOT NULL DEFAULT ""',
     ];
 
     foreach ($targetColumns as $column => $definition) {

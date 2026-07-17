@@ -4,9 +4,10 @@ declare(strict_types=1);
 function site_nav(): array
 {
     return [
-        ['label' => 'Beranda', 'slug' => 'beranda'],
-        ['label' => 'Revisi', 'slug' => 'revisi'],
         ['label' => 'IFKIN', 'slug' => 'notifikasi'],
+        ['label' => 'Upload TOR', 'slug' => 'abt', 'children' => [
+            ['label' => 'Revisi', 'slug' => 'revisi'],
+        ]],
         ['label' => 'Program Kerja & SOP', 'slug' => 'program-kerja-sop'],
         [
             'label' => 'Penyusunan Anggaran',
@@ -24,13 +25,13 @@ function site_nav(): array
             'label' => 'SAKIP',
             'slug' => 'sakip',
             'children' => [
-                ['label' => 'SAKIP PTA Medan', 'slug' => 'sakip-pta-medan'],
-                ['label' => 'SAKIP PA', 'slug' => 'sakip-pa'],
+                ['label' => 'LHE AKIP PTA Medan', 'slug' => 'sakip-pta-medan'],
+                ['label' => 'LHE AKIP PA Se-Sumut', 'slug' => 'sakip-pa'],
             ],
         ],
         ['label' => 'Evaluasi AKIP', 'slug' => 'evaluasi-akip'],
         ['label' => 'e-Monev Bappenas', 'slug' => 'e-monev-bappenas'],
-        ['label' => 'Monev Capaian Kinerja', 'slug' => 'monev-capaian-kinerja'],
+        ['label' => 'Data Excel Monev Pencapaian', 'slug' => 'monev-capaian-kinerja'],
         [
             'label' => 'Tugas dan Fungsi',
             'slug' => 'tugas-dan-fungsi',
@@ -59,9 +60,54 @@ function site_pages(): array
     ];
 
     return [
+        'renstra' => [
+            'title' => 'Rencana Strategis',
+            'subtitle' => 'Renstra Mahkamah Agung Tahun 2025–2029',
+            'body' => [
+                'Referensi resmi Rencana Strategis Mahkamah Agung Tahun 2025–2029 sebagai arah penyusunan sasaran, program, dan indikator kinerja.',
+            ],
+            'sections' => [
+                [
+                    'title' => 'Tampilan Referensi Renstra',
+                    'iframe' => 'https://pa-jakartapusat.go.id/rencana-strategis-mahkamah-agung-tahun-2025-2029/',
+                    'url' => 'https://pa-jakartapusat.go.id/rencana-strategis-mahkamah-agung-tahun-2025-2029/',
+                    'iframeHeight' => '780px',
+                ],
+            ],
+        ],
+        'iku' => [
+            'title' => 'Indikator Kinerja Utama',
+            'subtitle' => 'Reviu Indikator Kinerja Utama PTA Medan',
+            'body' => [
+                'Referensi resmi reviu Indikator Kinerja Utama sebagai dasar pengukuran target dan capaian kinerja.',
+            ],
+            'sections' => [
+                [
+                    'title' => 'Tampilan Referensi IKU',
+                    'iframe' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/reviu-indikator-kerja-utama',
+                    'url' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/reviu-indikator-kerja-utama',
+                    'iframeHeight' => '780px',
+                ],
+            ],
+        ],
+        'renaksi' => [
+            'title' => 'Rencana Aksi Kinerja',
+            'subtitle' => 'Rencana Aksi Kinerja PTA Medan',
+            'body' => [
+                'Referensi resmi rencana aksi kinerja untuk mendukung pelaksanaan program dan pemantauan target tiap periode.',
+            ],
+            'sections' => [
+                [
+                    'title' => 'Tampilan Referensi Renaksi',
+                    'iframe' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/rencana-aksi-kinerja',
+                    'url' => 'https://www.pta-medan.go.id/index.php/kesekretariatan/rencana-program-anggaran/rencana-aksi-kinerja',
+                    'iframeHeight' => '780px',
+                ],
+            ],
+        ],
         'beranda' => [
             'title' => 'IKPA',
-            'subtitle' => 'Informasi Kinerja Program dan Anggaran',
+            'subtitle' => 'Indikator Kinerja Perencanaan Anggaran',
             'lead' => 'Pengadilan Tinggi Agama Medan - Sub Bagian Perencanaan Program dan Anggaran.',
             'body' => [
                 'IKPA adalah sistem aplikasi yang membantu Sub Bagian Perencanaan Program dan Anggaran dan satuan kerja Pengadilan Agama dalam melayani tugas pokok dan fungsi penyusunan anggaran, penyusunan SAKIP, monitoring capaian kinerja, dan referensi proses pelaksanaan bidang program, akuntabilitas kinerja, serta evaluasi kinerja PTA Medan dan PA se-Sumatera Utara.',
@@ -166,22 +212,49 @@ function site_pages(): array
                 'Penyelenggaraan SAKIP terdiri atas perencanaan kinerja, pengukuran dan pengelolaan data kinerja, pelaporan kinerja, serta reviu dan evaluasi kinerja.',
             ],
             'cards' => [
-                ['SAKIP PTA Medan', 'sakip-pta-medan'],
-                ['SAKIP PA Sewilayah PTA Medan', 'sakip-pa'],
+                ['LHE AKIP PTA Medan', 'sakip-pta-medan'],
+                ['LHE AKIP PA Se-Sumut', 'sakip-pa'],
             ],
-            'list' => $sakipLaw,
+            'sections' => [
+                ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
+                ['title' => 'Permen PANRB Nomor 88 Tahun 2021', 'iframe' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/preview', 'url' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 2049 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/preview', 'url' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 878 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/preview', 'url' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/view', 'iframeHeight' => '600px'],
+            ],
         ],
         'sakip-pta-medan' => [
-            'title' => 'SAKIP PTA Medan',
+            'title' => 'LHE AKIP PTA Medan',
             'subtitle' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan',
             'sections' => [
-                ['title' => 'Tahun 2021-2025', 'items' => ['Rancangan Renstra 2025-2029.', 'Reviu Indikator Kinerja Utama.', 'Rencana Kinerja Tahun 2024.', 'Revisi Rencana Kinerja Tahun 2025.', 'Rencana Kinerja Tahun 2026.', 'Perjanjian Kinerja Tahun 2025.', 'Rencana Aksi Kinerja Tahun 2025.', 'Laporan Kinerja 2024.']],
+                [
+                    'title' => 'TAHUN 2025',
+                    'grid_cards' => [
+                        ['title' => '1. Reviu Indikator Kinerja Utama (IKU)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1etmxbOaDAu1eQSaP9Tion1nwABZVcDyz&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1etmxbOaDAu1eQSaP9Tion1nwABZVcDyz/view'],
+                        ['title' => '2. Rancangan Rencana Strategis (RENSTRA)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1GkTs1P5s4UZIQjg3YxrveWIIzoF0UjzK&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1GkTs1P5s4UZIQjg3YxrveWIIzoF0UjzK/view'],
+                        ['title' => '3. Rencana Kinerja (RKT) Tahun 2024', 'thumbnail' => 'https://drive.google.com/thumbnail?id=10_5S2-eAkQgknumGdftN8UFIeBgY7R3d&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/10_5S2-eAkQgknumGdftN8UFIeBgY7R3d/view'],
+                        ['title' => '4. Revisi Rencana Kinerja (RKT) Tahun 2025', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1fu63txsb8OImPA8Ssb_EXCmAbGcfApos&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1fu63txsb8OImPA8Ssb_EXCmAbGcfApos/view'],
+                        ['title' => '5. Rencana Kinerja (RKT) Tahun 2026', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1hIOynB3OogC82WwMxWJvgeBHmo9ZPouc&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1hIOynB3OogC82WwMxWJvgeBHmo9ZPouc/view'],
+                        ['title' => '6. Perjanjian Kinerja Tahun 2025', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1mnl8fvM6jBhBiiuwjwn3ZEVooPSR8RRQ&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1mnl8fvM6jBhBiiuwjwn3ZEVooPSR8RRQ/view'],
+                        ['title' => '7. Rencana Aksi Kinerja', 'thumbnail' => 'https://drive.google.com/thumbnail?id=131PVc1m51m5hvcBnM4oTnN4WH5Y94yOb&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/131PVc1m51m5hvcBnM4oTnN4WH5Y94yOb/view'],
+                        ['title' => '8. Laporan Kinerja Instansi Pemerintah (LKJiP)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1FxUJwODbPM1PiYjbXYkL1YUnqsBLf4xC&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1FxUJwODbPM1PiYjbXYkL1YUnqsBLf4xC/view'],
+                    ]
+                ],
+                ['title' => 'TAHUN 2024', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1_Lfv5Nvrlbu0k4IHr6fYqdbMHqK26sIL#grid', 'url' => 'https://drive.google.com/drive/folders/1_Lfv5Nvrlbu0k4IHr6fYqdbMHqK26sIL', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2023', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1x23LGbkN0iXkjly4eBYkUuR_-IaNKy6w#grid', 'url' => 'https://drive.google.com/drive/folders/1x23LGbkN0iXkjly4eBYkUuR_-IaNKy6w', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2022', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=15j2_-T4wd2KXu4BeJfrVBUwgj2qcBP7j#grid', 'url' => 'https://drive.google.com/drive/folders/15j2_-T4wd2KXu4BeJfrVBUwgj2qcBP7j', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2021', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1xz4MAzs89UzM92J961A0-sm_oBYnorHv#grid', 'url' => 'https://drive.google.com/drive/folders/1xz4MAzs89UzM92J961A0-sm_oBYnorHv', 'iframeHeight' => '400px'],
             ],
         ],
         'sakip-pa' => [
-            'title' => 'SAKIP PA',
-            'subtitle' => 'Dasar hukum penyusunan dokumen SAKIP satuan kerja',
-            'list' => $sakipLaw,
+            'title' => 'LHE AKIP PA Se-Sumut',
+            'subtitle' => 'Dokumen SAKIP Pengadilan Agama Sewilayah PTA Medan',
+            'sections' => [
+                ['title' => 'Upload Dokumen LHE AKIP PA Se-Sumut', 'iframe' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform?embedded=true', 'url' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform', 'iframeHeight' => '800px'],
+                ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
+                ['title' => 'Permen PANRB Nomor 88 Tahun 2021', 'iframe' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/preview', 'url' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 2049 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/preview', 'url' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/view', 'iframeHeight' => '600px'],
+                ['title' => 'Keputusan SEKMA Nomor 878 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/preview', 'url' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/view', 'iframeHeight' => '600px'],
+            ],
         ],
         'evaluasi-akip' => [
             'title' => 'Evaluasi AKIP',
@@ -243,11 +316,11 @@ function site_pages(): array
             ],
         ],
         'monev-capaian-kinerja' => [
-            'title' => 'Monev Capaian Kinerja',
+            'title' => 'Data Excel Monev Pencapaian',
             'subtitle' => 'Monitoring capaian kinerja per bulan dan per triwulan',
             'sections' => [
                 [
-                    'title' => 'Data Monev Capaian Kinerja PTA Medan', 
+                    'title' => 'Data Excel Monev Pencapaian PTA Medan', 
                     'iframe' => 'https://docs.google.com/spreadsheets/d/1hyK7zGeuAsCLbxI5-ysrT251zEmLcA6KLsD3l0Carlc/htmlembed?widget=true&headers=false', 
                     'url' => 'https://docs.google.com/spreadsheets/d/1hyK7zGeuAsCLbxI5-ysrT251zEmLcA6KLsD3l0Carlc/edit?usp=sharing',
                     'iframeHeight' => '650px'
@@ -274,7 +347,7 @@ function site_pages(): array
                 'Pengusulan revisi anggaran PTA Medan dan satker PA se-Sumatera Utara.',
                 'Pengusulan dan monitoring ABT.',
                 'Penyusunan laporan e-Monev Bappenas.',
-                'Penyusunan dokumen SAKIP PTA Medan.',
+                'Penyusunan dokumen LHE AKIP PTA Medan.',
                 'Penyusunan LKE AKIP PTA Medan.',
                 'Penelaahan dokumen SAKIP dan LKE AKIP satuan kerja.',
                 'Pembinaan dan pengawasan ke Pengadilan Agama.',

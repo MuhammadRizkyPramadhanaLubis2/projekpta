@@ -1,0 +1,420 @@
+<?php
+declare(strict_types=1);
+
+$summary = [
+    'title' => 'Lembar Kerja Evaluasi Akuntabilitas Kinerja',
+    'subtitle' => 'Pengadilan Agama Binjai Tahun 2023',
+    'satker_score' => '100.00',
+    'satker_grade' => 'AA',
+    'evaluator_score' => '87.80',
+    'evaluator_grade' => 'A',
+    'component_count' => 4,
+    'subcomponent_count' => 12,
+];
+
+$sections = [
+    [
+        'code' => '1',
+        'title' => 'Perencanaan Kinerja',
+        'weight' => '30.00',
+        'evaluator' => '24.60',
+        'subsections' => [
+            [
+                'code' => '1.a',
+                'title' => 'Dokumen Perencanaan Kinerja telah tersedia',
+                'weight' => '6',
+                'satker_answer' => 'AA',
+                'satker_score' => '6',
+                'evaluator_answer' => 'A',
+                'evaluator_score' => '5.4',
+                'notes' => 'Mayoritas dokumen sudah sesuai. Tambahan penyempurnaan utama: perjanjian kinerja, RKA/RPA, dan penguatan rencana aksi.',
+                'criteria' => [
+                    ['text' => 'Terdapat pedoman teknis perencanaan kinerja.', 'evidence' => ['Pedoman teknis perencanaan kinerja'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Terdapat dokumen perencanaan kinerja jangka panjang.', 'evidence' => ['Dokumen perencanaan kinerja jangka panjang'], 'note' => 'Sudah sesuai berdasarkan blueprint Mahkamah Agung.'],
+                    ['text' => 'Terdapat dokumen perencanaan kinerja jangka menengah.', 'evidence' => ['RENSTRA'], 'note' => 'Perlu ditambahkan perjanjian kinerja.'],
+                    ['text' => 'Terdapat dokumen perencanaan kinerja jangka pendek.', 'evidence' => ['Rencana Kinerja Tahunan'], 'note' => 'Perlu diperkuat dengan rencana aksi.'],
+                    ['text' => 'Terdapat dokumen perencanaan aktivitas yang mendukung kinerja.', 'evidence' => ['Dokumen RKT & Rencana Aksi Kinerja'], 'note' => 'Perlu tambahan RKA, DIPA, dan RPA.'],
+                    ['text' => 'Terdapat dokumen perencanaan anggaran yang mendukung kinerja.', 'evidence' => ['Dokumen perencanaan anggaran'], 'note' => 'Sesuai.'],
+                ],
+            ],
+            [
+                'code' => '1.b',
+                'title' => 'Dokumen Perencanaan Kinerja telah memenuhi standar yang baik',
+                'weight' => '9',
+                'satker_answer' => 'AA',
+                'satker_score' => '9',
+                'evaluator_answer' => 'BB',
+                'evaluator_score' => '7.2',
+                'notes' => 'Kualitas rumusan sudah baik, namun evaluator meminta penguatan pohon kinerja, IKU, dan sinkronisasi sasaran–outcome–output.',
+                'criteria' => [
+                    ['text' => 'Dokumen Perencanaan Kinerja telah diformalkan.', 'evidence' => ['Dokumen perencanaan kinerja telah diformalkan'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Dokumen Perencanaan Kinerja telah dipublikasikan tepat waktu.', 'evidence' => ['Dokumen perencanaan dipublikasikan tepat waktu'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Dokumen Perencanaan Kinerja telah menggambarkan kebutuhan atas kinerja sebenarnya yang perlu dicapai.', 'evidence' => ['Dokumen perencanaan kinerja menggambarkan kebutuhan kinerja'], 'note' => 'Perlu dimasukkan pohon kinerja PA Binjai.'],
+                    ['text' => 'Kualitas rumusan hasil (tujuan/sasaran) telah jelas menggambarkan kondisi kinerja yang akan dicapai.', 'evidence' => ['Rumusan hasil / tujuan / sasaran'], 'note' => 'Sudah baik, namun perlu validasi ulang sasaran di setiap satuan kerja.'],
+                    ['text' => 'Ukuran keberhasilan (indikator kinerja) telah memenuhi kriteria SMART.', 'evidence' => ['Dokumen IKU memenuhi kriteria SMART'], 'note' => 'Sudah sesuai dengan IKU MARI.'],
+                    ['text' => 'IKU menggambarkan kondisi kinerja utama yang berkelanjutan (sustainable).', 'evidence' => ['Dokumen IKU yang sustainable'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Target yang ditetapkan dalam Perencanaan Kinerja dapat dicapai (achievable), menantang, dan realistis.', 'evidence' => ['Target kinerja yang achievable'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Setiap dokumen perencanaan menggambarkan hubungan yang berkesinambungan/cascading.', 'evidence' => ['Pohon kinerja dan cascading PK Ketua, wakil, hakim, kesekretariatan, kepaniteraan'], 'note' => 'Sudah ada.'],
+                    ['text' => 'Perencanaan kinerja memberikan informasi hubungan kinerja, strategi, kebijakan, dan aktivitas lintas bidang.', 'evidence' => ['Perencanaan kinerja yang menjelaskan hubungan kinerja'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Setiap unit/satuan kerja merumuskan dan menetapkan Perencanaan Kinerja.', 'evidence' => ['Perencanaan kinerja satker'], 'note' => 'Sudah ada.'],
+                    ['text' => 'Setiap pegawai merumuskan dan menetapkan Perencanaan Kinerja.', 'evidence' => ['Sasaran Kinerja Pegawai'], 'note' => 'Sudah sesuai.'],
+                ],
+            ],
+            [
+                'code' => '1.c',
+                'title' => 'Perencanaan Kinerja telah dimanfaatkan untuk mewujudkan hasil yang berkesinambungan',
+                'weight' => '15',
+                'satker_answer' => 'AA',
+                'satker_score' => '15',
+                'evaluator_answer' => 'BB',
+                'evaluator_score' => '12',
+                'notes' => 'Pemanfaatan dokumen sudah kuat, namun evaluator meminta tambahan bukti analisis perbaikan, monitoring berkala, dan evidence tingkat pegawai.',
+                'criteria' => [
+                    ['text' => 'Anggaran yang ditetapkan telah mengacu pada kinerja yang ingin dicapai.', 'evidence' => ['Dokumen DIPA, matriks pendanaan, dan RKA satker'], 'note' => 'Perlu ditambahkan rencana penggunaan anggaran per tahun.'],
+                    ['text' => 'Aktivitas yang dilaksanakan telah mendukung kinerja yang ingin dicapai.', 'evidence' => ['SOP pada masing-masing indikator yang mendukung kinerja'], 'note' => 'Perlu disandingkan dengan DIPA, RKA, PK, dan renaksi.'],
+                    ['text' => 'Target yang ditetapkan telah dicapai dengan baik atau setidaknya on the right track.', 'evidence' => ['Dokumen capaian kinerja dan capaian anggaran secara berkala'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Rencana aksi kinerja berjalan dinamis karena capaian dipantau berkala.', 'evidence' => ['Dokumen capaian kinerja berkala pada aplikasi Komdanas dan SAKTI'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Terdapat perbaikan/penyempurnaan dokumen perencanaan dari hasil analisis perbaikan sebelumnya.', 'evidence' => ['Dokumen reviu RKT tahun 2023, 2024, dan 2025'], 'note' => 'Sebaiknya hasil analisis perbaikan ditampilkan eksplisit.'],
+                    ['text' => 'Terdapat perbaikan dokumen perencanaan dalam mewujudkan kondisi/hasil yang lebih baik.', 'evidence' => ['Dokumen reviu RKT'], 'note' => 'Sesuai.'],
+                    ['text' => 'Setiap unit/satuan kerja memahami dan peduli untuk mencapai kinerja yang telah direncanakan.', 'evidence' => ['Laporan perkara, penyerapan anggaran, monev Bappenas, realisasi anggaran, pengukuran perjanjian kinerja'], 'note' => 'Sesuai.'],
+                    ['text' => 'Setiap pegawai memahami dan peduli untuk mencapai kinerja yang telah direncanakan.', 'evidence' => ['Pengukuran perjanjian kinerja bulanan, undangan, daftar hadir, rakor bulanan, realisasi anggaran'], 'note' => 'Perlu tambahan PCK bulanan sebagai evidence.'],
+                ],
+            ],
+        ],
+    ],
+    [
+        'code' => '2',
+        'title' => 'Pengukuran Kinerja',
+        'weight' => '30.00',
+        'evaluator' => '25.50',
+        'subsections' => [
+            [
+                'code' => '2.a',
+                'title' => 'Pengukuran Kinerja telah dilakukan',
+                'weight' => '6',
+                'satker_answer' => 'AA',
+                'satker_score' => '6',
+                'evaluator_answer' => 'BB',
+                'evaluator_score' => '4.8',
+                'notes' => 'Dasar pengukuran tersedia, tetapi evaluator menekankan inovasi atau aplikasi pengumpulan data serta analisa pengukuran pada LKjIP.',
+                'criteria' => [
+                    ['text' => 'Terdapat pedoman teknis pengukuran kinerja dan pengumpulan data.', 'evidence' => ['Dokumen teknis pengukuran kinerja'], 'note' => 'Sesuai.'],
+                    ['text' => 'Terdapat definisi operasional yang jelas atas kinerja dan cara mengukur indikator.', 'evidence' => ['Dokumen IKU dan penjelasannya'], 'note' => 'Tambahkan analisa pengukuran pada LKjIP sebagai evidence.'],
+                    ['text' => 'Terdapat mekanisme yang jelas terhadap pengumpulan data kinerja yang dapat diandalkan.', 'evidence' => ['Dokumen SOP pengumpulan data kinerja'], 'note' => 'Jika memungkinkan, tambahkan inovasi/aplikasi pengumpulan kinerja.'],
+                ],
+            ],
+            [
+                'code' => '2.b',
+                'title' => 'Pengukuran Kinerja telah menjadi kebutuhan dalam mewujudkan kinerja secara efektif, efisien, berjenjang, dan berkelanjutan',
+                'weight' => '9',
+                'satker_answer' => 'AA',
+                'satker_score' => '9',
+                'evaluator_answer' => 'BB',
+                'evaluator_score' => '7.2',
+                'notes' => 'Praktik pengukuran sudah rutin, relevan, dan berjenjang. Penguatan utama ada pada aplikasi pendukung dan integrasi monitoring lintas level.',
+                'criteria' => [
+                    ['text' => 'Pimpinan terlibat sebagai decision maker dalam mengukur capaian kinerja.', 'evidence' => ['Dokumen monev capaian kinerja secara berkala'], 'note' => 'Sesuai.'],
+                    ['text' => 'Data kinerja yang dikumpulkan relevan untuk mengukur capaian kinerja yang diharapkan.', 'evidence' => ['Dokumen capaian kinerja'], 'note' => 'Sesuai.'],
+                    ['text' => 'Data kinerja yang dikumpulkan mendukung capaian kinerja yang diharapkan.', 'evidence' => ['Data pendukung pengukuran capaian kinerja'], 'note' => 'Sesuai.'],
+                    ['text' => 'Pengukuran kinerja telah dilakukan secara berkala.', 'evidence' => ['Dokumen capaian kinerja Komdanas bulanan dan triwulan'], 'note' => 'Sesuai.'],
+                    ['text' => 'Setiap level organisasi memantau pengukuran capaian kinerja unit di bawahnya secara berjenjang.', 'evidence' => ['Monev Bappenas, capaian kinerja Komdanas, laporan perkara, SKP pegawai yang telah dinilai atasan'], 'note' => 'Sesuai.'],
+                    ['text' => 'Pengumpulan data kinerja telah memanfaatkan teknologi informasi.', 'evidence' => ['Penggunaan aplikasi KOMDANAS, e-Monev Bappenas, SPAN, dan SIPP untuk entry data'], 'note' => 'Sesuai, namun akan lebih kuat jika ada inovasi khusus.'],
+                    ['text' => 'Pengukuran capaian kinerja telah memanfaatkan teknologi informasi.', 'evidence' => ['Penggunaan aplikasi KOMDANAS, e-Monev Bappenas, SPAN, dan SIPP untuk pengukuran'], 'note' => 'Sesuai.'],
+                ],
+            ],
+            [
+                'code' => '2.c',
+                'title' => 'Pengukuran Kinerja telah dijadikan dasar reward, punishment, dan penyesuaian strategi',
+                'weight' => '15',
+                'satker_answer' => 'AA',
+                'satker_score' => '15',
+                'evaluator_answer' => 'A',
+                'evaluator_score' => '13.5',
+                'notes' => 'Nilai kuat. Penyempurnaan diarahkan pada dokumen refocusing, penempatan jabatan, efisiensi anggaran, serta bukti pemahaman pegawai.',
+                'criteria' => [
+                    ['text' => 'Pengukuran Kinerja menjadi dasar penyesuaian tunjangan kinerja/penghasilan.', 'evidence' => ['Dokumen PKP'], 'note' => 'Tambahkan piagam atau prestasi kinerja satker/pegawai bila ada.'],
+                    ['text' => 'Pengukuran Kinerja menjadi dasar penempatan/penghapusan jabatan struktural maupun fungsional.', 'evidence' => ['Dokumen Baperjakat, SK pegawai yang mendapat promosi'], 'note' => 'Sesuai.'],
+                    ['text' => 'Pengukuran Kinerja mempengaruhi penyesuaian (refocusing) organisasi.', 'evidence' => ['Standar dokumen refocusing'], 'note' => 'Perlu dokumen RKAKL berisi data adjustment.'],
+                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian strategi dalam mencapai kinerja.', 'evidence' => ['Dokumen rapat intern, reviu SOP, dokumen RTM'], 'note' => 'Sesuai.'],
+                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian kebijakan dalam mencapai kinerja.', 'evidence' => ['Dokumen rapat intern tindak lanjut, reviu SOP, dokumen RTM'], 'note' => 'Sesuai.'],
+                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian aktivitas dalam mencapai kinerja.', 'evidence' => ['Kebijakan pusat dan hasil reviu revisi anggaran'], 'note' => 'Sesuai.'],
+                    ['text' => 'Pengukuran kinerja mempengaruhi penyesuaian anggaran.', 'evidence' => ['Kebijakan pusat dan hasil reviu revisi anggaran'], 'note' => 'Sesuai.'],
+                    ['text' => 'Terdapat efisiensi atas penggunaan anggaran dalam mencapai kinerja.', 'evidence' => ['Dokumen rapat capaian kinerja berkala, undangan, daftar hadir, notulen'], 'note' => 'Sesuai.'],
+                    ['text' => 'Setiap unit/satuan kerja memahami hasil pengukuran kinerja.', 'evidence' => ['Dokumen capaian rapat kinerja secara berkala'], 'note' => 'Perlu ditambah SKP dan PCK.'],
+                    ['text' => 'Setiap pegawai memahami hasil pengukuran kinerja.', 'evidence' => ['Dokumen rapat capaian kinerja berkala, undangan, daftar hadir, notulen'], 'note' => 'Perlu tambahan hasil wawancara pegawai yang difungsikan.'],
+                ],
+            ],
+        ],
+    ],
+    [
+        'code' => '3',
+        'title' => 'Pelaporan Kinerja',
+        'weight' => '15.00',
+        'evaluator' => '13.95',
+        'subsections' => [
+            [
+                'code' => '3.a',
+                'title' => 'Terdapat Dokumen Laporan yang menggambarkan kinerja',
+                'weight' => '3',
+                'satker_answer' => 'AA',
+                'satker_score' => '3',
+                'evaluator_answer' => 'BB',
+                'evaluator_score' => '2.4',
+                'notes' => 'Basis dokumen sudah baik dan lengkap. Evaluator menilai publikasi, reviu, dan formalisasi sudah tersedia dengan baik.',
+                'criteria' => [
+                    ['text' => 'Dokumen Laporan Kinerja telah disusun.', 'evidence' => ['Dokumen LKjIP 2023'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Dokumen Laporan Kinerja telah disusun secara berkala.', 'evidence' => ['Dokumen LKjIP 2022 dan 2023'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Dokumen Laporan Kinerja telah diformalkan.', 'evidence' => ['Dokumen LKjIP 2023 yang telah diformalkan'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Dokumen Laporan Kinerja telah direviu.', 'evidence' => ['Dokumen reviu LKjIP 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Dokumen Laporan Kinerja telah dipublikasikan.', 'evidence' => ['Dokumen laporan kinerja telah dipublikasikan'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Dokumen Laporan Kinerja telah disampaikan tepat waktu.', 'evidence' => ['Dokumen laporan kinerja tepat waktu'], 'note' => 'Sudah sesuai.'],
+                ],
+            ],
+            [
+                'code' => '3.b',
+                'title' => 'Dokumen Laporan Kinerja telah memenuhi standar menggambarkan kualitas capaian',
+                'weight' => '4.5',
+                'satker_answer' => 'AA',
+                'satker_score' => '4.5',
+                'evaluator_answer' => 'A',
+                'evaluator_score' => '4.05',
+                'notes' => 'Laporan kuat secara standar dan isi. Perlu dijaga konsistensi narasi perbandingan tahunan serta benchmark kinerja.',
+                'criteria' => [
+                    ['text' => 'Dokumen Laporan Kinerja disusun secara berkualitas sesuai standar.', 'evidence' => ['Dokumen LKjIP sesuai PermenPAN RB No. 53 Tahun 2014'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan mengungkap seluruh informasi tentang pencapaian kinerja.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja dengan target tahunan.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja dengan target jangka menengah.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja dengan tahun-tahun sebelumnya.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan perbandingan realisasi kinerja di level nasional/internasional.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan kualitas capaian kinerja beserta upaya/hambatan.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan efisiensi penggunaan sumber daya.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Laporan menginfokan upaya perbaikan/penyempurnaan kinerja ke depan.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                ],
+            ],
+            [
+                'code' => '3.c',
+                'title' => 'Pelaporan Kinerja telah memberikan dampak besar dalam penyesuaian strategi/kebijakan berikutnya',
+                'weight' => '7.5',
+                'satker_answer' => 'AA',
+                'satker_score' => '7.5',
+                'evaluator_answer' => 'AA',
+                'evaluator_score' => '7.5',
+                'notes' => 'Subkomponen paling kuat. Laporan dinilai sudah digunakan sebagai referensi pimpinan, evaluasi capaian, penganggaran, dan budaya kinerja.',
+                'criteria' => [
+                    ['text' => 'Informasi dalam laporan kinerja selalu menjadi perhatian utama pimpinan.', 'evidence' => ['Capaian kinerja dan dokumen rapat kinerja'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Penyajian informasi dalam laporan kinerja menjadi kepedulian seluruh pegawai.', 'evidence' => ['Capaian kinerja, rapat, pengukuran kinerja, SOP pengumpulan data'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Informasi dalam laporan kinerja berkala digunakan dalam penyesuaian aktivitas.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Informasi dalam laporan kinerja berkala digunakan dalam penyesuaian penggunaan anggaran.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Informasi dalam laporan kinerja digunakan dalam evaluasi keberhasilan kinerja.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Informasi dalam laporan kinerja digunakan dalam penyesuaian perencanaan berikutnya.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Sudah sesuai.'],
+                    ['text' => 'Informasi dalam laporan kinerja mempengaruhi perubahan budaya kinerja organisasi.', 'evidence' => ['Dokumen LKjIP Tahun 2023'], 'note' => 'Perlu ditambahkan notula evaluasi rapat awal dan akhir tahun.'],
+                ],
+            ],
+        ],
+    ],
+    [
+        'code' => '4',
+        'title' => 'Evaluasi Akuntabilitas Kinerja Internal',
+        'weight' => '25.00',
+        'evaluator' => '23.75',
+        'subsections' => [
+            [
+                'code' => '4.a',
+                'title' => 'Evaluasi Akuntabilitas Kinerja Internal telah dilaksanakan',
+                'weight' => '5',
+                'satker_answer' => 'AA',
+                'satker_score' => '5',
+                'evaluator_answer' => 'A',
+                'evaluator_score' => '4.5',
+                'notes' => 'Pelaksanaan LHE AKIP dinilai matang. Pedoman, Hawasbid, dan tindak lanjut sudah terlihat jelas.',
+                'criteria' => [
+                    ['text' => 'Terdapat pedoman teknis Evaluasi Akuntabilitas Kinerja Internal.', 'evidence' => ['LHE AKIP, pedoman evaluasi AKIP MA, dan PermenPAN RB 88 Tahun 2021'], 'note' => 'Sudah mantap.'],
+                    ['text' => 'Evaluasi Akuntabilitas Kinerja Internal telah dilaksanakan pada seluruh unit kerja/perangkat daerah.', 'evidence' => ['LHE AKIP, dokumen Hawasbid, TLHP'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Evaluasi Akuntabilitas Kinerja Internal dilaksanakan secara berjenjang.', 'evidence' => ['LHE AKIP, dokumen Hawasbid, TLHP'], 'note' => 'Sudah baik.'],
+                ],
+            ],
+            [
+                'code' => '4.b',
+                'title' => 'Evaluasi Akuntabilitas Kinerja Internal telah dilaksanakan secara berkualitas dengan sumber daya yang memadai',
+                'weight' => '7.5',
+                'satker_answer' => 'AA',
+                'satker_score' => '7.5',
+                'evaluator_answer' => 'A',
+                'evaluator_score' => '6.75',
+                'notes' => 'Kualitas tim dan dokumen sudah sangat baik. Poin plus terlihat pada SDM bersertifikat, pemanfaatan TI, dan kedalaman evaluasi.',
+                'criteria' => [
+                    ['text' => 'Evaluasi Akuntabilitas Kinerja Internal dilaksanakan sesuai standar.', 'evidence' => ['SK pedoman evaluasi AKIP, SK tim reviu IKU, PK PA Binjai, dan LHE'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Evaluasi dilaksanakan oleh SDM yang memadai.', 'evidence' => ['LHE AKIP, SK pedoman evaluasi AKIP, SDM bersertifikat SAKIP'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Evaluasi dilaksanakan dengan pendalaman yang memadai.', 'evidence' => ['LHE AKIP'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Evaluasi dilaksanakan pada seluruh unit kerja/perangkat daerah.', 'evidence' => ['LHE AKIP'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Evaluasi memanfaatkan Teknologi Informasi (Aplikasi).', 'evidence' => ['Pemanfaatan TI dalam evaluasi AKIP'], 'note' => 'Sudah baik.'],
+                ],
+            ],
+            [
+                'code' => '4.c',
+                'title' => 'Implementasi SAKIP meningkat karena evaluasi internal memberi dampak nyata',
+                'weight' => '12.5',
+                'satker_answer' => 'AA',
+                'satker_score' => '12.5',
+                'evaluator_answer' => 'AA',
+                'evaluator_score' => '12.5',
+                'notes' => 'Dampak evaluasi internal sangat kuat. Rekomendasi ditindaklanjuti dan menjadi dasar perbaikan akuntabilitas serta efisiensi kinerja.',
+                'criteria' => [
+                    ['text' => 'Seluruh rekomendasi hasil evaluasi akuntabilitas kinerja internal telah ditindaklanjuti.', 'evidence' => ['Dokumen TLHP, LHE, reviu IKU, reviu Renstra, e-SAKIP reviu, SAKIP Komdanas'], 'note' => 'Perlu tambahan notula rapat pembahasan evaluasi untuk tindak lanjut LHE.'],
+                    ['text' => 'Terjadi peningkatan implementasi SAKIP melalui tindak lanjut rekomendasi.', 'evidence' => ['Dokumen LHE, pengukuran kinerja, TLHP, Hawasbid, reviu renstra, PK 2023'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Hasil evaluasi dimanfaatkan untuk perbaikan dan peningkatan akuntabilitas kinerja.', 'evidence' => ['Dokumen evaluasi akuntabilitas kinerja'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Hasil evaluasi dimanfaatkan dalam mendukung efektivitas dan efisiensi kinerja.', 'evidence' => ['Dokumen evaluasi akuntabilitas kinerja'], 'note' => 'Sudah baik.'],
+                    ['text' => 'Terjadi perbaikan dan peningkatan kinerja dengan memanfaatkan hasil evaluasi internal.', 'evidence' => ['Perbaikan akuntabilitas kinerja'], 'note' => 'Sudah baik.'],
+                ],
+            ],
+        ],
+    ],
+];
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= htmlspecialchars($summary['title'] . ' - ' . $summary['subtitle'], ENT_QUOTES, 'UTF-8') ?></title>
+    <link rel="stylesheet" href="assets/css/evaluasi-akip.css">
+</head>
+<body>
+    <header class="primer-hero">
+        <div class="primer-hero__inner">
+            <div class="primer-hero__copy">
+                <span class="hero-kicker">Primer User · Evaluasi AKIP</span>
+                <h1><?= htmlspecialchars($summary['title'], ENT_QUOTES, 'UTF-8') ?></h1>
+                <p><?= htmlspecialchars($summary['subtitle'], ENT_QUOTES, 'UTF-8') ?> · Format tampilan disesuaikan dengan karakter halaman primer: hero hijau, kontainer putih, dan struktur kerja berbasis worksheet.</p>
+            </div>
+            <div class="hero-scoreboard">
+                <div class="hero-scorecard hero-scorecard--primary">
+                    <span>Nilai Evaluator</span>
+                    <strong><?= htmlspecialchars($summary['evaluator_score'], ENT_QUOTES, 'UTF-8') ?></strong>
+                    <em>Predikat <?= htmlspecialchars($summary['evaluator_grade'], ENT_QUOTES, 'UTF-8') ?></em>
+                </div>
+                <div class="hero-scorecard">
+                    <span>Nilai Satker</span>
+                    <strong><?= htmlspecialchars($summary['satker_score'], ENT_QUOTES, 'UTF-8') ?></strong>
+                    <em>Predikat <?= htmlspecialchars($summary['satker_grade'], ENT_QUOTES, 'UTF-8') ?></em>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="primer-shell">
+        <section class="overview-grid">
+            <article class="overview-card">
+                <span class="overview-label">Komponen</span>
+                <strong><?= htmlspecialchars((string) $summary['component_count'], ENT_QUOTES, 'UTF-8') ?></strong>
+                <p>Perencanaan, Pengukuran, Pelaporan, dan Evaluasi Internal.</p>
+            </article>
+            <article class="overview-card">
+                <span class="overview-label">Subkomponen</span>
+                <strong><?= htmlspecialchars((string) $summary['subcomponent_count'], ENT_QUOTES, 'UTF-8') ?></strong>
+                <p>Seluruh item ditata mengikuti struktur lembar evaluasi awal.</p>
+            </article>
+            <article class="overview-card">
+                <span class="overview-label">Mode Tampilan</span>
+                <strong>Worksheet</strong>
+                <p>Struktur utama memakai grid kolom seperti tabel evaluasi pada file asli.</p>
+            </article>
+            <article class="overview-card">
+                <span class="overview-label">Gaya Primer</span>
+                <strong>Internal UI</strong>
+                <p>Hero gradient, white card, border lembut, dan hierarki data ala halaman primer.</p>
+            </article>
+        </section>
+
+        <section class="worksheet-card">
+            <div class="worksheet-header">
+                <div>
+                    <span class="section-eyebrow">Lembar Evaluasi</span>
+                    <h2>Struktur penilaian sesuai file awal</h2>
+                    <p>Kolom utama, nilai satker, nilai evaluator, catatan, dan rincian kriteria ditampilkan ulang dalam format yang lebih rapi namun tetap formal.</p>
+                </div>
+                <div class="worksheet-totals">
+                    <div>
+                        <span>Total Satker</span>
+                        <strong><?= htmlspecialchars($summary['satker_score'], ENT_QUOTES, 'UTF-8') ?></strong>
+                    </div>
+                    <div>
+                        <span>Total Evaluator</span>
+                        <strong><?= htmlspecialchars($summary['evaluator_score'], ENT_QUOTES, 'UTF-8') ?></strong>
+                    </div>
+                </div>
+            </div>
+
+            <?php foreach ($sections as $section): ?>
+                <section class="component-panel" id="komponen-<?= htmlspecialchars($section['code'], ENT_QUOTES, 'UTF-8') ?>">
+                    <div class="component-banner">
+                        <div>
+                            <span class="component-badge">Komponen <?= htmlspecialchars($section['code'], ENT_QUOTES, 'UTF-8') ?></span>
+                            <h3><?= htmlspecialchars($section['title'], ENT_QUOTES, 'UTF-8') ?></h3>
+                        </div>
+                        <div class="component-summary">
+                            <div>
+                                <span>Bobot</span>
+                                <strong><?= htmlspecialchars($section['weight'], ENT_QUOTES, 'UTF-8') ?></strong>
+                            </div>
+                            <div>
+                                <span>Subtotal Evaluator</span>
+                                <strong><?= htmlspecialchars($section['evaluator'], ENT_QUOTES, 'UTF-8') ?></strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php foreach ($section['subsections'] as $sub): ?>
+                        <article class="sheet-block">
+                            <div class="sheet-table sheet-table--head">
+                                <div>No</div>
+                                <div>Komponen</div>
+                                <div>Bobot</div>
+                                <div>Satker<br><small>Jawaban</small></div>
+                                <div>Satker<br><small>Nilai</small></div>
+                                <div>Evaluator<br><small>Jawaban</small></div>
+                                <div>Evaluator<br><small>Nilai</small></div>
+                                <div>Catatan</div>
+                            </div>
+                            <div class="sheet-table sheet-table--body">
+                                <div class="cell-code"><?= htmlspecialchars($sub['code'], ENT_QUOTES, 'UTF-8') ?></div>
+                                <div class="cell-title">
+                                    <h4><?= htmlspecialchars($sub['title'], ENT_QUOTES, 'UTF-8') ?></h4>
+                                </div>
+                                <div class="cell-number"><?= htmlspecialchars($sub['weight'], ENT_QUOTES, 'UTF-8') ?></div>
+                                <div class="cell-answer"><?= htmlspecialchars($sub['satker_answer'], ENT_QUOTES, 'UTF-8') ?></div>
+                                <div class="cell-number"><?= htmlspecialchars($sub['satker_score'], ENT_QUOTES, 'UTF-8') ?></div>
+                                <div class="cell-answer cell-answer--evaluator"><?= htmlspecialchars($sub['evaluator_answer'], ENT_QUOTES, 'UTF-8') ?></div>
+                                <div class="cell-number cell-number--accent"><?= htmlspecialchars($sub['evaluator_score'], ENT_QUOTES, 'UTF-8') ?></div>
+                                <div class="cell-note"><?= htmlspecialchars($sub['notes'], ENT_QUOTES, 'UTF-8') ?></div>
+                            </div>
+
+                            <div class="criteria-card">
+                                <div class="criteria-card__header">Kriteria</div>
+                                <div class="criteria-table criteria-table--head">
+                                    <div>No</div>
+                                    <div>Uraian Kriteria</div>
+                                    <div>Dokumen / Evidence</div>
+                                    <div>Catatan Singkat</div>
+                                </div>
+                                <?php foreach ($sub['criteria'] as $index => $criterion): ?>
+                                    <div class="criteria-table criteria-table--row">
+                                        <div class="criteria-no"><?= $index + 1 ?></div>
+                                        <div class="criteria-text"><?= htmlspecialchars($criterion['text'], ENT_QUOTES, 'UTF-8') ?></div>
+                                        <div class="criteria-evidence">
+                                            <?php foreach ($criterion['evidence'] as $evidence): ?>
+                                                <span class="evidence-chip"><?= htmlspecialchars($evidence, ENT_QUOTES, 'UTF-8') ?></span>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        <div class="criteria-note"><?= htmlspecialchars($criterion['note'], ENT_QUOTES, 'UTF-8') ?></div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </section>
+            <?php endforeach; ?>
+        </section>
+    </main>
+</body>
+</html>

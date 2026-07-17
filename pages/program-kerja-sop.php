@@ -546,6 +546,22 @@ if (!defined('PROGRAM_KERJA_SOP_EMBEDDED')) {
             columns: 1;
         }
     }
+
+    /* OPTIMIZATION FOR MOBILE */
+    @media (max-width: 768px) {
+        .pk-hero::before {
+            /* Hardware acceleration struggles with mix-blend-mode on mobile */
+            mix-blend-mode: normal;
+            opacity: 0.05;
+        }
+        .pk-card {
+            /* Reduce huge box-shadow to avoid repaint lag */
+            box-shadow: 0 8px 24px rgba(13, 42, 29, 0.08);
+        }
+        .pk-hero {
+            background-attachment: scroll; /* ensure no fixed backgrounds */
+        }
+    }
 </style>
 
 <div class="program-sop-page">

@@ -6,6 +6,48 @@ function h(?string $value): string
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
+function get_signature_img_tag(string $base64Data, int $maxWidth = 150, int $maxHeight = 80): string
+{
+    if (empty($base64Data)) {
+        return '';
+    }
+    
+    // Fallback default style
+    $style = "display: block; margin: 10px auto; max-width: 100%; height: auto;";
+    
+    // Try to get intrinsic size from base64 string
+    $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Data));
+    if ($imgData !== false) {
+        $size = @getimagesizefromstring($imgData);
+        if ($size !== false) {
+            $width = $size[0];
+            $height = $size[1];
+            
+            // Calculate proportional dimensions
+            if ($width > $maxWidth || $height > $maxHeight) {
+                $ratio = min($maxWidth / $width, $maxHeight / $height);
+                $newWidth = (int) round($width * $ratio);
+                $newHeight = (int) round($height * $ratio);
+            } else {
+                $newWidth = $width;
+                $newHeight = $height;
+            }
+            
+            // Return tag with explicit width and height
+            return sprintf(
+                '<img src="%s" width="%d" height="%d" style="%s">',
+                h($base64Data),
+                $newWidth,
+                $newHeight,
+                $style
+            );
+        }
+    }
+    
+    // If parsing fails, just output it without width/height
+    return sprintf('<img src="%s" style="%s">', h($base64Data), $style);
+}
+
 function redirect(string $page): never
 {
     header('Location: index.php?page=' . urlencode($page));
@@ -44,6 +86,22 @@ function num(mixed $value): float
     return 0.0;
 }
 
+function target_for_quarter(array $target, int $quarter): float
+{
+    $total = 0.0;
+    $months = [];
+    if ($quarter === 1) $months = ['jan', 'feb', 'mar'];
+    elseif ($quarter === 2) $months = ['apr', 'mei', 'jun'];
+    elseif ($quarter === 3) $months = ['jul', 'agu', 'sep'];
+    elseif ($quarter === 4) $months = ['okt', 'nov', 'des'];
+
+    foreach ($months as $m) {
+        $total += num($target['target_' . $m] ?? 0);
+    }
+    
+    return $total;
+}
+
 function indicator_type_options(): array
 {
     return [
@@ -75,42 +133,47 @@ function achievement_value(float $target, float $realisasi, string $type): float
     return round(($realisasi / $target) * 100, 2);
 }
 
-function target_for_quarter(array $row, int $tw): float
+function target_for_month(array $row, int $month): float
 {
-    $quarterTarget = num($row['target_tw' . $tw] ?? 0);
-    if ($quarterTarget > 0) {
-        return $quarterTarget;
+    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+    $m = $months[$month - 1] ?? 'jan';
+    $monthTarget = num($row['target_' . $m] ?? 0);
+    if ($monthTarget > 0) {
+        return $monthTarget;
     }
 
-    return round(num($row['target'] ?? 0) / 4, 2);
+    return round(num($row['target'] ?? 0) / 12, 2);
 }
 
-function achievement_for_quarter(array $row, int $tw): float
+function achievement_for_month(array $row, int $month): float
 {
-    $tw = max(1, min(4, $tw));
-    $target = target_for_quarter($row, $tw);
-    $realisasi = num($row['real_tw' . $tw] ?? 0);
+    $month = max(1, min(12, $month));
+    $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+    $m = $months[$month - 1] ?? 'jan';
+    
+    $target = target_for_month($row, $month);
+    $realisasi = num($row['real_' . $m] ?? 0);
 
     return achievement_value($target, $realisasi, (string) ($row['tipe_indikator'] ?? 'max'));
 }
 
-function achievement_trend(array $row, int $tw): array
+function achievement_trend(array $row, int $month): array
 {
-    $tw = max(1, min(4, $tw));
-    $current = achievement_for_quarter($row, $tw);
+    $month = max(1, min(12, $month));
+    $current = achievement_for_month($row, $month);
 
-    if ($tw === 1) {
+    if ($month === 1) {
         return [
             'previous' => null,
             'current' => $current,
             'status' => 'baseline',
-            'label' => 'Baseline TW1',
+            'label' => 'Baseline Bulan 1',
             'jenis' => 'Baseline capaian awal',
             'required' => true,
         ];
     }
 
-    $previous = achievement_for_quarter($row, $tw - 1);
+    $previous = achievement_for_month($row, $month - 1);
     if ($current > $previous) {
         $status = 'naik';
         $label = 'Capaian naik';
@@ -192,6 +255,25 @@ function role_catalog(): array
     ];
 }
 
+
+function format_user_label(?string $nama, ?string $role, bool $multiline = false): string {
+    $namaStr = trim((string)$nama);
+    $roleStr = trim(role_label((string)$role));
+    
+    if ($namaStr === '' && $roleStr === '') return '-';
+    if ($namaStr === '') return h($roleStr);
+    if ($roleStr === '') return h($namaStr);
+    
+    if (strcasecmp($namaStr, $roleStr) === 0) {
+        return h($namaStr);
+    }
+    
+    if ($multiline) {
+        return h($namaStr) . '<br><small>' . h($roleStr) . '</small>';
+    }
+    return h($namaStr) . ' - ' . h($roleStr);
+}
+
 function role_label(string $role): string
 {
     $roles = role_catalog();
@@ -253,9 +335,9 @@ function can_manage_target_row(array $row, ?array $user = null): bool
     return (int) ($row['user_id'] ?? 0) === (int) ($user['id'] ?? 0);
 }
 
-function role_profile(string $role): array
+function get_all_role_profiles(): array
 {
-    $profiles = [
+    return [
         'Admin' => [
             'title' => 'Administrator Aplikasi',
             'scope' => 'Pengelolaan teknis aplikasi dan seluruh data pengguna.',
@@ -463,7 +545,11 @@ function role_profile(string $role): array
             ],
         ],
     ];
+}
 
+function role_profile(string $role): array
+{
+    $profiles = get_all_role_profiles();
     return $profiles[$role] ?? $profiles['Admin'];
 }
 
@@ -472,11 +558,60 @@ function role_tasks(string $role): array
     return role_profile($role)['checks'];
 }
 
+/**
+ * Kertas kerja yang tersedia untuk setiap pengguna yang sudah masuk.
+ * Role tetap dipakai sebagai identitas jabatan dan kepemilikan data, bukan
+ * untuk membedakan menu kerja Primer, Sekunder, atau Tersier.
+ */
+function shared_workflow_groups(): array
+{
+    return [
+        'Primer / Pokok' => [
+            ['Input Target Kinerja (TK)', 'target', null],
+            ['Cetak Perjanjian Kinerja (PK)', 'pk', null],
+            ['Cetak Rencana Aksi', 'renaksi', null],
+            ['Cetak RKT', 'rkt_rka', null],
+            ['Hitung Capaian Kinerja (HCK)', 'capaian', null],
+            ['Evaluasi Kinerja (EvKin)', 'evaluasi', null],
+            ['Evaluasi AKIP', 'evaluasi-akip', null],
+        ],
+        'Sekunder' => [
+            ['Program Kerja & SOP', 'modul', 'program-kerja'],
+            ['Renstra', 'modul', 'renstra'],
+            ['IKU', 'modul', 'iku'],
+            ['Renaksi', 'modul', 'renaksi'],
+            ['E-Monev Bappenas', 'modul', 'e-monev-bappenas'],
+            [
+                'Laporan Kinerja',
+                'modul',
+                'laporan-kinerja',
+                [
+                    ['LHE AKIP PTA Medan', 'modul', 'sakip-pta-medan'],
+                    ['LHE AKIP PA Se-Sumut', 'modul', 'sakip-pa'],
+                ],
+            ],
+            ['Manajemen Risiko', 'modul', 'manajemen-risiko'],
+            ['Hibah & MoU', 'modul', 'hibah-mou'],
+            ['Data Excel Monev Pencapaian', 'modul', 'diagram-capaian'],
+        ],
+        'Tersier' => [
+            ['Portal Informasi Kinerja (IFKIN)', 'portal', 'notifikasi'],
+            ['Regulasi & Artikel', 'modul', 'regulasi'],
+            ['Info & Pengumuman', 'modul', 'info-pengumuman'],
+            ['Semar Bawas', 'modul', 'lhe-pa'],
+            ['Upload TOR/KAK ABT/Baseline', 'modul', 'upload-tor-kak', [
+                ['Revisi', 'modul', 'rka-kl-revisi'],
+            ]],
+            ['Tupoksi & Tim', 'modul', 'tupoksi-tim'],
+        ],
+    ];
+}
+
 function module_catalog(): array
 {
     return [
         'program-kerja' => [
-            'title' => 'Program Kerja',
+            'title' => 'Program Kerja & SOP',
             'group' => 'Skunder',
             'status' => 'Dasar',
             'description' => 'Ruang kerja untuk menampilkan program kerja tahunan, jadwal kegiatan, dan dokumen pendukung bidang program dan anggaran.',
@@ -495,8 +630,8 @@ function module_catalog(): array
         'renstra' => [
             'title' => 'Renstra',
             'group' => 'Skunder',
-            'status' => 'Perlu Data',
-            'description' => 'Modul untuk mengelola Rencana Strategis sebagai dasar sasaran dan indikator kinerja.',
+            'status' => 'Referensi Resmi',
+            'description' => 'Ruang referensi Rencana Strategis sebagai dasar sasaran dan indikator kinerja.',
             'features' => [
                 'Ringkasan periode Renstra.',
                 'Daftar sasaran strategis.',
@@ -507,12 +642,13 @@ function module_catalog(): array
                 'Hubungkan Renstra ke indikator kinerja.',
                 'Tambahkan upload dokumen Renstra resmi.',
             ],
+            'portal_slug' => 'renstra',
         ],
         'iku' => [
             'title' => 'IKU',
             'group' => 'Skunder',
-            'status' => 'Perlu Data',
-            'description' => 'Modul Indikator Kinerja Utama sebagai referensi input Target Kinerja.',
+            'status' => 'Referensi Resmi',
+            'description' => 'Ruang referensi Indikator Kinerja Utama untuk mendukung input Target Kinerja.',
             'features' => [
                 'Daftar indikator kinerja utama.',
                 'Satuan dan tipe perhitungan indikator.',
@@ -523,12 +659,13 @@ function module_catalog(): array
                 'Tambahkan satuan, tipe indikator, dan bobot.',
                 'Gunakan IKU sebagai pilihan saat input Target Kinerja.',
             ],
+            'portal_slug' => 'iku',
         ],
         'renaksi' => [
             'title' => 'Renaksi',
             'group' => 'Skunder',
-            'status' => 'Tersedia Dasar',
-            'description' => 'Rencana aksi kinerja per triwulan, termasuk aksi, jadwal, keluaran, program, kegiatan, dan dana.',
+            'status' => 'Referensi Resmi',
+            'description' => 'Ruang referensi Rencana Aksi Kinerja per triwulan, mencakup aksi, jadwal, keluaran, program, kegiatan, dan dana.',
             'features' => [
                 'Cetak rencana aksi dari Target Kinerja.',
                 'Target triwulan sementara dibagi rata.',
@@ -539,7 +676,7 @@ function module_catalog(): array
                 'Tambahkan input aksi, jadwal, keluaran, program, dan kegiatan.',
                 'Tambahkan format cetak resmi.',
             ],
-            'internal_page' => 'renaksi',
+            'portal_slug' => 'renaksi',
         ],
         'rka-kl-revisi' => [
             'title' => 'RKA-KL & Revisi',
@@ -578,8 +715,8 @@ function module_catalog(): array
         'laporan-kinerja' => [
             'title' => 'Laporan Kinerja',
             'group' => 'Skunder',
-            'status' => 'Perlu Data',
-            'description' => 'Modul arsip dan penyusunan laporan kinerja berdasarkan capaian dan evaluasi.',
+            'status' => 'Portal SAKIP',
+            'description' => 'Akses dokumen Sistem Akuntabilitas Kinerja Instansi Pemerintah (SAKIP).',
             'features' => [
                 'Ruang rekap capaian tahunan.',
                 'Ruang narasi evaluasi kinerja.',
@@ -590,6 +727,25 @@ function module_catalog(): array
                 'Ambil data otomatis dari capaian dan evaluasi.',
                 'Tambahkan ekspor PDF dan Excel.',
             ],
+            'portal_slug' => 'sakip',
+        ],
+        'sakip-pta-medan' => [
+            'title' => 'LHE AKIP PTA Medan',
+            'group' => 'Skunder',
+            'status' => 'Portal SAKIP',
+            'description' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan.',
+            'features' => ['Arsip dokumen LHE AKIP PTA Medan.'],
+            'next_steps' => ['Perbarui arsip dokumen SAKIP secara berkala.'],
+            'portal_slug' => 'sakip-pta-medan',
+        ],
+        'sakip-pa' => [
+            'title' => 'LHE AKIP PA Se-Sumut',
+            'group' => 'Skunder',
+            'status' => 'Portal SAKIP',
+            'description' => 'Dokumen SAKIP Pengadilan Agama sewilayah PTA Medan.',
+            'features' => ['Akses dokumen dan pelaporan SAKIP PA.'],
+            'next_steps' => ['Perbarui dokumen SAKIP PA sesuai periode pelaporan.'],
+            'portal_slug' => 'sakip-pa',
         ],
         'manajemen-risiko' => [
             'title' => 'Manajemen Risiko',
@@ -626,10 +782,10 @@ function module_catalog(): array
             'portal_slug' => 'hibah',
         ],
         'diagram-capaian' => [
-            'title' => 'Diagram Hasil Capaian Kinerja',
+            'title' => 'Data Excel Monev Pencapaian',
             'group' => 'Skunder',
             'status' => 'Tersedia Dasar',
-            'description' => 'Modul visualisasi capaian kinerja per triwulan dan per unit.',
+            'description' => 'Halaman pemantauan dan visualisasi capaian kinerja per triwulan.',
             'features' => [
                 'Data capaian sudah tersedia dari Target Kinerja.',
                 'Ruang pengembangan grafik capaian.',
@@ -640,11 +796,11 @@ function module_catalog(): array
                 'Tambahkan filter unit dan tahun.',
                 'Tambahkan rekap rata-rata capaian seluruh indikator.',
             ],
-            'internal_page' => 'capaian',
+            'portal_slug' => 'monev-capaian-kinerja',
         ],
         'sop' => [
             'title' => 'SOP',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Dasar',
             'description' => 'Modul arsip Standard Operating Procedure yang wajib tampil pada aplikasi.',
             'features' => [
@@ -660,8 +816,8 @@ function module_catalog(): array
             'portal_slug' => 'program-kerja-sop',
         ],
         'regulasi' => [
-            'title' => 'Regulasi',
-            'group' => 'Tertier',
+            'title' => 'Regulasi & Artikel',
+            'group' => 'Tersier',
             'status' => 'Link Portal',
             'description' => 'Modul kumpulan regulasi terkait perencanaan, anggaran, SAKIP, dan evaluasi.',
             'features' => [
@@ -678,7 +834,7 @@ function module_catalog(): array
         ],
         'artikel' => [
             'title' => 'Artikel',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Link Portal',
             'description' => 'Modul artikel dan bahan bacaan pendukung pelaksanaan IKPA.',
             'features' => [
@@ -695,7 +851,7 @@ function module_catalog(): array
         ],
         'info-pengumuman' => [
             'title' => 'Info & Pengumuman',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Dasar',
             'description' => 'Modul papan informasi, jadwal, batas waktu, dan pengumuman bidang program dan anggaran.',
             'features' => [
@@ -711,8 +867,8 @@ function module_catalog(): array
             'portal_slug' => 'notifikasi',
         ],
         'lhe-pa' => [
-            'title' => 'LHE PA',
-            'group' => 'Tertier',
+            'title' => 'Semar Bawas',
+            'group' => 'Tersier',
             'status' => 'Perlu Data',
             'description' => 'Modul arsip Laporan Hasil Evaluasi Pengadilan Agama.',
             'features' => [
@@ -729,7 +885,7 @@ function module_catalog(): array
         ],
         'upload-tor-kak' => [
             'title' => 'Upload TOR/KAK ABT/Baseline',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Perlu Form',
             'description' => 'Modul upload dokumen TOR/KAK untuk ABT dan Baseline.',
             'features' => [
@@ -746,7 +902,7 @@ function module_catalog(): array
         ],
         'tupoksi-tim' => [
             'title' => 'Tupoksi & Tim',
-            'group' => 'Tertier',
+            'group' => 'Tersier',
             'status' => 'Link Portal',
             'description' => 'Modul informasi tugas pokok, fungsi, dan tim pelaksana.',
             'features' => [
@@ -1147,6 +1303,8 @@ function default_document_meta(array $owner, int $tahun, string $jenis): array
         'pihak1_jabatan' => role_label((string) ($owner['role'] ?? '')),
         'pihak2_nama' => 'Ketua PTA Medan',
         'pihak2_jabatan' => 'Pimpinan',
+        'pihak1_ttd' => '',
+        'pihak2_ttd' => '',
         'catatan' => '',
     ];
 }
@@ -1176,35 +1334,150 @@ function save_document_meta(array $owner, int $tahun, string $jenis, array $post
         'tahun' => $tahun,
         'user_id' => (int) $defaults['user_id'],
         'jenis' => $jenis,
-        'no_surat' => trim((string) ($post['no_surat'] ?? '')),
+        'no_surat' => $jenis === 'pk' ? '' : trim((string) ($post['no_surat'] ?? '')),
         'tanggal_surat' => trim((string) ($post['tanggal_surat'] ?? $defaults['tanggal_surat'])),
         'lokasi' => trim((string) ($post['lokasi'] ?? $defaults['lokasi'])),
         'pihak1_nama' => trim((string) ($post['pihak1_nama'] ?? $defaults['pihak1_nama'])),
         'pihak1_jabatan' => trim((string) ($post['pihak1_jabatan'] ?? $defaults['pihak1_jabatan'])),
         'pihak2_nama' => trim((string) ($post['pihak2_nama'] ?? $defaults['pihak2_nama'])),
         'pihak2_jabatan' => trim((string) ($post['pihak2_jabatan'] ?? $defaults['pihak2_jabatan'])),
+        'pihak1_ttd' => trim((string) ($post['pihak1_ttd'] ?? $defaults['pihak1_ttd'])),
+        'pihak2_ttd' => trim((string) ($post['pihak2_ttd'] ?? $defaults['pihak2_ttd'])),
         'catatan' => trim((string) ($post['catatan'] ?? '')),
     ];
 
     $stmt = db()->prepare(
         'INSERT INTO document_meta
          (tahun, user_id, jenis, no_surat, tanggal_surat, lokasi, pihak1_nama, pihak1_jabatan,
-          pihak2_nama, pihak2_jabatan, catatan, updated_at)
+          pihak2_nama, pihak2_jabatan, pihak1_ttd, pihak2_ttd, catatan, updated_at)
          VALUES
          (:tahun, :user_id, :jenis, :no_surat, :tanggal_surat, :lokasi, :pihak1_nama, :pihak1_jabatan,
-          :pihak2_nama, :pihak2_jabatan, :catatan, CURRENT_TIMESTAMP)
+          :pihak2_nama, :pihak2_jabatan, :pihak1_ttd, :pihak2_ttd, :catatan, CURRENT_TIMESTAMP)
          ON CONFLICT(tahun, user_id, jenis) DO UPDATE SET
-            no_surat = excluded.no_surat,
-            tanggal_surat = excluded.tanggal_surat,
-            lokasi = excluded.lokasi,
-            pihak1_nama = excluded.pihak1_nama,
-            pihak1_jabatan = excluded.pihak1_jabatan,
-            pihak2_nama = excluded.pihak2_nama,
-            pihak2_jabatan = excluded.pihak2_jabatan,
-            catatan = excluded.catatan,
-            updated_at = CURRENT_TIMESTAMP'
+          no_surat = excluded.no_surat,
+          tanggal_surat = excluded.tanggal_surat,
+          lokasi = excluded.lokasi,
+          pihak1_nama = excluded.pihak1_nama,
+          pihak1_jabatan = excluded.pihak1_jabatan,
+          pihak2_nama = excluded.pihak2_nama,
+          pihak2_jabatan = excluded.pihak2_jabatan,
+          pihak1_ttd = excluded.pihak1_ttd,
+          pihak2_ttd = excluded.pihak2_ttd,
+          catatan = excluded.catatan,
+          updated_at = CURRENT_TIMESTAMP'
     );
     $stmt->execute($payload);
+}
+
+function generate_mandatory_targets(int $userId, string $role, int $tahun): void
+{
+    $mandatoryMap = [
+        'PanmudBanding' => [
+            ['sasaran' => 'Meningkatnya penyelesaian perkara tingkat banding', 'indikator' => 'Persentase perkara banding yang diselesaikan tepat waktu', 'satuan' => '%', 'tipe_indikator' => 'max', 'sumber_data' => 'SIPP', 'target' => 0],
+        ],
+        'PanmudHukum' => [
+            ['sasaran' => 'Meningkatnya pemanfaatan teknologi informasi dalam penyelesaian perkara', 'indikator' => 'Persentase perkara banding yang menggunakan E-Court', 'satuan' => '%', 'tipe_indikator' => 'max', 'sumber_data' => 'SIPP', 'target' => 0],
+        ],
+        'KasubagTURT' => [
+            ['sasaran' => 'Meningkatnya kualitas layanan sarana dan prasarana', 'indikator' => 'Indeks Kepuasan Masyarakat', 'satuan' => 'Skala', 'tipe_indikator' => 'max', 'sumber_data' => 'Aplikasi Survei Badilag', 'target' => 0],
+        ],
+        'Kepegawaian' => [
+            ['sasaran' => 'Meningkatnya profesionalitas aparatur sipil negara', 'indikator' => 'Indeks Profesionalitas ASN (IP ASN)', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'My ASN / SIKEP', 'target' => 0],
+        ],
+        'Keuangan' => [
+            ['sasaran' => 'Meningkatnya kualitas pelaksanaan anggaran dan pengelolaan aset', 'indikator' => 'Nilai Indikator Kinerja Pelaksana Anggaran (IKPA)', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'OMSPAN / SAKTI', 'target' => 0],
+            ['sasaran' => 'Meningkatnya kualitas pelaksanaan anggaran dan pengelolaan aset', 'indikator' => 'Nilai Indikator Pengelolaan Aset (IPA)', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'E-SADEWA / SAKTI', 'target' => 0],
+        ],
+        'Perencanaan' => [
+            ['sasaran' => 'Meningkatnya kualitas perencanaan program dan anggaran', 'indikator' => 'Nilai Kinerja Perencanaan Anggaran', 'satuan' => 'Nilai', 'tipe_indikator' => 'max', 'sumber_data' => 'SAKTI / SMART / E-BIMA', 'target' => 0],
+        ],
+    ];
+
+    if (!isset($mandatoryMap[$role])) {
+        return;
+    }
+
+    $existingStmt = db()->prepare(
+        'SELECT indikator FROM target_kinerja WHERE tahun = :tahun AND user_id = :user_id AND is_mandatory = 1'
+    );
+    $existingStmt->execute(['tahun' => $tahun, 'user_id' => $userId]);
+    $existing = $existingStmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $uStmt = db()->prepare('SELECT unit FROM users WHERE id = :id');
+    $uStmt->execute(['id' => $userId]);
+    $unit = (string) $uStmt->fetchColumn();
+
+    $insertStmt = db()->prepare(
+        'INSERT INTO target_kinerja 
+         (tahun, user_id, unit, sasaran, indikator, satuan, tipe_indikator, sumber_data, target, target_tw1, target_tw2, target_tw3, target_tw4, is_mandatory)
+         VALUES 
+         (:tahun, :user_id, :unit, :sasaran, :indikator, :satuan, :tipe_indikator, :sumber_data, :target, :target_tw1, :target_tw2, :target_tw3, :target_tw4, 1)'
+    );
+
+    foreach ($mandatoryMap[$role] as $item) {
+        if (!in_array($item['indikator'], $existing, true)) {
+            $t = $item['target'];
+            $t_tw = $t / 4;
+            $insertStmt->execute([
+                'tahun' => $tahun,
+                'user_id' => $userId,
+                'unit' => $unit,
+                'sasaran' => $item['sasaran'],
+                'indikator' => $item['indikator'],
+                'satuan' => $item['satuan'],
+                'tipe_indikator' => $item['tipe_indikator'],
+                'sumber_data' => $item['sumber_data'],
+                'target' => $t,
+                'target_tw1' => $t_tw,
+                'target_tw2' => $t_tw,
+                'target_tw3' => $t_tw,
+                'target_tw4' => $t_tw,
+            ]);
+        }
+    }
+}
+
+
+/**
+ * Reusable browser/PDF print preview. The browser's print dialog can save as PDF.
+ * Keeps PDF layout separate from CRUD forms and can be reused by other tables.
+ */
+function render_tabular_print_preview(string $title, array $columns, array $rows, array $context = []): never
+{
+    render_header($title . ' - Print Preview');
+    ?>
+    <section class="print-preview-toolbar panel no-print">
+        <div>
+            <strong><?= h($title) ?></strong>
+            <span><?= h((string)($context['subtitle'] ?? 'Pratinjau dokumen sebelum dicetak atau disimpan sebagai PDF.')) ?></span>
+        </div>
+        <div class="toolbar">
+            <button type="button" onclick="window.print()"><i class="ph ph-printer"></i> Cetak / Simpan PDF</button>
+            <button type="button" class="secondary" onclick="window.close()">Tutup</button>
+        </div>
+    </section>
+    <section class="print-preview-sheet">
+        <header class="print-preview-heading">
+            <img src="assets/logo_pta.png" alt="Logo PTA Medan">
+            <div><small>PENGADILAN TINGGI AGAMA MEDAN</small><h1><?= h($title) ?></h1><p><?= h((string)($context['period'] ?? '')) ?></p></div>
+        </header>
+        <table class="print-preview-table">
+            <thead><tr><th>No</th><?php foreach ($columns as $label): ?><th><?= h((string)$label) ?></th><?php endforeach; ?></tr></thead>
+            <tbody>
+            <?php if (!$rows): ?><tr><td colspan="<?= count($columns)+1 ?>">Tidak ada data yang dipilih.</td></tr><?php endif; ?>
+            <?php foreach ($rows as $index => $row): ?><tr><td><?= $index+1 ?></td><?php foreach (array_keys($columns) as $key): ?><td><?= nl2br(h((string)($row[$key] ?? '-'))) ?></td><?php endforeach; ?></tr><?php endforeach; ?>
+            </tbody>
+        </table>
+        <footer>Dicetak dari aplikasi IKPA · <?= h(date('d-m-Y H:i')) ?></footer>
+    </section>
+    <?php render_footer(); exit;
+}
+
+function requested_print_ids(): array
+{
+    $raw = trim((string)($_GET['ids'] ?? ''));
+    if ($raw === '') return [];
+    return array_values(array_unique(array_filter(array_map('intval', explode(',', $raw)), static fn(int $id): bool => $id > 0)));
 }
 
 function render_header(string $title): void
