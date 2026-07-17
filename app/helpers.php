@@ -570,10 +570,10 @@ function shared_workflow_groups(): array
             ['Input Target Kinerja (TK)', 'target', null],
             ['Cetak Perjanjian Kinerja (PK)', 'pk', null],
             ['Cetak Rencana Aksi', 'renaksi', null],
-            ['Cetak RKT & RKA', 'rkt_rka', null],
+            ['Cetak RKT', 'rkt_rka', null],
             ['Hitung Capaian Kinerja (HCK)', 'capaian', null],
             ['Evaluasi Kinerja (EvKin)', 'evaluasi', null],
-            ['Evaluasi', 'evaluasi-akip', null],
+            ['Evaluasi AKIP', 'evaluasi-akip', null],
         ],
         'Sekunder' => [
             ['Program Kerja & SOP', 'modul', 'program-kerja'],
@@ -586,27 +586,22 @@ function shared_workflow_groups(): array
                 'modul',
                 'laporan-kinerja',
                 [
-                    ['SAKIP PTA Medan', 'modul', 'sakip-pta-medan'],
-                    ['SAKIP PA Sewilayah', 'modul', 'sakip-pa'],
+                    ['LHE AKIP PTA Medan', 'modul', 'sakip-pta-medan'],
+                    ['LHE AKIP PA Se-Sumut', 'modul', 'sakip-pa'],
                 ],
             ],
             ['Manajemen Risiko', 'modul', 'manajemen-risiko'],
             ['Hibah & MoU', 'modul', 'hibah-mou'],
-            ['Monev Capaian Kinerja', 'modul', 'diagram-capaian'],
+            ['Data Excel Monev Pencapaian', 'modul', 'diagram-capaian'],
         ],
         'Tersier' => [
             ['Portal Informasi Kinerja (IFKIN)', 'portal', 'notifikasi'],
             ['Regulasi & Artikel', 'modul', 'regulasi'],
             ['Info & Pengumuman', 'modul', 'info-pengumuman'],
-            ['LHE PA', 'modul', 'lhe-pa'],
-            [
-                'Upload TOR/KAK ABT/Baseline',
-                'modul',
-                'upload-tor-kak',
-                [
-                    ['Revisi', 'portal', 'revisi'],
-                ],
-            ],
+            ['Semar Bawas', 'modul', 'lhe-pa'],
+            ['Upload TOR/KAK ABT/Baseline', 'modul', 'upload-tor-kak', [
+                ['Revisi', 'modul', 'rka-kl-revisi'],
+            ]],
             ['Tupoksi & Tim', 'modul', 'tupoksi-tim'],
         ],
     ];
@@ -735,16 +730,16 @@ function module_catalog(): array
             'portal_slug' => 'sakip',
         ],
         'sakip-pta-medan' => [
-            'title' => 'SAKIP PTA Medan',
+            'title' => 'LHE AKIP PTA Medan',
             'group' => 'Skunder',
             'status' => 'Portal SAKIP',
             'description' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan.',
-            'features' => ['Arsip dokumen SAKIP PTA Medan.'],
+            'features' => ['Arsip dokumen LHE AKIP PTA Medan.'],
             'next_steps' => ['Perbarui arsip dokumen SAKIP secara berkala.'],
             'portal_slug' => 'sakip-pta-medan',
         ],
         'sakip-pa' => [
-            'title' => 'SAKIP PA Sewilayah',
+            'title' => 'LHE AKIP PA Se-Sumut',
             'group' => 'Skunder',
             'status' => 'Portal SAKIP',
             'description' => 'Dokumen SAKIP Pengadilan Agama sewilayah PTA Medan.',
@@ -787,7 +782,7 @@ function module_catalog(): array
             'portal_slug' => 'hibah',
         ],
         'diagram-capaian' => [
-            'title' => 'Monev Capaian Kinerja',
+            'title' => 'Data Excel Monev Pencapaian',
             'group' => 'Skunder',
             'status' => 'Tersedia Dasar',
             'description' => 'Halaman pemantauan dan visualisasi capaian kinerja per triwulan.',
@@ -872,7 +867,7 @@ function module_catalog(): array
             'portal_slug' => 'notifikasi',
         ],
         'lhe-pa' => [
-            'title' => 'LHE PA',
+            'title' => 'Semar Bawas',
             'group' => 'Tersier',
             'status' => 'Perlu Data',
             'description' => 'Modul arsip Laporan Hasil Evaluasi Pengadilan Agama.',
@@ -1339,7 +1334,7 @@ function save_document_meta(array $owner, int $tahun, string $jenis, array $post
         'tahun' => $tahun,
         'user_id' => (int) $defaults['user_id'],
         'jenis' => $jenis,
-        'no_surat' => trim((string) ($post['no_surat'] ?? '')),
+        'no_surat' => $jenis === 'pk' ? '' : trim((string) ($post['no_surat'] ?? '')),
         'tanggal_surat' => trim((string) ($post['tanggal_surat'] ?? $defaults['tanggal_surat'])),
         'lokasi' => trim((string) ($post['lokasi'] ?? $defaults['lokasi'])),
         'pihak1_nama' => trim((string) ($post['pihak1_nama'] ?? $defaults['pihak1_nama'])),
@@ -1440,6 +1435,49 @@ function generate_mandatory_targets(int $userId, string $role, int $tahun): void
             ]);
         }
     }
+}
+
+
+/**
+ * Reusable browser/PDF print preview. The browser's print dialog can save as PDF.
+ * Keeps PDF layout separate from CRUD forms and can be reused by other tables.
+ */
+function render_tabular_print_preview(string $title, array $columns, array $rows, array $context = []): never
+{
+    render_header($title . ' - Print Preview');
+    ?>
+    <section class="print-preview-toolbar panel no-print">
+        <div>
+            <strong><?= h($title) ?></strong>
+            <span><?= h((string)($context['subtitle'] ?? 'Pratinjau dokumen sebelum dicetak atau disimpan sebagai PDF.')) ?></span>
+        </div>
+        <div class="toolbar">
+            <button type="button" onclick="window.print()"><i class="ph ph-printer"></i> Cetak / Simpan PDF</button>
+            <button type="button" class="secondary" onclick="window.close()">Tutup</button>
+        </div>
+    </section>
+    <section class="print-preview-sheet">
+        <header class="print-preview-heading">
+            <img src="assets/logo_pta.png" alt="Logo PTA Medan">
+            <div><small>PENGADILAN TINGGI AGAMA MEDAN</small><h1><?= h($title) ?></h1><p><?= h((string)($context['period'] ?? '')) ?></p></div>
+        </header>
+        <table class="print-preview-table">
+            <thead><tr><th>No</th><?php foreach ($columns as $label): ?><th><?= h((string)$label) ?></th><?php endforeach; ?></tr></thead>
+            <tbody>
+            <?php if (!$rows): ?><tr><td colspan="<?= count($columns)+1 ?>">Tidak ada data yang dipilih.</td></tr><?php endif; ?>
+            <?php foreach ($rows as $index => $row): ?><tr><td><?= $index+1 ?></td><?php foreach (array_keys($columns) as $key): ?><td><?= nl2br(h((string)($row[$key] ?? '-'))) ?></td><?php endforeach; ?></tr><?php endforeach; ?>
+            </tbody>
+        </table>
+        <footer>Dicetak dari aplikasi IKPA · <?= h(date('d-m-Y H:i')) ?></footer>
+    </section>
+    <?php render_footer(); exit;
+}
+
+function requested_print_ids(): array
+{
+    $raw = trim((string)($_GET['ids'] ?? ''));
+    if ($raw === '') return [];
+    return array_values(array_unique(array_filter(array_map('intval', explode(',', $raw)), static fn(int $id): bool => $id > 0)));
 }
 
 function render_header(string $title): void

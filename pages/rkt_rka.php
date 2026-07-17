@@ -8,10 +8,11 @@ $selectedUserId = $canViewAll ? (int) ($_GET['user_id'] ?? 0) : (int) $user['id'
 $profile = role_profile((string) $user['role']);
 $documentUser = document_owner($user, $canViewAll, $selectedUserId);
 $profile = role_profile((string) $documentUser['role']);
+$rkaEnabled = false; // Source/data RKA dipertahankan untuk aktivasi berikutnya.
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     save_document_meta($documentUser, $tahun, 'rkt_rka', $_POST);
-    flash('Metadata dan Tanda Tangan RKT & RKA berhasil disimpan.');
+    flash('Metadata dan Tanda Tangan RKT berhasil disimpan.');
     header('Location: index.php?page=rkt_rka&tahun=' . $tahun . ($selectedUserId > 0 ? '&user_id=' . $selectedUserId : ''));
     exit;
 }
@@ -49,9 +50,9 @@ foreach ($targets as $target) {
 // Handle Export CSV
 if (($_GET['export'] ?? '') === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename=RKT_RKA_' . $tahun . '.csv');
+    header('Content-Disposition: attachment; filename=RKT_' . $tahun . '.csv');
     $output = fopen('php://output', 'w');
-    fputcsv($output, ['No', 'Sasaran Kinerja', 'Indikator Kinerja', 'Satuan', 'Tipe', 'Bobot', 'Target', 'DIPA 01', 'DIPA 04']);
+    fputcsv($output, ['No', 'Sasaran Kinerja', 'Indikator Kinerja', 'Satuan', 'Tipe', 'Bobot', 'Target']);
     foreach ($targets as $i => $target) {
         fputcsv($output, [
             $i + 1,
@@ -60,13 +61,9 @@ if (($_GET['export'] ?? '') === 'csv') {
             $target['satuan'] ?? '-',
             indicator_type_label((string) ($target['tipe_indikator'] ?? 'max')),
             $target['bobot'] ?? 1,
-            $target['target'],
-            $target['dipa01'],
-            $target['dipa04']
+            $target['target']
         ]);
     }
-    // Add total row
-    fputcsv($output, ['', '', '', '', '', '', 'Total Anggaran', $totalDipa01, $totalDipa04]);
     fclose($output);
     exit;
 }
@@ -77,11 +74,11 @@ if ($isDocx) {
     header("Content-Type: application/vnd.ms-word");
     header("Expires: 0");
     header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-    header("content-disposition: attachment;filename=RKT_RKA_{$tahun}.doc");
+    header("content-disposition: attachment;filename=RKT_{$tahun}.doc");
 }
 
 if (!$isDocx) {
-    render_header('Cetak RKT & RKA');
+    render_header('Cetak RKT');
 }
 ?>
 
@@ -124,7 +121,7 @@ if (!$isDocx) {
 </form>
 
 <section class="panel print-meta-form">
-    <h2>Metadata RKT & RKA</h2>
+    <h2>Metadata RKT</h2>
     <form method="post" class="document-form-grid" id="meta-form">
         <input type="hidden" name="tahun" value="<?= h((string) $tahun) ?>">
         <input type="hidden" name="user_id" value="<?= h((string) $selectedUserId) ?>">
@@ -135,7 +132,7 @@ if (!$isDocx) {
         <label>Jabatan Penyusun <input name="pihak1_jabatan" value="<?= h((string) $meta['pihak1_jabatan']) ?>"></label>
         <label>Nama Pimpinan <input name="pihak2_nama" value="<?= h((string) $meta['pihak2_nama']) ?>"></label>
         <label>Jabatan Pimpinan <input name="pihak2_jabatan" value="<?= h((string) $meta['pihak2_jabatan']) ?>"></label>
-        <label>Catatan RKA-KL/DIPA <textarea name="catatan" placeholder="Contoh: RKA memakai dokumen DIPA 01 dan 04 tahun berjalan."><?= h((string) $meta['catatan']) ?></textarea></label>
+        <label>Catatan RKT <textarea name="catatan" placeholder="Catatan penyusunan Rencana Kerja Tahunan."><?= h((string) $meta['catatan']) ?></textarea></label>
         
         <!-- Pihak 1 TTD UI -->
         <div style="grid-column: 1 / -1; border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 8px;">
@@ -344,7 +341,7 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
 <?php endif; ?>
 
 <section class="print-sheet">
-    <h2 style="text-align: center;">RENCANA KERJA TAHUNAN & ANGGARAN</h2>
+    <h2 style="text-align: center;">RENCANA KERJA TAHUNAN</h2>
     <h3 style="text-align: center;"><?= h((string) $documentUser['unit']) ?> - <?= h(role_label((string) $documentUser['role'])) ?> Tahun <?= h((string) $tahun) ?></h3>
     <p class="document-number" style="text-align: center;">Nomor: <?= h((string) ($meta['no_surat'] ?: '-')) ?></p>
 
@@ -379,14 +376,12 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
                 <th>Tipe</th>
                 <th>Bobot</th>
                 <th>Target</th>
-                <th>DIPA 01</th>
-                <th>DIPA 04</th>
             </tr>
             </thead>
             <tbody>
             <?php if (!$targets): ?>
                 <tr>
-                    <td colspan="<?= $canViewAll ? '10' : '9' ?>">
+                    <td colspan="<?= $canViewAll ? '8' : '7' ?>">
                         Belum ada target kinerja. RKT/RKA role ini perlu memuat:
                         <?= h(implode('; ', $profile['outputs'])) ?>.
                     </td>
@@ -406,23 +401,14 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
                     <td><?= h(indicator_type_label((string) ($target['tipe_indikator'] ?? 'max'))) ?></td>
                     <td><?= h((string) ($target['bobot'] ?? 1)) ?></td>
                     <td><?= h((string) $target['target']) ?></td>
-                    <td><?= h((string) $target['dipa01']) ?></td>
-                    <td><?= h((string) $target['dipa04']) ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
-            <tfoot>
-            <tr>
-                <th colspan="<?= $canViewAll ? '8' : '7' ?>">Total Anggaran</th>
-                <th><?= h((string) $totalDipa01) ?></th>
-                <th><?= h((string) $totalDipa04) ?></th>
-            </tr>
-            </tfoot>
         </table>
     </div>
 
     <p class="muted" style="margin-top: 20px; font-style: italic;">
-        <?= h((string) ($meta['catatan'] ?: 'Bagian RKA dilengkapi dengan dokumen RKA-KL/DIPA 01 dan 04 tahun berjalan.')) ?>
+        <?= h((string) ($meta['catatan'] ?: 'Rencana Kerja Tahunan disusun berdasarkan target kinerja tahun berjalan.')) ?>
     </p>
 
     <p style="text-align: right; margin-top: 20px; padding-right: 50px;">

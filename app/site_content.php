@@ -4,8 +4,10 @@ declare(strict_types=1);
 function site_nav(): array
 {
     return [
-        ['label' => 'Revisi', 'slug' => 'revisi'],
         ['label' => 'IFKIN', 'slug' => 'notifikasi'],
+        ['label' => 'Upload TOR', 'slug' => 'abt', 'children' => [
+            ['label' => 'Revisi', 'slug' => 'revisi'],
+        ]],
         ['label' => 'Program Kerja & SOP', 'slug' => 'program-kerja-sop'],
         [
             'label' => 'Penyusunan Anggaran',
@@ -23,13 +25,13 @@ function site_nav(): array
             'label' => 'SAKIP',
             'slug' => 'sakip',
             'children' => [
-                ['label' => 'SAKIP PTA Medan', 'slug' => 'sakip-pta-medan'],
-                ['label' => 'SAKIP PA', 'slug' => 'sakip-pa'],
+                ['label' => 'LHE AKIP PTA Medan', 'slug' => 'sakip-pta-medan'],
+                ['label' => 'LHE AKIP PA Se-Sumut', 'slug' => 'sakip-pa'],
             ],
         ],
         ['label' => 'Evaluasi AKIP', 'slug' => 'evaluasi-akip'],
         ['label' => 'e-Monev Bappenas', 'slug' => 'e-monev-bappenas'],
-        ['label' => 'Monev Capaian Kinerja', 'slug' => 'monev-capaian-kinerja'],
+        ['label' => 'Data Excel Monev Pencapaian', 'slug' => 'monev-capaian-kinerja'],
         [
             'label' => 'Tugas dan Fungsi',
             'slug' => 'tugas-dan-fungsi',
@@ -210,8 +212,8 @@ function site_pages(): array
                 'Penyelenggaraan SAKIP terdiri atas perencanaan kinerja, pengukuran dan pengelolaan data kinerja, pelaporan kinerja, serta reviu dan evaluasi kinerja.',
             ],
             'cards' => [
-                ['SAKIP PTA Medan', 'sakip-pta-medan'],
-                ['SAKIP PA Sewilayah PTA Medan', 'sakip-pa'],
+                ['LHE AKIP PTA Medan', 'sakip-pta-medan'],
+                ['LHE AKIP PA Se-Sumut', 'sakip-pa'],
             ],
             'sections' => [
                 ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
@@ -221,7 +223,7 @@ function site_pages(): array
             ],
         ],
         'sakip-pta-medan' => [
-            'title' => 'SAKIP PTA Medan',
+            'title' => 'LHE AKIP PTA Medan',
             'subtitle' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan',
             'sections' => [
                 [
@@ -244,10 +246,10 @@ function site_pages(): array
             ],
         ],
         'sakip-pa' => [
-            'title' => 'SAKIP PA',
+            'title' => 'LHE AKIP PA Se-Sumut',
             'subtitle' => 'Dokumen SAKIP Pengadilan Agama Sewilayah PTA Medan',
             'sections' => [
-                ['title' => 'Upload Dokumen SAKIP PA', 'iframe' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform?embedded=true', 'url' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform', 'iframeHeight' => '800px'],
+                ['title' => 'Upload Dokumen LHE AKIP PA Se-Sumut', 'iframe' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform?embedded=true', 'url' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform', 'iframeHeight' => '800px'],
                 ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
                 ['title' => 'Permen PANRB Nomor 88 Tahun 2021', 'iframe' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/preview', 'url' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/view', 'iframeHeight' => '600px'],
                 ['title' => 'Keputusan SEKMA Nomor 2049 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/preview', 'url' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/view', 'iframeHeight' => '600px'],
@@ -314,11 +316,11 @@ function site_pages(): array
             ],
         ],
         'monev-capaian-kinerja' => [
-            'title' => 'Monev Capaian Kinerja',
+            'title' => 'Data Excel Monev Pencapaian',
             'subtitle' => 'Monitoring capaian kinerja per bulan dan per triwulan',
             'sections' => [
                 [
-                    'title' => 'Data Monev Capaian Kinerja PTA Medan', 
+                    'title' => 'Data Excel Monev Pencapaian PTA Medan', 
                     'iframe' => 'https://docs.google.com/spreadsheets/d/1hyK7zGeuAsCLbxI5-ysrT251zEmLcA6KLsD3l0Carlc/htmlembed?widget=true&headers=false', 
                     'url' => 'https://docs.google.com/spreadsheets/d/1hyK7zGeuAsCLbxI5-ysrT251zEmLcA6KLsD3l0Carlc/edit?usp=sharing',
                     'iframeHeight' => '650px'
@@ -345,7 +347,7 @@ function site_pages(): array
                 'Pengusulan revisi anggaran PTA Medan dan satker PA se-Sumatera Utara.',
                 'Pengusulan dan monitoring ABT.',
                 'Penyusunan laporan e-Monev Bappenas.',
-                'Penyusunan dokumen SAKIP PTA Medan.',
+                'Penyusunan dokumen LHE AKIP PTA Medan.',
                 'Penyusunan LKE AKIP PTA Medan.',
                 'Penelaahan dokumen SAKIP dan LKE AKIP satuan kerja.',
                 'Pembinaan dan pengawasan ke Pengadilan Agama.',

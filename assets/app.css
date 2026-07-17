@@ -828,17 +828,6 @@ textarea:focus {
     box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
 }
 
-input[type="checkbox"],
-input[type="radio"] {
-    width: auto;
-    padding: 0;
-    border-radius: 4px;
-    box-shadow: none;
-    cursor: pointer;
-    vertical-align: middle;
-}
-
-
 textarea {
     min-height: 120px;
     resize: vertical;
@@ -3598,3 +3587,25 @@ html.js .lp-featured-card.lp-reveal.is-visible:hover,
     }
 
 }
+
+/* 2026 revision: bounded data tables, sticky headers, print preview */
+.data-scroll{max-height:560px;overflow:auto;overscroll-behavior:contain;border:1px solid var(--line);border-radius:12px;position:relative}
+.data-scroll-wide{max-height:620px}
+.data-scroll table{margin:0;min-width:960px;border-collapse:separate;border-spacing:0}
+.data-scroll thead th{position:sticky;top:0;z-index:5;background:#edf6f1;box-shadow:0 1px 0 #cbd5e1}
+.data-scroll th:first-child,.data-scroll td:first-child{position:sticky;left:0;z-index:4;background:#fff}
+.data-scroll thead th:first-child{z-index:7;background:#e5f3eb}
+.select-column{width:42px;min-width:42px;text-align:center!important}
+.table-print-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+.table-print-actions strong,.table-print-actions span{display:block}.table-print-actions span{margin-top:4px;color:var(--muted);font-size:.85rem}
+.print-preview-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px}.print-preview-toolbar strong,.print-preview-toolbar span{display:block}.print-preview-toolbar span{color:var(--muted);margin-top:4px}
+.print-preview-sheet{width:min(1120px,100%);margin:18px auto;background:#fff;padding:36px;border:1px solid #dbe5df;border-radius:16px;box-shadow:0 18px 50px rgba(15,23,42,.08)}
+.print-preview-heading{display:flex;align-items:center;gap:18px;padding-bottom:18px;margin-bottom:20px;border-bottom:3px double #064e3b}.print-preview-heading img{width:64px;height:64px;object-fit:contain}.print-preview-heading small{color:#047857;font-weight:800}.print-preview-heading h1{font:800 1.45rem/1.2 Inter,sans-serif;margin:4px 0;color:#022c22}.print-preview-heading p{margin:0;color:#64748b}
+.print-preview-table{width:100%;border-collapse:collapse;font-size:.78rem}.print-preview-table th,.print-preview-table td{border:1px solid #94a3b8;padding:7px;vertical-align:top}.print-preview-table th{background:#e8f5ee;color:#064e3b}.print-preview-sheet footer{text-align:right;margin-top:18px;color:#64748b;font-size:.72rem}
+/* Spreadsheet treatment for the existing Excel/Google Sheet Monev embed */
+.portal-module-shell iframe[src*="spreadsheets"]{min-width:980px;background:#fff}.portal-module-shell .document-frame:has(iframe[src*="spreadsheets"]){overflow:auto;max-height:720px;border:1px solid #cbd5e1;background:#f8fafc}
+@media(max-width:760px){.data-scroll{max-height:480px}.table-print-actions,.print-preview-toolbar{align-items:stretch;flex-direction:column}.table-print-actions .toolbar,.print-preview-toolbar .toolbar{width:100%}.print-preview-sheet{padding:18px;border-radius:10px}.print-preview-heading{align-items:flex-start}.print-preview-heading img{width:48px;height:48px}}
+@media print{.no-print,.app-header,.sidebar,.topbar,.sidebar-toggle{display:none!important}.shell{margin:0!important;padding:0!important}.print-preview-sheet{width:100%;margin:0;padding:0;border:0;box-shadow:none}.print-preview-table{font-size:9pt}.print-preview-table thead{display:table-header-group}.print-preview-table tr{break-inside:avoid}.print-preview-sheet footer{position:fixed;bottom:0;right:0}@page{size:A4 landscape;margin:12mm}}
+
+/* Pilih semua data pada Input Target Kinerja */
+.target-bulk-actions{align-items:center}.select-all-control{display:inline-flex!important;align-items:center;gap:8px;min-height:40px;padding:8px 12px;margin:0;border:1px solid #b7d8c7;border-radius:10px;background:#f0faf5;color:#065f46;font-weight:800;cursor:pointer;white-space:nowrap}.select-all-control input{width:18px!important;height:18px;margin:0;accent-color:#047857}.select-all-control:hover{background:#e4f7ed}@media(max-width:760px){.target-bulk-actions{display:grid!important}.select-all-control{justify-content:center}}
