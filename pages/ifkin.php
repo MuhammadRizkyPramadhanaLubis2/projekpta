@@ -6,13 +6,13 @@ if (!defined('IFKIN_EMBEDDED')) {
 }
 
 $ifkinSites = [
-    ['number'=>'01','title'=>'KemenPAN-RB','description'=>'Portal Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi. URL menunggu data resmi.','url'=>'','icon'=>'ph-buildings'],
-    ['number'=>'02','title'=>'Bappenas','description'=>'Portal Kementerian Perencanaan Pembangunan Nasional/Bappenas. URL menunggu data resmi.','url'=>'','icon'=>'ph-chart-line-up'],
-    ['number'=>'03','title'=>'KPK RI','description'=>'Portal Komisi Pemberantasan Korupsi Republik Indonesia. URL menunggu data resmi.','url'=>'','icon'=>'ph-shield-check'],
-    ['number'=>'04','title'=>'Mahkamah Agung Republik Indonesia','description'=>'Portal utama Mahkamah Agung RI untuk informasi kelembagaan, berita, putusan, dan layanan publik.','url'=>'https://mahkamahagung.go.id/id','icon'=>'ph-scales'],
-    ['number'=>'05','title'=>'Badan Urusan Administrasi','description'=>'Informasi administrasi, perencanaan, organisasi, kepegawaian, dan layanan pendukung Mahkamah Agung RI.','url'=>'https://bua.mahkamahagung.go.id/','icon'=>'ph-buildings'],
-    ['number'=>'06','title'=>'Direktorat Jenderal Badan Peradilan Agama','description'=>'Portal pembinaan, layanan, berita, regulasi, dan informasi peradilan agama se-Indonesia.','url'=>'https://badilag.mahkamahagung.go.id/','icon'=>'ph-bank'],
-    ['number'=>'07','title'=>'Badan Pengawasan Mahkamah Agung','description'=>'Informasi pengawasan, disiplin, pengumuman, dan kebijakan integritas aparatur peradilan.','url'=>'https://bawas.mahkamahagung.go.id/','icon'=>'ph-eye'],
+    ['number'=>'01','title'=>'KemenPAN-RB','description'=>'Portal Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi. URL menunggu data resmi.','url'=>'','domain'=>'menpan.go.id','favicon'=>'assets/favicons/menpan_logo.png'],
+    ['number'=>'02','title'=>'Bappenas','description'=>'Portal Kementerian Perencanaan Pembangunan Nasional/Bappenas. URL menunggu data resmi.','url'=>'','domain'=>'bappenas.go.id','favicon'=>'assets/favicons/bappenas.png'],
+    ['number'=>'03','title'=>'KPK RI','description'=>'Portal Komisi Pemberantasan Korupsi Republik Indonesia. URL menunggu data resmi.','url'=>'','domain'=>'kpk.go.id','favicon'=>'assets/favicons/kpk.png'],
+    ['number'=>'04','title'=>'Mahkamah Agung Republik Indonesia','description'=>'Portal utama Mahkamah Agung RI untuk informasi kelembagaan, berita, putusan, dan layanan publik.','url'=>'https://mahkamahagung.go.id/id','domain'=>'mahkamahagung.go.id','favicon'=>'assets/favicons/mahkamahagung.png'],
+    ['number'=>'05','title'=>'Badan Urusan Administrasi','description'=>'Informasi administrasi, perencanaan, organisasi, kepegawaian, dan layanan pendukung Mahkamah Agung RI.','url'=>'https://bua.mahkamahagung.go.id/','domain'=>'bua.mahkamahagung.go.id','favicon'=>'assets/favicons/mahkamahagung.png'],
+    ['number'=>'06','title'=>'Direktorat Jenderal Badan Peradilan Agama','description'=>'Portal pembinaan, layanan, berita, regulasi, dan informasi peradilan agama se-Indonesia.','url'=>'https://badilag.mahkamahagung.go.id/','domain'=>'badilag.mahkamahagung.go.id','favicon'=>'assets/favicons/badilag.png'],
+    ['number'=>'07','title'=>'Badan Pengawasan Mahkamah Agung','description'=>'Informasi pengawasan, disiplin, pengumuman, dan kebijakan integritas aparatur peradilan.','url'=>'https://bawas.mahkamahagung.go.id/','domain'=>'bawas.mahkamahagung.go.id','favicon'=>'assets/favicons/bawas.png'],
 ];
 ?>
 <style>
@@ -225,19 +225,39 @@ $ifkinSites = [
         transform: scaleX(1);
     }
 
-    .ifkin-number {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
+    .ifkin-logo {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border: 1px solid var(--ifkin-line);
+        box-shadow: 0 4px 14px -6px rgba(13, 42, 29, .18), 0 1px 0 rgba(255,255,255,.9) inset;
+        overflow: hidden;
+        flex-shrink: 0;
+        padding: 6px;
+    }
+
+    .ifkin-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 8px;
+    }
+
+    .ifkin-logo .ifkin-logo-fallback {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: linear-gradient(145deg, var(--ifkin-green), #2f9160);
         color: #fff;
-        box-shadow: 0 10px 20px -10px rgba(31, 122, 77, .7), 0 1px 0 rgba(255, 255, 255, .3) inset;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 800;
-        font-variant-numeric: tabular-nums;
     }
 
     .ifkin-card h3 {
@@ -328,7 +348,19 @@ $ifkinSites = [
             <div class="ifkin-grid">
                 <?php foreach ($ifkinSites as $site): ?>
                     <?php if ($site['url'] !== ''): ?><a class="ifkin-card" href="<?= h($site['url']) ?>" target="_blank" rel="noopener noreferrer"><?php else: ?><div class="ifkin-card ifkin-card-disabled" aria-disabled="true"><?php endif; ?>
-                        <span class="ifkin-number"><i class="ph <?= h((string)$site['icon']) ?>"></i></span>
+                        <span class="ifkin-logo">
+                            <?php if ($site['favicon'] !== ''): ?>
+                                <img
+                                    src="<?= h($site['favicon']) ?>"
+                                    alt="Logo <?= h($site['title']) ?>"
+                                    loading="lazy"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+                                >
+                                <span class="ifkin-logo-fallback" style="display:none;"><?= h(mb_strtoupper(mb_substr($site['title'], 0, 2))) ?></span>
+                            <?php else: ?>
+                                <span class="ifkin-logo-fallback" style="display:flex;"><?= h(mb_strtoupper(mb_substr($site['title'], 0, 2))) ?></span>
+                            <?php endif; ?>
+                        </span>
                         <h3><?= h($site['title']) ?></h3><p><?= h($site['description']) ?></p>
                         <span class="ifkin-url"><?= $site['url'] !== '' ? h($site['url']) . ' ↗' : 'URL belum tersedia' ?></span>
                     <?php if ($site['url'] !== ''): ?></a><?php else: ?></div><?php endif; ?>

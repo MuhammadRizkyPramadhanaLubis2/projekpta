@@ -1,0 +1,1231 @@
+
+<!doctype html>
+<html lang="id-id" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="canonical" href="https://menpan.go.id/site/">
+        <base href="https://menpan.go.id/site/" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="menpan, kemenpan, menpanrb, kempanrb,panrb,reformasibirokrasi,rb,asn,e-sakip,lakip,spbe,akuntabilitas,INADigital," />
+	<meta name="og:site_name" content="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi" />
+	<meta name="og:title" content="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi - Beranda" />
+	<meta name="og:description" content="Kementerian Pendayagunaan Aparatur Negara republik Indonesia" />
+	<meta name="og:url" content="https://menpan.go.id/site/" />
+	<meta name="og:type" content="website" />
+	<meta name="og:image" content="https://www.menpan.go.id/site/images/banners/2026/2026_tagline.png" />
+	<meta name="description" content="Kementerian Pendayagunaan Aparatur Negara republik Indonesia" />
+	<title>Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi - Beranda</title>
+	<link href="http://www.menpan.go.id/site/" rel="canonical" />
+	<link href="/site/templates/menpan19v2/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<link href="/site/plugins/system/bdthemes_shortcodes/css/shortcode-ultimate.css" rel="stylesheet" type="text/css" />
+	<link href="/site/plugins/system/bdthemes_shortcodes/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="/site/components/com_sppagebuilder/assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="/site/components/com_sppagebuilder/assets/css/animate.min.css" rel="stylesheet" type="text/css" />
+	<link href="/site/components/com_sppagebuilder/assets/css/sppagebuilder.css" rel="stylesheet" type="text/css" />
+	<link href="/site/components/com_sppagebuilder/assets/css/sppagecontainer.css" rel="stylesheet" type="text/css" />
+	<link href="/site/modules/mod_djimageslider/themes/default/css/djimageslider.css" rel="stylesheet" type="text/css" />
+	<link href="https://www.menpan.go.id/site/components/com_minitekwall/assets/css/scroller.css" rel="stylesheet" type="text/css" />
+	<link href="https://www.menpan.go.id/site/components/com_minitekwall/assets/css/scroller.css?v=3.3.4" rel="stylesheet" type="text/css" />
+	<link href="/site/modules/mod_raxo_allmode/tmpl/allmode-default/allmode-default.css" rel="stylesheet" type="text/css" />
+	<link href="/site/plugins/system/bdthemes_shortcodes/css/row-column.css" rel="stylesheet" type="text/css" />
+	<link href="https://www.menpan.go.id/site/plugins/content/fastsocialshare/style/style.css" rel="stylesheet" type="text/css" />
+	<link href="https://www.menpan.go.id/site/plugins/content/pdf_embed/assets/css/style.css" rel="stylesheet" type="text/css" />
+	<link href="/site/media/com_phocadownload/css/main/phocadownload.css" rel="stylesheet" type="text/css" />
+	<link href="/site/media/plg_content_phocadownload/css/phocadownload.css" rel="stylesheet" type="text/css" />
+	<link href="/site/plugins/system/jcemediabox/css/jcemediabox.css?1d12bb5a40100bbd1841bfc0e498ce7b" rel="stylesheet" type="text/css" />
+	<link href="/site/plugins/system/jcemediabox/themes/standard/css/style.css?50fba48f56052a048c5cf30829163e4d" rel="stylesheet" type="text/css" />
+	<link href="/site/plugins/system/jce/css/content.css?bd32e81e254da1c773fab3d861923739" rel="stylesheet" type="text/css" />
+	<link href="//fonts.googleapis.com/css?family=Muli:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=latin" rel="stylesheet" type="text/css" />
+	<link href="/site/templates/menpan19v2/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="/site/templates/menpan19v2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="/site/templates/menpan19v2/css/template.css" rel="stylesheet" type="text/css" />
+	<link href="/site/templates/menpan19v2/css/presets/default.css" rel="stylesheet" type="text/css" />
+	<link href="/site/templates/menpan19v2/css/custom.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+#section-id-1524238769052 .sppb-shape-container.sppb-bottom-shape > svg path, #section-id-1524238769052 .sppb-shape-container.sppb-bottom-shape > svg polygon{fill:#ffffff;}#section-id-1524238769052 .sppb-shape-container.sppb-bottom-shape > svg{width:161%;max-width:161%;height:118px;}@media (min-width: 768px) and (max-width: 991px) { #section-id-1524238769052 .sppb-shape-container.sppb-bottom-shape > svg{width:100%;max-width:100%;} }@media (max-width: 767px) { #section-id-1524238769052 .sppb-shape-container.sppb-bottom-shape > svg{width:100%;max-width:100%;} }
+				#mnwall_scr_3 .mnwall-scr-item {
+					width: 30%;
+				}
+			@media only screen and (max-width:100px)
+			{	
+				#mnwall_scr_3 .mnwall-scr-item {
+					width: 100%;
+				}
+			}
+			
+			#mnwall_scr_3 .flickity-prev-next-button {
+				color: #ededed;
+			}
+		
+			#mnwall_scr_3 .flickity-page-dots .dot {
+				background: #ffffff;
+			}
+		.sp-page-builder .page-content #section-id-1524238769051{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}#column-id-1524238769050{box-shadow:0 0 0 0 #fff;}#sppb-addon-wrapper-1524239259941 {margin:00;}#sppb-addon-1524239259941 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1524239259941 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1524239259941 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}.sp-page-builder .page-content #section-id-1524238769052{padding-top:50px;padding-right:0;padding-bottom:100px;padding-left:0;color:#ffffff;background-color:#005598;}#column-id-1524238769053{box-shadow:0 0 0 0 #fff;}#sppb-addon-wrapper-1524239305834 {margin:0 0 0px 0;}#sppb-addon-1524239305834 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1524239305834 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1524239305834 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1524381182910 {margin:0 0 30px 0;}#sppb-addon-1524381182910 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1524381182910 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1524381182910 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-1524381182910{ font-size:14px; }.sp-page-builder .page-content #section-id-1524320265833{padding-top:40px;padding-right:0px;padding-bottom:0px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}@media (min-width:768px) and (max-width:991px) { .sp-page-builder .page-content #section-id-1524320265833{padding-top:0px;padding-right:0px;padding-bottom:0px;padding-left:0px;} }#column-id-1524320265834{box-shadow:0 0 0 0 #fff;}#sppb-addon-wrapper-1524320265840 {margin:0 0 30px 0;}#sppb-addon-1524320265840 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1524320265840 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1524320265840 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1725255674302 {margin:0 0 30px 0;}#sppb-addon-1725255674302 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1725255674302 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1725255674302 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1665464329164 {margin:0 0 30px 0;}#sppb-addon-1665464329164 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1665464329164 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1665464329164 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1660026986376 {margin:0px 0px 30px 0px;}#sppb-addon-1660026986376 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1660026986376 {margin-top:0px;margin-right:0px;margin-bottom:20px;margin-left:0px;}}@media (max-width:767px) {#sppb-addon-wrapper-1660026986376 {margin-top:0px;margin-right:0px;margin-bottom:10px;margin-left:0px;}}#sppb-addon-wrapper-1547549921994 {margin:0 0 30px 0;}#sppb-addon-1547549921994 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1547549921994 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1547549921994 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1547549922003 {margin:0 0 30px 0;}#sppb-addon-1547549922003 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1547549922003 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1547549922003 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1641361939829 {margin:0 0 30px 0;}#sppb-addon-1641361939829 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1641361939829 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1641361939829 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1728289519787 {margin:0px 0px 30px 0px;}#sppb-addon-1728289519787 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1728289519787 {margin-top:0px;margin-right:0px;margin-bottom:20px;margin-left:0px;}}@media (max-width:767px) {#sppb-addon-wrapper-1728289519787 {margin-top:0px;margin-right:0px;margin-bottom:10px;margin-left:0px;}}.sp-page-builder .page-content #section-id-1535685608788{padding-top:40px;padding-right:0px;padding-bottom:0px;padding-left:1px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;background-color:#edf0f1;}#column-id-1535685608827{box-shadow:0 0 0 0 #fff;}.sp-page-builder .page-content #section-id-1524239305868{padding-top:50px;padding-right:0px;padding-bottom:20px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}#column-id-1524239305865{box-shadow:0 0 0 0 #fff;}#sppb-addon-wrapper-1546085589099 {margin:0px 0px 30px 0px;}#sppb-addon-1546085589099 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1546085589099 {margin-top:0px;margin-right:0px;margin-bottom:20px;margin-left:0px;}}@media (max-width:767px) {#sppb-addon-wrapper-1546085589099 {margin-top:0px;margin-right:0px;margin-bottom:10px;margin-left:0px;}}#sppb-addon-wrapper-1749003363401 {margin:0px 0px 30px 0px;}#sppb-addon-1749003363401 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1749003363401 {margin-top:0px;margin-right:0px;margin-bottom:20px;margin-left:0px;}}@media (max-width:767px) {#sppb-addon-wrapper-1749003363401 {margin-top:0px;margin-right:0px;margin-bottom:10px;margin-left:0px;}}.sp-page-builder .page-content #section-id-1524239305892{padding-top:50px;padding-right:0px;padding-bottom:50px;padding-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;color:#ffffff;background-color:#01347C;}#column-id-1524239305891{box-shadow:0 0 0 0 #fff;}#sppb-addon-wrapper-1524383725625 {margin:0 0 30px 0;}#sppb-addon-1524383725625 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1524383725625 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1524383725625 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}#sppb-addon-wrapper-1524383725633 {margin:0 0 30px 0;}#sppb-addon-1524383725633 {box-shadow:0 0 0 0 #ffffff;}@media (min-width:768px) and (max-width:991px) {#sppb-addon-wrapper-1524383725633 {margin-top:0;margin-right:0;margin-bottom:20px;margin-left:0;}}@media (max-width:767px) {#sppb-addon-wrapper-1524383725633 {margin-top:0;margin-right:0;margin-bottom:10px;margin-left:0;}}h1{font-family: 'Muli', sans-serif;font-size: 35px;font-weight: 800;font-style: normal;}
+h2{font-family: 'Muli', sans-serif;font-size: 35px;font-weight: 600;font-style: normal;}
+.sp-megamenu-parent > li > a, .sp-megamenu-parent > li > span, .sp-megamenu-parent .sp-dropdown li.sp-menu-item > a{font-family: 'Muli', sans-serif;font-size: 16px;font-weight: 400;font-style: normal;}
+.logo-image {height:70px;}.logo-image {height:70px;}
+	</style>
+	<script type="application/json" class="joomla-script-options new">{"csrf.token":"8f458c290c7e2372e38147975711cdee","system.paths":{"root":"\/site","base":"\/site"}}</script>
+	<script src="/site/media/jui/js/jquery.min.js?bd32e81e254da1c773fab3d861923739" type="text/javascript"></script>
+	<script src="/site/media/jui/js/jquery-noconflict.js?bd32e81e254da1c773fab3d861923739" type="text/javascript"></script>
+	<script src="/site/media/jui/js/jquery-migrate.min.js?bd32e81e254da1c773fab3d861923739" type="text/javascript"></script>
+	<script src="/site/plugins/system/bdthemes_shortcodes/js/shortcode-ultimate.js" type="text/javascript"></script>
+	<script src="/site/components/com_sppagebuilder/assets/js/jquery.parallax.js" type="text/javascript"></script>
+	<script src="/site/components/com_sppagebuilder/assets/js/sppagebuilder.js" type="text/javascript"></script>
+	<script src="/site/media/djextensions/jquery-easing/jquery.easing.min.js" type="text/javascript"></script>
+	<script src="/site/modules/mod_djimageslider/assets/js/slider.js?v=4.0.0" type="text/javascript"></script>
+	<script src="/site/plugins/system/jcemediabox/js/jcemediabox.js?0c56fee23edfcb9fbdfe257623c5280e" type="text/javascript"></script>
+	<script src="/site/media/system/js/core.js?bd32e81e254da1c773fab3d861923739" type="text/javascript"></script>
+	<script src="/site/templates/menpan19v2/js/popper.min.js" type="text/javascript"></script>
+	<script src="/site/templates/menpan19v2/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="/site/templates/menpan19v2/js/main.js" type="text/javascript"></script>
+	<script type="text/javascript">
+;(function ($) {
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': Joomla.getOptions('csrf.token')
+		}
+	});
+})(jQuery);JCEMediaBox.init({popup:{width:"",height:"",legacy:0,lightbox:0,shadowbox:0,resize:1,icons:1,overlay:1,overlayopacity:0.8,overlaycolor:"#000000",fadespeed:500,scalespeed:500,hideobjects:0,scrolling:"fixed",close:2,labels:{'close':'Close','next':'Next','previous':'Previous','cancel':'Cancel','numbers':'{$current} of {$total}'},cookie_expiry:"",google_viewer:0},tooltip:{className:"tooltip",opacity:0.8,speed:150,position:"br",offsets:{x: 16, y: 16}},base:"/site/",imgpath:"plugins/system/jcemediabox/img",theme:"standard",themecustom:"",themepath:"plugins/system/jcemediabox/themes",mediafallback:0,mediaselector:"audio,video"});template="menpan19v2";</script><!-- Matomo --><script type="text/javascript"> var _paq = window._paq || []; _paq.push(['trackPageView']); _paq.push(['enableLinkTracking']); (function() { var u="https://matomo.menpan.go.id/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', '3']); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s); })();</script><!-- End Matomo Code -->
+	</script>
+	<meta property="og:title" content="Beranda" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://www.menpan.go.id/site/" />
+	<meta property="og:site_name" content="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi" />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi" />
+	<script src="https://www.menpan.go.id/site/components/com_minitekwall/assets/js/mnwall-scroller.js" type="text/javascript"></script>
+	<script type="text/javascript">jQuery(function(){
+			
+			// Show hidden scroller
+			jQuery('#mnwall_scr_3').show();
+			
+			// Initialize scroller	
+			var _carousel = jQuery('#mnwall_scr_3').flickity({
+				
+				setGallerySize: true,
+				resize: true,
+				percentPosition: false,
+				contain: true,
+				cellAlign: 'center',
+				rightToLeft: false,
+				draggable: true,
+				freeScroll: true,
+				wrapAround: true,
+				autoPlay: 3000,
+				prevNextButtons: true,
+				pageDots: true,
+				imagesLoaded: true,
+				cellSelector: '.mnwall-scr-item',
+				initialIndex: 0,
+				accessibility: true
+							 			 			 			 			 				
+			});
+				
+			_carousel.flickity('reposition');
+			_carousel.flickity('resize');
+									
+		
+		
+			_carousel.on( 'staticClick', function( event, pointer, cellElement, cellIndex ) {
+				if ( typeof cellIndex == 'number' ) {
+				  	_carousel.flickity( 'select', cellIndex );
+				}
+			});
+		
+		
+		
+			jQuery('#mnwall_scr_3 .flickity-prev-next-button.previous').html('<i class="fa fa-chevron-left"></i>');
+			jQuery('#mnwall_scr_3 .flickity-prev-next-button.next').html('<i class="fa fa-chevron-right"></i>');
+		
+		});</script>
+	<!-- Start: Google Structured Data -->
+            
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi",
+    "url": "https://www.menpan.go.id/site/"
+}
+</script>
+            <!-- End: Google Structured Data -->
+<meta name="facebook-domain-verification" content="jt03m1hng65ol4kv33m6qqf2i6tjdj" />
+    
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-2926640-17', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- Universal Google Analytics Plugin by PB Web Development -->
+
+
+</head>        
+         <body class="site helix-ultimate com-sppagebuilder view-page layout-default task-none itemid-136 id-id ltr sticky-header layout-fluid offcanvas-init offcanvs-position-right">
+      
+    <div class="body-wrapper">
+        <div class="body-innerwrapper">
+            <header id="sp-header"><div class="container"><div class="container-inner"><div class="row"><div id="sp-logo" class="col-8 col-lg-3"><div class="sp-column"><div class="logo"><a href="/site/"><img class="logo-image d-none d-lg-inline-block" src="/site/images/logo_new.png" alt="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi"><img class="logo-image-phone d-inline-block d-lg-none" src="/site/images/logo_new.png" alt="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi"></a></div></div></div><div id="sp-menu" class="col-4 col-lg-8"><div class="sp-column"><div class="sp-module  pull-right educon-top-search"><div class="sp-module-content">
+<div class="top-search-wrapper">
+    <div class="icon-top-wrapper">
+        <i class="fa fa-search search-open-icon" aria-hidden="true"></i>
+        <i class="fa fa-times search-close-icon" aria-hidden="true"></i>
+    </div>
+</div> <!-- /.top-search-wrapper -->
+<div class="top-search-input-wrap">
+    <div class="top-search-overlay"></div>
+    
+    <form action="/site/" method="post">
+        <div class="search-wrap">
+            <div class="search  pull-right educon-top-search">
+                <div class="sp_search_input"><input name="searchword" maxlength="200"  class="mod-search-searchword inputbox pull-right educon-top-search" type="text" size="20" value="cari..."  onblur="if (this.value=='') this.value='cari...';" onfocus="if (this.value=='cari...') this.value='';" /></div>                <input type="hidden" name="task" value="search" />
+                <input type="hidden" name="option" value="com_search" />
+                <input type="hidden" name="Itemid" value="136" />
+            </div>
+        </div>
+    </form>
+</div> <!-- /.top-search-input-wrap --></div></div><nav class="sp-megamenu-wrapper" role="navigation"><a id="offcanvas-toggler" aria-label="Navigation" class="offcanvas-toggler-right" href="#"><i class="fa fa-bars" aria-hidden="true" title="Navigation"></i></a><ul class="sp-megamenu-parent menu-animation-none d-none d-lg-block"><li class="sp-menu-item current-item active"><a  href="/site/" >Beranda</a></li><li class="sp-menu-item sp-has-child"><a  href="#" >Profil</a><div class="sp-dropdown sp-dropdown-main sp-dropdown-mega sp-menu-full container" style=""><div class="sp-dropdown-inner"><div class="row"><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-220 menu_item item-header"><a  href="/site/" >Tentang Kami</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/visi-misi-presiden-dan-wakil-presiden-ri" >Visi, Misi Presiden dan Wakil Presiden RI</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/struktur-organisasi" >Struktur Organisasi</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/visi-dan-misi" >Tugas, Fungsi, Visi dan Misi</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/peta-strategi" >Peta Strategi</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/tujuan-strategis" >Tujuan Strategis</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/sasaran" >Sasaran</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/logo" >Logo</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/fondasi-baru-bagi-aparatur-sipil-negara-asn" >Nilai Dasar BerAKHLAK</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/kiprah-pengabdian-kementerian-panrb" >Kiprah Pengabdian Kementerian PANRB</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/menteri-panrb-dari-masa-ke-masa" >Menteri PANRB Dari Masa Ke Masa</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/sekretaris-kementerian-panrb-dari-masa-ke-masa" >Sekretaris Kementerian PANRB Dari Masa Ke Masa</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-221 menu_item item-header"><a  href="/site/" >Kedeputian dan Sekretariat</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/kedeputian-reformasi-birokrasi" >Reformasi Birokrasi, Akuntabilitas Aparatur, dan Pengawasan</a></li><li class="sp-menu-item"><a  href="/site/kelembagaan" >Kelembagaan dan Tata Laksana</a></li><li class="sp-menu-item"><a  href="/site/sdm-aparatur" >SDM Aparatur</a></li><li class="sp-menu-item"><a  href="/site/pelayanan-publik" >Pelayanan Publik</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/transformasi-digital-pemerintah" >Transformasi Digital Pemerintah</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/sekretariat-kementerian" >Sekretariat Kementerian</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/inspektorat" >Inspektorat</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/statistik-pegawai-kementerian-panrb" >Statistik Pegawai</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/statistik-laporan-keuangan" >Statistik Laporan Keuangan</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-102 menu_item item-header"><a  href="/site/" >Profil Pejabat</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/tentang-kami/profil-pejabat/rini-widyantin" >Menteri</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/profil-pejabat/purwadi-arianto" >Wakil Menteri</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/profil-pejabat/pejabat" >Pejabat</a></li></ul></li></ul></div></div></div></div></li><li class="sp-menu-item sp-has-child"><a  href="#" >Publikasi</a><div class="sp-dropdown sp-dropdown-main sp-dropdown-mega sp-menu-full container" style=""><div class="sp-dropdown-inner"><div class="row"><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-513 menu_item item-header"><a  href="/site/" >Galeri</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/galeri/sambutan-menteri-panrb" >Sambutan Menteri PANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/buku-sambutan-menteri-panrb-bulanan" >Buku Sambutan Menteri PANRB Bulanan</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/majalah-asn" >Majalah ASN</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/jurnal-panrb" >Jurnal PANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/newsletter-sekilas-rb" >Newsletter Sekilas RB</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-73 menu_item item-header"><a  href="/site/" ></a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/buku" >Buku</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/isbn" >ISBN</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/seminar" >Seminar</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/surat" >Surat</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/logo-hut-kemenpanrb" >Logo HUT KEMENPANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/infografis" >Infografis</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-520 menu_item item-header"><a  href="/site/" ></a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/profil" >Profil</a></li><li class="sp-menu-item sp-has-child"><a  href="#" >Akuntabilitas Kinerja</a><div class="sp-dropdown sp-dropdown-sub sp-menu-left" style="width: 240px;left: -240px;"><div class="sp-dropdown-inner"><ul class="sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/dipa-kementerian-panrb" >DIPA Kementerian PANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rencana-strategis-renstra" >Rencana Strategis (Renstra)</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/perjanjian-kinerja" >Perjanjian Kinerja</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rka-satker-rencana-kinerja-satuan-kerja" >RKA Satker Rencana Kinerja Satuan Kerja</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/indikator-kinerja-utama-kementerian-panrb-2015-2019" >Indikator Kinerja Utama</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/laporan-kinerja" >Laporan Kinerja</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/laporan-keuangan" >Laporan Keuangan</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rencana-kerja-renja" >Rencana Kerja (Renja)</a></li></ul></div></div></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/standar-pelayanan" >Standar Pelayanan</a></li></ul></li></ul></div></div></div></div></li><li class="sp-menu-item"><a  href="https://mapanrb.menpan.go.id/" >MAPANRB</a></li><li class="sp-menu-item"><a  href="https://jdih.menpan.go.id/" >JDIH</a></li><li class="sp-menu-item"><a  href="http://ppid.menpan.go.id/" >PPID</a></li></ul></nav><div class="sp-module ikonberakhlak"><div class="sp-module-content">
+
+<div class="customikonberakhlak"  >
+	<p><img src="https://www.menpan.go.id/site/images/logo/berakhlak-bangga-melayani-bangsa.png" alt="berakhlak bangga melayani bangsa" /></p>
+</div>
+</div></div></div></div></div></div></div></header>            <section id="sp-section-1"class=" d-none d-sm-none d-md-none d-lg-none d-xl-none"><div class="container"><div class="container-inner"><div class="row"><div id="sp-logo" class="col-lg-3 "><div class="sp-column "><div class="logo"><a href="/site/"><img class="logo-image d-none d-lg-inline-block" src="/site/images/logo_new.png" alt="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi"><img class="logo-image-phone d-inline-block d-lg-none" src="/site/images/logo_new.png" alt="Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi"></a></div></div></div><div id="sp-menu" class="col-lg-6 "><div class="sp-column "><div class="sp-module  pull-right educon-top-search"><div class="sp-module-content">
+<div class="top-search-wrapper">
+    <div class="icon-top-wrapper">
+        <i class="fa fa-search search-open-icon" aria-hidden="true"></i>
+        <i class="fa fa-times search-close-icon" aria-hidden="true"></i>
+    </div>
+</div> <!-- /.top-search-wrapper -->
+<div class="top-search-input-wrap">
+    <div class="top-search-overlay"></div>
+    
+    <form action="/site/" method="post">
+        <div class="search-wrap">
+            <div class="search  pull-right educon-top-search">
+                <div class="sp_search_input"><input name="searchword" maxlength="200"  class="mod-search-searchword inputbox pull-right educon-top-search" type="text" size="20" value="cari..."  onblur="if (this.value=='') this.value='cari...';" onfocus="if (this.value=='cari...') this.value='';" /></div>                <input type="hidden" name="task" value="search" />
+                <input type="hidden" name="option" value="com_search" />
+                <input type="hidden" name="Itemid" value="136" />
+            </div>
+        </div>
+    </form>
+</div> <!-- /.top-search-input-wrap --></div></div><nav class="sp-megamenu-wrapper" role="navigation"><a id="offcanvas-toggler" aria-label="Navigation" class="offcanvas-toggler-right" href="#"><i class="fa fa-bars" aria-hidden="true" title="Navigation"></i></a><ul class="sp-megamenu-parent menu-animation-none d-none d-lg-block"><li class="sp-menu-item current-item active"><a  href="/site/" >Beranda</a></li><li class="sp-menu-item sp-has-child"><a  href="#" >Profil</a><div class="sp-dropdown sp-dropdown-main sp-dropdown-mega sp-menu-full container" style=""><div class="sp-dropdown-inner"><div class="row"><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-220 menu_item item-header"><a  href="/site/" >Tentang Kami</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/visi-misi-presiden-dan-wakil-presiden-ri" >Visi, Misi Presiden dan Wakil Presiden RI</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/struktur-organisasi" >Struktur Organisasi</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/visi-dan-misi" >Tugas, Fungsi, Visi dan Misi</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/peta-strategi" >Peta Strategi</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/tujuan-strategis" >Tujuan Strategis</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/sasaran" >Sasaran</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/logo" >Logo</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/fondasi-baru-bagi-aparatur-sipil-negara-asn" >Nilai Dasar BerAKHLAK</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/kiprah-pengabdian-kementerian-panrb" >Kiprah Pengabdian Kementerian PANRB</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/menteri-panrb-dari-masa-ke-masa" >Menteri PANRB Dari Masa Ke Masa</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/tentang-kami/sekretaris-kementerian-panrb-dari-masa-ke-masa" >Sekretaris Kementerian PANRB Dari Masa Ke Masa</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-221 menu_item item-header"><a  href="/site/" >Kedeputian dan Sekretariat</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/kedeputian-reformasi-birokrasi" >Reformasi Birokrasi, Akuntabilitas Aparatur, dan Pengawasan</a></li><li class="sp-menu-item"><a  href="/site/kelembagaan" >Kelembagaan dan Tata Laksana</a></li><li class="sp-menu-item"><a  href="/site/sdm-aparatur" >SDM Aparatur</a></li><li class="sp-menu-item"><a  href="/site/pelayanan-publik" >Pelayanan Publik</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/transformasi-digital-pemerintah" >Transformasi Digital Pemerintah</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/sekretariat-kementerian" >Sekretariat Kementerian</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/inspektorat" >Inspektorat</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/statistik-pegawai-kementerian-panrb" >Statistik Pegawai</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/kedeputian/statistik-laporan-keuangan" >Statistik Laporan Keuangan</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-102 menu_item item-header"><a  href="/site/" >Profil Pejabat</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/tentang-kami/profil-pejabat/rini-widyantin" >Menteri</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/profil-pejabat/purwadi-arianto" >Wakil Menteri</a></li><li class="sp-menu-item"><a  href="/site/tentang-kami/profil-pejabat/pejabat" >Pejabat</a></li></ul></li></ul></div></div></div></div></li><li class="sp-menu-item sp-has-child"><a  href="#" >Publikasi</a><div class="sp-dropdown sp-dropdown-main sp-dropdown-mega sp-menu-full container" style=""><div class="sp-dropdown-inner"><div class="row"><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-513 menu_item item-header"><a  href="/site/" >Galeri</a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/galeri/sambutan-menteri-panrb" >Sambutan Menteri PANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/buku-sambutan-menteri-panrb-bulanan" >Buku Sambutan Menteri PANRB Bulanan</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/majalah-asn" >Majalah ASN</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/jurnal-panrb" >Jurnal PANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/galeri/newsletter-sekilas-rb" >Newsletter Sekilas RB</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-73 menu_item item-header"><a  href="/site/" ></a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/buku" >Buku</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/isbn" >ISBN</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/seminar" >Seminar</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/surat" >Surat</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/logo-hut-kemenpanrb" >Logo HUT KEMENPANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen/infografis" >Infografis</a></li></ul></li></ul></div><div class="col-sm-4"><ul class="sp-mega-group"><li class="item-520 menu_item item-header"><a  href="/site/" ></a><ul class="sp-mega-group-child sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/profil" >Profil</a></li><li class="sp-menu-item sp-has-child"><a  href="#" >Akuntabilitas Kinerja</a><div class="sp-dropdown sp-dropdown-sub sp-menu-left" style="width: 240px;left: -240px;"><div class="sp-dropdown-inner"><ul class="sp-dropdown-items"><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/dipa-kementerian-panrb" >DIPA Kementerian PANRB</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rencana-strategis-renstra" >Rencana Strategis (Renstra)</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/perjanjian-kinerja" >Perjanjian Kinerja</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rka-satker-rencana-kinerja-satuan-kerja" >RKA Satker Rencana Kinerja Satuan Kerja</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/indikator-kinerja-utama-kementerian-panrb-2015-2019" >Indikator Kinerja Utama</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/laporan-kinerja" >Laporan Kinerja</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/laporan-keuangan" >Laporan Keuangan</a></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rencana-kerja-renja" >Rencana Kerja (Renja)</a></li></ul></div></div></li><li class="sp-menu-item"><a  href="/site/publikasi/unduh-dokumen-2/standar-pelayanan" >Standar Pelayanan</a></li></ul></li></ul></div></div></div></div></li><li class="sp-menu-item"><a  href="https://mapanrb.menpan.go.id/" >MAPANRB</a></li><li class="sp-menu-item"><a  href="https://jdih.menpan.go.id/" >JDIH</a></li><li class="sp-menu-item"><a  href="http://ppid.menpan.go.id/" >PPID</a></li></ul></nav></div></div><div id="sp-ikonberakhlak" class="col-lg-3 "><div class="sp-column "><div class="sp-module ikonberakhlak"><div class="sp-module-content">
+
+<div class="customikonberakhlak"  >
+	<p><img src="https://www.menpan.go.id/site/images/logo/berakhlak-bangga-melayani-bangsa.png" alt="berakhlak bangga melayani bangsa" /></p>
+</div>
+</div></div></div></div></div></div></div></section><section id="sp-main-body"><div class="row"><main id="sp-component" class="col-lg-12 " role="main"><div class="sp-column "><div id="system-message-container">
+	</div>
+<div id="sp-page-builder" class="sp-page-builder  page-2">
+
+	
+	<div class="page-content">
+				<div id="section-id-1524238769051" class="sppb-section sliderv2" ><div class="sppb-container-inner"><div class="sppb-row"><div class="sppb-col-md-12" id="column-wrap-id-1524238769050"><div id="column-id-1524238769050" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1524239259941" class="sppb-addon-wrapper"><div id="sppb-addon-1524239259941" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content">
+<div style="border: 0px !important;">
+<div id="djslider-loader394" class="djslider-loader djslider-loader-default" data-animation='{"auto":"1","looponce":"0","transition":"easeInOutSine","css3transition":"cubic-bezier(0.445, 0.050, 0.550, 0.950)","duration":400,"delay":3400}' data-djslider='{"id":"394","slider_type":"2","slide_size":"1200","visible_slides":1,"direction":"left","show_buttons":"0","show_arrows":"1","preload":"800","css3":"1"}' tabindex="0">
+    <div id="djslider394" class="djslider djslider-default" style="height: 344px; width: 1200px;">
+        <div id="slider-container394" class="slider-container">
+        	<ul id="slider394" class="djslider-in">
+          		          			<li style="margin: 0 0px 0px 0 !important; height: 344px; width: 1200px;">
+          					            											<img class="dj-image" src="/site/images/banners/2026/2026_tagline.png" alt="20260106_tagline"  style="width: 100%; height: auto;"/>
+																									
+						
+					</li>
+                          			<li style="margin: 0 0px 0px 0 !important; height: 344px; width: 1200px;">
+          					            											<a  href="https://jdih.menpan.go.id/dokumen-hukum/keputusan-bersama-menteri-agama-menteri-ketenagakerjaan-dan-menteri-pendayagunaan-aparatur-negara-2045" target="_blank">
+															<img class="dj-image" src="/site/images/banners/2025/20250922_Libur_dan_Cuti_Bersama_2026-03.png" alt="20250922_libur2026"  style="width: 100%; height: auto;"/>
+															</a>
+																									
+						
+					</li>
+                          			<li style="margin: 0 0px 0px 0 !important; height: 344px; width: 1200px;">
+          					            											<img class="dj-image" src="/site/images/banners/2025/20251020_Bisa_Tanya_PANRB.png" alt="20251020_Bisa_tanya_update"  style="width: 100%; height: auto;"/>
+																									
+						
+					</li>
+                          			<li style="margin: 0 0px 0px 0 !important; height: 344px; width: 1200px;">
+          					            											<a  href="https://jdih.menpan.go.id/puu-815-Surat%20Edaran%20Menpan.html" target="_blank">
+															<img class="dj-image" src="/site/images/banners/20180521_semedsos_web.png" alt="20180525_semedsos"  style="width: 100%; height: auto;"/>
+															</a>
+																									
+						
+					</li>
+                        	</ul>
+        </div>
+                <div id="navigation394" class="navigation-container" style="top: 43.604651162791%; margin: 0 0.58333333333333%;">
+        	        	<img id="prev394" class="prev-button showOnHover" src="/site/modules/mod_djimageslider/themes/default/images/prev.png" alt="Previous" tabindex="0" />
+			<img id="next394" class="next-button showOnHover" src="/site/modules/mod_djimageslider/themes/default/images/next.png" alt="Next" tabindex="0" />
+						        </div>
+                		<div id="cust-navigation394" class="navigation-container-custom showOnHover">
+			<span class="load-button load-button-active" tabindex="0"></span><span class="load-button" tabindex="0"></span><span class="load-button" tabindex="0"></span><span class="load-button" tabindex="0"></span>        </div>
+            </div>
+</div>
+</div>
+<div class="djslider-end" style="clear: both" tabindex="0"></div></div></div></div></div></div></div></div></div></div></div><section id="section-id-1524238769052" class="sppb-section" ><div class="sppb-shape-container sppb-bottom-shape "><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 99" preserveAspectRatio="none">
+    <path d="M526.35,17.11C607.41,28.38,687,48.17,768.06,59.5A1149.19,1149.19,0,0,0,1000,68.07V0H0V99C155.18,13.84,347.42-7.77,526.35,17.11Z" transform="translate(0 0.04)"/>
+</svg></div><div class="sppb-row-container"><div class="sppb-row"><div class="sppb-col-md-12" id="column-wrap-id-1524238769053"><div id="column-id-1524238769053" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1524239305834" class="sppb-addon-wrapper"><div id="sppb-addon-1524239305834" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">Berita Foto</h3>		
+<div 
+	id="mnwall_scr_3" 
+	class="mnwall_scr mnwall_image_scroller " 
+	style="
+	background-color: ;
+		padding-top: 8px;
+	padding-bottom: 8px;
+	"
+>
+		
+		<div 
+			class="mnwall-scr-item
+			" 
+			style="
+			padding-left:5px;
+			padding-right:5px;
+			"
+		>
+		
+			<div 
+				class="mnwall-scr-item-outer-cont"
+				style="
+																"
+			>
+	
+				<div class="mnwall-scr-item-inner-cont">
+					
+					<div class="mnwall-scr-item-cover"> </div>
+					
+																		<a 
+								href="/site/berita-foto/penyerahan-lhp-atas-laporan-keuangan-kementerian-lembaga-tahun-2025" 
+								class="mnwall-scr-photo-link" 
+							>
+								<img src="https://www.menpan.go.id/site/images/mnwallimages/350x250/images/berita_foto_backup/2026/7._Juli/20260716_-_Penyerahan_LHP_atas_Laporan_Keuangan_KementerianLembaga_Tahun_20257.jpeg" alt="" />
+							</a>
+												
+					
+										
+						<div 
+							class="
+							mnwall-scr-detail-box 
+							light-text														"
+							style="background-color: rgba(31,27,27,0.60);"
+						>
+							
+															<div class="mnwall-date">
+									16 Juli 2026								</div>
+								
+							
+															<h3 class="mnwall-title">
+																			<a href="/site/berita-foto/penyerahan-lhp-atas-laporan-keuangan-kementerian-lembaga-tahun-2025">
+											Penyerahan LHP atas Laporan Keuangan Kementerian/Lembaga Tahun 2025										</a>
+										
+								</h3>
+								
+							
+														
+														
+							
+														
+														
+														
+																																			
+						</div>
+					
+						
+										
+				</div>
+						
+											
+			</div>
+			
+		</div>
+	
+		
+		<div 
+			class="mnwall-scr-item
+			" 
+			style="
+			padding-left:5px;
+			padding-right:5px;
+			"
+		>
+		
+			<div 
+				class="mnwall-scr-item-outer-cont"
+				style="
+																"
+			>
+	
+				<div class="mnwall-scr-item-inner-cont">
+					
+					<div class="mnwall-scr-item-cover"> </div>
+					
+																		<a 
+								href="/site/berita-foto/kick-off-meeting-pelaksanaan-evaluasi-dan-pembekalan-evaluator-mandiri-indeks-pemdi-kabupaten-hulu-sungai-utara" 
+								class="mnwall-scr-photo-link" 
+							>
+								<img src="https://www.menpan.go.id/site/images/mnwallimages/350x250/images/berita_foto_backup/2026/7._Juli/20260716_-_Kick_Off_Meeting_Pelaksanaan_Evaluasi_dan_Pembekalan_Evaluator_Mandiri_Indeks_Pemerintahan_Digital_Pemdi_Kabupaten_Hulu_Sungai_Utara_HSU_Tahun_20266.jpg.jpeg" alt="" />
+							</a>
+												
+					
+										
+						<div 
+							class="
+							mnwall-scr-detail-box 
+							light-text														"
+							style="background-color: rgba(31,27,27,0.60);"
+						>
+							
+															<div class="mnwall-date">
+									16 Juli 2026								</div>
+								
+							
+															<h3 class="mnwall-title">
+																			<a href="/site/berita-foto/kick-off-meeting-pelaksanaan-evaluasi-dan-pembekalan-evaluator-mandiri-indeks-pemdi-kabupaten-hulu-sungai-utara">
+											Kick Off Meeting Pelaksanaan Evaluasi dan Pembekalan Evaluator Mandiri Indeks Pemdi Kabupaten Hulu Sungai Utara										</a>
+										
+								</h3>
+								
+							
+														
+														
+							
+														
+														
+														
+																																			
+						</div>
+					
+						
+										
+				</div>
+						
+											
+			</div>
+			
+		</div>
+	
+		
+		<div 
+			class="mnwall-scr-item
+			" 
+			style="
+			padding-left:5px;
+			padding-right:5px;
+			"
+		>
+		
+			<div 
+				class="mnwall-scr-item-outer-cont"
+				style="
+																"
+			>
+	
+				<div class="mnwall-scr-item-inner-cont">
+					
+					<div class="mnwall-scr-item-cover"> </div>
+					
+																		<a 
+								href="/site/berita-foto/asistensi-penguatan-akip-pemerintah-kota-tangerang" 
+								class="mnwall-scr-photo-link" 
+							>
+								<img src="https://www.menpan.go.id/site/images/mnwallimages/350x250/images/berita_foto_backup/2026/7._Juli/20260716_-_Asistensi_Penguatan_AKIP_Pemerintah_Kota_Tangerang_1.jpeg" alt="" />
+							</a>
+												
+					
+										
+						<div 
+							class="
+							mnwall-scr-detail-box 
+							light-text														"
+							style="background-color: rgba(31,27,27,0.60);"
+						>
+							
+															<div class="mnwall-date">
+									16 Juli 2026								</div>
+								
+							
+															<h3 class="mnwall-title">
+																			<a href="/site/berita-foto/asistensi-penguatan-akip-pemerintah-kota-tangerang">
+											Asistensi Penguatan AKIP Pemerintah Kota Tangerang										</a>
+										
+								</h3>
+								
+							
+														
+														
+							
+														
+														
+														
+																																			
+						</div>
+					
+						
+										
+				</div>
+						
+											
+			</div>
+			
+		</div>
+	
+		
+		<div 
+			class="mnwall-scr-item
+			" 
+			style="
+			padding-left:5px;
+			padding-right:5px;
+			"
+		>
+		
+			<div 
+				class="mnwall-scr-item-outer-cont"
+				style="
+																"
+			>
+	
+				<div class="mnwall-scr-item-inner-cont">
+					
+					<div class="mnwall-scr-item-cover"> </div>
+					
+																		<a 
+								href="/site/berita-foto/rapat-terbatas-operasionalisasi-kdkmp" 
+								class="mnwall-scr-photo-link" 
+							>
+								<img src="https://www.menpan.go.id/site/images/mnwallimages/350x250/images/berita_foto_backup/2026/7._Juli/20260715_-_Rapat_Terbatas_Operasionalisasi_KDKMP_15.jpeg" alt="" />
+							</a>
+												
+					
+										
+						<div 
+							class="
+							mnwall-scr-detail-box 
+							light-text														"
+							style="background-color: rgba(31,27,27,0.60);"
+						>
+							
+															<div class="mnwall-date">
+									15 Juli 2026								</div>
+								
+							
+															<h3 class="mnwall-title">
+																			<a href="/site/berita-foto/rapat-terbatas-operasionalisasi-kdkmp">
+											Rapat Terbatas Operasionalisasi KDKMP										</a>
+										
+								</h3>
+								
+							
+														
+														
+							
+														
+														
+														
+																																			
+						</div>
+					
+						
+										
+				</div>
+						
+											
+			</div>
+			
+		</div>
+	
+		
+		<div 
+			class="mnwall-scr-item
+			" 
+			style="
+			padding-left:5px;
+			padding-right:5px;
+			"
+		>
+		
+			<div 
+				class="mnwall-scr-item-outer-cont"
+				style="
+																"
+			>
+	
+				<div class="mnwall-scr-item-inner-cont">
+					
+					<div class="mnwall-scr-item-cover"> </div>
+					
+																		<a 
+								href="/site/berita-foto/audiensi-dengan-gubernur-papua" 
+								class="mnwall-scr-photo-link" 
+							>
+								<img src="https://www.menpan.go.id/site/images/mnwallimages/350x250/images/berita_foto_backup/2026/7._Juli/20260715_-_Audiensi_dengan_Gubernur_Papua_8.jpeg" alt="" />
+							</a>
+												
+					
+										
+						<div 
+							class="
+							mnwall-scr-detail-box 
+							light-text														"
+							style="background-color: rgba(31,27,27,0.60);"
+						>
+							
+															<div class="mnwall-date">
+									15 Juli 2026								</div>
+								
+							
+															<h3 class="mnwall-title">
+																			<a href="/site/berita-foto/audiensi-dengan-gubernur-papua">
+											Audiensi dengan Gubernur Papua										</a>
+										
+								</h3>
+								
+							
+														
+														
+							
+														
+														
+														
+																																			
+						</div>
+					
+						
+										
+				</div>
+						
+											
+			</div>
+			
+		</div>
+	
+		
+		<div 
+			class="mnwall-scr-item
+			" 
+			style="
+			padding-left:5px;
+			padding-right:5px;
+			"
+		>
+		
+			<div 
+				class="mnwall-scr-item-outer-cont"
+				style="
+																"
+			>
+	
+				<div class="mnwall-scr-item-inner-cont">
+					
+					<div class="mnwall-scr-item-cover"> </div>
+					
+																		<a 
+								href="/site/berita-foto/raker-dan-rdp-dengan-komisi-ii-dpr-ri-5" 
+								class="mnwall-scr-photo-link" 
+							>
+								<img src="https://www.menpan.go.id/site/images/mnwallimages/350x250/images/berita_foto_backup/2026/7._Juli/20260715_-_Raker_dan_RDP_dengan_Komisi_II_DPR_RI_15.jpeg" alt="" />
+							</a>
+												
+					
+										
+						<div 
+							class="
+							mnwall-scr-detail-box 
+							light-text														"
+							style="background-color: rgba(31,27,27,0.60);"
+						>
+							
+															<div class="mnwall-date">
+									15 Juli 2026								</div>
+								
+							
+															<h3 class="mnwall-title">
+																			<a href="/site/berita-foto/raker-dan-rdp-dengan-komisi-ii-dpr-ri-5">
+											Raker dan RDP dengan Komisi II DPR RI										</a>
+										
+								</h3>
+								
+							
+														
+														
+							
+														
+														
+														
+																																			
+						</div>
+					
+						
+										
+				</div>
+						
+											
+			</div>
+			
+		</div>
+	
+		
+</div>
+    
+</div></div></div></div><div id="sppb-addon-wrapper-1524381182910" class="sppb-addon-wrapper"><div id="sppb-addon-1524381182910" class="clearfix "     ><div class="sppb-addon sppb-addon-text-block  tombolarsipberitafoto"><div class="sppb-addon-content"><p><strong><a href="https://www.menpan.go.id/site/berita-terkini/berita-foto" title="Arsip Berita Foto">Arsip Berita Foto</a></strong></p></div></div></div></div></div></div></div></div></div></section><section id="section-id-1524320265833" class="sppb-section" ><div class="sppb-row-container"><div class="sppb-row"><div class="sppb-col-md-8" id="column-wrap-id-1524320265834"><div id="column-id-1524320265834" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1524320265840" class="sppb-addon-wrapper"><div id="sppb-addon-1524320265840" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">BERITA TERKINI</h3>
+<div class="allmode-box allmode-default default-blue">
+
+
+
+
+<div class="allmode-itemsbox">
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/kementerian-panrb-tengah-rancang-instrumen-kinerja-pelayanan-publik-berbasis-kebutuhan-masyarakat"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita_foto_backup%2F2026%2F7._Juli%2F20260716_-_Kementerian_PANRB_Rancang_Instrumen_Kinerja_Pelayanan_Publik_Berbasis_Kebutuhan_Masyarakat_1.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Kementerian PANRB Tengah Rancang Instrumen Kinerja Pelayanan Publik Berbasis Kebutuhan Masyarakat" alt="20260716 Kementerian PANRB Rancang Instrumen Kinerja Pelayanan Publik Berbasis Kebutuhan Masyarakat 1" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">16 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/kementerian-panrb-tengah-rancang-instrumen-kinerja-pelayanan-publik-berbasis-kebutuhan-masyarakat">Kementerian PANRB Tengah Rancang Instrumen Kinerja Pelayanan Publik Berbasis Kebutuhan Masyarakat</a></h4>
+		
+		
+				<div class="allmode-text">Rapat Harmonisasi Rancangan Peraturan Menteri PANRB tentang Kinerja Pelayanan Publik Berbasis Kebutuhan Masyarakat yang diselenggarakan secara daring, Rabu (15/7/2026).&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/pra-evaluasi-akip-2026-di-banten-langkah-kementerian-panrb-perkuat-budaya-akuntabilitas"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita_foto_backup%2F2026%2F7._Juli%2F20260715_-_Pra_Evaluasi_AKIP_Tahun_2026_di_Lingkungan_Provinsi_Banten_7.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Pra Evaluasi AKIP 2026 di Banten, Langkah Kementerian PANRB Perkuat Budaya Akuntabilitas" alt="20260715 Pra Evaluasi AKIP Tahun 2026 di Lingkungan Provinsi Banten 7" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">16 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/pra-evaluasi-akip-2026-di-banten-langkah-kementerian-panrb-perkuat-budaya-akuntabilitas">Pra Evaluasi AKIP 2026 di Banten, Langkah Kementerian PANRB Perkuat Budaya Akuntabilitas</a></h4>
+		
+		
+				<div class="allmode-text">Suasana kegiatan Pra Evaluasi AKIP Tahun 2026 di Lingkungan Pemerintah Provinsi Banten, di Serang, Rabu (15/7/2026). SERANG – Kementerian Pendayagunaan Aparatur Negara&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/menteri-rini-sampaikan-capaian-kinerja-kementerian-panrb-t-a-2025-pada-rapat-kerja-dpr-ri"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita_foto_backup%2F2026%2F7._Juli%2F20260715_-_Raker_dan_RDP_dengan_Komisi_II_DPR_RI_12.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Menteri Rini Sampaikan Capaian Kinerja Kementerian PANRB T.A 2025 pada Rapat Kerja DPR RI" alt="20260715 Raker dan RDP dengan Komisi II DPR RI 12" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">15 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/menteri-rini-sampaikan-capaian-kinerja-kementerian-panrb-t-a-2025-pada-rapat-kerja-dpr-ri">Menteri Rini Sampaikan Capaian Kinerja Kementerian PANRB T.A 2025 pada Rapat Kerja DPR RI</a></h4>
+		
+		
+				<div class="allmode-text">Menteri PANRB Rini Widyantini pada Rapat Kerja Komisi II DPR RI terkait Laporan Keuangan Pemerintah Pusat (LKPP) Anggaran Pendapatan dan Belanja Negara (APBN) T.A 2025&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/perkuat-daya-saing-bangsa-melalui-riset-dan-inovasi-menteri-panrb-dukung-transformasi-brin"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita_foto_backup%2F2026%2F7._Juli%2F20260714_-_Audiensi_Kepala_BRIN_4.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Perkuat Daya Saing Bangsa melalui Riset dan Inovasi, Menteri PANRB Dukung Transformasi BRIN" alt="20260714 Audiensi Kepala BRIN 4" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">14 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/perkuat-daya-saing-bangsa-melalui-riset-dan-inovasi-menteri-panrb-dukung-transformasi-brin">Perkuat Daya Saing Bangsa melalui Riset dan Inovasi, Menteri PANRB Dukung Transformasi BRIN</a></h4>
+		
+		
+				<div class="allmode-text">Menteri PANRB Rini Widyantini menerima audiensi Kepala BRIN Arif Satria di Jakarta, Selasa (14/7/2026). JAKARTA – Menteri Pendayagunaan Aparatur Negara dan Reformasi&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/menteri-panrb-imbau-fleksibilitas-kerja-asn-untuk-antar-anak-di-hari-pertama-sekolah"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita%2F2026%2F20260710_-_Menteri_PANRB_Imbau_Fleksibilitas_Kerja_ASN_untuk_Antar_Anak_di_Hari_Pertama_Sekolah.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Menteri PANRB Imbau Fleksibilitas Kerja ASN untuk Antar Anak di Hari Pertama Sekolah" alt="20260710 Menteri PANRB Imbau Fleksibilitas Kerja ASN untuk Antar Anak di Hari Pertama Sekolah" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">10 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/menteri-panrb-imbau-fleksibilitas-kerja-asn-untuk-antar-anak-di-hari-pertama-sekolah">Menteri PANRB Imbau Fleksibilitas Kerja ASN untuk Antar Anak di Hari Pertama Sekolah</a></h4>
+		
+		
+				<div class="allmode-text">Menteri PANRB Rini Widyantini JAKARTA – Menteri Pendayagunaan Aparatur Negara dan Reformasi Birokrasi (PANRB) Rini Widyantini mengimbau instansi pemerintah memberi&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/wamen-purwadi-apresiasi-upaya-rsad-udayana-tingkatkan-kualitas-layanan-kesehatan"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita_foto_backup%2F2026%2F7._Juli%2F20260709_-_WAMEN_-_Peninjauan_RSAD_Udayana_5.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Wamen Purwadi Apresiasi Upaya RSAD Udayana Tingkatkan Kualitas Layanan Kesehatan" alt="20260709 WAMEN Peninjauan RSAD Udayana 5" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">10 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/wamen-purwadi-apresiasi-upaya-rsad-udayana-tingkatkan-kualitas-layanan-kesehatan">Wamen Purwadi Apresiasi Upaya RSAD Udayana Tingkatkan Kualitas Layanan Kesehatan</a></h4>
+		
+		
+				<div class="allmode-text">Wamen PANRB Purwadi Arianto dan Kepala Staf Kepresidenan Dudung Abdurrachman saat meninjau RSAD Udayana di Denpasar, Bali, Kamis (9/7/2026). DENPASAR – Pelayanan publik&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/perkuat-integrasi-dan-integritas-wamen-panrb-kepala-staf-kepresidenan-dan-wakil-ketua-ombudsman-tinjau-mpp"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita_foto_backup%2F2026%2F7._Juli%2F20260709_-_Peninjauan_MPP_Kab._Gianyar_5.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Perkuat Integrasi dan Integritas, Wamen PANRB, Kepala Staf Kepresidenan dan Wakil Ketua Ombudsman Tinjau MPP" alt="20260709 Peninjauan MPP Kab. Gianyar 5" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">09 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/perkuat-integrasi-dan-integritas-wamen-panrb-kepala-staf-kepresidenan-dan-wakil-ketua-ombudsman-tinjau-mpp">Perkuat Integrasi dan Integritas, Wamen PANRB, Kepala Staf Kepresidenan dan Wakil Ketua Ombudsman Tinjau MPP</a></h4>
+		
+		
+				<div class="allmode-text">Wakil Menteri Pendayagunaan Aparatur Negara dan Reformasi Birokrasi (PANRB) Purwadi Arianto meninjau Mal Pelayanan Publik (MPP) Kabupaten Gianyar, Bali, Kamis&hellip;
+			
+		</div>
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id58 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/kementerian-panrb-pastikan-verifikasi-kapabilitas-kelembagaan-berjalan-cermat"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita%2F2026%2F20260708_-_Verifikasi_Indeks_Kapabilitas_Kelembagaan_1.jpeg&amp;w=100&amp;h=85&amp;zc=1" width="100" height="85" title="Kementerian PANRB Pastikan Verifikasi Kapabilitas Kelembagaan Berjalan Cermat" alt="20260708 Verifikasi Indeks Kapabilitas Kelembagaan 1" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">08 Juli 2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/kementerian-panrb-pastikan-verifikasi-kapabilitas-kelembagaan-berjalan-cermat">Kementerian PANRB Pastikan Verifikasi Kapabilitas Kelembagaan Berjalan Cermat</a></h4>
+		
+		
+				<div class="allmode-text">Persiapan Verifikasi Penilaian Kapabilitas Kelembagaan di Kantor Kementerian PANRB, Jakarta, Rabu (8/7/2026). JAKARTA – Kementerian Pendayagunaan Aparatur Negara dan&hellip;
+			
+		</div>
+		
+	</div>
+
+</div>
+<div class="allmode-showall"><a href="/site/berita-terkini">indeks..</a></div></div>
+</div></div></div></div><div id="sppb-addon-wrapper-1725255674302" class="sppb-addon-wrapper"><div id="sppb-addon-1725255674302" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">BERITA LINTAS INSTANSI</h3>
+<div class="allmode-box allmode-default default-blue">
+
+
+
+
+<div class="allmode-itemsbox">
+
+	<div class="allmode-item allmode-category-id119 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/berita-daerah/mpls-ramah-2026-kemendikdasmen-pastikan-sekolah-bebas-perundungan"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita%2F2026%2F20260715_-_MPLS_Ramah_2026_Kemendikdasmen_Pastikan_Sekolah_Bebas_Perundungan.jpeg&amp;w=60&amp;h=60&amp;zc=1" width="60" height="60" title="MPLS Ramah 2026, Kemendikdasmen Pastikan Sekolah Bebas Perundungan" alt="20260715 MPLS Ramah 2026 Kemendikdasmen Pastikan Sekolah Bebas Perundungan" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">15.Jul.2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/berita-daerah/mpls-ramah-2026-kemendikdasmen-pastikan-sekolah-bebas-perundungan">MPLS Ramah 2026, Kemendikdasmen Pastikan Sekolah Bebas Perundungan</a></h4>
+		
+		
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id119 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/berita-daerah/sekolah-rakyat-sragen-buka-akses-pendidikan-berkualitas-bagi-keluarga-miskin"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita%2F2026%2F20260715_-_Sekolah_Rakyat_Sragen_Buka_Akses_Pendidikan_Berkualitas_bagi_Keluarga_Miskin.jpg&amp;w=60&amp;h=60&amp;zc=1" width="60" height="60" title="Sekolah Rakyat Sragen Buka Akses Pendidikan Berkualitas bagi Keluarga Miskin" alt="20260715 Sekolah Rakyat Sragen Buka Akses Pendidikan Berkualitas bagi Keluarga Miskin" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">15.Jul.2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/berita-daerah/sekolah-rakyat-sragen-buka-akses-pendidikan-berkualitas-bagi-keluarga-miskin">Sekolah Rakyat Sragen Buka Akses Pendidikan Berkualitas bagi Keluarga Miskin</a></h4>
+		
+		
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id119 allmode-featured">
+
+				<div class="allmode-img"><a href="/site/berita-terkini/berita-daerah/kemenhub-korlantas-perkuat-sinergi-zero-odol-hingga-nataru-jadi-fokus"><img src="/site/modules/mod_raxo_allmode/tools/tb.php?src=https%3A%2F%2Fwww.menpan.go.id%2Fsite%2Fimages%2Fberita%2F2026%2F20260715_-_Kemenhub-Korlantas_Perkuat_Sinergi_Zero_ODOL_hingga_Nataru_Jadi_Fokus.jpg&amp;w=60&amp;h=60&amp;zc=1" width="60" height="60" title="Kemenhub-Korlantas Perkuat Sinergi, Zero ODOL hingga Nataru Jadi Fokus" alt="20260715 Kemenhub Korlantas Perkuat Sinergi Zero ODOL hingga Nataru Jadi Fokus" /></a></div>
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">15.Jul.2026</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/berita-daerah/kemenhub-korlantas-perkuat-sinergi-zero-odol-hingga-nataru-jadi-fokus">Kemenhub-Korlantas Perkuat Sinergi, Zero ODOL hingga Nataru Jadi Fokus</a></h4>
+		
+		
+		
+	</div>
+
+</div>
+<div class="allmode-showall"><a href="/site/berita-terkini/berita-daerah">indeks....</a></div></div>
+</div></div></div></div></div></div></div><div class="sppb-col-md-4" id="column-wrap-id-1524320265838"><div id="column-id-1524320265838" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1665464329164" class="sppb-addon-wrapper"><div id="sppb-addon-1665464329164" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">VIDEO</h3>
+
+<div class="custom"  >
+	<div data-mc-src="d05277fb-66ab-4289-905d-4634ecb9ab42#youtube">&nbsp;</div></div>
+</div></div></div></div><div id="sppb-addon-wrapper-1660026986376" class="sppb-addon-wrapper"><div id="sppb-addon-1660026986376" class="clearfix "     ><div class="sppb-addon sppb-addon-raw-html "><div class="sppb-addon-content"><!-- start sw-rss-feed code --> 
+<script type="text/javascript"> 
+<!-- 
+rssfeed_url = new Array(); 
+rssfeed_url[0]="https://1data.menpan.go.id/index.php/feed";  
+rssfeed_frame_width="300"; 
+rssfeed_frame_height="200"; 
+rssfeed_scroll="on"; 
+rssfeed_scroll_step="6"; 
+rssfeed_scroll_bar="off"; 
+rssfeed_target="_blank"; 
+rssfeed_font_size="12"; 
+rssfeed_font_face="Helvetica,Arial,sans-serif";
+rssfeed_border="off"; 
+rssfeed_css_url=""; 
+rssfeed_title="on"; 
+rssfeed_title_name=""; 
+rssfeed_title_bgcolor="#2894d9"; 
+rssfeed_title_color="#fff"; 
+rssfeed_title_bgimage=""; 
+rssfeed_footer="off"; 
+rssfeed_footer_name="rss feed"; 
+rssfeed_footer_bgcolor="#fff"; 
+rssfeed_footer_color="#333"; 
+rssfeed_footer_bgimage=""; 
+rssfeed_item_title_length="50"; 
+rssfeed_item_title_color="#666"; 
+rssfeed_item_bgcolor="#fff"; 
+rssfeed_item_bgimage=""; 
+rssfeed_item_border_bottom="on"; 
+rssfeed_item_source_icon="off"; 
+rssfeed_item_date="off"; 
+rssfeed_item_description="on"; 
+rssfeed_item_description_length="120"; 
+rssfeed_item_description_color="#666"; 
+rssfeed_item_description_link_color="#333"; 
+rssfeed_item_description_tag="off"; 
+rssfeed_no_items="0"; 
+rssfeed_cache = "18a68f101fbe2af0dab36c2d22c6617e"; 
+//--> 
+</script> 
+<script type="text/javascript" src="//feed.surfing-waves.com/js/rss-feed.js"></script></div></div></div></div><div id="sppb-addon-wrapper-1547549921994" class="sppb-addon-wrapper"><div id="sppb-addon-1547549921994" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">INFO TERKINI</h3>
+<div class="allmode-box allmode-default default-blue">
+
+
+
+
+<div class="allmode-itemsbox">
+
+	<div class="allmode-item allmode-category-id120 allmode-featured">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">29.Okt.2025</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/info-terkini/materi-rapat-koordinasi-bidang-kelembagaan-dan-tata-laksana-tahun-2025-semarang-29-oktober-2025">Materi Rapat Koordinasi Bidang Kelembagaan dan Tata Laksana Tahun 2025 | Semarang, 29 Oktober 2025</a></h4>
+		
+		
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id120 allmode-featured">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">20.Okt.2025</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/info-terkini/materi-evaluasi-pengadaan-asn-tahun-2024-malang-16-oktober-2025">Materi Evaluasi Pengadaan ASN Tahun 2024 | Malang, 16 Oktober 2025</a></h4>
+		
+		
+		
+	</div>
+
+</div>
+<div class="allmode-showall"><a href="/site/berita-terkini/info-terkini/">indeks...</a></div></div>
+</div></div></div></div><div id="sppb-addon-wrapper-1547549922003" class="sppb-addon-wrapper"><div id="sppb-addon-1547549922003" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">DAFTAR SELEKSI TERBUKA</h3>
+<div class="allmode-box allmode-default default-gray">
+
+
+
+
+<div class="allmode-itemsbox">
+
+	<div class="allmode-item allmode-category-id117">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">09.Jul.2025</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/pengumuman-seleksi-terbuka-jptp/pengumuman-pendaftaran-seleksi-calon-anggota-ombudsman-ri-masa-jabatan-tahun-2026-2031-jakarta-1-juli-2025">Pengumuman Pendaftaran Seleksi Calon Anggota OMBUDSMAN RI Masa Jabatan Tahun 2026 - 2031 | Jakarta, 1 Juli 2025</a></h4>
+		
+		
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id117 allmode-featured">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">27.Jun.2024</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/pengumuman-seleksi-terbuka-jptp/pengumuman-tentang-hasil-akhir-seleksi-terbuka-calon-pejabat-pimpian-tinggi-madya-di-lingkungan-kementerian-panrb-tahun-2024-jakarta-27-juni-2024">Pengumuman Tentang Hasil Akhir Seleksi Terbuka Calon Pejabat Pimpian Tinggi Madya di Lingkungan Kementerian PANRB Tahun 2024 | Jakarta, 27 Juni 2024</a></h4>
+		
+		
+		
+	</div>
+
+</div>
+<div class="allmode-showall"><a href="/site/berita-terkini/pengumuman-seleksi-terbuka-jptp">indeks...</a></div></div>
+</div></div></div></div><div id="sppb-addon-wrapper-1641361939829" class="sppb-addon-wrapper"><div id="sppb-addon-1641361939829" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">PENDAFTARAN CPNS DAN PPPK TA 2024</h3>
+<div class="allmode-box allmode-default">
+
+
+
+
+<div class="allmode-itemsbox">
+
+	<div class="allmode-item allmode-category-id130 allmode-featured">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">22.Jul.2025</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/cpns/pengumuman-tentang-hasil-seleksi-kompetensi-pengadaan-pppk-tenga-teknis-bagi-peserta-kriteria-pelamar-tambbahan-jabatan-tampungan-di-lingkungan-kementerian-panrb-tahun-anggaran-2024-jakarta-22-juli-2025">Pengumuman Tentang Hasil Seleksi Kompetensi Pengadaan PPPK Tenga Teknis Bagi Peserta Kriteria Pelamar Tambahan (Jabatan Tampungan) di Lingkungan Kementerian PANRB Tahun Anggaran 2024 | Jakarta, 22 Juli 2025</a></h4>
+		
+		
+		
+	</div>
+
+
+	<div class="allmode-item allmode-category-id130 allmode-featured">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">21.Jun.2025</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/cpns/pengumuman-tentanng-hasil-akhir-seleksi-pppk-bagi-pelamar-non-asn-yang-aktif-bekerja-di-instansi-pemerintah-di-lingkungan-kementerian-panrb-tahun-anggaran-2024-jakarta-20-juni-2025">Pengumuman Tentang Hasil Akhir Seleksi PPPK Bagi Pelamar Non ASN yang Aktif Bekerja di Instansi Pemerintah di Lingkungan Kementerian PANRB Tahun Anggaran 2024 | Jakarta, 20 Juni 2025</a></h4>
+		
+		
+		
+	</div>
+
+</div>
+<div class="allmode-showall"><a href="/site/berita-terkini/cpns">indeks...</a></div></div>
+</div></div></div></div><div id="sppb-addon-wrapper-1728289519787" class="sppb-addon-wrapper"><div id="sppb-addon-1728289519787" class="clearfix "     ><div class="sppb-addon sppb-addon-module "><div class="sppb-addon-content"><h3 class="sppb-addon-title">INFORMASI PENGADAAN BARANG DAN JASA</h3>
+<div class="allmode-box allmode-default">
+
+
+
+
+<div class="allmode-itemsbox">
+
+	<div class="allmode-item allmode-category-id114 allmode-featured">
+
+		
+				<div class="allmode-details">
+
+						<span class="allmode-date">07.Feb.2024</span>
+			
+			
+			
+			
+		</div>
+		
+				<h4 class="allmode-title"><a href="/site/berita-terkini/pengumuman-lelang/informasi-pengadaan-barang-dan-jasa">Informasi Pengadaan Barang dan Jasa</a></h4>
+		
+		
+		
+	</div>
+
+</div>
+<div class="allmode-showall"><a href="/site/berita-terkini/pengumuman-lelang/">indeks...</a></div></div>
+</div></div></div></div></div></div></div></div></div></section><section id="section-id-1535685608788" class="sppb-section" ><div class="sppb-row-container"><div class="sppb-row"><div class="sppb-col-md-12" id="column-wrap-id-1535685608827"><div id="column-id-1535685608827" class="sppb-column" ><div class="sppb-column-addons"></div></div></div></div></div></section><section id="section-id-1524239305868" class="sppb-section sppb-hidden-xs" ><div class="sppb-row-container"><div class="sppb-row"><div class="sppb-col-md-12" id="column-wrap-id-1524239305865"><div id="column-id-1524239305865" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1546085589099" class="sppb-addon-wrapper"><div id="sppb-addon-1546085589099" class="clearfix "     ><div class="sppb-addon sppb-addon-module bannerikonbawah"><div class="sppb-addon-content"><h3 class="sppb-addon-title">INSTANSI TERKAIT</h3>
+
+<div class="custombannerpansmall"  >
+	<div id="surow6a59b1ef85d66" class="su-row su-clmms-yes">
+<div id="sucol6a59b1ef85de0" class="su-column su-column-size-1-1 su-column-size-medium-1-4"><div class="su-column-inner"><div class="su-column-content">
+<p><a href="http://www.anri.go.id/"><img src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2ANRI.png" alt="logo2ANRI" width="31" height="33" />&nbsp;ANRI</a></p>
+<p><a href="http://www.bkn.go.id/"><img alt="logo2ORI" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2ORI.png" width="31" height="33" />&nbsp;BKN</a></p>
+<p><a href="http://www.bpkp.go.id/"><img alt="logo2BPKP" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2BPKP.png" width="31" height="33" />&nbsp;BPKP</a></p>
+<p><a href="http://www.lan.go.id/"><img alt="logo2LAN" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2LAN.png" width="31" height="33" />&nbsp;LAN</a></p>
+<p><a href="http://www.kemendagri.go.id/"><img alt="logo2KEMENDAGRI" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2KEMENDAGRI.png" width="31" height="33" />&nbsp;DAGRI</a></p>
+<p><a href="http://www.bpn.go.id" style="background-color: inherit; font-family: inherit; font-size: 1rem;"><img alt="logo2bpn" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2bpn.jpg" width="31" height="33" /></a><span style="background-color: inherit; color: inherit; font-family: inherit; font-size: 1rem;">&nbsp;&nbsp;</span><a href="http://www.bpn.go.id" style="background-color: inherit; font-family: inherit; font-size: 1rem;">BPN</a></p>
+</div></div></div>
+<div id="sucol6a59b1ef8612d" class="su-column su-column-size-1-1 su-column-size-medium-1-4"><div class="su-column-inner"><div class="su-column-content">
+<p><a href="http://www.kemdikbud.go.id/"><img alt="logo2KEMENDIKBUD" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2KEMENDIKBUD.png" width="31" height="33" />&nbsp;DIKBUD</a></p>
+<p><a href="http://www.kominfo.go.id/"><img alt="logo2KOMINFO" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2KOMINFO.png" width="31" height="33" />&nbsp;KOMINFO</a></p>
+<p><a href="http://www.setneg.go.id/"><img alt="logo2SETNEG" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2SETNEG.png" width="31" height="33" />&nbsp;SETNEG</a></p>
+<p><a href="http://setkab.go.id/"><img alt="logo2ORI" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2ORI.png" width="31" height="33" />&nbsp;SETKAB</a></p>
+<p><a href="http://www.bappenas.go.id"><img alt="logo2bappenas" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2bappenas.jpg" width="31" height="33" /></a>&nbsp;<a href="http://www.bappenas.go.id">BAPPENAS</a></p>
+</div></div></div>
+<div id="sucol6a59b1ef86215" class="su-column su-column-size-1-1 su-column-size-medium-1-4"><div class="su-column-inner"><div class="su-column-content">
+<p><a href="https://tapera.go.id/home/"><img src="https://www.menpan.go.id/site/images/banners/iconkcl/logobapertarum.jpg" alt="logobapertarum" width="31" height="33" />&nbsp;BAPERTARUM</a></p>
+<p><a href="https://www.kasn.go.id/"><img src="https://www.menpan.go.id/site/images/banners/iconkcl/logokasn.jpg" alt="logokasn" width="31" height="33" />&nbsp;KASN</a></p>
+<p><a href="http://www.kpu.go.id/" style="background-color: inherit; font-family: inherit; font-size: 1rem;"><img alt="logo2KPU" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2KPU.png" width="31" height="33" />&nbsp;KPU</a></p>
+<p><a href="http://www.bawaslu.go.id/"><img alt="logo2BAWASLU" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2BAWASLU.png" width="31" height="33" />&nbsp;BAWASLU</a></p>
+<p><a href="http://www.polkam.go.id"><img alt="logo2polhukam" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2polhukam.jpg" width="31" height="33" /></a>&nbsp;<a href="http://www.polkam.go.id">POLHUKAM</a></p>
+</div></div></div>
+<div id="sucol6a59b1ef862c2" class="su-column su-column-size-1-1 su-column-size-medium-1-4"><div class="su-column-inner"><div class="su-column-content">
+<p><a href="http://www.ombudsman.go.id/"><img alt="logo2ORI" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2ORI.png" width="31" height="33" />&nbsp;ORI</a></p>
+<p><a href="http://www.bmkg.go.id/BMKG_Pusat/"><img src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2bmkg.jpg" alt="logo2bmkg" width="31" height="33" /></a> <a href="http://www.bmkg.go.id/BMKG_Pusat/">BMKG</a></p>
+<p><a href="http://www.polri.go.id"><img alt="logo2polri" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2polri.jpg" width="31" height="33" /></a>&nbsp;<a href="http://www.polri.go.id">POLRI</a></p>
+<p><a href="http://www.kemenkeu.go.id"><img alt="logo2kemenkeu" src="https://www.menpan.go.id/site/images/banners/iconkcl/logo2kemenkeu.jpg" width="31" height="33" /></a>&nbsp;<a href="http://www.kemenkeu.go.id">KEMENKEU</a></p>
+<p><img src="https://www.menpan.go.id/site/images/SealofASEAN.png" alt="SealofASEAN" width="33" height="33" />&nbsp;<a href="http://setnas-asean.id/">SEKRETARIAT NASIONAL ASEAN</a></p>
+</div></div></div>
+<p><span style="background-color: inherit; color: inherit; font-family: inherit; font-size: 12.16px;"></div></span></p>
+<p>&nbsp;</p>
+</div>
+</div></div></div></div><div id="sppb-addon-wrapper-1749003363401" class="sppb-addon-wrapper"><div id="sppb-addon-1749003363401" class="clearfix "     ><div class="sppb-addon sppb-addon-raw-html "><div class="sppb-addon-content"><!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/60c880a365b7290ac6360868/1f87jcvnc';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script--></div></div></div></div></div></div></div></div></div></section><section id="section-id-1524239305892" class="sppb-section" ><div class="sppb-row-container"><div class="sppb-row"><div class="sppb-col-md-8" id="column-wrap-id-1524239305891"><div id="column-id-1524239305891" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1524383725625" class="sppb-addon-wrapper"><div id="sppb-addon-1524383725625" class="clearfix "     ><div class="sppb-addon sppb-addon-text-block  hubungikami"><div class="sppb-addon-content"><p>Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi</p>
+<p>Jl. Jend. Sudirman Kav. 69 Jakarta Selatan - 12190 Indonesia</p>
+<p>Telp. (+6221) 7398381 - 89</p>
+<p><strong>Persuratan Kementerian PANRB:</strong>&nbsp;<strong><a href="https://mapanrb.menpan.go.id/" target="_blank" rel="noopener">mapanrb.menpan.go.id</a></strong></p></div></div></div></div></div></div></div><div class="sppb-col-md-4" id="column-wrap-id-1524383725617"><div id="column-id-1524383725617" class="sppb-column" ><div class="sppb-column-addons"><div id="sppb-addon-wrapper-1524383725633" class="sppb-addon-wrapper"><div id="sppb-addon-1524383725633" class="clearfix "     ><div class="sppb-addon sppb-addon-text-block  socialicon"><div class="sppb-addon-content"><p><a href="https://www.facebook.com/pages/Kementerian-PANRB/252032711635152"><img alt="Facebook" src="https://www.menpan.go.id/site/images/banners/facebook-24.png" width="24" height="24" /></a><a href="https://twitter.com/kempanrb?lang=id"><img src="https://www.menpan.go.id/site/images/banners/twitter-26.png" alt="twitter 26" width="24" height="24" /></a><a href="https://www.instagram.com/kemenpanrb/"><img src="https://www.menpan.go.id/site/images/banners/instagram-25.png" alt="instagram 25" width="24" height="24" /></a><a href="https://www.youtube.com/channel/UC4Tl2xUO_sjUNs-SfedTmEg"><img alt="Youtube" src="https://www.menpan.go.id/site/images/banners/youtube-24.png" width="24" height="24" /></a><img alt="map-24" src="https://www.menpan.go.id/site/images/banners/map-24.png" width="24" height="24" /></p></div></div></div></div></div></div></div></div></div></section>			</div>
+</div></div></main></div></section><footer id="sp-footer"><div class="container"><div class="container-inner"><div class="row"><div id="sp-footer1" class="col-lg-12 "><div class="sp-column "><span class="sp-copyright">Hak Cipta © 2026 Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi - Republik Indonesia	| <a href="/site/privacy-policy" target="_blank" rel="noopener"> Privacy Policy</a></span></div></div></div></div></div></footer>        </div>
+    </div>
+
+    <!-- Off Canvas Menu -->
+    <div class="offcanvas-overlay"></div>
+    <div class="offcanvas-menu">
+        <a href="#" class="close-offcanvas"><span class="fa fa-remove"></span></a>
+        <div class="offcanvas-inner">
+                            <div class="sp-module "><div class="sp-module-content"><ul class="menu">
+<li class="item-136 default current active"><a href="/site/" >Beranda</a></li><li class="item-53 menu-deeper menu-parent"><a href="#" >Profil<span class="menu-toggler"></span></a><ul class="menu-child"><li class="item-220 menu-divider menu-deeper menu-parent"><span class="menu-separator ">Tentang Kami<span class="menu-toggler"></span></span>
+<ul class="menu-child"><li class="item-1632"><a href="/site/tentang-kami/tentang-kami/visi-misi-presiden-dan-wakil-presiden-ri" >Visi, Misi Presiden dan Wakil Presiden RI</a></li><li class="item-398"><a href="/site/tentang-kami/tentang-kami/struktur-organisasi" >Struktur Organisasi</a></li><li class="item-99"><a href="/site/tentang-kami/tentang-kami/visi-dan-misi" >Tugas, Fungsi, Visi dan Misi</a></li><li class="item-1208"><a href="/site/tentang-kami/tentang-kami/peta-strategi" >Peta Strategi</a></li><li class="item-62"><a href="/site/tentang-kami/tentang-kami/tujuan-strategis" >Tujuan Strategis</a></li><li class="item-1207"><a href="/site/tentang-kami/tentang-kami/sasaran" >Sasaran</a></li><li class="item-100"><a href="/site/tentang-kami/tentang-kami/logo" >Logo</a></li><li class="item-1642"><a href="/site/tentang-kami/tentang-kami/fondasi-baru-bagi-aparatur-sipil-negara-asn" >Nilai Dasar BerAKHLAK</a></li><li class="item-562"><a href="/site/tentang-kami/tentang-kami/kiprah-pengabdian-kementerian-panrb" >Kiprah Pengabdian Kementerian PANRB</a></li><li class="item-563"><a href="/site/tentang-kami/tentang-kami/menteri-panrb-dari-masa-ke-masa" >Menteri PANRB Dari Masa Ke Masa</a></li><li class="item-1649"><a href="/site/tentang-kami/tentang-kami/sekretaris-kementerian-panrb-dari-masa-ke-masa" >Sekretaris Kementerian PANRB Dari Masa Ke Masa</a></li></ul></li><li class="item-221 menu-divider menu-deeper menu-parent"><span class="menu-separator ">Kedeputian dan Sekretariat<span class="menu-toggler"></span></span>
+<ul class="menu-child"><li class="item-109"><a href="/site/kedeputian-reformasi-birokrasi" >Reformasi Birokrasi, Akuntabilitas Aparatur, dan Pengawasan</a></li><li class="item-110"><a href="/site/kelembagaan" >Kelembagaan dan Tata Laksana</a></li><li class="item-111"><a href="/site/sdm-aparatur" >SDM Aparatur</a></li><li class="item-114"><a href="/site/pelayanan-publik" >Pelayanan Publik</a></li><li class="item-1664"><a href="/site/tentang-kami/kedeputian/transformasi-digital-pemerintah" >Transformasi Digital Pemerintah</a></li><li class="item-1591"><a href="/site/tentang-kami/kedeputian/sekretariat-kementerian" >Sekretariat Kementerian</a></li><li class="item-1640"><a href="/site/tentang-kami/kedeputian/inspektorat" >Inspektorat</a></li><li class="item-1636"><a href="/site/tentang-kami/kedeputian/statistik-pegawai-kementerian-panrb" >Statistik Pegawai</a></li><li class="item-1637"><a href="/site/tentang-kami/kedeputian/statistik-laporan-keuangan" >Statistik Laporan Keuangan</a></li></ul></li><li class="item-102 menu-divider menu-deeper menu-parent"><span class="menu-separator ">Profil Pejabat<span class="menu-toggler"></span></span>
+<ul class="menu-child"><li class="item-1662"><a href="/site/tentang-kami/profil-pejabat/rini-widyantin" >Menteri</a></li><li class="item-1663"><a href="/site/tentang-kami/profil-pejabat/purwadi-arianto" >Wakil Menteri</a></li><li class="item-399"><a href="/site/tentang-kami/profil-pejabat/pejabat" >Pejabat</a></li></ul></li></ul></li><li class="item-264 menu-deeper menu-parent"><a href="#" >Publikasi<span class="menu-toggler"></span></a><ul class="menu-child"><li class="item-513 menu-divider menu-deeper menu-parent"><span class="menu-separator ">Galeri<span class="menu-toggler"></span></span>
+<ul class="menu-child"><li class="item-1547"><a href="/site/publikasi/galeri/sambutan-menteri-panrb" >Sambutan Menteri PANRB</a></li><li class="item-1634"><a href="/site/publikasi/galeri/buku-sambutan-menteri-panrb-bulanan" >Buku Sambutan Menteri PANRB Bulanan</a></li><li class="item-368"><a href="/site/publikasi/galeri/majalah-asn" >Majalah ASN</a></li><li class="item-1593"><a href="/site/publikasi/galeri/jurnal-panrb" >Jurnal PANRB</a></li><li class="item-1629"><a href="/site/publikasi/galeri/newsletter-sekilas-rb" >Newsletter Sekilas RB</a></li></ul></li><li class="item-73 menu-divider menu-deeper menu-parent"><span class="menu-separator ">Unduh Dokumen<span class="menu-toggler"></span></span>
+<ul class="menu-child"><li class="item-428"><a href="/site/publikasi/unduh-dokumen/buku" >Buku</a></li><li class="item-1661"><a href="/site/publikasi/unduh-dokumen/isbn" >ISBN</a></li><li class="item-429"><a href="/site/publikasi/unduh-dokumen/seminar" >Seminar</a></li><li class="item-134"><a href="/site/publikasi/unduh-dokumen/surat" >Surat</a></li><li class="item-1650"><a href="/site/publikasi/unduh-dokumen/logo-hut-kemenpanrb" >Logo HUT KEMENPANRB</a></li><li class="item-1652"><a href="/site/publikasi/unduh-dokumen/infografis" >Infografis</a></li></ul></li><li class="item-520 menu-divider menu-deeper menu-parent"><span class="menu-separator ">Unduh Dokumen 2<span class="menu-toggler"></span></span>
+<ul class="menu-child"><li class="item-56"><a href="/site/publikasi/unduh-dokumen-2/profil" >Profil</a></li><li class="item-518 menu-deeper menu-parent"><a href="#" >Akuntabilitas Kinerja<span class="menu-toggler"></span></a><ul class="menu-child"><li class="item-1657"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/dipa-kementerian-panrb" >DIPA Kementerian PANRB</a></li><li class="item-554"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rencana-strategis-renstra" >Rencana Strategis (Renstra)</a></li><li class="item-532"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/perjanjian-kinerja" >Perjanjian Kinerja</a></li><li class="item-1660"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rka-satker-rencana-kinerja-satuan-kerja" >RKA Satker Rencana Kinerja Satuan Kerja</a></li><li class="item-1166"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/indikator-kinerja-utama-kementerian-panrb-2015-2019" >Indikator Kinerja Utama</a></li><li class="item-531"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/laporan-kinerja" >Laporan Kinerja</a></li><li class="item-1659"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/laporan-keuangan" >Laporan Keuangan</a></li><li class="item-1221"><a href="/site/publikasi/unduh-dokumen-2/akuntabilitas-kinerja/rencana-kerja-renja" >Rencana Kerja (Renja)</a></li></ul></li><li class="item-1229"><a href="/site/publikasi/unduh-dokumen-2/standar-pelayanan" >Standar Pelayanan</a></li></ul></li></ul></li><li class="item-1651"><a href="https://mapanrb.menpan.go.id/" >MAPANRB</a></li><li class="item-79"><a href="https://jdih.menpan.go.id/" >JDIH</a></li><li class="item-1592"><a href="http://ppid.menpan.go.id/" >PPID</a></li></ul>
+</div></div>
+                    </div>
+    </div>
+
+    
+    
+    
+    <!-- Go to top -->
+            <a href="#" class="sp-scroll-up" aria-label="Scroll Up"><span class="fa fa-chevron-up" aria-hidden="true"></span></a>
+    
+    </body>
+</html>
