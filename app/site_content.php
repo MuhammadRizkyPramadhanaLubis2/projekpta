@@ -1,13 +1,39 @@
 <?php
 declare(strict_types=1);
 
+
+function local_lhe_cards(string $relativeDirectory, string $titleContains = ''): array
+{
+    $directory = dirname(__DIR__) . '/' . trim($relativeDirectory, '/');
+    if (!is_dir($directory)) {
+        return [];
+    }
+
+    $files = glob($directory . '/*.pdf') ?: [];
+    natsort($files);
+    $cards = [];
+    foreach ($files as $file) {
+        $name = pathinfo($file, PATHINFO_FILENAME);
+        if ($titleContains !== '' && strpos($name, $titleContains) === false) {
+            continue;
+        }
+        $relative = trim($relativeDirectory, '/') . '/' . basename($file);
+        $cards[] = [
+            'title' => preg_replace('/\s+/', ' ', $name),
+            'url' => str_replace('%2F', '/', rawurlencode($relative)),
+        ];
+    }
+    return $cards;
+}
+
 function site_nav(): array
 {
     return [
         ['label' => 'IFKIN', 'slug' => 'notifikasi'],
-        ['label' => 'Upload TOR', 'slug' => 'abt', 'children' => [
-            ['label' => 'Revisi', 'slug' => 'revisi'],
-        ]],
+        ['label' => 'TOR', 'slug' => 'tor'],
+        ['label' => 'KAK ABT', 'slug' => 'abt'],
+        ['label' => 'Baseline', 'slug' => 'baseline'],
+        ['label' => 'Revisi', 'slug' => 'revisi'],
         ['label' => 'Program Kerja & SOP', 'slug' => 'program-kerja-sop'],
         [
             'label' => 'Penyusunan Anggaran',
@@ -22,7 +48,7 @@ function site_nav(): array
         ['label' => 'Hibah', 'slug' => 'hibah'],
         ['label' => 'Manajemen Risiko', 'slug' => 'manajemen-risiko'],
         [
-            'label' => 'SAKIP',
+            'label' => 'Laporan Kinerja',
             'slug' => 'sakip',
             'children' => [
                 ['label' => 'LHE AKIP PTA Medan', 'slug' => 'sakip-pta-medan'],
@@ -69,8 +95,8 @@ function site_pages(): array
             'sections' => [
                 [
                     'title' => 'Tampilan Referensi Renstra',
-                    'iframe' => 'https://pa-jakartapusat.go.id/rencana-strategis-mahkamah-agung-tahun-2025-2029/',
-                    'url' => 'https://pa-jakartapusat.go.id/rencana-strategis-mahkamah-agung-tahun-2025-2029/',
+                    'iframe' => 'https://pta-medan.go.id/index.php/65-tentang-pta-medan/renstra',
+                    'url' => 'https://pta-medan.go.id/index.php/65-tentang-pta-medan/renstra',
                     'iframeHeight' => '780px',
                 ],
             ],
@@ -118,7 +144,7 @@ function site_pages(): array
                 ['Pagu Indikatif', 'pagu-indikatif'],
                 ['Pagu Definitif', 'pagu-definitif'],
                 ['Revisi Anggaran', 'revisi'],
-                ['SAKIP', 'sakip'],
+                ['Laporan Kinerja', 'sakip'],
                 ['Evaluasi AKIP', 'evaluasi-akip'],
                 ['e-Monev Bappenas', 'e-monev-bappenas'],
                 ['ABT', 'abt'],
@@ -166,6 +192,11 @@ function site_pages(): array
             'lead' => 'Dasar hukum penyusunan rencana anggaran baseline.',
             'list' => $budgetLaw,
         ],
+        'tor' => [
+            'title' => 'Term of Reference (TOR)',
+            'subtitle' => 'Dasar hukum penyusunan TOR',
+            'list' => $budgetLaw,
+        ],
         'pagu-indikatif' => [
             'title' => 'Pagu Indikatif',
             'subtitle' => 'Dasar hukum penyusunan pagu indikatif',
@@ -205,8 +236,8 @@ function site_pages(): array
             ],
         ],
         'sakip' => [
-            'title' => 'SAKIP',
-            'subtitle' => 'Sistem Akuntabilitas Kinerja Instansi Pemerintah',
+            'title' => 'Laporan Kinerja',
+            'subtitle' => 'Akuntabilitas dan pelaporan kinerja instansi',
             'body' => [
                 'SAKIP adalah rangkaian sistematik dari aktivitas, alat, dan prosedur untuk penetapan, pengukuran, pengumpulan data, pengklasifikasian, pengikhtisaran, dan pelaporan kinerja instansi pemerintah.',
                 'Penyelenggaraan SAKIP terdiri atas perencanaan kinerja, pengukuran dan pengelolaan data kinerja, pelaporan kinerja, serta reviu dan evaluasi kinerja.',
@@ -224,36 +255,24 @@ function site_pages(): array
         ],
         'sakip-pta-medan' => [
             'title' => 'LHE AKIP PTA Medan',
-            'subtitle' => 'Dokumen SAKIP Pengadilan Tinggi Agama Medan',
+            'subtitle' => 'Laporan Hasil Evaluasi PTA Medan Tahun 2020–2024',
+            'body' => [
+                'Dokumen LHE ditampilkan berdasarkan berkas resmi yang disediakan. Nilai evaluasi 2020–2024 seluruhnya berada pada predikat BB (Sangat Baik).',
+            ],
             'sections' => [
-                [
-                    'title' => 'TAHUN 2025',
-                    'grid_cards' => [
-                        ['title' => '1. Reviu Indikator Kinerja Utama (IKU)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1etmxbOaDAu1eQSaP9Tion1nwABZVcDyz&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1etmxbOaDAu1eQSaP9Tion1nwABZVcDyz/view'],
-                        ['title' => '2. Rancangan Rencana Strategis (RENSTRA)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1GkTs1P5s4UZIQjg3YxrveWIIzoF0UjzK&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1GkTs1P5s4UZIQjg3YxrveWIIzoF0UjzK/view'],
-                        ['title' => '3. Rencana Kinerja (RKT) Tahun 2024', 'thumbnail' => 'https://drive.google.com/thumbnail?id=10_5S2-eAkQgknumGdftN8UFIeBgY7R3d&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/10_5S2-eAkQgknumGdftN8UFIeBgY7R3d/view'],
-                        ['title' => '4. Revisi Rencana Kinerja (RKT) Tahun 2025', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1fu63txsb8OImPA8Ssb_EXCmAbGcfApos&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1fu63txsb8OImPA8Ssb_EXCmAbGcfApos/view'],
-                        ['title' => '5. Rencana Kinerja (RKT) Tahun 2026', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1hIOynB3OogC82WwMxWJvgeBHmo9ZPouc&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1hIOynB3OogC82WwMxWJvgeBHmo9ZPouc/view'],
-                        ['title' => '6. Perjanjian Kinerja Tahun 2025', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1mnl8fvM6jBhBiiuwjwn3ZEVooPSR8RRQ&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1mnl8fvM6jBhBiiuwjwn3ZEVooPSR8RRQ/view'],
-                        ['title' => '7. Rencana Aksi Kinerja', 'thumbnail' => 'https://drive.google.com/thumbnail?id=131PVc1m51m5hvcBnM4oTnN4WH5Y94yOb&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/131PVc1m51m5hvcBnM4oTnN4WH5Y94yOb/view'],
-                        ['title' => '8. Laporan Kinerja Instansi Pemerintah (LKJiP)', 'thumbnail' => 'https://drive.google.com/thumbnail?id=1FxUJwODbPM1PiYjbXYkL1YUnqsBLf4xC&sz=w400-h400-p-k-nu', 'url' => 'https://drive.google.com/file/d/1FxUJwODbPM1PiYjbXYkL1YUnqsBLf4xC/view'],
-                    ]
-                ],
-                ['title' => 'TAHUN 2024', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1_Lfv5Nvrlbu0k4IHr6fYqdbMHqK26sIL#grid', 'url' => 'https://drive.google.com/drive/folders/1_Lfv5Nvrlbu0k4IHr6fYqdbMHqK26sIL', 'iframeHeight' => '400px'],
-                ['title' => 'TAHUN 2023', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1x23LGbkN0iXkjly4eBYkUuR_-IaNKy6w#grid', 'url' => 'https://drive.google.com/drive/folders/1x23LGbkN0iXkjly4eBYkUuR_-IaNKy6w', 'iframeHeight' => '400px'],
-                ['title' => 'TAHUN 2022', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=15j2_-T4wd2KXu4BeJfrVBUwgj2qcBP7j#grid', 'url' => 'https://drive.google.com/drive/folders/15j2_-T4wd2KXu4BeJfrVBUwgj2qcBP7j', 'iframeHeight' => '400px'],
-                ['title' => 'TAHUN 2021', 'iframe' => 'https://drive.google.com/embeddedfolderview?id=1xz4MAzs89UzM92J961A0-sm_oBYnorHv#grid', 'url' => 'https://drive.google.com/drive/folders/1xz4MAzs89UzM92J961A0-sm_oBYnorHv', 'iframeHeight' => '400px'],
+                ['title' => 'TAHUN 2024 · Nilai 77,85 · BB', 'grid_cards' => local_lhe_cards('documents/lhe/pta-medan', '2024')],
+                ['title' => 'TAHUN 2023 · Nilai 74,25 · BB', 'grid_cards' => local_lhe_cards('documents/lhe/pta-medan', '2023')],
+                ['title' => 'TAHUN 2022 · Nilai 72,25 · BB', 'grid_cards' => local_lhe_cards('documents/lhe/pta-medan', '2022')],
+                ['title' => 'TAHUN 2021 · Nilai 78,40 · BB', 'grid_cards' => local_lhe_cards('documents/lhe/pta-medan', '2021')],
+                ['title' => 'TAHUN 2020 · Nilai 77,40 · BB', 'grid_cards' => local_lhe_cards('documents/lhe/pta-medan', '2020')],
             ],
         ],
         'sakip-pa' => [
             'title' => 'LHE AKIP PA Se-Sumut',
-            'subtitle' => 'Dokumen SAKIP Pengadilan Agama Sewilayah PTA Medan',
+            'subtitle' => 'Laporan Hasil Evaluasi Pengadilan Agama Sewilayah PTA Medan',
             'sections' => [
-                ['title' => 'Upload Dokumen LHE AKIP PA Se-Sumut', 'iframe' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform?embedded=true', 'url' => 'https://docs.google.com/forms/d/e/1FAIpQLSet0YS6Rx3EF0SkIck7F2DCcJt38jlCMdJ41oxqjGnbDnS5EA/viewform', 'iframeHeight' => '800px'],
-                ['title' => 'Peraturan Presiden Nomor 29 Tahun 2014', 'iframe' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/preview', 'url' => 'https://drive.google.com/file/d/1plh8yVppV9_BSSzYAYYeJbEx8-WGwi5L/view', 'iframeHeight' => '600px'],
-                ['title' => 'Permen PANRB Nomor 88 Tahun 2021', 'iframe' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/preview', 'url' => 'https://drive.google.com/file/d/1MCfBXLZnYdbDWTS_6Gpim3M38bd8_LsO/view', 'iframeHeight' => '600px'],
-                ['title' => 'Keputusan SEKMA Nomor 2049 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/preview', 'url' => 'https://drive.google.com/file/d/1HPufIxplDsHnN1UCD_JOlgPqvLPjnFXc/view', 'iframeHeight' => '600px'],
-                ['title' => 'Keputusan SEKMA Nomor 878 Tahun 2022', 'iframe' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/preview', 'url' => 'https://drive.google.com/file/d/1fhXDTolYyRPiYLWIDvY2z2T3ZDIWaW4m/view', 'iframeHeight' => '600px'],
+                ['title' => 'TAHUN 2024', 'grid_cards' => local_lhe_cards('documents/lhe/pa-se-sumut/2024')],
+                ['title' => 'TAHUN 2023', 'grid_cards' => local_lhe_cards('documents/lhe/pa-se-sumut/2023')],
             ],
         ],
         'evaluasi-akip' => [

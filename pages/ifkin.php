@@ -6,11 +6,11 @@ if (!defined('IFKIN_EMBEDDED')) {
 }
 
 $ifkinSites = [
-    ['number'=>'01','title'=>'KemenPAN-RB','description'=>'Portal Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi. URL menunggu data resmi.','url'=>'','icon'=>'ph-buildings'],
-    ['number'=>'02','title'=>'Bappenas','description'=>'Portal Kementerian Perencanaan Pembangunan Nasional/Bappenas. URL menunggu data resmi.','url'=>'','icon'=>'ph-chart-line-up'],
-    ['number'=>'03','title'=>'KPK RI','description'=>'Portal Komisi Pemberantasan Korupsi Republik Indonesia. URL menunggu data resmi.','url'=>'','icon'=>'ph-shield-check'],
+    ['number'=>'01','title'=>'KemenPAN-RB','description'=>'Portal Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi.','url'=>'https://menpan.go.id/','icon'=>'ph-buildings'],
+    ['number'=>'02','title'=>'Bappenas','description'=>'Portal Kementerian Perencanaan Pembangunan Nasional/Bappenas.','url'=>'https://www.bappenas.go.id/','icon'=>'ph-chart-line-up'],
+    ['number'=>'03','title'=>'KPK RI','description'=>'Portal Komisi Pemberantasan Korupsi Republik Indonesia.','url'=>'https://www.kpk.go.id/id','icon'=>'ph-shield-check'],
     ['number'=>'04','title'=>'Mahkamah Agung Republik Indonesia','description'=>'Portal utama Mahkamah Agung RI untuk informasi kelembagaan, berita, putusan, dan layanan publik.','url'=>'https://mahkamahagung.go.id/id','icon'=>'ph-scales'],
-    ['number'=>'05','title'=>'Badan Urusan Administrasi','description'=>'Informasi administrasi, perencanaan, organisasi, kepegawaian, dan layanan pendukung Mahkamah Agung RI.','url'=>'https://bua.mahkamahagung.go.id/','icon'=>'ph-buildings'],
+    ['number'=>'05','title'=>'Badan Urusan Administrasi Mahkamah Agung','description'=>'Informasi administrasi, perencanaan, organisasi, kepegawaian, dan layanan pendukung Mahkamah Agung RI.','url'=>'https://bua.mahkamahagung.go.id/','icon'=>'ph-buildings'],
     ['number'=>'06','title'=>'Direktorat Jenderal Badan Peradilan Agama','description'=>'Portal pembinaan, layanan, berita, regulasi, dan informasi peradilan agama se-Indonesia.','url'=>'https://badilag.mahkamahagung.go.id/','icon'=>'ph-bank'],
     ['number'=>'07','title'=>'Badan Pengawasan Mahkamah Agung','description'=>'Informasi pengawasan, disiplin, pengumuman, dan kebijakan integritas aparatur peradilan.','url'=>'https://bawas.mahkamahagung.go.id/','icon'=>'ph-eye'],
 ];
@@ -247,6 +247,8 @@ $ifkinSites = [
         font-weight: 800;
         letter-spacing: 0;
         line-height: 1.25;
+        overflow-wrap: anywhere;
+        hyphens: auto;
     }
 
     .ifkin-card p {
@@ -267,6 +269,7 @@ $ifkinSites = [
         font-size: 12.5px;
         font-weight: 800;
         word-break: break-word;
+        overflow-wrap: anywhere;
     }
 
     .ifkin-card:hover .ifkin-url {

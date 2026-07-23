@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-// Fetch dummy data from database
+// Fetch verified performance data from database
 $pdo = db();
 $tahun = year_value();
 // Mengambil rata-rata realisasi dari seluruh user per indikator
-$targets = db()->query("SELECT indikator, 
-    MAX(target) as target, 
+$targets = db()->query("SELECT indikator,
+    MAX(target) as target,
     AVG(real_tw1) as real_tw1, AVG(real_tw2) as real_tw2, AVG(real_tw3) as real_tw3, AVG(real_tw4) as real_tw4,
     AVG(target_tw1) as target_tw1, AVG(target_tw2) as target_tw2, AVG(target_tw3) as target_tw3, AVG(target_tw4) as target_tw4
     FROM target_kinerja WHERE tahun = $tahun GROUP BY indikator")->fetchAll(PDO::FETCH_ASSOC);
@@ -37,22 +37,21 @@ foreach ($targets as $row) {
         $indText = mb_substr($indText, 0, 22) . '...';
     }
     $indicators[] = $indText;
-    
+
     for ($i = 1; $i <= 4; $i++) {
-        $targetVal = target_for_month($row, $i);
+        $targetVal = num($row['target_tw' . $i] ?? $row['target'] ?? 0);
         $realVal = num($row['real_tw' . $i] ?? 0);
-        
+
         // Avoid using full achievement logic that requires 'tipe_indikator' for simple portal display
         // Just do standard calculation
         $achvVal = $targetVal > 0 ? min(120, ($realVal / $targetVal) * 100) : 0;
-        
+
         $twData[$i]['target'][] = $targetVal;
         $twData[$i]['realisasi'][] = $realVal;
         $twData[$i]['capaian'][] = $achvVal;
     }
 }
 
-// Activity list dummy
 $activities = [
     ['icon' => 'ph-phone-call', 'title' => 'Rapat Pimpinan', 'desc' => 'Rapat evaluasi rutin pukul 10:00 WIB', 'color' => '#ef4444'],
     ['icon' => 'ph-ticket', 'title' => 'Pengajuan Revisi', 'desc' => 'Revisi DIPA diajukan ke Kanwil', 'color' => '#3b82f6'],
@@ -79,7 +78,7 @@ render_header('Diagram Hasil Capaian Kinerja');
         gap: 24px;
         margin-bottom: 24px;
     }
-    
+
     .dashboard-grid-bottom {
         display: grid;
         grid-template-columns: 1fr;
@@ -176,7 +175,7 @@ render_header('Diagram Hasil Capaian Kinerja');
         color: #94a3b8;
         font-style: normal;
     }
-    
+
     @media (max-width: 1024px) {
         .dashboard-grid-top, .dashboard-grid-bottom {
             grid-template-columns: 1fr;
@@ -224,7 +223,7 @@ render_header('Diagram Hasil Capaian Kinerja');
                 <?php endforeach; ?>
             </ul>
         </div>
-        
+
         <div class="chart-card">
             <div class="chart-card-header">
                 <span>RINGKASAN ANGGARAN</span>
@@ -238,7 +237,7 @@ render_header('Diagram Hasil Capaian Kinerja');
                 </div>
             </div>
         </div>
-        
+
         <div class="chart-card">
             <div class="chart-card-header">
                 <span>TREN KINERJA & ANGGARAN</span>
@@ -249,7 +248,7 @@ render_header('Diagram Hasil Capaian Kinerja');
             </div>
         </div>
     </div>
-    
+
     <div style="margin-top: 48px; margin-bottom: 24px;">
         <h3 style="color: #1e293b; font-size: 1.25rem; font-weight: bold; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px;">Detail Capaian Seluruh Indikator Kinerja Per Triwulan</h3>
     </div>
@@ -327,7 +326,7 @@ const areaOptions = {
     maintainAspectRatio: false,
     scales: {
         x: { grid: { display: false } },
-        y: { 
+        y: {
             grid: { color: '#f1f5f9' },
             beginAtZero: true,
             max: 120

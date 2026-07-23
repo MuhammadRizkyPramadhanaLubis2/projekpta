@@ -372,15 +372,18 @@ $profile = role_profile((string) $user['role']);
                     <?= h($sectionTitle) ?>
                 </h3>
                 <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <?php foreach ($items as [$label, $targetPage, $slug]): ?>
+                    <?php foreach ($items as $item): ?>
                         <?php
+                        [$label, $targetPage, $slug] = $item;
+                        $description = (string) ($item[4] ?? '');
                         $url = 'index.php?page=' . urlencode($targetPage);
                         if ($slug !== null) {
                             $url .= '&slug=' . urlencode($slug);
                         }
                         ?>
                         <a href="<?= h($url) ?>" class="ref-link">
-                            <?= h($label) ?>
+                            <span style="display:block;"><?= h($label) ?></span>
+                            <?php if ($description !== ''): ?><small style="display:block;margin-top:6px;color:#64748b;font-weight:400;line-height:1.45;"><?= h($description) ?></small><?php endif; ?>
                         </a>
                     <?php endforeach; ?>
                 </div>
