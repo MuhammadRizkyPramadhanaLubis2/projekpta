@@ -106,6 +106,7 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                                 <?php
                                 [$label, $targetPage, $slug] = $item;
                                 $children = $item[3] ?? [];
+                                $description = (string) ($item[4] ?? '');
                                 $url = 'index.php?page=' . urlencode((string) $targetPage);
                                 if ($slug !== null) {
                                     $url .= '&slug=' . urlencode((string) $slug);
@@ -123,30 +124,41 @@ $isPublicPage = in_array($currentPage, ['beranda', 'portal', 'info'], true);
                                     }
                                     $isSubgroupOpen = $isActive || $isChildActive;
                                     ?>
-                                    <div class="nav-subgroup <?= $isSubgroupOpen ? 'open' : '' ?>">
-                                        <div class="nav-subgroup-parent <?= ($isActive || $isChildActive) ? 'active' : '' ?>">
-                                            <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
+                                        <div class="nav-subgroup <?= $isSubgroupOpen ? 'open' : '' ?>">
+                                            <div class="nav-subgroup-parent <?= ($isActive || $isChildActive) ? 'active' : '' ?>">
+                                                <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>">
+                                                    <span class="nav-item-label"><?= h((string) $label) ?></span>
+                                                    <?php if ($description !== ''): ?><small class="nav-item-description"><?= h($description) ?></small><?php endif; ?>
+                                                </a>
                                             <span class="nav-subgroup-toggle" aria-label="Buka submenu <?= h((string) $label) ?>" onclick="this.closest('.nav-subgroup').classList.toggle('open');">
                                                 <i class="ph-bold ph-caret-down nav-sub-caret"></i>
                                             </span>
                                         </div>
                                         <div class="nav-subchildren-wrapper">
                                             <div class="nav-subchildren">
-                                                <?php foreach ($children as [$childLabel, $childTargetPage, $childSlug]): ?>
+                                                <?php foreach ($children as $child): ?>
                                                     <?php
+                                                    [$childLabel, $childTargetPage, $childSlug] = $child;
+                                                    $childDescription = (string) ($child[3] ?? '');
                                                     $childUrl = 'index.php?page=' . urlencode((string) $childTargetPage);
                                                     if ($childSlug !== null) {
                                                         $childUrl .= '&slug=' . urlencode((string) $childSlug);
                                                     }
                                                     $isChildItemActive = ($_GET['page'] ?? '') === $childTargetPage && ($childSlug === null || ($_GET['slug'] ?? '') === $childSlug);
                                                     ?>
-                                                    <a href="<?= h($childUrl) ?>" class="<?= $isChildItemActive ? 'active' : '' ?>"><?= h((string) $childLabel) ?></a>
+                                                    <a href="<?= h($childUrl) ?>" class="<?= $isChildItemActive ? 'active' : '' ?>">
+                                                        <span class="nav-item-label"><?= h((string) $childLabel) ?></span>
+                                                        <?php if ($childDescription !== ''): ?><small class="nav-item-description"><?= h($childDescription) ?></small><?php endif; ?>
+                                                    </a>
                                                 <?php endforeach; ?>
                                             </div>
                                         </div>
                                     </div>
                                 <?php else: ?>
-                                    <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>"><?= h((string) $label) ?></a>
+                                    <a href="<?= h($url) ?>" class="<?= $isActive ? 'active' : '' ?>">
+                                        <span class="nav-item-label"><?= h((string) $label) ?></span>
+                                        <?php if ($description !== ''): ?><small class="nav-item-description"><?= h($description) ?></small><?php endif; ?>
+                                    </a>
                                 <?php endif; ?>
                             <?php endforeach; ?>
                         </div>

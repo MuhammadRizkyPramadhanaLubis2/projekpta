@@ -67,6 +67,23 @@ $targets = $stmt->fetchAll();
 $meta = document_meta($documentUser, $tahun, 'pk');
 $pkExtra = pk_meta_extras((string)($meta['catatan'] ?? ''));
 
+$pihakPertamaJabatan = [
+    'Wakil Ketua PTA Medan',
+    'Panitera PTA Medan',
+    'Sekretaris PTA Medan',
+    'Kepala Bagian Perencanaan dan Anggaran',
+    'Kepala Bagian Umum dan Keuangan',
+    'Panitera Muda Hukum',
+    'Panitera Muda Banding',
+    'Kasubag Perencanaan Program dan Anggaran',
+    'Kasubag Kepegawaian dan TI',
+    'Kasubag Keuangan dan Pelaporan',
+    'Kasubag Tata Usaha dan Rumah Tangga',
+];
+$pihakKeduaJabatan = $pihakPertamaJabatan;
+$pihakKeduaJabatan[0] = 'Ketua PTA Medan';
+
+
 // Handle Export CSV
 if (($_GET['export'] ?? '') === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
@@ -90,6 +107,8 @@ if (($_GET['export'] ?? '') === 'csv') {
 
 // Handle Export DOCX
 $isDocx = ($_GET['export'] ?? '') === 'doc';
+$isPdf = ($_GET['export'] ?? '') === 'pdf';
+$isExport = $isDocx || $isPdf;
 if ($isDocx) {
     header("Content-Type: application/vnd.ms-word");
     header("Expires: 0");
@@ -97,12 +116,12 @@ if ($isDocx) {
     header("content-disposition: attachment;filename=Perjanjian_Kinerja_{$tahun}.doc");
 }
 
-if (!$isDocx) {
+if (!$isExport) {
     render_header('Cetak Perjanjian Kinerja');
 }
 ?>
 
-<?php if (!$isDocx): ?>
+<?php if (!$isExport): ?>
 <style>
 /* Signature UI styles */
 .signature-tabs { display: flex; gap: 8px; margin-bottom: 8px; }
@@ -152,10 +171,24 @@ if (!$isDocx) {
         <label>Tanggal Surat <input type="date" name="tanggal_surat" value="<?= h((string) $meta['tanggal_surat']) ?>"></label>
         <label>Lokasi <input name="lokasi" value="<?= h((string) $meta['lokasi']) ?>"></label>
         <label>Nama Pihak Pertama <input name="pihak1_nama" required value="<?= h((string) $meta['pihak1_nama']) ?>"></label>
-        <label>Jabatan Pihak Pertama <input name="pihak1_jabatan" required value="<?= h((string) $meta['pihak1_jabatan']) ?>"></label>
+        <label>Jabatan Pihak Pertama
+            <select name="pihak1_jabatan" required>
+                <option value="" disabled <?= trim((string) $meta['pihak1_jabatan']) === '' ? 'selected' : '' ?>>Pilih jabatan</option>
+                <?php foreach ($pihakPertamaJabatan as $jabatan): ?>
+                    <option value="<?= h($jabatan) ?>" <?= (string) $meta['pihak1_jabatan'] === $jabatan ? 'selected' : '' ?>><?= h($jabatan) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
         <label>NIP Pihak Pertama <input name="pihak1_nip" inputmode="numeric" value="<?= h((string) $pkExtra['pihak1_nip']) ?>" placeholder="Opsional untuk PK individu"></label>
         <label>Nama Pihak Kedua <input name="pihak2_nama" required value="<?= h((string) $meta['pihak2_nama']) ?>"></label>
-        <label>Jabatan Pihak Kedua <input name="pihak2_jabatan" required value="<?= h((string) $meta['pihak2_jabatan']) ?>"></label>
+        <label>Jabatan Pihak Kedua
+            <select name="pihak2_jabatan" required>
+                <option value="" disabled <?= trim((string) $meta['pihak2_jabatan']) === '' ? 'selected' : '' ?>>Pilih jabatan</option>
+                <?php foreach ($pihakKeduaJabatan as $jabatan): ?>
+                    <option value="<?= h($jabatan) ?>" <?= (string) $meta['pihak2_jabatan'] === $jabatan ? 'selected' : '' ?>><?= h($jabatan) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
         <label>NIP Pihak Kedua <input name="pihak2_nip" inputmode="numeric" value="<?= h((string) $pkExtra['pihak2_nip']) ?>" placeholder="Opsional untuk PK individu"></label>
         <label class="pk-full-field">Catatan Dokumen <textarea name="catatan" placeholder="Catatan internal, tidak ditampilkan pada naskah resmi."><?= h((string) $pkExtra['catatan']) ?></textarea></label>
         
@@ -354,7 +387,7 @@ function saveSignatures() {
     }
 }
 </script>
-<?php else: ?>
+<?php elseif ($isExport): ?>
 <html>
 <head>
 <meta charset="utf-8">
@@ -362,6 +395,7 @@ function saveSignatures() {
 body { font-family: "Times New Roman", Times, serif; }
 table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
 th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+@page { margin: 20mm; }
 </style>
 </head>
 <body>
@@ -369,7 +403,10 @@ th, td { border: 1px solid #000; padding: 5px; text-align: left; }
 
 <?php require __DIR__ . '/../app/templates/perjanjian_kinerja.php'; ?>
 
-<?php if ($isDocx): ?>
+<?php if ($isExport): ?>
+    <?php if ($isPdf): ?>
+        <script>window.onload = function() { window.print(); };</script>
+    <?php endif; ?>
 </body>
 </html>
 <?php else: ?>

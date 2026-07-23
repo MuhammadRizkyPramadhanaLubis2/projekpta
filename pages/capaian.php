@@ -135,7 +135,7 @@ render_header('Hitung Capaian Kinerja');
                         <input type="checkbox" class="print-checkbox" value="<?= h((string) $row['id']) ?>">
                     </td>
                     <?php if ($canViewAll): ?>
-                        <td>
+                        <td class="hck-owner-cell" data-owner-key="<?= h(strtolower(trim((string) ($row['owner_nama'] ?? '')) . '|' . role_label((string) ($row['owner_role'] ?? '')))) ?>">
                             <?= format_user_label($row['owner_nama'] ?? '', $row['owner_role'] ?? '', true) ?>
                         </td>
                     <?php endif; ?>
@@ -151,19 +151,6 @@ render_header('Hitung Capaian Kinerja');
                     <td><?= h((string) $row['target_bulan']) ?></td>
                     <td>
                         <?= h((string) $row['realisasi']) ?>
-                        <?php
-                        if (($row['is_mandatory'] ?? 0) == 1) {
-                            $meta = json_decode((string)($row['metadata'] ?? '{}'), true);
-                            if (is_array($meta) && isset($meta[$months[$bulan - 1]])) {
-                                $m = $meta[$months[$bulan - 1]];
-                                if (($row['owner_role'] ?? '') === 'PanmudBanding') {
-                                    echo '<br><small style="color:#64748b;">(Masuk: ' . h((string)($m['a'] ?? 0)) . ', Selesai: ' . h((string)($m['b'] ?? 0)) . ')</small>';
-                                } elseif (($row['owner_role'] ?? '') === 'PanmudHukum') {
-                                    echo '<br><small style="color:#64748b;">(E-Court: ' . h((string)($m['a'] ?? 0)) . ', Non: ' . h((string)($m['b'] ?? 0)) . ')</small>';
-                                }
-                            }
-                        }
-                        ?>
                     </td>
                     <td><?= h((string) $row['capaian']) ?></td>
                     <td><?= h((string) $row['nilai_tertimbang']) ?></td>
@@ -190,10 +177,40 @@ render_header('Hitung Capaian Kinerja');
         max-height: none !important;
         overflow: visible !important;
     }
+    .hck-owner-cell {
+        vertical-align: middle !important;
+        page-break-inside: avoid;
+    }
 }
 </style>
 
 <script>
+function groupPrintedOwners() {
+    const visibleRows = Array.from(document.querySelectorAll('#dataTableContainer tbody tr')).filter(row => {
+        const checkbox = row.querySelector('.print-checkbox');
+        return checkbox && checkbox.checked;
+    });
+    const groups = new Map();
+    visibleRows.forEach(row => {
+        const cell = row.querySelector('.hck-owner-cell');
+        if (!cell) return;
+        const key = cell.dataset.ownerKey || cell.textContent.trim().toLocaleLowerCase('id-ID');
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(cell);
+    });
+    groups.forEach(cells => {
+        cells[0].rowSpan = cells.length;
+        cells.slice(1).forEach(cell => cell.style.display = 'none');
+    });
+}
+
+function restorePrintedOwners() {
+    document.querySelectorAll('.hck-owner-cell').forEach(cell => {
+        cell.removeAttribute('rowspan');
+        cell.style.display = '';
+    });
+}
+
 function printSelectedPDF() {
     const selectedCheckboxes = Array.from(document.querySelectorAll('.print-checkbox:checked'));
     if (selectedCheckboxes.length === 0) {
@@ -220,7 +237,9 @@ function printSelectedPDF() {
         if (el.parentElement) el.parentElement.classList.add('print-hide');
     });
 
+    groupPrintedOwners();
     window.print();
+    restorePrintedOwners();
 
     allRows.forEach(tr => tr.classList.remove('print-hide'));
     if (analysisRule) analysisRule.classList.remove('print-hide');

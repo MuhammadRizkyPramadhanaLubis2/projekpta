@@ -39,6 +39,26 @@ $stmt->execute($params);
 $targets = $stmt->fetchAll();
 $meta = document_meta($documentUser, $tahun, 'renaksi');
 
+$formatTargetValue = static function (array $target, int $quarter): string {
+    $value = target_for_quarter($target, $quarter);
+    $formatted = abs($value - round($value)) < 0.00001
+        ? (string) (int) round($value)
+        : rtrim(rtrim(number_format($value, 2, ',', '.'), '0'), ',');
+    return $formatted . ((string) ($target['satuan'] ?? '') === '%' ? '%' : '');
+};
+
+$approvalName = trim((string) ($meta['pihak2_nama'] ?? '')) ?: trim((string) ($meta['pihak1_nama'] ?? ''));
+$approvalRole = trim((string) ($meta['pihak2_jabatan'] ?? '')) ?: trim((string) ($meta['pihak1_jabatan'] ?? ''));
+$approvalSignature = trim((string) ($meta['pihak2_ttd'] ?? '')) ?: trim((string) ($meta['pihak1_ttd'] ?? ''));
+$displayDate = '-';
+if (!empty($meta['tanggal_surat'])) {
+    $timestamp = strtotime((string) $meta['tanggal_surat']);
+    if ($timestamp !== false) {
+        $monthNames = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $displayDate = date('d', $timestamp) . ' ' . $monthNames[(int) date('n', $timestamp)] . ' ' . date('Y', $timestamp);
+    }
+}
+
 // Handle Export CSV
 if (($_GET['export'] ?? '') === 'csv') {
     header('Content-Type: text/csv; charset=utf-8');
@@ -68,6 +88,8 @@ if (($_GET['export'] ?? '') === 'csv') {
 
 // Handle Export DOCX
 $isDocx = ($_GET['export'] ?? '') === 'doc';
+$isPdf = ($_GET['export'] ?? '') === 'pdf';
+$isExport = $isDocx || $isPdf;
 if ($isDocx) {
     header("Content-Type: application/vnd.ms-word");
     header("Expires: 0");
@@ -75,12 +97,12 @@ if ($isDocx) {
     header("content-disposition: attachment;filename=Rencana_Aksi_{$tahun}.doc");
 }
 
-if (!$isDocx) {
+if (!$isExport) {
     render_header('Cetak Rencana Aksi');
 }
 ?>
 
-<?php if (!$isDocx): ?>
+<?php if (!$isExport): ?>
 <style>
 /* Signature UI styles */
 .signature-tabs { display: flex; gap: 8px; margin-bottom: 8px; }
@@ -113,7 +135,7 @@ if (!$isDocx) {
         </label>
     <?php endif; ?>
     <button type="submit" class="secondary">Tampilkan</button>
-    <button type="button" onclick="window.print()">Cetak PDF</button>
+    <button type="button" onclick="printPdfSilent('index.php?page=renaksi&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=pdf')" class="button" style="background:#475569; color:white; padding:8px 16px; border-radius:4px; text-decoration:none; border:none; cursor:pointer;">Cetak PDF</button>
     <a href="index.php?page=renaksi&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=doc" class="button" style="background:#1d4ed8; color:white; padding:8px 16px; border-radius:4px; text-decoration:none;">Ekspor Word</a>
     <a href="index.php?page=renaksi&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=csv" class="button" style="background:#047857; color:white; padding:8px 16px; border-radius:4px; text-decoration:none;">Ekspor CSV</a>
 </form>
@@ -326,132 +348,271 @@ function saveSignatures() {
 }
 </script>
 <?php else: ?>
-<html>
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <meta charset="utf-8">
 <style>
+@page WordSection1 {
+    size: 841.9pt 595.3pt; /* A4 Landscape */
+    mso-page-orientation: landscape;
+    margin: 36.0pt 36.0pt 36.0pt 36.0pt;
+}
+div.WordSection1 { page: WordSection1; }
 body { font-family: "Times New Roman", Times, serif; }
 table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+th, td { border: 1px solid #000; padding: 5px; text-align: left; vertical-align: top; }
+th { background-color: #f6bc8b; font-weight: bold; text-align: center; vertical-align: middle; }
+.center { text-align: center; }
+.number { text-align: right; }
+.strong { font-weight: bold; }
+.indicator-band td { background-color: #fce8d7; font-weight: bold; }
+.renaksi-title { text-align: center; font-size: 14pt; font-weight: bold; }
+.renaksi-subtitle { text-align: center; font-size: 12pt; font-weight: bold; text-transform: uppercase; margin-bottom: 20px; }
+.renaksi-approval { font-size: 11pt; }
 </style>
 </head>
 <body>
+<div class="WordSection1">
 <?php endif; ?>
 
-<section class="print-sheet">
-    <h2 style="text-align: center;">RENCANA AKSI TAHUN <?= h((string) $tahun) ?></h2>
-    <h3 style="text-align: center;"><?= h((string) $documentUser['unit']) ?> - <?= h(role_label((string) $documentUser['role'])) ?></h3>
-    <p class="document-number" style="text-align: center;">Nomor: <?= h((string) ($meta['no_surat'] ?: '-')) ?></p>
+<style>
+/* Keep the browser print preview and the generated PDF on the same canvas. */
+@page {
+    size: A4 landscape;
+    margin: 10mm;
+}
 
-    <?php if (!$isDocx): ?>
-    <div class="document-context">
-        <div>
-            <strong>Ruang Lingkup</strong>
-            <span><?= h((string) $profile['scope']) ?></span>
-        </div>
-        <div>
-            <strong>Sumber Realisasi</strong>
-            <span><?= h(implode(', ', $profile['sources'])) ?></span>
-        </div>
-        <div>
-            <strong>Aturan Analisis</strong>
-            <span><?= h((string) $profile['analysis_rule']) ?></span>
-        </div>
-    </div>
-    <?php endif; ?>
+.renaksi-document {
+    width: min(1120px, 100%);
+    max-width: none;
+    box-sizing: border-box;
+    margin: 24px auto;
+    padding: 38px 42px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, .08);
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+}
+.renaksi-title {
+    margin: 0;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: .01em;
+}
+.renaksi-subtitle {
+    margin: 12px 0 28px;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.25;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.renaksi-table {
+    width: 100%;
+    margin: 0 0 14px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 10px;
+    line-height: 1.25;
+}
+.renaksi-table th,
+.renaksi-table td {
+    border: 1px solid #111;
+    padding: 5px 6px;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+}
+.renaksi-table thead th {
+    background: #f6bc8b;
+    color: #111;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 700;
+}
+.renaksi-table .center { text-align: center; vertical-align: middle; }
+.renaksi-table .number { text-align: right; vertical-align: middle; white-space: nowrap; }
+.renaksi-table .strong { font-weight: 700; }
+.renaksi-table .indicator-band td {
+    padding: 4px 6px;
+    background: #fce8d7;
+    font-weight: 700;
+}
+.renaksi-table .empty-row td { padding: 18px 8px; text-align: center; }
+.renaksi-summary { margin-bottom: 16px; }
+.renaksi-activities thead { display: table-header-group; }
+.renaksi-activities tr { break-inside: avoid; page-break-inside: avoid; }
+.renaksi-note { margin: 16px 0 0; font-size: 10px; line-height: 1.4; }
+.renaksi-approval {
+    font-size: 11px;
+    line-height: 1.35;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+.renaksi-approval .signature-space {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.renaksi-approval .signature-space img { max-width: 150px; max-height: 72px; object-fit: contain; }
+.renaksi-approval .name { font-weight: 700; text-decoration: underline; }
+@media (max-width: 900px) {
+    .renaksi-document { padding: 24px 18px; overflow-x: auto; }
+    .renaksi-table { min-width: 920px; }
+}
+@media print {
+    html, body { width: 100%; margin: 0 !important; padding: 0 !important; }
+    .renaksi-document {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .renaksi-title { font-size: 13pt; }
+    .renaksi-subtitle { margin: 8px 0 18px; font-size: 12pt; }
+    .renaksi-table { font-size: 8.5pt; }
+    .renaksi-table th, .renaksi-table td { padding: 3.5px 5px; }
+    .renaksi-summary, .renaksi-activities { break-after: auto; page-break-after: auto; }
+    .renaksi-summary thead, .renaksi-activities thead { display: table-header-group; }
+}
+</style>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
+<section class="print-sheet renaksi-document">
+    <h1 class="renaksi-title">RENCANA AKSI PERJANJIAN KINERJA TAHUN <?= h((string) $tahun) ?></h1>
+    <h2 class="renaksi-subtitle"><?= h((string) $documentUser['unit']) ?></h2>
+
+    <table class="renaksi-table renaksi-summary" border="1">
+        <colgroup>
+            <col style="width:4%">
+            <?php if ($canViewAll): ?><col style="width:13%"><?php endif; ?>
+            <col style="width:<?= $canViewAll ? '23' : '28' ?>%">
+            <col style="width:<?= $canViewAll ? '40' : '48' ?>%">
+            <col style="width:5%"><col style="width:5%"><col style="width:5%"><col style="width:5%">
+        </colgroup>
+        <thead>
             <tr>
-                <th>No</th>
-                <?php if ($canViewAll): ?>
-                    <th>Pemilik</th>
-                <?php endif; ?>
-                <th>Sasaran</th>
-                <th>Indikator</th>
-                <th>Satuan</th>
-                <th>Sumber Data</th>
-                <th>Target TW1</th>
-                <th>Target TW2</th>
-                <th>Target TW3</th>
-                <th>Target TW4</th>
-                <th>Aksi/Kegiatan</th>
-                <th>Jadwal</th>
-                <th>Keluaran</th>
-                <th>Dana</th>
+                <th rowspan="2">No.</th>
+                <?php if ($canViewAll): ?><th rowspan="2">PEMILIK</th><?php endif; ?>
+                <th rowspan="2">SASARAN KEGIATAN</th>
+                <th rowspan="2">INDIKATOR</th>
+                <th colspan="4">TARGET</th>
             </tr>
-            </thead>
-            <tbody>
-            <?php if (!$targets): ?>
-                <tr>
-                    <td colspan="<?= $canViewAll ? '14' : '13' ?>">
-                        Belum ada target kinerja. Buat rencana aksi untuk output role:
-                        <?= h(implode('; ', $profile['outputs'])) ?>.
-                    </td>
-                </tr>
-            <?php endif; ?>
-            <?php foreach ($targets as $i => $target): ?>
-                <tr>
-                    <td><?= $i + 1 ?></td>
-                    <?php if ($canViewAll): ?>
-                        <td>
-                            <?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?>
-                        </td>
-                    <?php endif; ?>
-                    <td><?= h((string) $target['sasaran']) ?></td>
-                    <td><?= h((string) $target['indikator']) ?></td>
-                    <td><?= h((string) ($target['satuan'] ?? '-')) ?></td>
-                    <td><?= h((string) ($target['sumber_data'] ?: implode(', ', $profile['sources']))) ?></td>
-                    <td><?= h((string) target_for_quarter($target, 1)) ?></td>
-                    <td><?= h((string) target_for_quarter($target, 2)) ?></td>
-                    <td><?= h((string) target_for_quarter($target, 3)) ?></td>
-                    <td><?= h((string) target_for_quarter($target, 4)) ?></td>
-                    <td>Validasi data dari <?= h(implode(', ', $profile['sources'])) ?> dan tindak lanjut indikator.</td>
-                    <td>TW1 s.d. TW4 Tahun <?= h((string) $tahun) ?></td>
-                    <td><?= h((string) ($profile['outputs'][0] ?? 'Laporan capaian kinerja triwulan.')) ?></td>
-                    <td><?= h((string) (num($target['dipa01']) + num($target['dipa04']))) ?></td>
-                </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+            <tr><th>I</th><th>II</th><th>III</th><th>IV</th></tr>
+        </thead>
+        <tbody>
+        <?php if (!$targets): ?>
+            <tr class="empty-row"><td colspan="<?= $canViewAll ? '8' : '7' ?>">Belum ada target kinerja untuk tahun <?= h((string) $tahun) ?>.</td></tr>
+        <?php endif; ?>
+        <?php foreach ($targets as $i => $target): ?>
+            <tr>
+                <td class="center strong"><?= $i + 1 ?>.</td>
+                <?php if ($canViewAll): ?>
+                    <td><?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?></td>
+                <?php endif; ?>
+                <td class="strong"><?= h((string) $target['sasaran']) ?></td>
+                <td class="strong"><?= h((string) $target['indikator']) ?></td>
+                <?php for ($quarter = 1; $quarter <= 4; $quarter++): ?>
+                    <td class="center strong"><?= h($formatTargetValue($target, $quarter)) ?></td>
+                <?php endfor; ?>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <table class="renaksi-table renaksi-activities" border="1">
+        <colgroup>
+            <col style="width:4%">
+            <col style="width:29%">
+            <col style="width:3.5%"><col style="width:3.5%"><col style="width:3.5%"><col style="width:3.5%">
+            <col style="width:10%">
+            <col style="width:18%">
+            <col style="width:18%">
+            <col style="width:7%">
+        </colgroup>
+        <thead>
+            <tr>
+                <th rowspan="2">No.</th>
+                <th rowspan="2">AKSI/KEGIATAN</th>
+                <th colspan="4">JADWAL<br>PELAKSANAAN</th>
+                <th rowspan="2">KELUARAN</th>
+                <th rowspan="2">PROGRAM</th>
+                <th rowspan="2">KEGIATAN</th>
+                <th rowspan="2">DANA<br>(Rp.)</th>
+            </tr>
+            <tr><th>I</th><th>II</th><th>III</th><th>IV</th></tr>
+        </thead>
+        <tbody>
+        <?php if (!$targets): ?>
+            <tr class="empty-row"><td colspan="10">Belum ada data rencana aksi yang dapat dicetak.</td></tr>
+        <?php endif; ?>
+        <?php foreach ($targets as $i => $target): ?>
+            <?php
+            $action = trim((string) ($target['analisis_kegiatan'] ?? ''));
+            if ($action === '') $action = trim((string) ($target['analisis_upaya'] ?? ''));
+            if ($action === '') $action = trim((string) ($target['analisis_strategi'] ?? ''));
+            if ($action === '') $action = '-';
+            $fund = num($target['dipa01'] ?? 0) + num($target['dipa04'] ?? 0);
+            ?>
+            <tr class="indicator-band"><td colspan="10"><?= h((string) $target['indikator']) ?></td></tr>
+            <tr>
+                <td class="center"><?= $i + 1 ?>.</td>
+                <td><?= nl2br(h($action)) ?></td>
+                <?php for ($quarter = 1; $quarter <= 4; $quarter++): ?>
+                    <td class="center"><?= target_for_quarter($target, $quarter) != 0.0 ? '√' : '–' ?></td>
+                <?php endfor; ?>
+                <td class="center"><?= h((string) ($profile['outputs'][0] ?? '-')) ?></td>
+                <td class="center">-</td>
+                <td class="center">-</td>
+                <td class="number"><?= $fund > 0 ? h(number_format($fund, 0, ',', '.')) : '-' ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
 
     <?php if (!empty($meta['catatan'])): ?>
-        <p class="muted" style="margin-top: 40px; font-size: 0.9em;"><?= nl2br(h((string) $meta['catatan'])) ?></p>
+        <p class="renaksi-note"><?= nl2br(h((string) $meta['catatan'])) ?></p>
     <?php endif; ?>
 
-    <p style="text-align: right; margin-top: 20px; padding-right: 50px;">
-        <?= h((string) $meta['lokasi']) ?>, <?= h((string) $meta['tanggal_surat']) ?>
-    </p>
-
-    <table style="width: 100%; border: none; margin-top: 10px;">
-        <tr>
-            <td style="width: 50%; text-align: center; border: none; vertical-align: bottom;">
-                <strong>Penanggung Jawab</strong><br>
-                <small><?= h((string) $meta['pihak1_jabatan']) ?></small><br>
-                <?php if (!empty($meta['pihak1_ttd'])): ?>
-                    <?= get_signature_img_tag((string) $meta['pihak1_ttd']) ?><br>
-                <?php else: ?>
-                    <br><br><br><br>
-                <?php endif; ?>
-                <span style="text-decoration: underline; font-weight: bold;"><?= h((string) $meta['pihak1_nama']) ?></span>
-            </td>
-            <td style="width: 50%; text-align: center; border: none; vertical-align: bottom;">
-                <strong>Mengetahui</strong><br>
-                <small><?= h((string) $meta['pihak2_jabatan']) ?></small><br>
-                <?php if (!empty($meta['pihak2_ttd'])): ?>
-                    <?= get_signature_img_tag((string) $meta['pihak2_ttd']) ?><br>
-                <?php else: ?>
-                    <br><br><br><br>
-                <?php endif; ?>
-                <span style="text-decoration: underline; font-weight: bold;"><?= h((string) $meta['pihak2_nama']) ?></span>
+    <table border="0" width="100%" style="margin-top: 30px; page-break-inside: avoid;">
+        <tr style="page-break-inside: avoid;">
+            <td width="65%" style="border: none;"></td>
+            <td width="35%" style="border: none; text-align: center; padding: 0;">
+                <p style="margin: 0; padding: 0; page-break-after: avoid;">
+                    <?= h((string) ($meta['lokasi'] ?: 'Medan')) ?>, <?= h($displayDate) ?><br>
+                    <?= h($approvalRole ?: 'Pimpinan') ?>
+                </p>
+                <table border="0" cellspacing="0" cellpadding="0" width="100%" style="page-break-inside: avoid; page-break-before: avoid; page-break-after: avoid;">
+                    <tr height="90">
+                        <td align="center" valign="middle" style="border: none; padding: 0;">
+                            <?php if ($approvalSignature !== ''): ?>
+                                <?= get_signature_img_tag($approvalSignature, 150, 80, isset($isDocx) ? $isDocx : false) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                </table>
+                <p style="margin: 0; padding: 0; font-weight: bold; text-decoration: underline; page-break-before: avoid;">
+                    <?= h($approvalName ?: '-') ?>
+                </p>
             </td>
         </tr>
     </table>
 </section>
 
-<?php if ($isDocx): ?>
+<?php if ($isExport): ?>
+    <?php if ($isDocx): ?>
+        </div>
+    <?php endif; ?>
+    <?php if ($isPdf): ?>
+        <script>window.onload = function() { window.print(); };</script>
+    <?php endif; ?>
 </body>
 </html>
 <?php else: ?>

@@ -497,6 +497,24 @@ a:hover {
     transform: translateX(0);
 }
 
+.nav-item-label {
+    display: block;
+}
+
+.nav-item-description {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.75rem;
+    line-height: 1.35;
+    white-space: normal;
+}
+
+.nav-children a:hover .nav-item-description,
+.nav-children a.active .nav-item-description {
+    color: rgba(255, 255, 255, 0.76);
+}
+
 .nav-children a:hover,
 .nav-children a.active {
     color: #fff;
@@ -521,8 +539,16 @@ a:hover {
     flex: 1;
     min-width: 0;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
-    white-space: nowrap;
     font-size: 0.9rem;
+}
+
+.nav-subgroup-parent .nav-item-description {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-subgroup-parent.active .nav-item-description,
+.nav-subgroup-parent:hover .nav-item-description {
+    color: rgba(255, 255, 255, 0.76);
 }
 
 .nav-subgroup-parent.active,
@@ -571,7 +597,7 @@ a:hover {
 }
 
 .nav-subgroup.open .nav-subchildren-wrapper {
-    max-height: 120px;
+    max-height: 240px;
     opacity: 1;
     transform: translateY(0);
 }
@@ -593,6 +619,10 @@ a:hover {
     color: rgba(255, 255, 255, 0.62);
     font-size: 0.88rem;
     text-decoration: none;
+}
+
+.nav-subchildren a .nav-item-description {
+    color: rgba(255, 255, 255, 0.48);
 }
 
 .nav-subchildren a:hover,
@@ -1972,6 +2002,11 @@ body.modal-open {
 .header-profile:hover,
 .header-profile:focus-within {
     background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-subchildren a:hover .nav-item-description,
+.nav-subchildren a.active .nav-item-description {
+    color: rgba(255, 255, 255, 0.76);
 }
 
 .header-profile-text {

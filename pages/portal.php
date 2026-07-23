@@ -49,7 +49,7 @@ if (!$portalEmbedded) {
     ?>
 <?php endif; ?>
 <?php
-$heroPages = ['tugas-dan-fungsi', 'revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'];
+$heroPages = ['tugas-dan-fungsi', 'revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'tor', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'];
 $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
 ?>
 <?php if (in_array($slug, $heroPages, true)): ?>
@@ -312,7 +312,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
     <div class="tf-card">
         <?php if (!empty($pageData['body']) && count($pageData['body']) > 1): ?>
             <div style="margin-bottom: 48px; color: #334155; line-height: 1.8; font-size: 1.1rem; text-align: justify; max-width: 850px; margin-left: auto; margin-right: auto; padding: 0 20px;">
-                <?php 
+                <?php
                     for ($i = 1; $i < count($pageData['body']); $i++) {
                         $text = (string) $pageData['body'][$i];
                         if (stripos(trim($text), 'Dasar:') === 0 || stripos(trim($text), 'Dasar Hukum:') === 0) {
@@ -332,7 +332,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
             </div>
             <hr style="border: 0; height: 1px; background: #e2e8f0; margin-bottom: 48px;">
         <?php endif; ?>
-        
+
         <?php if ($slug === 'revisi'): ?>
         <!-- Google Form Embed for Revisi -->
         <div style="background: #fff; border-radius: 12px; margin-bottom: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
@@ -403,8 +403,8 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
         <?php
         $tahun = year_value();
         // Mengambil rata-rata realisasi dari seluruh user per indikator agar data tidak duplikat 180 baris
-        $targets = db()->query("SELECT indikator, 
-            MAX(target) as target, 
+        $targets = db()->query("SELECT indikator,
+            MAX(target) as target,
             AVG(real_tw1) as real_tw1, AVG(real_tw2) as real_tw2, AVG(real_tw3) as real_tw3, AVG(real_tw4) as real_tw4,
             AVG(target_tw1) as target_tw1, AVG(target_tw2) as target_tw2, AVG(target_tw3) as target_tw3, AVG(target_tw4) as target_tw4
             FROM target_kinerja WHERE tahun = $tahun GROUP BY indikator")->fetchAll(PDO::FETCH_ASSOC);
@@ -437,15 +437,15 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                 $indText = mb_substr($indText, 0, 22) . '...';
             }
             $indicators[] = $indText;
-            
+
             for ($i = 1; $i <= 4; $i++) {
-                $targetVal = target_for_month($row, $i);
+                $targetVal = num($row['target_tw' . $i] ?? $row['target'] ?? 0);
                 $realVal = num($row['real_tw' . $i] ?? 0);
-                
+
                 // Avoid using full achievement logic that requires 'tipe_indikator' for simple portal display
                 // Just do standard calculation
                 $achvVal = $targetVal > 0 ? min(120, ($realVal / $targetVal) * 100) : 0;
-                
+
                 $twData[$i]['target'][] = $targetVal;
                 $twData[$i]['realisasi'][] = $realVal;
                 $twData[$i]['capaian'][] = $achvVal;
@@ -460,7 +460,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
         ];
         ?>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
+
         <style>
             .dashboard-container {
                 padding: 0;
@@ -647,7 +647,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                         <?php endforeach; ?>
                     </ul>
                 </div>
-                
+
                 <div class="chart-card">
                     <div class="chart-card-header">
                         <span>RINGKASAN ANGGARAN</span>
@@ -661,7 +661,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="chart-card">
                     <div class="chart-card-header">
                         <span>TREN KINERJA & ANGGARAN</span>
@@ -730,7 +730,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                 options: detailOptions
             });
         }
-        
+
         const dataIKU1 = <?= json_encode($iku1) ?>;
         const dataIKU2 = <?= json_encode($iku2) ?>;
         const dataAnggaran = <?= json_encode($anggaran) ?>;
@@ -869,12 +869,12 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
 
         <?php if (!empty($pageData['list'])): ?>
             <div class="tf-header">
-                <?php 
+                <?php
                     $headerTitle = 'Daftar Tugas dan Fungsi';
                     if (in_array($slug, ['revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
                         $headerTitle = h((string) $pageData['subtitle']);
                     }
-                    
+
                     $badgeText = 'TUGAS';
                     if (in_array($slug, ['revisi', 'renstra', 'iku', 'renaksi', 'hibah', 'e-monev-bappenas', 'manajemen-risiko', 'pojok-baca', 'baseline', 'pagu-indikatif', 'pagu-definitif', 'abt', 'monev-capaian-kinerja', 'evaluasi-akip', 'sakip', 'sakip-pta-medan', 'sakip-pa'])) {
                         $badgeText = 'REGULASI';
@@ -883,7 +883,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                 <h2><?= $headerTitle ?></h2>
                 <span class="badge"><?= count($pageData['list']) ?> <?= $badgeText ?></span>
             </div>
-            
+
             <ul class="tf-list">
                 <?php foreach ($pageData['list'] as $index => $item): ?>
                     <li>
@@ -893,7 +893,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
-        
+
         <?php foreach (($pageData['sections'] ?? []) as $section): ?>
             <?php if (empty($section['iframe']) && empty($section['items']) && !empty($section['url'])): ?>
                 <!-- Render CTA Box and skip tf-header -->
@@ -1015,7 +1015,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
             <?php foreach ($pageData['cards'] as [$label, $cardSlug]): ?>
                 <?php $mapping = $iconMap[$cardSlug] ?? ['icon' => 'ph-folder', 'bg' => 'linear-gradient(135deg, #94a3b8, #64748b)', 'shadow' => 'rgba(148, 163, 184, 0.4)']; ?>
                 <a class="site-card" href="index.php?page=portal&slug=<?= h($cardSlug) ?>" style="border: none; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.01); background: #fff; border-radius: 20px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
-                    
+
                     <?php if (isset($mapping['custom'])): ?>
                         <!-- Custom e-Monev Logo CSS replica -->
                         <div style="width: 80px; height: 80px; margin-bottom: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; border-radius: 24px; box-shadow: 0 8px 16px rgba(0,0,0,0.06), inset 0 2px 4px rgba(255,255,255,0.8); border: 1px solid #f1f5f9;">
@@ -1033,7 +1033,7 @@ $isReferenceEmbed = in_array($slug, ['renstra', 'iku', 'renaksi'], true);
                             <i class="ph-duotone <?= $mapping['icon'] ?>" style="font-size: 42px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));"></i>
                         </div>
                     <?php endif; ?>
-                    
+
                     <span style="font-weight: 700; color: #1e293b; font-size: 1.1rem; letter-spacing: -0.01em;"><?= h($label) ?></span>
                 </a>
             <?php endforeach; ?>

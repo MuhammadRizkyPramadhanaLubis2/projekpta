@@ -40,6 +40,43 @@ $stmt->execute($params);
 $targets = $stmt->fetchAll();
 $meta = document_meta($documentUser, $tahun, 'rkt_rka');
 
+// Konsolidasikan target untuk cetak RKT unit. Saat administrator memilih semua
+// pengguna, satu indikator dapat tersimpan pada lebih dari satu pemilik data.
+// Cetakan RKT hanya menampilkan satu baris untuk indikator dan target yang sama.
+$targetGroupsBySasaran = [];
+$printedTargetKeys = [];
+foreach ($targets as $target) {
+    $sasaran = trim((string) ($target['sasaran'] ?? ''));
+    $targetKey = implode('|', [
+        $sasaran,
+        trim((string) ($target['indikator'] ?? '')),
+        trim((string) ($target['target'] ?? '')),
+    ]);
+    if (isset($printedTargetKeys[$targetKey])) {
+        continue;
+    }
+    $printedTargetKeys[$targetKey] = true;
+
+    if (!isset($targetGroupsBySasaran[$sasaran])) {
+        $targetGroupsBySasaran[$sasaran] = [];
+    }
+    $targetGroupsBySasaran[$sasaran][] = $target;
+}
+
+$targetGroups = [];
+foreach ($targetGroupsBySasaran as $sasaran => $items) {
+    $targetGroups[] = ['sasaran' => $sasaran, 'items' => $items];
+}
+
+$tanggalCetak = trim((string) ($meta['tanggal_surat'] ?? ''));
+if ($tanggalCetak !== '') {
+    $timestampTanggalCetak = strtotime($tanggalCetak);
+    if ($timestampTanggalCetak !== false) {
+        $namaBulan = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $tanggalCetak = date('d', $timestampTanggalCetak) . ' ' . $namaBulan[(int) date('n', $timestampTanggalCetak)] . ' ' . date('Y', $timestampTanggalCetak);
+    }
+}
+
 $totalDipa01 = 0.0;
 $totalDipa04 = 0.0;
 foreach ($targets as $target) {
@@ -70,6 +107,8 @@ if (($_GET['export'] ?? '') === 'csv') {
 
 // Handle Export DOCX
 $isDocx = ($_GET['export'] ?? '') === 'doc';
+$isPdf = ($_GET['export'] ?? '') === 'pdf';
+$isExport = $isDocx || $isPdf;
 if ($isDocx) {
     header("Content-Type: application/vnd.ms-word");
     header("Expires: 0");
@@ -77,12 +116,12 @@ if ($isDocx) {
     header("content-disposition: attachment;filename=RKT_{$tahun}.doc");
 }
 
-if (!$isDocx) {
+if (!$isExport) {
     render_header('Cetak RKT');
 }
 ?>
 
-<?php if (!$isDocx): ?>
+<?php if (!$isExport): ?>
 <style>
 /* Signature UI styles */
 .signature-tabs { display: flex; gap: 8px; margin-bottom: 8px; }
@@ -115,7 +154,7 @@ if (!$isDocx) {
         </label>
     <?php endif; ?>
     <button type="submit" class="secondary">Tampilkan</button>
-    <button type="button" onclick="window.print()">Cetak PDF</button>
+    <button type="button" onclick="printPdfSilent('index.php?page=rkt_rka&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=pdf')" class="button" style="background:#475569; color:white; padding:8px 16px; border-radius:4px; text-decoration:none; border:none; cursor:pointer;">Cetak PDF</button>
     <a href="index.php?page=rkt_rka&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=doc" class="button" style="background:#1d4ed8; color:white; padding:8px 16px; border-radius:4px; text-decoration:none;">Ekspor Word</a>
     <a href="index.php?page=rkt_rka&tahun=<?= $tahun ?>&user_id=<?= $selectedUserId ?>&export=csv" class="button" style="background:#047857; color:white; padding:8px 16px; border-radius:4px; text-decoration:none;">Ekspor CSV</a>
 </form>
@@ -126,7 +165,7 @@ if (!$isDocx) {
         <input type="hidden" name="tahun" value="<?= h((string) $tahun) ?>">
         <input type="hidden" name="user_id" value="<?= h((string) $selectedUserId) ?>">
         <label>No. Surat <input name="no_surat" value="<?= h((string) $meta['no_surat']) ?>"></label>
-        <label>Tanggal Surat <input type="date" name="tanggal_surat" value="<?= h((string) $meta['tanggal_surat']) ?>"></label>
+        <label>Tanggal RKT <input type="date" name="tanggal_surat" value="<?= h((string) $meta['tanggal_surat']) ?>"><small class="muted">Tanggal ini tampil pada blok pengesahan cetakan RKT.</small></label>
         <label>Lokasi <input name="lokasi" value="<?= h((string) $meta['lokasi']) ?>"></label>
         <label>Nama Penyusun <input name="pihak1_nama" value="<?= h((string) $meta['pihak1_nama']) ?>"></label>
         <label>Jabatan Penyusun <input name="pihak1_jabatan" value="<?= h((string) $meta['pihak1_jabatan']) ?>"></label>
@@ -327,121 +366,90 @@ function saveSignatures() {
     }
 }
 </script>
-<?php else: ?>
+<?php elseif ($isExport): ?>
 <html>
 <head>
 <meta charset="utf-8">
-<style>
-body { font-family: "Times New Roman", Times, serif; }
-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-th, td { border: 1px solid #000; padding: 5px; text-align: left; }
-</style>
 </head>
 <body>
 <?php endif; ?>
 
-<section class="print-sheet">
-    <h2 style="text-align: center;">RENCANA KERJA TAHUNAN</h2>
-    <h3 style="text-align: center;"><?= h((string) $documentUser['unit']) ?> - <?= h(role_label((string) $documentUser['role'])) ?> Tahun <?= h((string) $tahun) ?></h3>
-    <p class="document-number" style="text-align: center;">Nomor: <?= h((string) ($meta['no_surat'] ?: '-')) ?></p>
+<style>
+.rkt-document { max-width: 160mm; margin: 0 auto; padding: 20mm 0; color: #000; font-family: "Nirmala UI", Arial, sans-serif; font-size: 11pt; line-height: 1.2; }
+.rkt-title { margin: 0; color: #000; text-align: center; font-family: "Bookman Old Style", Georgia, serif; font-size: 14pt; font-weight: 700; line-height: 1.2; text-transform: uppercase; }
+.rkt-title + .rkt-title { margin-bottom: 7mm; }
+.rkt-table { width: 100%; border: 1px solid #f0b928; border-collapse: collapse; table-layout: fixed; }
+.rkt-table th, .rkt-table td { border: 1px solid #f0b928; padding: 1.4mm 1.9mm; vertical-align: top; color: #000; }
+.rkt-table th { border-color: #fff; background: #002060; color: #fff; text-align: center; vertical-align: middle; font-weight: 700; }
+.rkt-table .rkt-no { width: 5.15%; text-align: center; vertical-align: middle; }
+.rkt-table .rkt-sasaran { width: 35.72%; vertical-align: middle; }
+.rkt-table .rkt-indikator { width: 50.64%; }
+.rkt-table .rkt-target { width: 8.49%; text-align: center; vertical-align: middle; white-space: pre-line; }
+.rkt-empty { padding: 8mm !important; text-align: center; }
+.rkt-signature { width: 83mm; margin: 4mm 0 0 75mm; text-align: left; }
+.rkt-signature p { margin: 0; }
+.rkt-signature .rkt-sign-role { min-height: 6mm; font-weight: 700; }
+.rkt-signature .rkt-sign-space { height: 14mm; line-height: 5mm; }
+.rkt-signature img { display: block; max-width: 42mm !important; max-height: 22mm !important; margin: 1mm 0 !important; }
+.rkt-signature .rkt-sign-name { font-weight: 700; text-decoration: underline; }
+@media screen and (max-width: 760px) { .rkt-document { padding: 24px 0; font-size: 9pt; } .rkt-table { min-width: 650px; } .rkt-table-wrap { overflow-x: auto; } .rkt-signature { width: 58%; margin-left: 42%; } }
+@media print { @page { size: A4 portrait; margin: 20mm 20mm 20mm 30mm; } .rkt-document { max-width: none; margin: 0; padding: 0; } .rkt-table thead { display: table-header-group; } .rkt-table tr { break-inside: avoid; page-break-inside: avoid; } }
+</style>
 
-    <?php if (!$isDocx): ?>
-    <div class="document-context">
-        <div>
-            <strong>Ruang Lingkup RKT</strong>
-            <span><?= h((string) $profile['scope']) ?></span>
-        </div>
-        <div>
-            <strong>Dasar Realisasi</strong>
-            <span><?= h(implode(', ', $profile['sources'])) ?></span>
-        </div>
-        <div>
-            <strong>Dokumen/Output</strong>
-            <span><?= h(implode('; ', $profile['outputs'])) ?></span>
-        </div>
-    </div>
-    <?php endif; ?>
+<section class="print-sheet rkt-document">
+    <h1 class="rkt-title">RENCANA KINERJA TAHUN ANGGARAN <?= h((string) $tahun) ?></h1>
+    <h2 class="rkt-title"><?= h(mb_strtoupper((string) $documentUser['unit'], 'UTF-8')) ?></h2>
 
-    <div class="table-wrap">
-        <table>
+    <div class="rkt-table-wrap">
+        <table class="rkt-table">
             <thead>
             <tr>
                 <th>No</th>
-                <?php if ($canViewAll): ?>
-                    <th>Pemilik</th>
-                <?php endif; ?>
-                <th>Sasaran Kinerja</th>
+                <th>Sasaran Kegiatan</th>
                 <th>Indikator Kinerja</th>
-                <th>Satuan</th>
-                <th>Tipe</th>
-                <th>Bobot</th>
                 <th>Target</th>
             </tr>
             </thead>
             <tbody>
             <?php if (!$targets): ?>
                 <tr>
-                    <td colspan="<?= $canViewAll ? '8' : '7' ?>">
-                        Belum ada target kinerja. RKT/RKA role ini perlu memuat:
-                        <?= h(implode('; ', $profile['outputs'])) ?>.
-                    </td>
+                    <td colspan="4" class="rkt-empty">Belum ada target kinerja untuk tahun <?= h((string) $tahun) ?>.</td>
                 </tr>
             <?php endif; ?>
-            <?php foreach ($targets as $i => $target): ?>
-                <tr>
-                    <td><?= $i + 1 ?></td>
-                    <?php if ($canViewAll): ?>
-                        <td>
-                            <?= format_user_label($target['owner_nama'] ?? '', $target['owner_role'] ?? '', true) ?>
-                        </td>
-                    <?php endif; ?>
-                    <td><?= h((string) $target['sasaran']) ?></td>
-                    <td><?= h((string) $target['indikator']) ?></td>
-                    <td><?= h((string) ($target['satuan'] ?? '-')) ?></td>
-                    <td><?= h(indicator_type_label((string) ($target['tipe_indikator'] ?? 'max'))) ?></td>
-                    <td><?= h((string) ($target['bobot'] ?? 1)) ?></td>
-                    <td><?= h((string) $target['target']) ?></td>
-                </tr>
+            <?php $nomor = 1; ?>
+            <?php foreach ($targetGroups as $group): ?>
+                <?php foreach ($group['items'] as $itemIndex => $target): ?>
+                    <tr>
+                        <?php if ($itemIndex === 0): ?>
+                            <td class="rkt-no" rowspan="<?= count($group['items']) ?>"><?= $nomor++ ?></td>
+                            <td class="rkt-sasaran" rowspan="<?= count($group['items']) ?>"><?= h($group['sasaran']) ?></td>
+                        <?php endif; ?>
+                        <td class="rkt-indikator"><?= h((string) $target['indikator']) ?></td>
+                        <td class="rkt-target"><?= h((string) $target['target']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
             <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 
-    <p class="muted" style="margin-top: 20px; font-style: italic;">
-        <?= h((string) ($meta['catatan'] ?: 'Rencana Kerja Tahunan disusun berdasarkan target kinerja tahun berjalan.')) ?>
-    </p>
-
-    <p style="text-align: right; margin-top: 20px; padding-right: 50px;">
-        <?= h((string) $meta['lokasi']) ?>, <?= h((string) $meta['tanggal_surat']) ?>
-    </p>
-
-    <table style="width: 100%; border: none; margin-top: 10px;">
-        <tr>
-            <td style="width: 50%; text-align: center; border: none; vertical-align: bottom;">
-                <strong>Penyusun</strong><br>
-                <small><?= h((string) $meta['pihak1_jabatan']) ?></small><br>
-                <?php if (!empty($meta['pihak1_ttd'])): ?>
-                    <?= get_signature_img_tag((string) $meta['pihak1_ttd']) ?><br>
-                <?php else: ?>
-                    <br><br><br><br>
-                <?php endif; ?>
-                <span style="text-decoration: underline; font-weight: bold;"><?= h((string) $meta['pihak1_nama']) ?></span>
-            </td>
-            <td style="width: 50%; text-align: center; border: none; vertical-align: bottom;">
-                <strong>Mengetahui</strong><br>
-                <small><?= h((string) $meta['pihak2_jabatan']) ?></small><br>
-                <?php if (!empty($meta['pihak2_ttd'])): ?>
-                    <?= get_signature_img_tag((string) $meta['pihak2_ttd']) ?><br>
-                <?php else: ?>
-                    <br><br><br><br>
-                <?php endif; ?>
-                <span style="text-decoration: underline; font-weight: bold;"><?= h((string) $meta['pihak2_nama']) ?></span>
-            </td>
-        </tr>
-    </table>
+    <div class="rkt-signature">
+        <p><?= h((string) $meta['lokasi']) ?><?= $meta['lokasi'] !== '' && $tanggalCetak !== '' ? ', ' : '' ?><?= h($tanggalCetak) ?></p>
+        <p>Pihak Pertama</p>
+        <p class="rkt-sign-role"><?= h((string) $meta['pihak1_jabatan']) ?></p>
+        <?php if (!empty($meta['pihak1_ttd'])): ?>
+            <?= get_signature_img_tag((string) $meta['pihak1_ttd']) ?>
+        <?php else: ?>
+            <div class="rkt-sign-space" aria-hidden="true">&nbsp;<br>&nbsp;<br>&nbsp;</div>
+        <?php endif; ?>
+        <p class="rkt-sign-name"><?= h((string) $meta['pihak1_nama']) ?></p>
+    </div>
 </section>
 
-<?php if ($isDocx): ?>
+<?php if ($isExport): ?>
+    <?php if ($isPdf): ?>
+        <script>window.onload = function() { window.print(); };</script>
+    <?php endif; ?>
 </body>
 </html>
 <?php else: ?>
